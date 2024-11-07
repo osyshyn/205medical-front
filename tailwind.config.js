@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         white: {
           base: "#FFFFFF",
-          ligth: "",
+          ligth: "#FAFBFF",
         },
         purple: {
           base: "#5932EA",
