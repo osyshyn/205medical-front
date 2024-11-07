@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: lining-nums proportional-nums;
 
-  @apply transition-all duration-200 font-montserrat;
+  @apply transition-all duration-200;
 }
 
 body {
@@ -25,5 +25,5 @@ input {
 }
 
 .container {
-  @apply max-w-480 w-full box-border mx-auto px-4 lg:px-6 overflow-hidden;
+  // @apply max-w-480 w-full box-border mx-auto px-4 lg:px-6 overflow-hidden;
 }
