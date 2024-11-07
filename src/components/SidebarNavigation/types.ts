@@ -1,6 +1,6 @@
 import { SVGReactComponent } from "src/@types";
 
-export interface INavigationItem {
+export interface ISidebarNavigationItem {
   id: number;
   icon: SVGReactComponent;
   label: string;

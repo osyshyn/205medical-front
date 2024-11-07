@@ -1,4 +1,4 @@
-export const NavigationAside = () => {
+export const SidebarNavigation = () => {
   return (
     <aside>
       <nav>
