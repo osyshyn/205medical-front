@@ -3,7 +3,37 @@ module.exports = {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        white: {
+          base: "#FFFFFF",
+          ligth: "",
+        },
+        purple: {
+          base: "#5932EA",
+          ligth: "#EAABF0",
+        },
+        gray: {
+          base: "#1A1A1A",
+          ligth: "#9197B3",
+          dark: "#344054",
+          border: "#F0F0F0",
+        },
+        black: {
+          base: "#000000",
+          ligth: "#292D32",
+        },
+        green: {
+          base: "#008767",
+          ligth: "#16C098",
+        },
+        yellow: {
+          base: "#FFB700",
+        },
+        red: {
+          base: "#DF0404",
+          ligth: "#FFC5C5",
+        },
+      },
       fontSize: {},
       lineHeight: {},
       spacing: {
