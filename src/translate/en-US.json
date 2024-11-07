@@ -1,0 +1,23 @@
+{
+  "form-field.email": "E-Mail address",
+  "form-field.password": "Password",
+
+  "error.required": "Required field",
+  "error.incorrect-phone-number": "Must contain only numbers, + and be in the correct format",
+  "error.incorrect-email": "Enter the correct email",
+  "error.phone is invalid": "Invalid phone number",
+  "error.min-symbols": "A Minimum Of {{count}} Characters",
+  "error.max-symbols": "A Maximum Of {{count}} Characters",
+
+  "responses.successful.default": "Request successfully executed.",
+  "responses.successful.login": "Authorization passed. 🎉🥳",
+  "responses.successful.registration": "Congratulations, you have been registered. 🎉🎉🎉",
+  "responses.successful.google-auth": "Google Authorization passed. 🎉🥳",
+
+  "responses.pending.default": "Loading...",
+
+  "responses.error.default": "Failed to execute the request! 🥲",
+  "responses.error.login": "Login failed! Please try again or retry later. 🥲",
+  "responses.error.registration": "Registration failed! 🥲",
+  "responses.error.google-auth": "Google Authorization failed! 🥲"
+}
