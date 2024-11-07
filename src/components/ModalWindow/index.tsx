@@ -62,7 +62,7 @@ export const ModalWindow: FC<Props> = ({
     <div className={combinedOverlayClassNames}>
       <div ref={modalRef} className={combinedModalClassNames}>
         {isShownCloseButton && !isHasOutsideCloseButton && (
-          <div className="flex justify-end w-full">
+          <div className="flex w-full justify-end">
             <CloseButton className={closeButtonClassName} onClose={onClose} />
           </div>
         )}

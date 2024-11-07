@@ -1,9 +1,9 @@
 import React, { FC, KeyboardEvent, useMemo } from "react";
-import cn from "classnames";
 import { useTranslation } from "react-i18next";
-import { useFormikContext, useField } from "formik";
-import MaskedInput from "react-text-mask";
 import PhoneInput from "react-phone-number-input/input";
+import MaskedInput from "react-text-mask";
+import cn from "classnames";
+import { useField, useFormikContext } from "formik";
 import { IFormField } from "src/@types/form";
 import { FormField } from ".";
 import { TEXT_INPUT_STYLE_VARIANTS } from "./constants";

@@ -1,9 +1,9 @@
-import React, { FC, ReactNode, MouseEventHandler, memo } from "react";
+import React, { FC, memo, MouseEventHandler, ReactNode } from "react";
 import cn from "classnames";
-import { BUTTON_STYLE_VARIANTS } from "./constants";
-import { ButtonVariants } from "./types";
 import { Sizes } from "src/@types/sizes";
 import { Loader } from "../Loader";
+import { BUTTON_STYLE_VARIANTS } from "./constants";
+import { ButtonVariants } from "./types";
 
 interface Props {
   children: ReactNode;

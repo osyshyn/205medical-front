@@ -1,13 +1,13 @@
-import { Users } from "src/@types/users";
-import { ISidebarNavigationItem } from "./types";
+import { PATHNAMES } from "src/constants/routes";
+import { ReactComponent as ChatIcon } from "src/assets/icons/chat.svg";
 import { ReactComponent as DashboardIcon } from "src/assets/icons/dashboard.svg";
+import { ReactComponent as LocationsIcon } from "src/assets/icons/locations.svg";
 import { ReactComponent as OrderIcon } from "src/assets/icons/order.svg";
 import { ReactComponent as ProductsIcon } from "src/assets/icons/products.svg";
-import { ReactComponent as ShipmentsIcon } from "src/assets/icons/shipments.svg";
-import { ReactComponent as LocationsIcon } from "src/assets/icons/locations.svg";
-import { ReactComponent as ChatIcon } from "src/assets/icons/chat.svg";
 import { ReactComponent as SettingsIcon } from "src/assets/icons/settings.svg";
-import { PATHNAMES } from "src/constants/routes";
+import { ReactComponent as ShipmentsIcon } from "src/assets/icons/shipments.svg";
+import { Users } from "src/@types/users";
+import { ISidebarNavigationItem } from "./types";
 
 const SUB_USER_NAV_ITEMS: ISidebarNavigationItem[] = [
   { id: 1, icon: DashboardIcon, label: "Dashboard", href: PATHNAMES.DASHBOARD },

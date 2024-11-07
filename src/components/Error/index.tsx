@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import cn from "classnames";
 import { useTranslation } from "react-i18next";
+import cn from "classnames";
 import { Ii18nInterpolationObject } from "src/@types/i18next";
 
 const T_PREFIX = "error";

@@ -2,8 +2,8 @@ import React, { FC, ReactNode } from "react";
 import cn from "classnames";
 import { Ii18nInterpolationObject } from "src/@types/i18next";
 import { Error } from "../Error";
-import { Label } from "./Label";
 import { FORM_FIELD_STYLE_VARIANTS } from "./constants";
+import { Label } from "./Label";
 import { FormFieldVariants } from "./types";
 
 interface Props {

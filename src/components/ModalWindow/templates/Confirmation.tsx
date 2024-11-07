@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from "react";
-import cn from "classnames";
 import { useTranslation } from "react-i18next";
+import cn from "classnames";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import {

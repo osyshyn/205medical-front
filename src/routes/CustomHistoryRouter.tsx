@@ -1,6 +1,6 @@
-import React, { FC, ReactNode, useState, useLayoutEffect } from "react";
+import React, { FC, ReactNode, useLayoutEffect, useState } from "react";
 import { Router } from "react-router-dom";
-import { BrowserHistory, Action, Location } from "history";
+import { Action, BrowserHistory, Location } from "history";
 
 interface CustomHistoryRouterProps {
   basename?: string;

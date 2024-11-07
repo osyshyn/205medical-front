@@ -1,12 +1,12 @@
 import {
-  AxiosRequestConfig,
   AxiosError,
+  AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from "axios";
 import Cookies from "js-cookie";
-import { PATHNAMES } from "src/constants/routes";
 import { ACCES_TOKEN } from "src/constants/cookiesKeys";
 import { UNAUTHORIZED_STATUS_CODE_401 } from "src/constants/httpStatuses";
+import { PATHNAMES } from "src/constants/routes";
 import { history } from "./history";
 
 // AxiosRequestConfig

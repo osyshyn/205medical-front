@@ -1,7 +1,7 @@
-import React, { useMemo, FC, ReactNode } from "react";
+import React, { FC, ReactNode, useMemo } from "react";
 import { Link as LinkReactRouterDom } from "react-router-dom";
-import { scrollTop } from "src/utils/scrollTop";
 import { ILink } from "src/@types";
+import { scrollTop } from "src/utils/scrollTop";
 
 interface Props extends Pick<ILink, "href" | "isOpenNewTab"> {
   children?: ReactNode;

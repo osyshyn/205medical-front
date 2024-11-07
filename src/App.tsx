@@ -1,17 +1,17 @@
 import React, { ReactElement } from "react";
 import { Provider as ReduxProvider } from "react-redux";
-import { ToastContainer, Bounce } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { history } from "./services/history";
+import { store } from "./redux/store";
 import CustomHistoryRouter from "./routes/CustomHistoryRouter";
 import AppRoutes from "./routes/Router";
-import { store } from "./redux/store";
+import { history } from "./services/history";
 
 function App(): ReactElement {
   return (
     <CustomHistoryRouter history={history}>
       <ReduxProvider store={store}>
-        <div className="App flex flex-col h-screen overflow-y-auto overflow-x-hidden">
+        <div className="App flex h-screen flex-col overflow-y-auto overflow-x-hidden">
           <AppRoutes />
           <ToastContainer
             position="bottom-right"

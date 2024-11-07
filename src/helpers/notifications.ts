@@ -1,9 +1,9 @@
+import { Id, toast } from "react-toastify";
 import { t } from "i18next";
-import { toast, Id } from "react-toastify";
 import {
-  successfulResponsesTrns,
-  pendingResponsesTrns,
   errorResponsesTrns,
+  pendingResponsesTrns,
+  successfulResponsesTrns,
 } from "src/translate/responses";
 
 export class NotificationService {

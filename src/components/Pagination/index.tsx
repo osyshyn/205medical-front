@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import cn from "classnames";
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import cn from "classnames";
+
 // import { ReactComponent as PrevIcon } from "src/assets/icons/arrow-left-blue-medium.svg";
 // import { ReactComponent as NextIcon } from "src/assets/icons/arrow-right-blue-medium.svg";
 

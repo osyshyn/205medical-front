@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import cn from "classnames";
+
 // import { ReactComponent as CloseIcon } from "src/assets/icons/x-mark.svg";
 
 interface Props {
@@ -14,7 +15,7 @@ export const CloseButton: FC<Props> = ({
   onClose,
 }) => (
   <button
-    className={cn("bg-white-base rounded-lg z-30 group", className)}
+    className={cn("group z-30 rounded-lg bg-white-base", className)}
     onClick={onClose}
   >
     {/* <CloseIcon

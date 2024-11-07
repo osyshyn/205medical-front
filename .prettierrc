@@ -1,0 +1,26 @@
+{
+  "endOfLine": "lf",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^react(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^src/page-components/(.*)$",
+    "^src/components/(.*)$",
+    "^src/hooks/(.*)$",
+    "^src/redux/(.*)$",
+    "^src/utils/(.*)$",
+    "^src/helpers/(.*)$",
+    "^src/constants/(.*)$",
+    "^src/assets/(.*)$",
+    "^src/@types/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true
+}

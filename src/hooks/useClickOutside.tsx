@@ -1,5 +1,5 @@
-import { useEffect, useCallback, RefObject } from "react";
-import { ROOT_ELEMENT, MODAL_ROOT_ELEMENT } from "src/constants/rootElements";
+import { RefObject, useCallback, useEffect } from "react";
+import { MODAL_ROOT_ELEMENT, ROOT_ELEMENT } from "src/constants/rootElements";
 
 export const useClickOutside = (
   ref: RefObject<HTMLElement>,
