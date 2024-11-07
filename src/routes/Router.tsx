@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { useRoutes } from "react-router-dom";
-import { Home, NotFound } from "src/pages";
+import { Dashboard, NotFound } from "src/pages";
 import { PATHNAMES } from "src/constants/routes";
 
 const ROUTES = [
   {
-    element: <Home />,
-    path: PATHNAMES.HOME,
+    element: <Dashboard />,
+    path: PATHNAMES.DASHBOARD,
   },
   {
     element: <NotFound />,

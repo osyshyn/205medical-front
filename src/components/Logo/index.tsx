@@ -11,7 +11,7 @@ interface Props {
 
 export const Logo: FC<Props> = ({ linkHref }) => (
   <div>
-    <Link href={linkHref || PATHNAMES.HOME}>
+    <Link href={linkHref || PATHNAMES.DASHBOARD}>
       <img
         // src={logoImg}
         alt={ALT_TEXT_LOGO_IMG}
