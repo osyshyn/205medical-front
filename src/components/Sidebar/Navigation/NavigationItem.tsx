@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useLocation } from "react-router";
 import cn from "classnames";
-import { Link } from "../Link";
+import { Link } from "../../Link";
 import { INavigationItemProps } from "./types";
 
 export const NavigationItem: FC<INavigationItemProps> = ({
