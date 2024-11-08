@@ -35,6 +35,10 @@ input {
   outline: none;
 }
 
+hr {
+  @apply border-gray-border;
+}
+
 .container {
   // @apply max-w-480 w-full box-border mx-auto px-4 lg:px-6 overflow-hidden;
 }

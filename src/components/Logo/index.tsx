@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-// import logoImg from "src/assets/images/logo.png";
+import logoImg from "src/assets/images/logo.png";
 import { PATHNAMES } from "src/constants/routes";
 import { Link } from "../Link";
 
@@ -13,7 +13,7 @@ export const Logo: FC<Props> = ({ linkHref }) => (
   <div>
     <Link href={linkHref || PATHNAMES.DASHBOARD}>
       <img
-        // src={logoImg}
+        src={logoImg}
         alt={ALT_TEXT_LOGO_IMG}
       />
     </Link>
