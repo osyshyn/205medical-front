@@ -41,6 +41,7 @@ module.exports = {
       fontSize: {},
       lineHeight: {},
       spacing: {
+        10.75: "43px",
         15: "60px",
       },
       minWidth: {
