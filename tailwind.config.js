@@ -13,6 +13,9 @@ module.exports = {
           base: "#5932EA",
           ligth: "#EAABF0",
         },
+        blue: {
+          base: "#4623E9",
+        },
         gray: {
           base: "#1A1A1A",
           ligth: "#9197B3",
@@ -42,6 +45,9 @@ module.exports = {
       },
       minWidth: {
         62.5: "250px",
+      },
+      borderRadius: {
+        20: "20px",
       },
       screens: {
         default: "0px",
