@@ -39,6 +39,9 @@ module.exports = {
       spacing: {
         15: "60px",
       },
+      minWidth: {
+        62.5: "250px",
+      },
       screens: {
         default: "0px",
         xs: "450px",

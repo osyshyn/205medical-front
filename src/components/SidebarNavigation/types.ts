@@ -6,3 +6,6 @@ export interface ISidebarNavigationItem {
   label: string;
   href: string;
 }
+
+export interface INavigationItemProps
+  extends Omit<ISidebarNavigationItem, "id"> {}
