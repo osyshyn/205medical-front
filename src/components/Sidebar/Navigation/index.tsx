@@ -7,7 +7,7 @@ const current_user = Users.SUB_USER;
 
 export const Navigation = () => (
   <nav>
-    <ul className="flex flex-col gap-4 px-7">
+    <ul className="flex flex-col gap-4">
       {USER_NAV_ITEMS[current_user].map(({ id, ...nav }) => (
         <li key={id}>
           <NavigationItem {...nav} />
