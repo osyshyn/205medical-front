@@ -2,7 +2,7 @@ import { FC } from "react";
 import { useLocation } from "react-router";
 import cn from "classnames";
 import { Link } from "src/components/Link";
-import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/arrow-white.svg";
+import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/navigation/arrow-white.svg";
 import { INavigationItemProps } from "./types";
 
 export const NavigationItem: FC<INavigationItemProps> = ({

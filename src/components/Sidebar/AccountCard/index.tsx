@@ -1,5 +1,5 @@
 import { Avatar } from "src/components/Avatar";
-import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/arrow-gray.svg";
+import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/account-card/arrow-gray.svg";
 import { Sizes } from "src/@types/sizes";
 
 const email = "japples@gmail.com";
