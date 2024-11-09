@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cn from "classnames";
-// import avatar from "src/assets/images/avatar.png";
+import avatar from "src/assets/images/avatar.png";
 import { Sizes } from "src/@types/sizes";
 import { AVATAR_SIZE_VARIANTS } from "./constants";
 
@@ -25,13 +25,12 @@ export const Avatar: FC<Props> = ({
   );
 
   return (
-    <img
-      className={combinedClassNames}
-      src={
-        avatarUrl
-        //  || avatar  -  add default image here
-      }
-      alt={altText}
-    />
+    <div>
+      <img
+        className={combinedClassNames}
+        src={avatarUrl || avatar}
+        alt={altText}
+      />
+    </div>
   );
 };

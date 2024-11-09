@@ -36,9 +36,9 @@ input {
 }
 
 hr {
-  @apply border-gray-border;
+  @apply border-gray-soft;
 }
 
 .container {
-  // @apply max-w-480 w-full box-border mx-auto px-4 lg:px-6 overflow-hidden;
+  @apply w-full box-border mx-auto overflow-hidden;
 }

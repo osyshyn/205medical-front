@@ -20,7 +20,8 @@ module.exports = {
           base: "#1A1A1A",
           ligth: "#9197B3",
           dark: "#344054",
-          border: "#F0F0F0",
+          soft: "#F0F0F0",
+          medium: "#757575",
         },
         black: {
           base: "#000000",

@@ -12,12 +12,10 @@ function App(): ReactElement {
   return (
     <CustomHistoryRouter history={history}>
       <ReduxProvider store={store}>
-        <div className="App flex h-screen overflow-y-auto overflow-x-hidden">
+        <div className="App flex overflow-y-auto overflow-x-hidden">
           <Sidebar />
 
-          <div className="w-full">
-            <AppRoutes />
-          </div>
+          <AppRoutes />
 
           <ToastContainer
             position="bottom-right"
