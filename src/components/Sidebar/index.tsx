@@ -1,6 +1,7 @@
 import { ClientLogo } from "src/components/ClientLogo";
 import { Logo } from "src/components/Logo";
 import { AccountCard } from "./AccountCard";
+import { ActionsPanel } from "./ActionsPanel";
 import { Navigation } from "./Navigation";
 import { TourNavigation } from "./TourNavigation";
 
@@ -17,6 +18,8 @@ export const Sidebar = () => (
         <hr />
         <AccountCard />
       </div>
+
+      <ActionsPanel />
     </div>
   </aside>
 );
