@@ -1,8 +1,8 @@
 import { ReactComponent as LogoutIcon } from "src/assets/icons/active-panel/logout.svg";
 import { ReactComponent as MessageIcon } from "src/assets/icons/active-panel/message-question.svg";
-import { IActivePanelItem } from "./types";
+import { IActionsPanelItem } from "./types";
 
-export const ACTIVE_PANEL_ITEMS: IActivePanelItem[] = [
+export const ACTIONS_PANEL_ITEMS: IActionsPanelItem[] = [
   {
     id: 1,
     label: "Message us",

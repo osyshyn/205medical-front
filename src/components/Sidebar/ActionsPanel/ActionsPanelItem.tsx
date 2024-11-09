@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Button } from "src/components/Button";
-import { IActivePanelItemProps } from "./types";
+import { IActionsPanelItemProps } from "./types";
 
-export const ActivePanelItem: FC<IActivePanelItemProps> = ({
+export const ActionsPanelItem: FC<IActionsPanelItemProps> = ({
   label,
   icon: Icon,
 }) => (
