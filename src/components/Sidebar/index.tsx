@@ -6,7 +6,7 @@ import { Navigation } from "./Navigation";
 import { TourNavigation } from "./TourNavigation";
 
 export const Sidebar = () => (
-  <aside className="border-gray-soft flex min-w-62.5 flex-col gap-15 rounded-l-3xl border bg-white-base p-7">
+  <aside className="border-gray-soft flex min-w-62.5 flex-col gap-15 rounded-l-3xl border bg-white-base p-7 pb-20">
     <ClientLogo />
     <Navigation />
 
