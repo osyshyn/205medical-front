@@ -1,6 +1,6 @@
 import { SVGReactComponent } from "src/@types";
 
-export interface ISidebarNavigationItem {
+export interface INavigationItem {
   id: number;
   icon: SVGReactComponent;
   iconActive: SVGReactComponent;
@@ -9,4 +9,4 @@ export interface ISidebarNavigationItem {
 }
 
 export interface INavigationItemProps
-  extends Omit<ISidebarNavigationItem, "id"> {}
+  extends Omit<INavigationItem, "id"> {}

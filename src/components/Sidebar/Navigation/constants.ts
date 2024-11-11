@@ -14,9 +14,9 @@ import { ReactComponent as SettingsIcon } from "src/assets/icons/sidebar/navigat
 import { ReactComponent as ShipmentsActiveIcon } from "src/assets/icons/sidebar/navigation/shipments-active.svg";
 import { ReactComponent as ShipmentsIcon } from "src/assets/icons/sidebar/navigation/shipments.svg";
 import { Users } from "src/@types/users";
-import { ISidebarNavigationItem } from "./types";
+import { INavigationItem } from "./types";
 
-const SUB_USER_NAV_ITEMS: ISidebarNavigationItem[] = [
+const SUB_USER_NAV_ITEMS: INavigationItem[] = [
   {
     id: 1,
     icon: DashboardIcon,
@@ -68,10 +68,10 @@ const SUB_USER_NAV_ITEMS: ISidebarNavigationItem[] = [
   },
 ];
 
-const CLIENT_ADMIN_NAV_ITEMS: ISidebarNavigationItem[] = [];
-const MEDICAL_NAV_ITEMS: ISidebarNavigationItem[] = [];
+const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [];
+const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
 
-export const USER_NAV_ITEMS: Record<Users, ISidebarNavigationItem[]> = {
+export const USER_NAV_ITEMS: Record<Users, INavigationItem[]> = {
   [Users.SUB_USER]: SUB_USER_NAV_ITEMS,
   [Users.CLIENT_ADMIN]: CLIENT_ADMIN_NAV_ITEMS,
   [Users.MEDICAL]: MEDICAL_NAV_ITEMS,
