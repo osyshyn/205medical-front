@@ -22,6 +22,7 @@ module.exports = {
           dark: "#344054",
           soft: "#F0F0F0",
           medium: "#757575",
+          regular: "#ACACAC",
         },
         black: {
           base: "#000000",
@@ -39,13 +40,19 @@ module.exports = {
           ligth: "#FFC5C5",
         },
       },
-      fontSize: {},
+      fontSize: {
+        22: "22px",
+        32: "32px",
+      },
       lineHeight: {},
       spacing: {
         7.5: "30px",
         10.75: "43px",
         15: "60px",
         18.75: "75px",
+      },
+      maxWidth: {
+        127.5: "510px",
       },
       minWidth: {
         62.5: "250px",

@@ -17,7 +17,9 @@ export const PageWrapper: FC<Props> = ({
   <div className="flex h-full">
     <Sidebar />
 
-    <div className={cn("px-18.75 flex flex-1 flex-col py-10", className)}>
+    <div
+      className={cn("px-18.75 flex flex-1 flex-col gap-10 py-10", className)}
+    >
       <Header />
       <main className={cn("flex-1", mainClassName)}>{children}</main>
     </div>
