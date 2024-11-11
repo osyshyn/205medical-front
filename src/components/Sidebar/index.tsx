@@ -4,9 +4,10 @@ import { AccountCard } from "./AccountCard";
 import { ActionsPanel } from "./ActionsPanel";
 import { Navigation } from "./Navigation";
 import { TourNavigation } from "./TourNavigation";
+import "./scrollbar.scss";
 
 export const Sidebar = () => (
-  <aside className="border-gray-soft flex min-w-62.5 flex-col gap-15 rounded-l-3xl border bg-white-base p-7 pb-20">
+  <aside className="scrollbar flex flex-col gap-15 overflow-y-scroll rounded-l-3xl border border-gray-soft bg-white-base p-7 pb-20">
     <ClientLogo />
     <Navigation />
 

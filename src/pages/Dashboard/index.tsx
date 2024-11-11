@@ -1,7 +1,8 @@
 import React, { FC } from "react";
+import { PageWrapper } from "src/components/Layouts/PageWrapper";
 
 const Home: FC = () => {
-  return <div className="container">Dashboard</div>;
+  return <PageWrapper className="">Dashboard</PageWrapper>;
 };
 
 export default Home;
