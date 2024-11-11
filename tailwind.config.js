@@ -42,6 +42,7 @@ module.exports = {
       fontSize: {},
       lineHeight: {},
       spacing: {
+        7.5: "30px",
         10.75: "43px",
         15: "60px",
         18.75: "75px",
@@ -51,6 +52,7 @@ module.exports = {
       },
       borderRadius: {
         20: "20px",
+        30: "30px",
       },
       screens: {
         default: "0px",
