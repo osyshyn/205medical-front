@@ -11,7 +11,7 @@ function App(): ReactElement {
   return (
     <CustomHistoryRouter history={history}>
       <ReduxProvider store={store}>
-        <div className="App flex flex-col overflow-x-hidden">
+        <div className="App flex h-screen flex-col overflow-x-hidden">
           <AppRoutes />
 
           <ToastContainer

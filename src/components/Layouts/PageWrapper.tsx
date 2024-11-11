@@ -1,8 +1,7 @@
 import React, { FC, ReactNode } from "react";
 import cn from "classnames";
+import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
-
-// import { Header } from "../Header";
 
 interface Props {
   children: ReactNode;
@@ -15,9 +14,12 @@ export const PageWrapper: FC<Props> = ({
   className,
   mainClassName,
 }) => (
-  <div className={cn("flex h-screen", className)}>
-    {/* <Header isShown={isShownHeader} /> */}
+  <div className="flex h-full">
     <Sidebar />
-    <main className={cn("flex-1", mainClassName)}>{children}</main>
+
+    <div className={cn("px-18.75 flex flex-1 flex-col py-10", className)}>
+      <Header />
+      <main className={cn("flex-1", mainClassName)}>{children}</main>
+    </div>
   </div>
 );
