@@ -1,19 +1,23 @@
 import { IOptionSelect } from "src/@types/form";
 import { Column, Row } from "../Table/types";
 
-export const SORT_OPTIONS: IOptionSelect[] = [
-  { label: "select", value: "select" },
-  { label: "Date: Newest First", value: "date_desc" },
-  { label: "Date: Oldest First", value: "date_asc" },
-  { label: "Name: A to Z", value: "name_asc" },
-  { label: "Name: Z to A", value: "name_desc" },
-  { label: "Price: Low to High", value: "price_asc" },
-  { label: "Price: High to Low", value: "price_desc" },
+export const ORDER_SORT_OPTIONS: IOptionSelect[] = [
+  { label: "Select", value: "select" },
+  { label: "PO Date: Newest First", value: "poDate_desc" },
+  { label: "PO Date: Oldest First", value: "poDate_asc" },
+  { label: "Customer PO: A to Z", value: "customerPO_asc" },
+  { label: "Customer PO: Z to A", value: "customerPO_desc" },
+  { label: "Amount: Low to High", value: "amount_asc" },
+  { label: "Amount: High to Low", value: "amount_desc" },
+  { label: "Approval Status: A to Z", value: "approvalStatus_asc" },
+  { label: "Approval Status: Z to A", value: "approvalStatus_desc" },
+  { label: "Ship Status: A to Z", value: "shipStatus_asc" },
+  { label: "Ship Status: Z to A", value: "shipStatus_desc" },
 ];
 
-export const ITEMS_PER_VIEW = 8;
+export const ORDERS_PER_PAGE = 8;
 
-export const columns: Column[] = [
+export const ORDER_COLUMNS: Column[] = [
   { key: "customerPO", label: "Customer PO #" },
   { key: "poDate", label: "PO Date" },
   { key: "salesOrder", label: "Sales Order #" },
@@ -23,7 +27,7 @@ export const columns: Column[] = [
   { key: "shipStatus", label: "Ship Status" },
 ];
 
-export const rows: Row[] = [
+export const ORDER_DATA: Row[] = [
   {
     key: "1",
     salesOrder: "1111111",
