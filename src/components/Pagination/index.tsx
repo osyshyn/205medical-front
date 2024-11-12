@@ -1,12 +1,10 @@
 import React, { FC } from "react";
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
 import cn from "classnames";
+import { ReactComponent as ArrowIcon } from "src/assets/icons/arrow-down.svg";
 
-// import { ReactComponent as PrevIcon } from "src/assets/icons/arrow-left-blue-medium.svg";
-// import { ReactComponent as NextIcon } from "src/assets/icons/arrow-right-blue-medium.svg";
-
-const DEFAULT_PAGE_CLASSNAME = "opacity-50 hover:opacity-100";
-const DEFAULT_PAGE_LINK_CLASSNAME = "";
+const DEFAULT_PAGE_LINK_CLASSNAME =
+  "flex items-center justify-center rounded-4 w-6 h-6 bg-white-ligth border font-medium text-xs text-gray-dark";
 
 interface Props {
   className?: string;
@@ -33,12 +31,9 @@ export const Pagination: FC<Props> = ({
   return (
     <ReactPaginate
       containerClassName={cn("flex items-center gap-3", className)}
-      pageClassName={DEFAULT_PAGE_CLASSNAME}
       pageLinkClassName={DEFAULT_PAGE_LINK_CLASSNAME}
-      breakClassName={DEFAULT_PAGE_CLASSNAME}
-      breakLinkClassName={DEFAULT_PAGE_LINK_CLASSNAME}
-      activeClassName="default:opacity-100"
-      activeLinkClassName=""
+      breakClassName="font-medium text-xs"
+      activeLinkClassName="!bg-purple-base rounded-4 !text-white-base"
       disabledClassName="!opacity-50"
       disabledLinkClassName="cursor-default"
       initialPage={currentPage}
@@ -46,10 +41,10 @@ export const Pagination: FC<Props> = ({
       pageRangeDisplayed={pageRangeDisplayed}
       marginPagesDisplayed={marginPagesDisplayed}
       onPageChange={onPageChange}
-      // previousLabel={<PrevIcon />}
-      // nextLabel={<NextIcon />}
-      previousLabel={"prev"}
-      nextLabel={"next"}
+      previousLabel={<ArrowIcon className="rotate-90" />}
+      nextLabel={<ArrowIcon className="-rotate-90" />}
+      previousClassName={DEFAULT_PAGE_LINK_CLASSNAME}
+      nextClassName={DEFAULT_PAGE_LINK_CLASSNAME}
     />
   );
 };
