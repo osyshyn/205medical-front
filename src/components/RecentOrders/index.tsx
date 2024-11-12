@@ -9,7 +9,6 @@ import {
   TableHeader,
 } from "src/components/Table";
 import { Window } from "src/components/Window";
-import { IOptionSelect } from "src/@types/form";
 import { Row } from "../Table/types";
 import {
   ORDER_COLUMNS,
@@ -19,7 +18,7 @@ import {
 } from "./constants";
 
 export const RecentOrders: FC = () => {
-  const [sortBy, setSortBy] = useState<IOptionSelect>(ORDER_SORT_OPTIONS[0]);
+  const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
