@@ -21,20 +21,15 @@ import {
 export const RecentOrders: FC = () => {
   const [sortBy, setSortBy] = useState<IOptionSelect>(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const pageCount = Math.ceil(ORDER_DATA.length / ORDERS_PER_PAGE);
-  const isPaginated = pageCount > 1;
-
-  const setPage = (page: number) => setCurrentPage(page);
-
-  // const filteredData = useMemo(() => {
-  //   return ORDER_DATA.filter((row) =>
-  //     Object.values(row).some((value) =>
-  //       value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-  //     )
-  //   );
-  // }, [searchQuery]);
+  const filteredData = useMemo(() => {
+    return ORDER_DATA.filter((row) =>
+      Object.values(row).some((value) =>
+        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery]);
 
   const sortedData = useMemo(() => {
     const sortFunctions: Record<string, (a: Row, b: Row) => number> = {
@@ -63,8 +58,8 @@ export const RecentOrders: FC = () => {
     };
 
     const sortFunction = sortFunctions[sortBy.value] || (() => 0);
-    return [...ORDER_DATA].sort(sortFunction);
-  }, [sortBy]);
+    return [...filteredData].sort(sortFunction);
+  }, [filteredData, sortBy]);
 
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * ORDERS_PER_PAGE;
@@ -72,13 +67,22 @@ export const RecentOrders: FC = () => {
     return sortedData.slice(start, end);
   }, [sortedData, currentPage]);
 
+  const pageCount = Math.ceil(sortedData.length / ORDERS_PER_PAGE);
+  const isPaginated = pageCount > 1;
+
+  const setPage = (page: number) => setCurrentPage(page);
+
   return (
     <Window>
       <div className="flex items-center justify-between">
         <h3>Recent Orders</h3>
 
         <div className="flex items-center gap-4">
-          <Search className="text-xs" />
+          <Search
+            className="text-xs"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
 
           <SortingDropdownList
             headLabel="Sort by:"
