@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { ReactComponent as WavingHandEmoji } from "src/assets/icons/bag.svg";
 import { Button } from "../Button";
+import { Search } from "../Search";
 import { Greeting } from "./Greeting";
-import { Search } from "./Search";
 
 export const Header: FC = () => (
   <header className="flex justify-between">
