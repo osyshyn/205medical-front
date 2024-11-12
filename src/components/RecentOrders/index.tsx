@@ -1,13 +1,15 @@
 import React, { FC, useMemo, useState } from "react";
+import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
 import { SortingDropdownList } from "src/components/SortDropdownList";
+import {
+  DataRangeIndicator,
+  Table,
+  TableBody,
+  TableHeader,
+} from "src/components/Table";
 import { Window } from "src/components/Window";
 import { IOptionSelect } from "src/@types/form";
-import { Pagination } from "../Pagination";
-import { Table } from "../Table";
-import { DataRangeIndicator } from "../Table/DataRangeIndicator";
-import { TableBody } from "../Table/TableBody";
-import { TableHeader } from "../Table/TableHeader";
 import { columns, ITEMS_PER_VIEW, rows, SORT_OPTIONS } from "./constants";
 
 export const RecentOrders: FC = () => {
