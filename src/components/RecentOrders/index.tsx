@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
+import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
 import { SortingDropdownList } from "src/components/SortDropdownList";
@@ -17,18 +18,27 @@ import {
   ORDERS_PER_PAGE,
 } from "./constants";
 
+const DEBOUNCE_DELAY = 1000;
+
 export const RecentOrders: FC = () => {
   const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [debouncedSearchQuery] = useDebounce(searchQuery, DEBOUNCE_DELAY);
+
   const filteredData = useMemo(() => {
+    setCurrentPage(1);
+
     return ORDER_DATA.filter((row) =>
       Object.values(row).some((value) =>
-        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+        value
+          .toString()
+          .toLowerCase()
+          .includes(debouncedSearchQuery.toLowerCase())
       )
     );
-  }, [searchQuery]);
+  }, [debouncedSearchQuery]);
 
   const sortedData = useMemo(() => {
     const sortFunctions: Record<string, (a: Row, b: Row) => number> = {
