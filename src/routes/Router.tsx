@@ -1,9 +1,13 @@
 import React, { FC } from "react";
-import { useRoutes } from "react-router-dom";
-import { CreateOrder, Dashboard, NotFound } from "src/pages";
+import { Navigate, useRoutes } from "react-router-dom";
+import { CreateOrder, Dashboard, NotFound, OrderAlerts } from "src/pages";
 import { PATHNAMES } from "src/constants/routes";
 
 const ROUTES = [
+  {
+    path: PATHNAMES.HOME,
+    element: <Navigate to={PATHNAMES.DASHBOARD} replace />,
+  },
   {
     element: <Dashboard />,
     path: PATHNAMES.DASHBOARD,
@@ -11,6 +15,10 @@ const ROUTES = [
   {
     element: <CreateOrder />,
     path: PATHNAMES.CREATE_ORDER,
+  },
+  {
+    element: <OrderAlerts />,
+    path: PATHNAMES.ORDER_ALERTS,
   },
   {
     element: <NotFound />,

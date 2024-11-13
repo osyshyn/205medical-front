@@ -1,5 +1,7 @@
 export const PATHNAMES = {
-  DASHBOARD: "/",
+  HOME: "/",
+
+  DASHBOARD: "/dashboard",
 
   CREATE_ORDER: "/create-order",
   ORDER_ALERTS: "/create-order/order-alerts",

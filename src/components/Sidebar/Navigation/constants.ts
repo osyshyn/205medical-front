@@ -30,6 +30,13 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
     label: "Create an Order",
     href: PATHNAMES.CREATE_ORDER,
     iconActive: CreateOrderActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Order alerts",
+        href: PATHNAMES.ORDER_ALERTS,
+      },
+    ],
   },
   {
     id: 3,
