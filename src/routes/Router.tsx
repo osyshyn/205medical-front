@@ -1,12 +1,16 @@
 import React, { FC } from "react";
 import { useRoutes } from "react-router-dom";
-import { Dashboard, NotFound } from "src/pages";
+import { CreateOrder, Dashboard, NotFound } from "src/pages";
 import { PATHNAMES } from "src/constants/routes";
 
 const ROUTES = [
   {
     element: <Dashboard />,
     path: PATHNAMES.DASHBOARD,
+  },
+  {
+    element: <CreateOrder />,
+    path: PATHNAMES.CREATE_ORDER,
   },
   {
     element: <NotFound />,
