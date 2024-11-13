@@ -1,7 +1,7 @@
 import React, { FC } from "react";
+import { Column, Row } from "src/@types/table";
 import { getKeyValue } from "./constants";
 import { TableCell } from "./TableCell";
-import { Column, Row } from "./types";
 
 interface Props {
   rowData: Row;

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
+import { Column, Row } from "src/@types/table";
 import { TableRow } from "./TableRow";
-import { Column, Row } from "./types";
 
 interface Props {
   items: Row[];

@@ -10,13 +10,13 @@ import {
   TableHeader,
 } from "src/components/Table";
 import { Window } from "src/components/Window";
-import { Row } from "../Table/types";
 import {
   ORDER_COLUMNS,
   ORDER_DATA,
   ORDER_SORT_OPTIONS,
   ORDERS_PER_PAGE,
 } from "./constants";
+import { IOrder } from "./types";
 
 const DEBOUNCE_DELAY = 1000;
 
@@ -41,7 +41,7 @@ export const RecentOrders: FC = () => {
   }, [debouncedSearchQuery]);
 
   const sortedData = useMemo(() => {
-    const sortFunctions: Record<string, (a: Row, b: Row) => number> = {
+    const sortFunctions: Record<string, (a: IOrder, b: IOrder) => number> = {
       amount_asc: (a, b) =>
         parseFloat(a.amount.slice(1)) - parseFloat(b.amount.slice(1)),
       amount_desc: (a, b) =>
@@ -58,12 +58,14 @@ export const RecentOrders: FC = () => {
         new Date(b.poDate).getTime() - new Date(a.poDate).getTime(),
 
       approvalStatus_asc: (a, b) =>
-        a.approvalStatus.localeCompare(b.approvalStatus),
+        a.approvalStatus.value.localeCompare(b.approvalStatus.value),
       approvalStatus_desc: (a, b) =>
-        b.approvalStatus.localeCompare(a.approvalStatus),
+        b.approvalStatus.value.localeCompare(a.approvalStatus.value),
 
-      shipStatus_asc: (a, b) => a.shipStatus.localeCompare(b.shipStatus),
-      shipStatus_desc: (a, b) => b.shipStatus.localeCompare(a.shipStatus),
+      shipStatus_asc: (a, b) =>
+        a.shipStatus.value.localeCompare(b.shipStatus.value),
+      shipStatus_desc: (a, b) =>
+        b.shipStatus.value.localeCompare(a.shipStatus.value),
     };
 
     const sortFunction = sortFunctions[sortBy.value] || (() => 0);

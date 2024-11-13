@@ -1,5 +1,6 @@
 import { IOptionSelect } from "src/@types/form";
-import { Column, Row } from "../Table/types";
+import { Column, StyledValue } from "src/@types/table";
+import { IOrder, IStatusesApproval, IStatusesShip } from "./types";
 
 export const ORDER_SORT_OPTIONS: IOptionSelect[] = [
   { label: "Select", value: "select" },
@@ -17,6 +18,48 @@ export const ORDER_SORT_OPTIONS: IOptionSelect[] = [
 
 export const ORDERS_PER_PAGE = 8;
 
+export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
+  [IStatusesApproval.APPROVED]: {
+    style: {
+      color: "#008767",
+    },
+    value: "Approved",
+  },
+  [IStatusesApproval.PENDING]: {
+    style: {
+      color: "#FFB700",
+    },
+    value: "Pending",
+  },
+  [IStatusesApproval.REJECTED]: {
+    style: {
+      color: "#DF0404",
+    },
+    value: "Rejected",
+  },
+};
+
+export const STATUSES_SHIPS: Record<IStatusesShip, StyledValue> = {
+  [IStatusesShip.SHIPPED]: {
+    style: {
+      color: "#008767",
+    },
+    value: "Shipped",
+  },
+  [IStatusesShip.PENDING]: {
+    style: {
+      color: "#FFB700",
+    },
+    value: "Pending",
+  },
+  [IStatusesShip.CANCELED]: {
+    style: {
+      color: "#DF0404",
+    },
+    value: "Canceled",
+  },
+};
+
 export const ORDER_COLUMNS: Column[] = [
   { key: "customerPO", label: "Customer PO #" },
   { key: "poDate", label: "PO Date" },
@@ -27,15 +70,15 @@ export const ORDER_COLUMNS: Column[] = [
   { key: "shipStatus", label: "Ship Status" },
 ];
 
-export const ORDER_DATA: Row[] = [
+export const ORDER_DATA: IOrder[] = [
   {
     key: "1",
     salesOrder: "1111111",
     poDate: "08/13/24",
     shipTo: "Location Name A",
     amount: "$325.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111111",
   },
   {
@@ -44,8 +87,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name B",
     amount: "$215.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111112",
   },
   {
@@ -54,8 +97,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name C",
     amount: "$140.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111113",
   },
   {
@@ -64,8 +107,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name D",
     amount: "$49.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111114",
   },
   {
@@ -74,8 +117,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name E",
     amount: "$64.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111115",
   },
   {
@@ -84,8 +127,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name F",
     amount: "$72.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111116",
   },
   {
@@ -94,8 +137,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name G",
     amount: "$25.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111117",
   },
   {
@@ -104,8 +147,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name H",
     amount: "$80.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111118",
   },
   {
@@ -114,8 +157,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name I",
     amount: "$300.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111119",
   },
   {
@@ -124,8 +167,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name J",
     amount: "$500.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111120",
   },
   {
@@ -134,8 +177,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name K",
     amount: "$150.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111121",
   },
   {
@@ -144,8 +187,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name L",
     amount: "$200.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111122",
   },
   {
@@ -154,8 +197,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name M",
     amount: "$420.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111123",
   },
   {
@@ -164,8 +207,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name N",
     amount: "$65.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111124",
   },
   {
@@ -174,8 +217,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name O",
     amount: "$115.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111125",
   },
   {
@@ -184,8 +227,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name P",
     amount: "$98.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111126",
   },
   {
@@ -194,8 +237,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name Q",
     amount: "$76.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111127",
   },
   {
@@ -204,8 +247,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name R",
     amount: "$130.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111128",
   },
   {
@@ -214,8 +257,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name A",
     amount: "$325.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111111",
   },
   {
@@ -224,8 +267,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name B",
     amount: "$215.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111112",
   },
   {
@@ -234,8 +277,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name C",
     amount: "$140.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111113",
   },
   {
@@ -244,8 +287,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name D",
     amount: "$49.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111114",
   },
   {
@@ -254,8 +297,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name E",
     amount: "$64.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111115",
   },
   {
@@ -264,8 +307,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name F",
     amount: "$72.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111116",
   },
   {
@@ -274,8 +317,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name G",
     amount: "$25.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111117",
   },
   {
@@ -284,8 +327,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name H",
     amount: "$80.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111118",
   },
   {
@@ -294,8 +337,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name I",
     amount: "$300.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111119",
   },
   {
@@ -304,8 +347,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name J",
     amount: "$500.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111120",
   },
   {
@@ -314,8 +357,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name K",
     amount: "$150.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111121",
   },
   {
@@ -324,8 +367,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name L",
     amount: "$200.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111122",
   },
   {
@@ -334,8 +377,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name M",
     amount: "$420.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111123",
   },
   {
@@ -344,8 +387,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name N",
     amount: "$65.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111124",
   },
   {
@@ -354,8 +397,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name O",
     amount: "$115.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111125",
   },
   {
@@ -364,8 +407,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name P",
     amount: "$98.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111126",
   },
   {
@@ -374,8 +417,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name Q",
     amount: "$76.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111127",
   },
   {
@@ -384,8 +427,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name R",
     amount: "$130.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111128",
   },
   {
@@ -394,8 +437,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name A",
     amount: "$325.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111111",
   },
   {
@@ -404,8 +447,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name B",
     amount: "$215.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111112",
   },
   {
@@ -414,8 +457,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name C",
     amount: "$140.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111113",
   },
   {
@@ -424,8 +467,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name D",
     amount: "$49.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111114",
   },
   {
@@ -434,8 +477,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name E",
     amount: "$64.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111115",
   },
   {
@@ -444,8 +487,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name F",
     amount: "$72.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111116",
   },
   {
@@ -454,8 +497,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name G",
     amount: "$25.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111117",
   },
   {
@@ -464,8 +507,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name H",
     amount: "$80.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111118",
   },
   {
@@ -474,8 +517,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name I",
     amount: "$300.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111119",
   },
   {
@@ -484,8 +527,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name J",
     amount: "$500.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111120",
   },
   {
@@ -494,8 +537,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name K",
     amount: "$150.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111121",
   },
   {
@@ -504,8 +547,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name L",
     amount: "$200.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111122",
   },
   {
@@ -514,8 +557,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name M",
     amount: "$420.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111123",
   },
   {
@@ -524,8 +567,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name N",
     amount: "$65.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111124",
   },
   {
@@ -534,8 +577,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name O",
     amount: "$115.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111125",
   },
   {
@@ -544,8 +587,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name P",
     amount: "$98.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111126",
   },
   {
@@ -554,8 +597,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name Q",
     amount: "$76.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111127",
   },
   {
@@ -564,8 +607,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name R",
     amount: "$130.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111128",
   },
   {
@@ -574,8 +617,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name A",
     amount: "$325.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111111",
   },
   {
@@ -584,8 +627,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name B",
     amount: "$215.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111112",
   },
   {
@@ -594,8 +637,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name C",
     amount: "$140.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111113",
   },
   {
@@ -604,8 +647,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name D",
     amount: "$49.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111114",
   },
   {
@@ -614,8 +657,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name E",
     amount: "$64.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111115",
   },
   {
@@ -624,8 +667,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name F",
     amount: "$72.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111116",
   },
   {
@@ -634,8 +677,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name G",
     amount: "$25.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111117",
   },
   {
@@ -644,8 +687,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name H",
     amount: "$80.00",
-    approvalStatus: "Approved",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111118",
   },
   {
@@ -654,8 +697,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name I",
     amount: "$300.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111119",
   },
   {
@@ -664,8 +707,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name J",
     amount: "$500.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111120",
   },
   {
@@ -674,8 +717,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name K",
     amount: "$150.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111121",
   },
   {
@@ -684,8 +727,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name L",
     amount: "$200.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111122",
   },
   {
@@ -694,8 +737,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name M",
     amount: "$420.00",
-    approvalStatus: "Rejected",
-    shipStatus: "Cancelled",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.REJECTED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.CANCELED],
     customerPO: "1111123",
   },
   {
@@ -704,8 +747,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name N",
     amount: "$65.00",
-    approvalStatus: "Approved",
-    shipStatus: "Shipped",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.APPROVED],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.SHIPPED],
     customerPO: "1111124",
   },
   {
@@ -714,8 +757,8 @@ export const ORDER_DATA: Row[] = [
     poDate: "08/13/24",
     shipTo: "Location Name O",
     amount: "$115.00",
-    approvalStatus: "Pending",
-    shipStatus: "Pending",
+    approvalStatus: STATUSES_APPROVAL[IStatusesApproval.PENDING],
+    shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111125",
   },
 ];

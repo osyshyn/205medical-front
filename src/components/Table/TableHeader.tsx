@@ -1,4 +1,4 @@
-import { Column } from "./types";
+import { Column } from "src/@types/table";
 
 interface Props {
   columns: Column[];
