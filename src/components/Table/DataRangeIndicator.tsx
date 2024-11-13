@@ -13,8 +13,12 @@ export const DataRangeIndicator: FC<Props> = ({
   startEntry,
   endEntry,
   totalEntries,
-}) => (
-  <div className={cn("text-sm font-medium text-gray-regular", className)}>
-    Showing data {startEntry} to {endEntry} of {totalEntries} entries
-  </div>
-);
+}) => {
+  if (!totalEntries) return;
+
+  return (
+    <div className={cn("text-sm font-medium text-gray-regular", className)}>
+      Showing data {startEntry} to {endEntry} of {totalEntries} entries
+    </div>
+  );
+};
