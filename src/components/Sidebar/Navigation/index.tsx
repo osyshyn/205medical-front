@@ -1,18 +1,19 @@
-import { Users } from "src/@types/users";
+import useUserStore from "src/stores/user-store";
 import { USER_NAV_ITEMS } from "./constants";
 import { NavigationItem } from "./NavigationItem";
 
-//temp
-const current_user = Users.SUB_USER;
+export const Navigation = () => {
+  const type = useUserStore((state) => state.type);
 
-export const Navigation = () => (
-  <nav>
-    <ul className="flex flex-col gap-4">
-      {USER_NAV_ITEMS[current_user].map(({ id, ...nav }) => (
-        <li key={id}>
-          <NavigationItem {...nav} />
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+  return (
+    <nav>
+      <ul className="flex flex-col gap-4">
+        {USER_NAV_ITEMS[type].map(({ id, ...nav }) => (
+          <li key={id}>
+            <NavigationItem {...nav} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};

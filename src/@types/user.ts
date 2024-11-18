@@ -1,4 +1,10 @@
-import { StyledValue , Row } from "src/@types/table";
+import { Row, StyledValue } from "src/@types/table";
+
+export enum Users {
+  SUB_USER = "sub-user",
+  CLIENT_ADMIN = "client-admin",
+  MEDICAL = "medical",
+}
 
 export enum IStatusesApproval {
   APPROVED = "approved",
@@ -17,7 +23,7 @@ export interface IOrder extends Row {
   poDate: string;
   shipTo: string;
   amount: string;
-  approvalStatus: StyledValue ;
-  shipStatus: StyledValue ;
+  approvalStatus: StyledValue;
+  shipStatus: StyledValue;
   customerPO: string;
 }
