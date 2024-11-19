@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
 import { RenderFormFields } from "src/components/RenderFormFields";
 import { Window } from "src/components/Window";
 import { useActiveLocation } from "src/hooks/useActiveLocation";
@@ -23,7 +24,11 @@ export const EditLocation: FC = () => {
 
   return (
     <Window className="flex-1">
-      <h3>Ship To</h3>
+      <div className="flex items-center justify-between">
+        <h3>Ship To</h3>
+
+        <Button variant={ButtonVariants.SECONDARY}>Edit</Button>
+      </div>
 
       <FormikProvider value={formik}>
         <Form>
@@ -33,7 +38,13 @@ export const EditLocation: FC = () => {
 
           <NoEditFields {...activeLocation} />
 
-          <Button>submit</Button>
+          <Button
+            className="mt-10"
+            type="submit"
+            variant={ButtonVariants.PRIMARY}
+          >
+            Submit
+          </Button>
         </Form>
       </FormikProvider>
     </Window>
