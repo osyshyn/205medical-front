@@ -9,7 +9,8 @@ export const PATHNAMES = {
   PRODUCT: "/product",
   SHIPMENTS: "/shipments",
 
-  LOCATION: "/location/:slug?",
+  LOCATION: "/location",
+  LOCATION_SLUG: "/location/:slug?",
 
   CHAT: "/chat",
   SETTINGS: "/settings",

@@ -28,7 +28,7 @@ const ROUTES = [
   },
   {
     element: <Location />,
-    path: PATHNAMES.LOCATION,
+    path: PATHNAMES.LOCATION_SLUG,
   },
   {
     element: <NotFound />,

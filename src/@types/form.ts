@@ -20,6 +20,7 @@ export interface IFormField {
   fieldClassName?: string;
   labelClassName?: string;
   variant?: FormFieldVariants;
+  disabled?: boolean;
   // options?: IOptionSelect[];
 }
 

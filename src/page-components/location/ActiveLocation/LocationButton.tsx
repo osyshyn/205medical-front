@@ -20,7 +20,7 @@ export const LocationButton: FC<Props> = ({
     className={cn("flex justify-between border-b pb-3.5 pt-2.5", {
       "border-b-purple-base": isActive,
     })}
-    to={getItemPath(PATHNAMES.LOCATION, { slug })}
+    to={getItemPath(PATHNAMES.LOCATION_SLUG, { slug })}
   >
     <span
       className={cn("text-sm font-medium text-gray-regular", {
