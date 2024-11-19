@@ -16,22 +16,23 @@ const Field: FC<Props> = ({ label, value }) => (
   </div>
 );
 
-export const NoEditFields: FC<INoEditFields> = ({ ...fields }) => {
-  const { contact_name, contact_email, buyer_name, buyer_email } = fields;
-
-  return (
-    <div>
-      <div className="grid grid-cols-2">
-        <Field label="Contact Name" value={contact_name} />
-        <Field label="Contact Email" value={contact_email} />
-      </div>
-
-      <hr className="my-6" />
-
-      <div className="grid grid-cols-2">
-        <Field label="Buyer Name" value={buyer_name} />
-        <Field label="Buyer Email" value={buyer_email} />
-      </div>
+export const NoEditFields: FC<INoEditFields> = ({
+  contact_name,
+  contact_email,
+  buyer_name,
+  buyer_email,
+}) => (
+  <div>
+    <div className="grid grid-cols-2 gap-x-6">
+      <Field label="Contact Name" value={contact_name} />
+      <Field label="Contact Email" value={contact_email} />
     </div>
-  );
-};
+
+    <hr className="my-6" />
+
+    <div className="grid grid-cols-2 gap-x-6">
+      <Field label="Buyer Name" value={buyer_name} />
+      <Field label="Buyer Email" value={buyer_email} />
+    </div>
+  </div>
+);
