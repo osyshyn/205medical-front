@@ -1,5 +1,10 @@
 import { StyledValue } from "src/@types/table";
-import { IOrder, IStatusesApproval, IStatusesShip } from "src/@types/user";
+import {
+  ILocation,
+  IOrder,
+  IStatusesApproval,
+  IStatusesShip,
+} from "src/@types/user";
 
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {
@@ -734,4 +739,43 @@ export const ORDER_DATA: IOrder[] = [
     shipStatus: STATUSES_SHIPS[IStatusesShip.PENDING],
     customerPO: "1111125",
   },
+];
+
+export const LOCATION_DATA: ILocation[] = [
+  {
+    slug: "central-warehouse",
+    location_name: "Central Warehouse",
+    address_1: "123 Main Street",
+    city: "Springfield",
+    state: "IL",
+    zip_code: "62704",
+    contact_name: "John Doe",
+    contact_email: "johndoe@example.com",
+    buyer_name: "Alice Smith",
+    buyer_email: "alice.smith@example.com",
+  },
+  {
+    slug: "downtown-office",
+    location_name: "Downtown Office",
+    address_1: "456 Elm Street",
+    city: "Chicago",
+    state: "IL",
+    zip_code: "60614",
+    contact_name: "Jane Roe",
+    contact_email: "janeroe@example.com",
+    buyer_name: "Bob Johnson",
+    buyer_email: "bob.johnson@example.com"
+  },
+  {
+    slug: "east-coast-hub",
+    location_name: "East Coast Hub",
+    address_1: "789 Ocean Drive",
+    city: "Miami",
+    state: "FL",
+    zip_code: "33139",
+    contact_name: "Emily Davis",
+    contact_email: "emily.davis@example.com",
+    buyer_name: "Charlie Brown",
+    buyer_email: "charlie.brown@example.com"
+  }
 ];
