@@ -8,14 +8,22 @@ interface IUserStore {
   name: string;
   recent_orders: IOrder[];
   locations: ILocation[];
+  updateLocation: (updatedLocation: ILocation) => void;
 }
 
 const useUserStore = create(
-  devtools<IUserStore>(() => ({
+  devtools<IUserStore>((set) => ({
     type: Users.SUB_USER,
     name: "Japp",
     recent_orders: ORDER_DATA,
-    locations: LOCATION_DATA
+    locations: LOCATION_DATA,
+    updateLocation: (updatedLocation) => {
+      set((state) => ({
+        locations: state.locations.map((location) =>
+          location.slug === updatedLocation.slug ? updatedLocation : location
+        ),
+      }));
+    },
   }))
 );
 

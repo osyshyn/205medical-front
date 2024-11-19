@@ -5,11 +5,13 @@ import { ButtonVariants } from "src/components/Button/types";
 import { RenderFormFields } from "src/components/RenderFormFields";
 import { Window } from "src/components/Window";
 import { useActiveLocation } from "src/hooks/useActiveLocation";
+import useUserStore from "src/stores/user-store";
 import { EDIT_LOCATION_FORM_FIELDS } from "./contants";
 import { NoEditFields } from "./NoEditFields";
 import { IFormikValues } from "./types";
 
 export const EditLocation: FC = () => {
+  const updateLocation = useUserStore((state) => state.updateLocation);
   const { activeLocation } = useActiveLocation();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -26,7 +28,8 @@ export const EditLocation: FC = () => {
     initialValues: activeLocation,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values);
+      updateLocation({ ...activeLocation, ...values });
+      setIsEdit(false);
     },
   };
 

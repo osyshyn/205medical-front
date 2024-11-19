@@ -743,7 +743,7 @@ export const ORDER_DATA: IOrder[] = [
 
 export const LOCATION_DATA: ILocation[] = [
   {
-    slug: "central-warehouse",
+    slug: "active-location-1",
     location_name: "Central Warehouse",
     address_1: "123 Main Street",
     address_2: "123 Main Street",
@@ -756,7 +756,7 @@ export const LOCATION_DATA: ILocation[] = [
     buyer_email: "alice.smith@example.com",
   },
   {
-    slug: "downtown-office",
+    slug: "active-location-2",
     location_name: "Downtown Office",
     address_1: "456 Elm Street",
     address_2: "123 Main Street",
@@ -769,7 +769,7 @@ export const LOCATION_DATA: ILocation[] = [
     buyer_email: "bob.johnson@example.com",
   },
   {
-    slug: "east-coast-hub",
+    slug: "active-location-3",
     location_name: "East Coast Hub",
     address_1: "789 Ocean Drive",
     address_2: "123 Main Street",
