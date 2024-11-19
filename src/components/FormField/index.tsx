@@ -30,7 +30,7 @@ export const FormField: FC<Props> = ({
     "relative w-full",
     FORM_FIELD_STYLE_VARIANTS[variant],
     className,
-    { "flex items-center": label }
+    { "flex flex-col gap-2.5": label }
   );
 
   return (

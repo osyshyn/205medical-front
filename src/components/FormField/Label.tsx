@@ -10,7 +10,12 @@ interface Props {
   htmlFor?: string;
 }
 
-export const Label: FC<Props> = ({ className, children, variant, htmlFor }) => {
+export const Label: FC<Props> = ({
+  className,
+  children,
+  variant = FormFieldVariants.PRIMARY,
+  htmlFor,
+}) => {
   if (!children) return null;
 
   return (
