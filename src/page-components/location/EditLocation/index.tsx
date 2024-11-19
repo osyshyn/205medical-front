@@ -6,7 +6,10 @@ import { RenderFormFields } from "src/components/RenderFormFields";
 import { Window } from "src/components/Window";
 import { useActiveLocation } from "src/hooks/useActiveLocation";
 import useUserStore from "src/stores/user-store";
-import { EDIT_LOCATION_FORM_FIELDS } from "./contants";
+import {
+  EDIT_LOCATION_FORM_FIELDS,
+  EDIT_LOCATION_VALIDATION_SCHEMA,
+} from "./contants";
 import { NoEditFields } from "./NoEditFields";
 import { IFormikValues } from "./types";
 
@@ -27,6 +30,7 @@ export const EditLocation: FC = () => {
   const formikProps: FormikConfig<IFormikValues> = {
     initialValues: activeLocation,
     enableReinitialize: true,
+    validationSchema: EDIT_LOCATION_VALIDATION_SCHEMA,
     onSubmit: (values) => {
       updateLocation({ ...activeLocation, ...values });
       setIsEdit(false);

@@ -37,7 +37,8 @@ export const TextInput: FC<IFormField> = ({
     "w-full outline-none",
     TEXT_INPUT_STYLE_VARIANTS[variant],
     className,
-    { "resize-y": isTextArea }
+    { "resize-y": isTextArea },
+    { "!border-red-base": error }
   );
 
   // const Tag = isTextArea ? "textarea" : "input";

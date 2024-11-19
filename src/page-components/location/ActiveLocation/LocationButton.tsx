@@ -17,13 +17,13 @@ export const LocationButton: FC<Props> = ({
   location: { location_name, slug },
 }) => (
   <Link
-    className={cn("flex justify-between border-b pb-3.5 pt-2.5", {
+    className={cn("flex justify-between gap-5 border-b pb-3.5 pt-2.5", {
       "border-b-purple-base": isActive,
     })}
     to={getItemPath(PATHNAMES.LOCATION_SLUG, { slug })}
   >
     <span
-      className={cn("text-sm font-medium text-gray-regular", {
+      className={cn("line-clamp-1 text-sm font-medium text-gray-regular", {
         "text-purple-base": isActive,
       })}
     >
