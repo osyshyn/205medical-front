@@ -32,8 +32,7 @@ export const EditLocation: FC = () => {
     enableReinitialize: true,
     validationSchema: EDIT_LOCATION_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      updateLocation({ ...activeLocation, ...values });
-      setIsEdit(false);
+      updateLocation({ ...activeLocation, ...values }, () => setIsEdit(false));
     },
   };
 
