@@ -12,15 +12,17 @@ import {
 import { Window } from "src/components/Window";
 import {
   ORDER_COLUMNS,
-  ORDER_DATA,
   ORDER_SORT_OPTIONS,
   ORDERS_PER_PAGE,
 } from "./constants";
-import { IOrder } from "./types";
+import { IOrder } from "src/@types/user";
+import useUserStore from "src/stores/user-store";
 
 const DEBOUNCE_DELAY = 1000;
 
 export const RecentOrders: FC = () => {
+  const orders = useUserStore((state) => state.recent_orders)
+
   const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,7 +32,7 @@ export const RecentOrders: FC = () => {
   const filteredData = useMemo(() => {
     setCurrentPage(1);
 
-    return ORDER_DATA.filter((row) =>
+    return orders.filter((row) =>
       Object.values(row).some((value) =>
         value
           .toString()
@@ -38,7 +40,7 @@ export const RecentOrders: FC = () => {
           .includes(debouncedSearchQuery.toLowerCase())
       )
     );
-  }, [debouncedSearchQuery]);
+  }, [debouncedSearchQuery, orders]);
 
   const sortedData = useMemo(() => {
     const sortFunctions: Record<string, (a: IOrder, b: IOrder) => number> = {

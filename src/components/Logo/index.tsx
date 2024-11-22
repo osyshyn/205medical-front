@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import logoImg from "src/assets/images/logo.png";
 import { PATHNAMES } from "src/constants/routes";
-import { Link } from "../Link";
+import { Link } from "react-router-dom";
 
 const ALT_TEXT_LOGO_IMG = "Bussiness Clone";
 
@@ -11,7 +11,7 @@ interface Props {
 
 export const Logo: FC<Props> = ({ linkHref }) => (
   <div>
-    <Link href={linkHref || PATHNAMES.DASHBOARD}>
+    <Link to={linkHref || PATHNAMES.DASHBOARD}>
       <img
         src={logoImg}
         alt={ALT_TEXT_LOGO_IMG}

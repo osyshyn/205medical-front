@@ -13,7 +13,7 @@ import { ReactComponent as SettingsActiveIcon } from "src/assets/icons/sidebar/n
 import { ReactComponent as SettingsIcon } from "src/assets/icons/sidebar/navigation/settings.svg";
 import { ReactComponent as ShipmentsActiveIcon } from "src/assets/icons/sidebar/navigation/shipments-active.svg";
 import { ReactComponent as ShipmentsIcon } from "src/assets/icons/sidebar/navigation/shipments.svg";
-import { Users } from "src/@types/users";
+import { Users } from "src/@types/user";
 import { INavigationItem } from "./types";
 
 const SUB_USER_NAV_ITEMS: INavigationItem[] = [

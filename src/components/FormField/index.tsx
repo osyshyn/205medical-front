@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from "react";
 import cn from "classnames";
-import { Ii18nInterpolationObject } from "src/@types/i18next";
 import { Error } from "../Error";
 import { FORM_FIELD_STYLE_VARIANTS } from "./constants";
 import { Label } from "./Label";
@@ -11,7 +10,7 @@ interface Props {
   className?: string;
   labelClassName?: string;
   variant?: FormFieldVariants;
-  label?: string | Ii18nInterpolationObject;
+  label?: string;
   labelFor: string;
   isShownError?: boolean;
   error?: string;
@@ -31,7 +30,7 @@ export const FormField: FC<Props> = ({
     "relative w-full",
     FORM_FIELD_STYLE_VARIANTS[variant],
     className,
-    { "flex items-center": label }
+    { "flex flex-col gap-2.5": label }
   );
 
   return (

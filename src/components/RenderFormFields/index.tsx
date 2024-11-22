@@ -7,6 +7,7 @@ interface Props
     IRenderFormField,
     "className" | "fieldClassName" | "labelClassName" | "variant"
   > {
+  disabled?: boolean;
   fields: IRenderFormField[];
 }
 

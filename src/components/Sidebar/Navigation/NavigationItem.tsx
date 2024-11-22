@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useLocation } from "react-router";
 import cn from "classnames";
-import { Link } from "src/components/Link";
+import { Link } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/navigation/arrow-white.svg";
 import { SubNavigationItem } from "./SubNavigationItem";
 import { INavigationItemProps } from "./types";
@@ -22,7 +22,7 @@ export const NavigationItem: FC<INavigationItemProps> = ({
         className={cn("flex items-center justify-between rounded-lg p-3", {
           "bg-purple-base": isActive,
         })}
-        href={href}
+        to={href}
       >
         <div className="flex items-center gap-3">
           {isActive ? <ActiveIcon /> : <Icon className="h-6 w-6" />}

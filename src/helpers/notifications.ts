@@ -1,39 +1,38 @@
 import { Id, toast } from "react-toastify";
-import { t } from "i18next";
 import {
-  errorResponsesTrns,
-  pendingResponsesTrns,
-  successfulResponsesTrns,
-} from "src/translate/responses";
+  errorResponses,
+  pendingResponses,
+  successfulResponses,
+} from "src/constants/responses";
 
 export class NotificationService {
-  static success = (message: string = successfulResponsesTrns.default) =>
-    toast.success(t(message));
+  static success = (message: string = successfulResponses.default) =>
+    toast.success(message);
 
-  static loading = (message: string = pendingResponsesTrns.default) =>
-    toast.loading(t(message));
+  static loading = (message: string = pendingResponses.default) =>
+    toast.loading(message);
 
-  static error = (message: string = errorResponsesTrns.default) =>
-    toast.error(t(message));
+  static error = (message: string = errorResponses.default) =>
+    toast.error(message);
 
   static updateToSuccess = (
     toastId: Id,
-    message: string = errorResponsesTrns.default
+    message: string = errorResponses.default
   ) =>
     toast.update(toastId, {
       type: "success",
-      render: t(message),
+      render: message,
       isLoading: false,
       autoClose: 5000,
     });
 
   static updateToError = (
     toastId: Id,
-    message: string = errorResponsesTrns.default
+    message: string = errorResponses.default
   ) =>
     toast.update(toastId, {
       type: "error",
-      render: t(message),
+      render: message,
       isLoading: false,
       autoClose: 5000,
     });

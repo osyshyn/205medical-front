@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { FormFieldVariants } from "src/components/FormField/types";
-import { Ii18nInterpolationObject } from "./i18next";
 
 export interface IOptionSelect {
   value: string | number;
@@ -12,15 +11,16 @@ export type SetOptionSelect = (option: IOptionSelect) => void;
 export interface IFormField {
   id?: string;
   name: string;
-  label?: string | Ii18nInterpolationObject;
+  label?: string;
   type?: string;
   isTextArea?: boolean;
   mask?: (string | RegExp)[];
-  placeholder?: string | Ii18nInterpolationObject;
+  placeholder?: string;
   className?: string;
   fieldClassName?: string;
   labelClassName?: string;
   variant?: FormFieldVariants;
+  disabled?: boolean;
   // options?: IOptionSelect[];
 }
 

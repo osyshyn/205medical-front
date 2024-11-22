@@ -1,5 +1,4 @@
 import React, { FC, KeyboardEvent, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-number-input/input";
 import MaskedInput from "react-text-mask";
 import cn from "classnames";
@@ -20,8 +19,6 @@ export const TextInput: FC<IFormField> = ({
   isTextArea,
   ...props
 }) => {
-  const { t } = useTranslation();
-
   const fieldId = id || props.name;
 
   const { handleSubmit } = useFormikContext();
@@ -36,16 +33,12 @@ export const TextInput: FC<IFormField> = ({
     }
   };
 
-  const placeholderText =
-    typeof placeholder === "string"
-      ? placeholder
-      : placeholder && t(placeholder.i18nKey, placeholder.i18nParams);
-
   const combinedClassNames = cn(
     "w-full outline-none",
     TEXT_INPUT_STYLE_VARIANTS[variant],
     className,
-    { "resize-y": isTextArea }
+    { "resize-y": isTextArea },
+    { "!border-red-base": error }
   );
 
   // const Tag = isTextArea ? "textarea" : "input";
@@ -86,7 +79,7 @@ export const TextInput: FC<IFormField> = ({
         id={fieldId}
         className={combinedClassNames}
         value={value}
-        placeholder={placeholderText}
+        placeholder={placeholder}
         maxLength={isTelField ? 20 : null}
         onChange={isTelField ? onChangePhoneValue : onChange}
         {...props}
