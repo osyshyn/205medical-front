@@ -15,6 +15,8 @@ import { IFormikValues } from "./types";
 
 export const EditLocation: FC = () => {
   const updateLocation = useLocationStore((state) => state.updateLocation);
+  const isLoading = useLocationStore((state) => state.isLoadingUpdate);
+
   const { activeLocation } = useActiveLocation();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -67,6 +69,8 @@ export const EditLocation: FC = () => {
               className="mt-10"
               type="submit"
               variant={ButtonVariants.PRIMARY}
+              isDisabled={isLoading}
+              isLoading={isLoading}
             >
               Submit
             </Button>

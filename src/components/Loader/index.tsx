@@ -9,11 +9,12 @@ interface Props {
 }
 
 export const Loader: FC<Props> = ({ size = Sizes.XS, className }) => (
-  <div
-    className={cn(
-      "border-gray-medium border-t-blue-medium mx-auto animate-spin rounded-full border-2",
-      LOADER_SIZES[size],
-      className
-    )}
-  />
+  <div className={className}>
+    <div
+      className={cn(
+        "mx-auto animate-spin rounded-full border-2 border-gray-regular border-t-purple-base",
+        LOADER_SIZES[size]
+      )}
+    />
+  </div>
 );
