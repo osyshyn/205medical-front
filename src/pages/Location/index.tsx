@@ -3,11 +3,11 @@ import { ActiveLocation } from "src/page-components/location/ActiveLocation";
 import { EditLocation } from "src/page-components/location/EditLocation";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Title } from "src/components/Title";
-import useUserStore from "src/stores/user-store";
+import useLocationStore from "src/stores/location-store";
 
 const Location: FC = () => {
-  const loadLocation = useUserStore((state) => state.loadLocation);
-  const locations = useUserStore((state) => state.locations);
+  const loadLocation = useLocationStore((state) => state.loadLocation);
+  const locations = useLocationStore((state) => state.locations);
 
   useEffect(() => {
     loadLocation();
