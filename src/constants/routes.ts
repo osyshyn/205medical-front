@@ -7,6 +7,9 @@ export const PATHNAMES = {
   ORDER_ALERTS: "/create-order/order-alerts",
 
   PRODUCT: "/product",
+  PRODUCT_HISTORY: "/product/history",
+  PRODUCT_PURCHASES: "/product/purchases",
+
   SHIPMENTS: "/shipments",
 
   LOCATION: "/location",
