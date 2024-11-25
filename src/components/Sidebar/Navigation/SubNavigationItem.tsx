@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useLocation } from "react-router";
-import cn from "classnames";
 import { Link } from "react-router-dom";
+import cn from "classnames";
 import { ISubNavigationItemProps } from "./types";
 
 export const SubNavigationItem: FC<ISubNavigationItemProps> = ({
@@ -12,13 +12,15 @@ export const SubNavigationItem: FC<ISubNavigationItemProps> = ({
   const isActive = pathname === href;
 
   return (
-    <Link
-      className={cn("flex justify-center pt-4 font-medium text-black-ligth", {
-        "text-purple-base": isActive,
-      })}
-      to={href}
-    >
-      {label}
-    </Link>
+    <li className="flex justify-end">
+      <Link
+        className={cn("w-36 font-medium text-black-ligth", {
+          "text-purple-base": isActive,
+        })}
+        to={href}
+      >
+        {label}
+      </Link>
+    </li>
   );
 };

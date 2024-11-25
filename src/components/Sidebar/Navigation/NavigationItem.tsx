@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useLocation } from "react-router";
-import cn from "classnames";
 import { Link } from "react-router-dom";
+import cn from "classnames";
 import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/navigation/arrow-white.svg";
 import { SubNavigationItem } from "./SubNavigationItem";
 import { INavigationItemProps } from "./types";
@@ -40,11 +40,9 @@ export const NavigationItem: FC<INavigationItemProps> = ({
       </Link>
 
       {isActive && subNavItems && (
-        <ul className="flex flex-col gap-4">
+        <ul className="mt-4 flex flex-col gap-2">
           {subNavItems.map(({ id, ...subNav }) => (
-            <li key={id}>
-              <SubNavigationItem {...subNav} />
-            </li>
+            <SubNavigationItem key={id} {...subNav} />
           ))}
         </ul>
       )}
