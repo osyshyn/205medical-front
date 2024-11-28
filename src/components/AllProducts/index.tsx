@@ -16,19 +16,21 @@ export const AllProducts: FC = () => {
           subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
         />
 
-        <Button className="px-4 py-2.5 gap-2.5" variant={ButtonVariants.WHITE}>
+        <Button className="gap-2.5 px-4 py-2.5" variant={ButtonVariants.WHITE}>
           <FilterIcon />
           <span>Filter</span>
         </Button>
       </div>
 
-      <Table ariaLabel="Recent orders table">
-        <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
-        <TableBody
-          items={ALL_PRODUCTS_DATA_TEMP}
-          columns={ALL_PRODUCTS_COLUMNS}
-        />
-      </Table>
+      <div className="scrollbar max-h-150 overflow-y-scroll">
+        <Table ariaLabel="All product table">
+          <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
+          <TableBody
+            items={ALL_PRODUCTS_DATA_TEMP}
+            columns={ALL_PRODUCTS_COLUMNS}
+          />
+        </Table>
+      </div>
     </Window>
   );
 };

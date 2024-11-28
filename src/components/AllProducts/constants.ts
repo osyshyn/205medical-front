@@ -1,5 +1,5 @@
-import { Column, Row } from "src/@types/table";
 import productImg from "src/components/AllProducts/temp/temp.png";
+import { Column, Row } from "src/@types/table";
 
 export const ALL_PRODUCTS_COLUMNS: Column[] = [
   { key: "image", label: "" },
@@ -9,77 +9,18 @@ export const ALL_PRODUCTS_COLUMNS: Column[] = [
   { key: "minimumOrder", label: "Minimum Order" },
 ];
 
-export const ALL_PRODUCTS_DATA_TEMP: Row[] = [
-  {
-    key: "1",
+export const ALL_PRODUCTS_DATA_TEMP: Row[] = Array.from(
+  { length: 30 },
+  (_, i) => ({
+    key: (i + 1).toString(),
     image: {
       type: "image",
       src: productImg,
-      alt: "Name 1",
+      alt: `Product ${i + 1}`,
     },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 1",
-    unitPrice: "$3",
-    minimumOrder: 240,
-  },
-  {
-    key: "2",
-    image: {
-      type: "image",
-      src: productImg,
-      alt: "Name 2",
-    },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 2",
-    unitPrice: "$4",
-    minimumOrder: 340,
-  },
-  {
-    key: "3",
-    image: {
-      type: "image",
-      src: productImg,
-      alt: "Name 2",
-    },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 3",
-    unitPrice: "$6",
-    minimumOrder: 29,
-  },
-  {
-    key: "4",
-    image: {
-      type: "image",
-      src: productImg,
-      alt: "Name 2",
-    },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 3",
-    unitPrice: "$6",
-    minimumOrder: 1300,
-  },
-  {
-    key: "5",
-    image: {
-      type: "image",
-      src: productImg,
-      alt: "Name 2",
-    },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 3",
-    unitPrice: "$6",
-    minimumOrder: 2,
-  },
-  {
-    key: "6",
-    image: {
-      type: "image",
-      src: productImg,
-      alt: "Name 2",
-    },
-    stockKeepingUnit: "12PAN-PCP-CUP",
-    itemName: "Name 3",
-    unitPrice: "$6",
-    minimumOrder: 74,
-  },
-];
+    stockKeepingUnit: `SKU-${i + 1}`,
+    itemName: `Product Name ${i + 1}`,
+    unitPrice: `$${(Math.random() * 100).toFixed(2)}`,
+    minimumOrder: Math.floor(Math.random() * 1000) + 1,
+  })
+);

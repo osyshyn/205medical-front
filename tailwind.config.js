@@ -58,6 +58,10 @@ module.exports = {
       minWidth: {
         62.5: "250px",
       },
+      maxHeight: {
+        127.5: "510px",
+        150: "600px",
+      },
       borderRadius: {
         4: "4px",
         20: "20px",
