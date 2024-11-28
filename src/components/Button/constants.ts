@@ -13,4 +13,6 @@ export const BUTTON_STYLE_VARIANTS = {
     "bg-white-base border border-purple-base text-purple-base",
     DEFAULT_BUTTON_CLASSNAME
   ),
+  [ButtonVariants.WHITE]:
+    "rounded-xl border border-gray-medium bg-white-base font-semibold text-xs uppercase",
 };

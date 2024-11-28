@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
-import { ReactComponent as WavingHandEmoji } from "src/assets/icons/bag.svg";
+import { ReactComponent as BagIcon } from "src/assets/icons/bag.svg";
 import { Button } from "../Button";
+import { ButtonVariants } from "../Button/types";
 import { Search } from "../Search";
 import { Greeting } from "./Greeting";
 
@@ -12,8 +13,8 @@ export const Header: FC = () => {
       <Greeting />
 
       <div className="flex gap-3">
-        <Button className="rounded-xl border border-gray-medium bg-white-base px-1.5 py-1">
-          <WavingHandEmoji />
+        <Button className="px-1.5 py-1" variant={ButtonVariants.WHITE}>
+          <BagIcon />
         </Button>
 
         <Search

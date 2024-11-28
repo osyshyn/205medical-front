@@ -12,6 +12,7 @@ module.exports = {
         purple: {
           base: "#5932EA",
           ligth: "#EAABF0",
+          lighter: "#E7E2FC",
         },
         blue: {
           base: "#4623E9",

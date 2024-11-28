@@ -10,7 +10,18 @@ export interface StyledValue {
   value: string;
 }
 
+export interface ImageValue {
+  type: "image";
+  src: string;
+  alt?: string;
+  style?: {
+    [key: string]: string | number;
+  };
+}
+
+export type RowValue = string | number | StyledValue | ImageValue;
+
 export interface Row {
   key: string;
-  [key: string]: string | StyledValue;
+  [key: string]: RowValue;
 }
