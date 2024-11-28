@@ -27,7 +27,10 @@ export const ALL_PRODUCTS_DATA_TEMP: Row[] = Array.from(
     actionButtons: {
       type: "component",
       component: AllProducts,
-      props: {},
+      props: {
+        itemName: `Product Name ${i + 1}`,
+        stockKeepingUnit: `12PAN-PCP-CU${i + 1}`,
+      },
     },
   })
 );

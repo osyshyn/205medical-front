@@ -21,7 +21,7 @@ export interface ImageValue {
 
 export interface ComponentValue {
   type: "component";
-  component: React.FC;
+  component: React.FC<{ [key: string]: any }>;
   props?: {
     [key: string]: string | number;
   };
