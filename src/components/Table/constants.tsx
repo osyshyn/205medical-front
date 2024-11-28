@@ -1,4 +1,4 @@
-import { ImageValue, Row, StyledValue } from "src/@types/table";
+import { ComponentValue, ImageValue, Row, StyledValue } from "src/@types/table";
 
 export const getKeyValue = (
   obj: Row,
@@ -23,6 +23,12 @@ export const getKeyValue = (
     );
   }
 
+  if (isComponentValue(value)) {
+    const Component = value.component;
+
+    return <Component {...(value.props || {})} />;
+  }
+
   if (isStyledValue(value)) {
     return <span style={value.style}>{value.value}</span>;
   }
@@ -32,6 +38,10 @@ export const getKeyValue = (
 
 const isImageValue = (value: any): value is ImageValue => {
   return value?.type === "image";
+};
+
+const isComponentValue = (value: any): value is ComponentValue => {
+  return value?.type === "component";
 };
 
 const isStyledValue = (value: any): value is StyledValue => {

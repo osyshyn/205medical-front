@@ -19,7 +19,20 @@ export interface ImageValue {
   };
 }
 
-export type RowValue = string | number | StyledValue | ImageValue;
+export interface ComponentValue {
+  type: "component";
+  component: React.FC;
+  props?: {
+    [key: string]: string | number;
+  };
+}
+
+export type RowValue =
+  | string
+  | number
+  | StyledValue
+  | ImageValue
+  | ComponentValue;
 
 export interface Row {
   key: string;
