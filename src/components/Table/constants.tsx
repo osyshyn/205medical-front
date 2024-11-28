@@ -17,7 +17,6 @@ export const getKeyValue = (
           className="border-purple-lighter h-full w-full rounded-md border"
           src={value.src}
           alt={value.alt || "Image"}
-          style={value.style || {}}
         />
       </div>
     );

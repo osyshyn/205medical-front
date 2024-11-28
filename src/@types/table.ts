@@ -14,9 +14,6 @@ export interface ImageValue {
   type: "image";
   src: string;
   alt?: string;
-  style?: {
-    [key: string]: string | number;
-  };
 }
 
 export interface ComponentValue {

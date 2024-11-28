@@ -18,8 +18,12 @@ export const AllProducts: FC<Props> = ({ itemName }) => {
 
   return (
     <div className="max-w flex justify-center gap-3">
-      <Button onClick={onClickView} variant={ButtonVariants.SECONDARY_SQUARE}>View</Button>
-      <Button onClick={onClickAdd} variant={ButtonVariants.PRIMARY_SQUARE}>Add</Button>
+      <Button onClick={onClickView} variant={ButtonVariants.SECONDARY_SQUARE}>
+        View
+      </Button>
+      <Button onClick={onClickAdd} variant={ButtonVariants.PRIMARY_SQUARE}>
+        Add
+      </Button>
     </div>
   );
 };
