@@ -1,6 +1,6 @@
 import productImg from "src/components/AllProducts/temp/temp.png";
 import { Column, Row } from "src/@types/table";
-import { AllProducts } from "./ActionsButtons";
+import { ActionsButtons } from "./ActionsButtons";
 
 export const ALL_PRODUCTS_COLUMNS: Column[] = [
   { key: "image", label: "" },
@@ -26,7 +26,7 @@ export const ALL_PRODUCTS_DATA_TEMP: Row[] = Array.from(
     minimumOrder: Math.floor(Math.random() * 1000) + 1,
     actionButtons: {
       type: "component",
-      component: AllProducts,
+      component: ActionsButtons,
       props: {
         itemName: `Product Name ${i + 1}`,
         stockKeepingUnit: `12PAN-PCP-CU${i + 1}`,

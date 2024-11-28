@@ -7,7 +7,7 @@ interface Props {
   stockKeepingUnit: string;
 }
 
-export const AllProducts: FC<Props> = ({ itemName }) => {
+export const ActionsButtons: FC<Props> = ({ itemName }) => {
   const onClickView = () => {
     console.log("onClickView", itemName);
   };
