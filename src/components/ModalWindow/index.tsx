@@ -6,8 +6,6 @@ import { MODAL_ROOT_ELEMENT } from "src/constants/rootElements";
 import { Window } from "../Window";
 import { CloseButton } from "./CloseButton";
 
-// CHANGE - видалити зайві стилі тут та в темплейтах
-
 interface Props {
   children?: ReactNode;
   isOpen: boolean;
@@ -62,9 +60,9 @@ export const ModalWindow: FC<Props> = ({
   const component = (
     <div className={combinedOverlayClassNames}>
       <div ref={modalRef} className={combinedModalClassNames}>
-        <Window>
+        <Window className="shadow-modal-window relative">
           {isShownCloseButton && !isHasOutsideCloseButton && (
-            <div className="flex w-full justify-end">
+            <div className="absolute top-7.5 right-7.5 flex w-full justify-end">
               <CloseButton className={closeButtonClassName} onClose={onClose} />
             </div>
           )}

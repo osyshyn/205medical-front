@@ -67,6 +67,9 @@ module.exports = {
         20: "20px",
         30: "30px",
       },
+      boxShadow: {
+        'modal-window': '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+      },
       screens: {
         default: "0px",
         xs: "450px",
@@ -78,5 +81,15 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.bg-gradient-text': {
+          background: 'linear-gradient(to right, #9b74e7, #1e40af)',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+        },
+      });
+    },
+  ],
 };

@@ -4,4 +4,5 @@ export enum ButtonVariants {
   PRIMARY_SQUARE = "primary-square",
   SECONDARY_SQUARE = "secondary-square",
   WHITE = "white",
+  PRIMARY_GRADIENT = "primary-gradient",
 }

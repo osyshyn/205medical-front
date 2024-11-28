@@ -6,6 +6,7 @@ import { RenderFormFields } from "src/components/RenderFormFields";
 import { Window } from "src/components/Window";
 import { useActiveLocation } from "src/hooks/useActiveLocation";
 import useLocationStore from "src/stores/location-store";
+import { Sizes } from "src/@types/sizes";
 import {
   EDIT_LOCATION_FORM_FIELDS,
   EDIT_LOCATION_VALIDATION_SCHEMA,
@@ -48,6 +49,7 @@ export const EditLocation: FC = () => {
         <Button
           variant={isEdit ? ButtonVariants.SECONDARY : ButtonVariants.PRIMARY}
           onClick={toggleIsEdit}
+          size={Sizes.S}
         >
           Edit
         </Button>
@@ -69,6 +71,7 @@ export const EditLocation: FC = () => {
               className="mt-10"
               type="submit"
               variant={ButtonVariants.PRIMARY}
+              size={Sizes.S}
               isDisabled={isLoading}
               isLoading={isLoading}
             >
