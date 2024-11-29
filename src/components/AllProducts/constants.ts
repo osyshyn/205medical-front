@@ -11,8 +11,26 @@ export const ALL_PRODUCTS_COLUMNS: Column[] = [
   { key: "actionButtons", label: "" },
 ];
 
-export const ALL_PRODUCTS_DATA_TEMP = (onOpen: () => void): Row[] =>
-  Array.from({ length: 30 }, (_, i) => ({
+export const addActionButtons = (
+  productsData: Row[],
+  onClickView: () => void,
+  onClickAdd: () => void
+): Row[] =>
+  productsData.map((product) => ({
+    ...product,
+    actionButtons: {
+      type: "component",
+      component: ActionsButtons,
+      props: {
+        onClickView,
+        onClickAdd,
+      },
+    },
+  }));
+
+export const ALL_PRODUCTS_DATA_FROM_SERVER: Row[] = Array.from(
+  { length: 30 },
+  (_, i) => ({
     key: (i + 1).toString(),
     image: {
       type: "image",
@@ -23,12 +41,5 @@ export const ALL_PRODUCTS_DATA_TEMP = (onOpen: () => void): Row[] =>
     itemName: `Product Name ${i + 1}`,
     unitPrice: `$${(Math.random() * 100).toFixed(2)}`,
     minimumOrder: Math.floor(Math.random() * 1000) + 1,
-    actionButtons: {
-      type: "component",
-      component: ActionsButtons,
-      props: {
-        onClickView: onOpen,
-        onClickAdd: () => {},
-      },
-    },
-  }));
+  })
+);

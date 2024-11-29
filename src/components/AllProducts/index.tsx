@@ -6,7 +6,11 @@ import { Button } from "../Button";
 import { ButtonVariants } from "../Button/types";
 import { ProductDetail } from "../ProductDetail";
 import { Title } from "../Title";
-import { ALL_PRODUCTS_COLUMNS, ALL_PRODUCTS_DATA_TEMP } from "./constants";
+import {
+  addActionButtons,
+  ALL_PRODUCTS_COLUMNS,
+  ALL_PRODUCTS_DATA_FROM_SERVER,
+} from "./constants";
 
 export const AllProducts: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +22,16 @@ export const AllProducts: FC = () => {
   const onClose = () => {
     setIsOpen(false);
   };
+
+  const addToCart = () => {
+    console.log("addToCart");
+  };
+
+  const items = addActionButtons(
+    ALL_PRODUCTS_DATA_FROM_SERVER,
+    onOpen,
+    addToCart
+  );
 
   return (
     <Window>
@@ -36,10 +50,7 @@ export const AllProducts: FC = () => {
       <div className="scrollbar max-h-150 overflow-y-scroll">
         <Table ariaLabel="All product table">
           <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
-          <TableBody
-            items={ALL_PRODUCTS_DATA_TEMP(onOpen)}
-            columns={ALL_PRODUCTS_COLUMNS}
-          />
+          <TableBody items={items} columns={ALL_PRODUCTS_COLUMNS} />
         </Table>
       </div>
 

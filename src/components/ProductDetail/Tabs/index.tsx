@@ -20,6 +20,7 @@ export const Tabs: FC = () => {
       <div className="flex gap-1.5">
         {tabs.map((tab) => (
           <Button
+            key={tab.slug}
             onClick={() => onClickTab(tab)}
             variant={
               tab.slug === visbleTab.slug
