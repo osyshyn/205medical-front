@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ModalWindow } from "src/components/ModalWindow";
@@ -7,16 +7,19 @@ import { PRODUCT_TEMP } from "../temp/constants";
 import { PropertiesCard } from "./PropertiesCard";
 import { Tabs } from "./Tabs";
 
-export const ProductDetail: FC = () => {
-  const { name, description, price, image } = PRODUCT_TEMP;
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const [isOpen, setIsOpen] = useState(true);
+export const ProductDetail: FC<Props> = ({ isOpen, onClose }) => {
+  const { name, description, price, image } = PRODUCT_TEMP;
 
   return (
     <ModalWindow
       className="w-3/4"
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={onClose}
       isActivePortal
     >
       <div className="flex gap-5">
@@ -28,7 +31,9 @@ export const ProductDetail: FC = () => {
           <div className="flex flex-col gap-3">
             <div>
               <p className="text-22 font-semibold uppercase">{name}</p>
-              <p className="text-black-soft font-medium line-clamp-1">{description}</p>
+              <p className="text-black-soft line-clamp-1 font-medium">
+                {description}
+              </p>
             </div>
 
             <span className="text-2xl font-semibold bg-gradient-text">

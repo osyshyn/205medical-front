@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Window } from "src/components/Window";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
@@ -9,6 +9,16 @@ import { ALL_PRODUCTS_COLUMNS, ALL_PRODUCTS_DATA_TEMP } from "./constants";
 import { ProductDetail } from "./ProductDetail";
 
 export const AllProducts: FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <Window>
       <div className="flex items-start justify-between">
@@ -27,13 +37,13 @@ export const AllProducts: FC = () => {
         <Table ariaLabel="All product table">
           <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
           <TableBody
-            items={ALL_PRODUCTS_DATA_TEMP}
+            items={ALL_PRODUCTS_DATA_TEMP(onOpen)}
             columns={ALL_PRODUCTS_COLUMNS}
           />
         </Table>
       </div>
 
-      <ProductDetail />
+      <ProductDetail isOpen={isOpen} onClose={onClose} />
     </Window>
   );
 };

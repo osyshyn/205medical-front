@@ -47,9 +47,8 @@ export const ALL_PRODUCTS_COLUMNS: Column[] = [
   { key: "actionButtons", label: "" },
 ];
 
-export const ALL_PRODUCTS_DATA_TEMP: Row[] = Array.from(
-  { length: 30 },
-  (_, i) => ({
+export const ALL_PRODUCTS_DATA_TEMP = (onOpen: () => void): Row[] =>
+  Array.from({ length: 30 }, (_, i) => ({
     key: (i + 1).toString(),
     image: {
       type: "image",
@@ -64,9 +63,8 @@ export const ALL_PRODUCTS_DATA_TEMP: Row[] = Array.from(
       type: "component",
       component: ActionsButtons,
       props: {
-        itemName: `Product Name ${i + 1}`,
-        stockKeepingUnit: `12PAN-PCP-CU${i + 1}`,
+        onClickView: onOpen,
+        onClickAdd: () => {},
       },
     },
-  })
-);
+  }));
