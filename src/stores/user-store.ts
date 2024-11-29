@@ -11,7 +11,7 @@ interface IUserStore {
   type: TypesUsers;
   name: string;
   logo: string;
-  getUser: () => void;
+  getUser: (isAuthorized: boolean) => void;
   isAuthorized: boolean;
   isLoading: boolean;
 }
@@ -23,7 +23,7 @@ const useUserStore = create(
     logo: logo,
     isAuthorized: false,
     isLoading: true,
-    getUser: async () => {
+    getUser: async (isAuthorized) => {
       try {
         set({ isLoading: true });
 
@@ -37,7 +37,7 @@ const useUserStore = create(
           setTimeout(() => resolve(false), 3000)
         );
 
-        set({ isAuthorized: Boolean(data) });
+        set({ isAuthorized: isAuthorized });
         set({ isLoading: false });
 
         return data;

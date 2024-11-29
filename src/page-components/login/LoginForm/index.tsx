@@ -25,7 +25,7 @@ export const LoginForm: FC = () => {
     validationSchema: AUTH_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
       login(values, () => {
-        getUser();
+        getUser(true);
         navigate(PATHNAMES.DASHBOARD);
       });
     },

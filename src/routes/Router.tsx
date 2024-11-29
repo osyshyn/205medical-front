@@ -69,7 +69,7 @@ const AppRoutes: FC = () => {
   const getUser = useUserStore((state) => state.getUser);
 
   useEffect(() => {
-    getUser();
+    getUser(false);
   }, [getUser]);
 
   return useRoutes(ROUTES);
