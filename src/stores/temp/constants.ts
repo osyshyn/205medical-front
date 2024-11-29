@@ -4,7 +4,7 @@ import {
   IOrder,
   IStatusesApproval,
   IStatusesShip,
-} from "src/@types/user";
+} from "src/@types/users";
 
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { ILocation } from "src/@types/user";
+import { ILocation } from "src/@types/users";
 import { fakeLocations } from "./temp/api/locations";
 
 interface ILocationStore {

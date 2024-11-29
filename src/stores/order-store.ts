@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { IOrder } from "src/@types/user";
+import { IOrder } from "src/@types/users";
 import { ORDER_DATA } from "./temp/constants";
 
 interface IOrderStore {

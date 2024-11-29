@@ -11,7 +11,7 @@ import {
 } from "src/components/Table";
 import { Window } from "src/components/Window";
 import useOrderStore from "src/stores/order-store";
-import { IOrder } from "src/@types/user";
+import { IOrder } from "src/@types/users";
 import {
   ORDER_COLUMNS,
   ORDER_SORT_OPTIONS,

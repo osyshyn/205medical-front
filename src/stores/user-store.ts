@@ -1,24 +1,25 @@
 import Cookies from "js-cookie";
-import { instance } from "src/services/api-client";
+// import { instance } from "src/services/api-client";
 import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { Users } from "src/@types/user";
+import { TypesUsers } from "src/@types/users";
 import logo from "./temp/temp_logo.png";
 
 interface IUserStore {
-  type: Users;
+  type: TypesUsers;
   name: string;
   logo: string;
   getClient: () => void;
   isAuthorized: boolean;
+  isLoading: boolean;
 }
 
 const useUserStore = create(
   devtools<IUserStore>((set) => ({
-    type: Users.SUB_USER,
+    type: TypesUsers.SUB_USER,
     name: "Japp",
     logo: logo,
     getClient: async () => {
@@ -43,6 +44,7 @@ const useUserStore = create(
       }
     },
     isAuthorized: false,
+    isLoading: false,
   }))
 );
 

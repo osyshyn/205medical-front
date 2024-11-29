@@ -1,4 +1,4 @@
-import { ILocation } from "src/@types/user";
+import { ILocation } from "src/@types/users";
 import { LOCATION_DATA } from "../constants";
 
 const DATA_NAME = "Locations";
