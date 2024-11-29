@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
+import { ScreenLoader } from "../Loader/ScreenLoader";
 import { ONLY_FOR, OnlyFor } from "./types";
 
 // import { ScreenLoader } from "../Loader/ScreenLoader";
@@ -25,7 +26,7 @@ export const PrivateRoute = ({
 
   const isUserSubUser = isAuthorized && userType === SUB_USER;
 
-  if (isLoading) return <p className="text-black-base">Loading...</p>;
+  if (isLoading) return <ScreenLoader />;
 
   if (isUserSubUser && onlyFor === SUB_USER) {
     return <Component />;
