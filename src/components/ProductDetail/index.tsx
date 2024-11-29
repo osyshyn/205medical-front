@@ -3,7 +3,7 @@ import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ModalWindow } from "src/components/ModalWindow";
 import { Sizes } from "src/@types/sizes";
-import { PRODUCT_TEMP } from "../temp/constants";
+import { PRODUCT_TEMP } from "../AllProducts/temp/constants";
 import { PropertiesCard } from "./PropertiesCard";
 import { Tabs } from "./Tabs";
 

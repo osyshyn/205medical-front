@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { getProperties } from "../../constants";
-import { PRODUCT_TEMP } from "../../temp/constants";
+import { PRODUCT_TEMP } from "src/components/AllProducts/temp/constants";
+import { getProperties } from "../constants";
 import { Property } from "./Property";
 
 export const PropertiesCard: FC = () => {

@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
+import { PRODUCT_TEMP } from "src/components/AllProducts/temp/constants";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { Sizes } from "src/@types/sizes";
-import { PRODUCT_TEMP } from "../../temp/constants";
 import { getTabs } from "../constants";
 import { ITab } from "./types";
 

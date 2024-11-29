@@ -4,9 +4,9 @@ import { Window } from "src/components/Window";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { Button } from "../Button";
 import { ButtonVariants } from "../Button/types";
+import { ProductDetail } from "../ProductDetail";
 import { Title } from "../Title";
 import { ALL_PRODUCTS_COLUMNS, ALL_PRODUCTS_DATA_TEMP } from "./constants";
-import { ProductDetail } from "./ProductDetail";
 
 export const AllProducts: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
