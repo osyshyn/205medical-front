@@ -1,6 +1,8 @@
 export const PATHNAMES = {
   HOME: "/",
 
+  LOGIN: "/login",
+
   DASHBOARD: "/dashboard",
 
   CREATE_ORDER: "/create-order",
