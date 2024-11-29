@@ -44,6 +44,18 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
     label: "Products",
     href: PATHNAMES.PRODUCT,
     iconActive: ProductActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Purchase History",
+        href: PATHNAMES.PRODUCT_HISTORY,
+      },
+      {
+        id: 2,
+        label: "Purchases by Product",
+        href: PATHNAMES.PRODUCT_PURCHASES,
+      },
+    ],
   },
   {
     id: 4,

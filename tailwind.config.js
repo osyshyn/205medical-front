@@ -12,6 +12,7 @@ module.exports = {
         purple: {
           base: "#5932EA",
           ligth: "#EAABF0",
+          lighter: "#E7E2FC",
         },
         blue: {
           base: "#4623E9",
@@ -57,10 +58,17 @@ module.exports = {
       minWidth: {
         62.5: "250px",
       },
+      maxHeight: {
+        127.5: "510px",
+        150: "600px",
+      },
       borderRadius: {
         4: "4px",
         20: "20px",
         30: "30px",
+      },
+      boxShadow: {
+        'modal-window': '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
       },
       screens: {
         default: "0px",
@@ -73,5 +81,15 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.bg-gradient-text': {
+          background: 'linear-gradient(to right, #9b74e7, #1e40af)',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+        },
+      });
+    },
+  ],
 };

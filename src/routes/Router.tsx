@@ -6,6 +6,9 @@ import {
   Location,
   NotFound,
   OrderAlerts,
+  Products,
+  ProductsHistory,
+  ProductsPurchases,
 } from "src/pages";
 import { PATHNAMES } from "src/constants/routes";
 
@@ -29,6 +32,18 @@ const ROUTES = [
   {
     element: <Location />,
     path: PATHNAMES.LOCATION_SLUG,
+  },
+  {
+    element: <Products />,
+    path: PATHNAMES.PRODUCT,
+  },
+  {
+    element: <ProductsHistory />,
+    path: PATHNAMES.PRODUCT_HISTORY,
+  },
+  {
+    element: <ProductsPurchases />,
+    path: PATHNAMES.PRODUCT_PURCHASES,
   },
   {
     element: <NotFound />,

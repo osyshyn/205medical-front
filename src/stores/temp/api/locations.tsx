@@ -18,7 +18,15 @@ class Data {
   private load(): ILocation[] {
     const items = localStorage.getItem(SAVE_KEY);
     console.log(`Loading ${DATA_NAME} from localStorage`);
-    return items ? JSON.parse(items) : LOCATION_DATA;
+
+    try {
+      const parsedItems = items ? JSON.parse(items) : null;
+      return Array.isArray(parsedItems) && parsedItems.length > 0
+        ? parsedItems
+        : LOCATION_DATA;
+    } catch {
+      return LOCATION_DATA;
+    }
   }
 
   private save(): void {
@@ -110,4 +118,4 @@ class Data {
 
 export const fakeLocations = new Data();
 
-// fakeLocations.clear(); 
+// fakeLocations.clear();
