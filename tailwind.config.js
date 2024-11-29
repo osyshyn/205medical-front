@@ -28,6 +28,7 @@ module.exports = {
         black: {
           base: "#000000",
           ligth: "#292D32",
+          soft: "#5F5F67",
         },
         green: {
           base: "#008767",

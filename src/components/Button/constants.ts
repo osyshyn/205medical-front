@@ -17,8 +17,10 @@ export const BUTTON_STYLE_VARIANTS = {
     "bg-purple-base text-white-base text-sm rounded px-6 py-1",
   [ButtonVariants.SECONDARY_SQUARE]:
     "bg-white-base border border-purple-base text-purple-base text-sm rounded px-6 py-1",
-  [ButtonVariants.PRIMARY_GRADIENT]:
-    "to-blue-base rounded-20 bg-gradient-to-r from-purple-ligth text-white-base",
+  [ButtonVariants.PRIMARY_GRADIENT]: cn(
+    "to-blue-base bg-gradient-to-r from-purple-ligth text-white-base",
+    DEFAULT_BUTTON_CLASSNAME
+  ),
   [ButtonVariants.WHITE]:
     "rounded-xl border border-gray-medium bg-white-base font-semibold text-xs uppercase",
 };
