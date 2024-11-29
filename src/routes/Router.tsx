@@ -66,11 +66,11 @@ const ROUTES = [
 ];
 
 const AppRoutes: FC = () => {
-  const getClient = useUserStore((state) => state.getClient);
+  const getUser = useUserStore((state) => state.getUser);
 
   useEffect(() => {
-    getClient();
-  }, [getClient]);
+    getUser();
+  }, [getUser]);
 
   return useRoutes(ROUTES);
 };
