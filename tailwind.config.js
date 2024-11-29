@@ -47,6 +47,7 @@ module.exports = {
       },
       lineHeight: {},
       spacing: {
+        4.5: "18px",
         7.5: "30px",
         10.75: "43px",
         15: "60px",
@@ -69,6 +70,10 @@ module.exports = {
       },
       boxShadow: {
         'modal-window': '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+      },
+      backgroundImage: {
+        "login-banner":
+          "url('/src/assets/images/login/bg.png')",
       },
       screens: {
         default: "0px",

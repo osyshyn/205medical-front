@@ -34,17 +34,15 @@ export const LoginForm: FC = () => {
   const formik = useFormik(formikProps);
 
   return (
-    <div className="mt-15">
-      <h3>Sign In</h3>
-
+    <div className="mt-6 w-full">
       <FormikProvider value={formik}>
-        <Form className="mt-10">
+        <Form>
           <div className="flex flex-col gap-6">
             <RenderFormFields fields={AUTH_FORM_FIELDS} />
           </div>
 
           <Button
-            className="mt-12 w-full"
+            className="mt-6 w-full text-lg rounded-30"
             size={Sizes.S}
             variant={ButtonVariants.PRIMARY}
             type="submit"

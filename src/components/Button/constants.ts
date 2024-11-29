@@ -2,8 +2,7 @@ import cn from "classnames";
 import { Sizes } from "src/@types/sizes";
 import { ButtonVariants } from "./types";
 
-const DEFAULT_BUTTON_CLASSNAME =
-  "rounded-20 text-sm font-semibold";
+const DEFAULT_BUTTON_CLASSNAME = "rounded-20 text-sm font-semibold";
 
 export const BUTTON_STYLE_VARIANTS = {
   [ButtonVariants.PRIMARY]: cn(
