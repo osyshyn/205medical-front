@@ -18,6 +18,8 @@ import { IFormikValues } from "./types";
 export const LoginForm: FC = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
+
   const getUser = useUserStore((state) => state.getUser);
 
   const formikProps: FormikConfig<IFormikValues> = {
@@ -42,10 +44,12 @@ export const LoginForm: FC = () => {
           </div>
 
           <Button
-            className="mt-6 w-full text-lg rounded-30"
+            className="mt-6 w-full rounded-30 text-lg"
             size={Sizes.S}
             variant={ButtonVariants.PRIMARY}
             type="submit"
+            isDisabled={isLoading}
+            isLoading={isLoading}
           >
             Sign In
           </Button>
