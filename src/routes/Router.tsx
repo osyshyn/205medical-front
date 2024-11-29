@@ -11,6 +11,8 @@ import {
   ProductsHistory,
   ProductsPurchases,
 } from "src/pages";
+import { PrivateRoute } from "src/components/PrivateRoute";
+import { ONLY_FOR } from "src/components/PrivateRoute/types";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 
@@ -20,35 +22,41 @@ const ROUTES = [
     element: <Navigate to={PATHNAMES.DASHBOARD} replace />,
   },
   {
-    element: <Login />,
+    element: (
+      <PrivateRoute
+        onlyFor={ONLY_FOR.UNAUTHORIZED}
+        component={Login}
+        redirectUrl={PATHNAMES.DASHBOARD}
+      />
+    ),
     path: PATHNAMES.LOGIN,
   },
   {
-    element: <Dashboard />,
+    element: <PrivateRoute component={Dashboard} />,
     path: PATHNAMES.DASHBOARD,
   },
   {
-    element: <CreateOrder />,
+    element: <PrivateRoute component={CreateOrder} />,
     path: PATHNAMES.CREATE_ORDER,
   },
   {
-    element: <OrderAlerts />,
+    element: <PrivateRoute component={OrderAlerts} />,
     path: PATHNAMES.ORDER_ALERTS,
   },
   {
-    element: <Location />,
+    element: <PrivateRoute component={Location} />,
     path: PATHNAMES.LOCATION_SLUG,
   },
   {
-    element: <Products />,
+    element: <PrivateRoute component={Products} />,
     path: PATHNAMES.PRODUCT,
   },
   {
-    element: <ProductsHistory />,
+    element: <PrivateRoute component={ProductsHistory} />,
     path: PATHNAMES.PRODUCT_HISTORY,
   },
   {
-    element: <ProductsPurchases />,
+    element: <PrivateRoute component={ProductsPurchases} />,
     path: PATHNAMES.PRODUCT_PURCHASES,
   },
   {

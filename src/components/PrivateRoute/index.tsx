@@ -15,7 +15,7 @@ interface Props {
 export const PrivateRoute = ({
   component: Component,
   onlyFor = ONLY_FOR.AUTHORIZED,
-  redirectUrl = PATHNAMES.HOME,
+  redirectUrl = PATHNAMES.LOGIN,
 }: Props) => {
   const isAuthorized = useUserStore((state) => state.isAuthorized);
   const userType = useUserStore((state) => state.type);
@@ -25,7 +25,7 @@ export const PrivateRoute = ({
 
   const isUserSubUser = isAuthorized && userType === SUB_USER;
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <p className="text-black-base">Loading...</p>;
 
   if (isUserSubUser && onlyFor === SUB_USER) {
     return <Component />;
