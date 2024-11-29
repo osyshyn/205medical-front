@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router";
-import useUserStore from "src/stores/user-store";
+import useLocationStore from "src/stores/location-store";
 import { PATHNAMES } from "src/constants/routes";
 
 export const useActiveLocation = () => {
-  const locations = useUserStore((state) => state.locations);
+  const locations = useLocationStore((state) => state.locations);
   const { slug } = useParams<{ slug?: string }>();
   const navigate = useNavigate();
 

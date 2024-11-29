@@ -13,7 +13,7 @@ import { ReactComponent as SettingsActiveIcon } from "src/assets/icons/sidebar/n
 import { ReactComponent as SettingsIcon } from "src/assets/icons/sidebar/navigation/settings.svg";
 import { ReactComponent as ShipmentsActiveIcon } from "src/assets/icons/sidebar/navigation/shipments-active.svg";
 import { ReactComponent as ShipmentsIcon } from "src/assets/icons/sidebar/navigation/shipments.svg";
-import { Users } from "src/@types/user";
+import { TypesUsers } from "src/@types/users";
 import { INavigationItem } from "./types";
 
 const SUB_USER_NAV_ITEMS: INavigationItem[] = [
@@ -44,6 +44,18 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
     label: "Products",
     href: PATHNAMES.PRODUCT,
     iconActive: ProductActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Purchase History",
+        href: PATHNAMES.PRODUCT_HISTORY,
+      },
+      {
+        id: 2,
+        label: "Purchases by Product",
+        href: PATHNAMES.PRODUCT_PURCHASES,
+      },
+    ],
   },
   {
     id: 4,
@@ -78,8 +90,8 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
 const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [];
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
 
-export const USER_NAV_ITEMS: Record<Users, INavigationItem[]> = {
-  [Users.SUB_USER]: SUB_USER_NAV_ITEMS,
-  [Users.CLIENT_ADMIN]: CLIENT_ADMIN_NAV_ITEMS,
-  [Users.MEDICAL]: MEDICAL_NAV_ITEMS,
+export const USER_NAV_ITEMS: Record<TypesUsers, INavigationItem[]> = {
+  [TypesUsers.SUB_USER]: SUB_USER_NAV_ITEMS,
+  [TypesUsers.CLIENT_ADMIN]: CLIENT_ADMIN_NAV_ITEMS,
+  [TypesUsers.MEDICAL]: MEDICAL_NAV_ITEMS,
 };

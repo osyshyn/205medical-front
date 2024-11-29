@@ -1,57 +1,49 @@
+// import Cookies from "js-cookie";
+// import { instance } from "src/services/api-client";
+// import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { NotificationService } from "src/helpers/notifications";
-import { ILocation, IOrder, Users } from "src/@types/user";
-import { fakeLocations } from "./temp/api/locations";
-import { ORDER_DATA } from "./temp/constants";
+// import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
+import { TypesUsers } from "src/@types/users";
 import logo from "./temp/temp_logo.png";
 
 interface IUserStore {
-  type: Users;
+  type: TypesUsers;
   name: string;
   logo: string;
-  recent_orders: IOrder[];
-  locations: ILocation[];
-  updateLocation: (updatedLocation: ILocation, onSuccess: VoidFunction) => void;
-  loadLocation: () => void;
+  getUser: (isAuthorized: boolean) => void;
+  isAuthorized: boolean;
+  isLoading: boolean;
 }
 
 const useUserStore = create(
   devtools<IUserStore>((set) => ({
-    type: Users.SUB_USER,
+    type: TypesUsers.SUB_USER,
     name: "Japp",
     logo: logo,
-    recent_orders: ORDER_DATA,
-    locations: [],
-    updateLocation: async (updatedLocation: ILocation) => {
-      const toastId = NotificationService.loading();
-
+    isAuthorized: false,
+    isLoading: true,
+    getUser: async (isAuthorized) => {
       try {
-        const updatedData = await fakeLocations.update(
-          updatedLocation.slug,
-          updatedLocation
+        set({ isLoading: true });
+
+        // const refreshToken = Cookies.get(AUTH_REFRESH_TOKEN);
+        // const isRefreshTokenExpired = isTokenExpired(refreshToken);
+
+        // if (isRefreshTokenExpired) return null;
+
+        // const { data } = await instance.get("/user/getUser");
+        const data = await new Promise((resolve) =>
+          setTimeout(() => resolve(false), 3000)
         );
 
-        set((state) => ({
-          locations: state.locations.map((location) =>
-            location.slug === updatedLocation.slug ? updatedData : location
-          ),
-        }));
+        set({ isAuthorized: isAuthorized });
+        set({ isLoading: false });
 
-        NotificationService.updateToSuccess(toastId);
-      } catch (error) {
-        NotificationService.updateToError(toastId);
-      }
-    },
-    loadLocation: async () => {
-      try {
-        const loadData = await fakeLocations.getAll();
-
-        set(() => ({
-          locations: loadData,
-        }));
-      } catch (error) {
-        NotificationService.error();
+        return data;
+      } catch {
+        set({ isAuthorized: false });
+        set({ isLoading: false });
       }
     },
   }))

@@ -12,6 +12,7 @@ module.exports = {
         purple: {
           base: "#5932EA",
           ligth: "#EAABF0",
+          lighter: "#E7E2FC",
         },
         blue: {
           base: "#4623E9",
@@ -27,6 +28,7 @@ module.exports = {
         black: {
           base: "#000000",
           ligth: "#292D32",
+          soft: "#5F5F67",
         },
         green: {
           base: "#008767",
@@ -46,6 +48,7 @@ module.exports = {
       },
       lineHeight: {},
       spacing: {
+        4.5: "18px",
         7.5: "30px",
         10.75: "43px",
         15: "60px",
@@ -57,10 +60,21 @@ module.exports = {
       minWidth: {
         62.5: "250px",
       },
+      maxHeight: {
+        127.5: "510px",
+        150: "600px",
+      },
       borderRadius: {
         4: "4px",
         20: "20px",
         30: "30px",
+      },
+      boxShadow: {
+        'modal-window': '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+      },
+      backgroundImage: {
+        "login-banner":
+          "url('/src/assets/images/login/bg.png')",
       },
       screens: {
         default: "0px",
@@ -73,5 +87,15 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.bg-gradient-text': {
+          background: 'linear-gradient(to right, #9b74e7, #1e40af)',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+        },
+      });
+    },
+  ],
 };

@@ -1,12 +1,17 @@
 export const PATHNAMES = {
   HOME: "/",
 
+  LOGIN: "/login",
+
   DASHBOARD: "/dashboard",
 
   CREATE_ORDER: "/create-order",
   ORDER_ALERTS: "/create-order/order-alerts",
 
   PRODUCT: "/product",
+  PRODUCT_HISTORY: "/product/history",
+  PRODUCT_PURCHASES: "/product/purchases",
+
   SHIPMENTS: "/shipments",
 
   LOCATION: "/location",

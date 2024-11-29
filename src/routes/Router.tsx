@@ -1,12 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import {
   CreateOrder,
   Dashboard,
   Location,
+  Login,
   NotFound,
   OrderAlerts,
+  Products,
+  ProductsHistory,
+  ProductsPurchases,
 } from "src/pages";
+import { PrivateRoute } from "src/components/PrivateRoute";
+import { ONLY_FOR } from "src/components/PrivateRoute/types";
+import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 
 const ROUTES = [
@@ -15,20 +22,42 @@ const ROUTES = [
     element: <Navigate to={PATHNAMES.DASHBOARD} replace />,
   },
   {
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute
+        onlyFor={ONLY_FOR.UNAUTHORIZED}
+        component={Login}
+        redirectUrl={PATHNAMES.DASHBOARD}
+      />
+    ),
+    path: PATHNAMES.LOGIN,
+  },
+  {
+    element: <PrivateRoute component={Dashboard} />,
     path: PATHNAMES.DASHBOARD,
   },
   {
-    element: <CreateOrder />,
+    element: <PrivateRoute component={CreateOrder} />,
     path: PATHNAMES.CREATE_ORDER,
   },
   {
-    element: <OrderAlerts />,
+    element: <PrivateRoute component={OrderAlerts} />,
     path: PATHNAMES.ORDER_ALERTS,
   },
   {
-    element: <Location />,
+    element: <PrivateRoute component={Location} />,
     path: PATHNAMES.LOCATION_SLUG,
+  },
+  {
+    element: <PrivateRoute component={Products} />,
+    path: PATHNAMES.PRODUCT,
+  },
+  {
+    element: <PrivateRoute component={ProductsHistory} />,
+    path: PATHNAMES.PRODUCT_HISTORY,
+  },
+  {
+    element: <PrivateRoute component={ProductsPurchases} />,
+    path: PATHNAMES.PRODUCT_PURCHASES,
   },
   {
     element: <NotFound />,
@@ -37,6 +66,12 @@ const ROUTES = [
 ];
 
 const AppRoutes: FC = () => {
+  const getUser = useUserStore((state) => state.getUser);
+
+  useEffect(() => {
+    getUser(false);
+  }, [getUser]);
+
   return useRoutes(ROUTES);
 };
 

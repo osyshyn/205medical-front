@@ -1,6 +1,6 @@
 import { Row, StyledValue } from "src/@types/table";
 
-export enum Users {
+export enum TypesUsers {
   SUB_USER = "sub-user",
   CLIENT_ADMIN = "client-admin",
   MEDICAL = "medical",

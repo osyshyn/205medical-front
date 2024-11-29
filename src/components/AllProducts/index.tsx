@@ -1,0 +1,60 @@
+import React, { FC, useState } from "react";
+import { Table, TableBody, TableHeader } from "src/components/Table";
+import { Window } from "src/components/Window";
+import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
+import { Button } from "../Button";
+import { ButtonVariants } from "../Button/types";
+import { ProductDetail } from "../ProductDetail";
+import { Title } from "../Title";
+import {
+  addActionButtons,
+  ALL_PRODUCTS_COLUMNS,
+  ALL_PRODUCTS_DATA_FROM_SERVER,
+} from "./constants";
+
+export const AllProducts: FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const addToCart = () => {
+    console.log("addToCart");
+  };
+
+  const items = addActionButtons(
+    ALL_PRODUCTS_DATA_FROM_SERVER,
+    onOpen,
+    addToCart
+  );
+
+  return (
+    <Window>
+      <div className="flex items-start justify-between">
+        <Title
+          title="All Products"
+          subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
+        />
+
+        <Button className="gap-2.5 px-4 py-2.5" variant={ButtonVariants.WHITE}>
+          <FilterIcon />
+          <span>Filter</span>
+        </Button>
+      </div>
+
+      <div className="scrollbar max-h-150 overflow-y-scroll">
+        <Table ariaLabel="All product table">
+          <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
+          <TableBody items={items} columns={ALL_PRODUCTS_COLUMNS} />
+        </Table>
+      </div>
+
+      <ProductDetail isOpen={isOpen} onClose={onClose} />
+    </Window>
+  );
+};

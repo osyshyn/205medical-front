@@ -10,7 +10,28 @@ export interface StyledValue {
   value: string;
 }
 
+export interface ImageValue {
+  type: "image";
+  src: string;
+  alt?: string;
+}
+
+export interface ComponentValue {
+  type: "component";
+  component: React.FC<{ [key: string]: any }>;
+  props?: {
+    [key: string]: string | number | VoidFunction;
+  };
+}
+
+export type RowValue =
+  | string
+  | number
+  | StyledValue
+  | ImageValue
+  | ComponentValue;
+
 export interface Row {
   key: string;
-  [key: string]: string | StyledValue;
+  [key: string]: RowValue;
 }

@@ -1,33 +1,73 @@
-import {
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
-import { ACCES_TOKEN } from "src/constants/cookiesKeys";
+import { ACCESS_TOKEN, AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
 import { UNAUTHORIZED_STATUS_CODE_401 } from "src/constants/httpStatuses";
-import { PATHNAMES } from "src/constants/routes";
-import { history } from "./history";
 
-// AxiosRequestConfig
-export const addAuthToken = (config) => {
-  const token = Cookies.get(ACCES_TOKEN);
+//  not secure, client-side use only
+export const isTokenExpired = (token: string) => {
+  if (!token) return true;
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const tokenPayloadStr = token.split(".")[1];
+    const tokenPayload = JSON.parse(atob(tokenPayloadStr));
+    return Math.floor(new Date().getTime() / 1000) > tokenPayload?.exp;
+  } catch (error) {
+    return true;
+  }
+};
+
+export const addAccessToken = (config: InternalAxiosRequestConfig) => {
+  const access = Cookies.get(ACCESS_TOKEN);
+  const refresh = Cookies.get(AUTH_REFRESH_TOKEN);
+
+  const isRefreshTokenExpired = isTokenExpired(refresh);
+
+  if (access && !isRefreshTokenExpired) {
+    config.headers.Authorization = `Bearer ${access}`;
   }
 
   return config;
 };
 
-export const removeAuthToken = (error: AxiosError) => {
-  if (error.response.status === UNAUTHORIZED_STATUS_CODE_401) {
-    Cookies.remove(ACCES_TOKEN);
+let accessTokenPromise: Promise<string>;
 
-    // if (!history.location.pathname.includes(PATHNAMES.AUTH)) {
-    //   history.push(PATHNAMES.AUTH);
-    // }
+export const updateAccessToken = async (error: AxiosError) => {
+  if (error.response?.status !== UNAUTHORIZED_STATUS_CODE_401) {
+    return Promise.reject(error);
   }
 
-  return Promise.reject(error);
+  if (!accessTokenPromise) {
+    accessTokenPromise = fetchAccessToken().then((token) => {
+      accessTokenPromise = null;
+      return token;
+    });
+  }
+
+  const token = await accessTokenPromise;
+  if (!token) return Promise.reject(error);
+
+  Cookies.set(ACCESS_TOKEN, token);
+
+  const config = addAccessToken(error.config);
+  return axios(config);
+};
+
+const fetchAccessToken = async () => {
+  const refresh = Cookies.get(AUTH_REFRESH_TOKEN);
+  const isRefreshTokenExpired = isTokenExpired(refresh);
+
+  if (!refresh || isRefreshTokenExpired) return null;
+
+  try {
+    const { data } = await axios.post<{ access: string }>(
+      "/token/refresh/",
+      { refresh },
+      { baseURL: process.env.REACT_APP_API_URL }
+    );
+    return data.access;
+  } catch (error) {
+    Cookies.remove(ACCESS_TOKEN);
+    Cookies.remove(AUTH_REFRESH_TOKEN);
+    return null;
+  }
 };

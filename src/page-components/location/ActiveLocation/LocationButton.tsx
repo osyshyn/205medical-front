@@ -5,7 +5,7 @@ import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as ArrowGrayIcon } from "src/assets/icons/arrow-gray.svg";
 import { ReactComponent as ArrowPurpleIcon } from "src/assets/icons/arrow-purple.svg";
-import { ILocation } from "src/@types/user";
+import { ILocation } from "src/@types/users";
 
 interface Props {
   isActive: boolean;

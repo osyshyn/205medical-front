@@ -10,18 +10,18 @@ import {
   TableHeader,
 } from "src/components/Table";
 import { Window } from "src/components/Window";
+import useOrderStore from "src/stores/order-store";
+import { IOrder } from "src/@types/users";
 import {
   ORDER_COLUMNS,
   ORDER_SORT_OPTIONS,
   ORDERS_PER_PAGE,
 } from "./constants";
-import { IOrder } from "src/@types/user";
-import useUserStore from "src/stores/user-store";
 
 const DEBOUNCE_DELAY = 1000;
 
 export const RecentOrders: FC = () => {
-  const orders = useUserStore((state) => state.recent_orders)
+  const orders = useOrderStore((state) => state.recent_orders);
 
   const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
