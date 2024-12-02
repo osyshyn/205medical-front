@@ -5,7 +5,7 @@ import { IRenderFormField } from "src/@types/form";
 
 export const EDIT_LOCATION_FORM_FIELDS: IRenderFormField[] = [
   {
-    name: "location_name",
+    name: "name",
     type: "text",
     label: "Location Name",
     component: TextInput,
@@ -43,7 +43,7 @@ export const EDIT_LOCATION_FORM_FIELDS: IRenderFormField[] = [
 ];
 
 export const EDIT_LOCATION_VALIDATION_SCHEMA = Yup.object().shape({
-  location_name: LENGTH_VALIDATION(5, 50),
+  name: LENGTH_VALIDATION(5, 50),
   address_1: LENGTH_VALIDATION(10, 50),
   address_2: LENGTH_VALIDATION(10, 50),
 });

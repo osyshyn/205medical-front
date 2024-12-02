@@ -1,4 +1,4 @@
-import { ILocation } from "src/@types/users";
+import { ILocation } from "src/@types/location";
 
 export type IFormikValues = Omit<
   ILocation,

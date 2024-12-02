@@ -5,7 +5,7 @@ import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as ArrowGrayIcon } from "src/assets/icons/arrow-gray.svg";
 import { ReactComponent as ArrowPurpleIcon } from "src/assets/icons/arrow-purple.svg";
-import { ILocation } from "src/@types/users";
+import { ILocation } from "src/@types/location";
 
 interface Props {
   isActive: boolean;
@@ -14,7 +14,7 @@ interface Props {
 
 export const LocationButton: FC<Props> = ({
   isActive,
-  location: { location_name, slug },
+  location: { name, slug },
 }) => (
   <Link
     className={cn("flex justify-between gap-5 border-b pb-3.5 pt-2.5", {
@@ -27,7 +27,7 @@ export const LocationButton: FC<Props> = ({
         "text-purple-base": isActive,
       })}
     >
-      {location_name}
+      {name}
     </span>
 
     {isActive ? <ArrowPurpleIcon /> : <ArrowGrayIcon />}

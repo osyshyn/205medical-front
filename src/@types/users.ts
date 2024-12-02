@@ -41,17 +41,3 @@ export interface IOrder extends Row {
   shipStatus: StyledValue;
   customerPO: string;
 }
-
-export interface ILocation {
-  slug: string;
-  location_name: string;
-  address_1: string;
-  address_2: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  contact_name: string;
-  contact_email: string;
-  buyer_name: string;
-  buyer_email: string;
-}

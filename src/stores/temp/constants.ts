@@ -1,6 +1,5 @@
 import { StyledValue } from "src/@types/table";
 import {
-  ILocation,
   IOrder,
   IStatusesApproval,
   IStatusesShip,
@@ -741,44 +740,3 @@ export const ORDER_DATA: IOrder[] = [
   },
 ];
 
-export const LOCATION_DATA: ILocation[] = [
-  {
-    slug: "active-location-1",
-    location_name: "Central Warehouse",
-    address_1: "123 Main Street",
-    address_2: "123 Main Street",
-    city: "Springfield",
-    state: "IL",
-    zip_code: "62704",
-    contact_name: "John Doe",
-    contact_email: "johndoe@example.com",
-    buyer_name: "Alice Smith",
-    buyer_email: "alice.smith@example.com",
-  },
-  {
-    slug: "active-location-2",
-    location_name: "Downtown Office",
-    address_1: "456 Elm Street",
-    address_2: "123 Main Street",
-    city: "Chicago",
-    state: "IL",
-    zip_code: "60614",
-    contact_name: "Jane Roe",
-    contact_email: "janeroe@example.com",
-    buyer_name: "Bob Johnson",
-    buyer_email: "bob.johnson@example.com",
-  },
-  {
-    slug: "active-location-3",
-    location_name: "East Coast Hub",
-    address_1: "789 Ocean Drive",
-    address_2: "123 Main Street",
-    city: "Miami",
-    state: "FL",
-    zip_code: "33139",
-    contact_name: "Emily Davis",
-    contact_email: "emily.davis@example.com",
-    buyer_name: "Charlie Brown",
-    buyer_email: "charlie.brown@example.com",
-  },
-];
