@@ -3,7 +3,7 @@ import useUserStore from "src/stores/user-store";
 import wavingHandEmoji from "src/assets/images/header/waving-hand-emoji.png";
 
 export const Greeting: FC = () => {
-  const first_name = useUserStore((state) => state.first_name);
+  const first_name = useUserStore((state) => state.user.first_name);
 
   return (
     <div className="flex items-center gap-1.5">

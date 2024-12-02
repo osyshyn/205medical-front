@@ -3,7 +3,7 @@ import { USER_NAV_ITEMS } from "./constants";
 import { NavigationItem } from "./NavigationItem";
 
 export const Navigation = () => {
-  const role = useUserStore((state) => state.role);
+  const role = useUserStore((state) => state.user.role);
 
   return (
     <nav>

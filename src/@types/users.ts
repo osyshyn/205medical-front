@@ -1,4 +1,5 @@
 import { Row, StyledValue } from "src/@types/table";
+import { Image } from ".";
 
 export interface IUser {
   id: number;
@@ -6,12 +7,13 @@ export interface IUser {
   last_name: string;
   email: string;
   phone: string;
-  password: string;
-  google_id?: string;
+  google_id: string;
   role: TypesUsers;
   purchase_limit: number;
   created_at: string;
   updated_at: string;
+  avatar: Image;
+  logo: Image;
 }
 
 export enum TypesUsers {

@@ -9,3 +9,10 @@ export interface ILink {
   isOpenNewTab?: boolean;
   icon?: SVGReactComponent;
 }
+
+export interface Image {
+  id: number;
+  user_id: number;
+  type: string;
+  path: string;
+}
