@@ -5,15 +5,18 @@ import { UNAUTHORIZED_STATUS_CODE_401 } from "src/constants/httpStatuses";
 
 //  not secure, client-side use only
 export const isTokenExpired = (token: string) => {
-  if (!token) return true;
+  // if (!token) return true;
 
-  try {
-    const tokenPayloadStr = token.split(".")[1];
-    const tokenPayload = JSON.parse(atob(tokenPayloadStr));
-    return Math.floor(new Date().getTime() / 1000) > tokenPayload?.exp;
-  } catch (error) {
-    return true;
-  }
+  // try {
+  //   const tokenPayloadStr = token.split(".")[1];
+  //   const tokenPayload = JSON.parse(atob(tokenPayloadStr));
+  //   return Math.floor(new Date().getTime() / 1000) > tokenPayload?.exp;
+  // } catch (error) {
+  //   return true;
+  // }
+
+  //temp
+  return false;
 };
 
 export const addAccessToken = (config: InternalAxiosRequestConfig) => {
@@ -23,7 +26,7 @@ export const addAccessToken = (config: InternalAxiosRequestConfig) => {
   const isRefreshTokenExpired = isTokenExpired(refresh);
 
   if (access && !isRefreshTokenExpired) {
-    config.headers.Authorization = `Bearer ${access}`;
+    config.headers.Authorization = access;
   }
 
   return config;

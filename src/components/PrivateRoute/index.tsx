@@ -5,8 +5,6 @@ import { PATHNAMES } from "src/constants/routes";
 import { ScreenLoader } from "../Loader/ScreenLoader";
 import { ONLY_FOR, OnlyFor } from "./types";
 
-// import { ScreenLoader } from "../Loader/ScreenLoader";
-
 interface Props {
   component: React.FC;
   onlyFor?: OnlyFor;

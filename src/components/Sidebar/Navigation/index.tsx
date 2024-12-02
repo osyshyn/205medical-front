@@ -9,9 +9,7 @@ export const Navigation = () => {
     <nav>
       <ul className="flex flex-col gap-4">
         {USER_NAV_ITEMS[type].map(({ id, ...nav }) => (
-          <li key={id}>
-            <NavigationItem {...nav} />
-          </li>
+          <NavigationItem key={id} {...nav} />
         ))}
       </ul>
     </nav>

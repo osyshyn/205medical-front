@@ -1,9 +1,9 @@
-// import Cookies from "js-cookie";
-// import { instance } from "src/services/api-client";
-// import { isTokenExpired } from "src/services/interceptors";
+import Cookies from "js-cookie";
+import { instance } from "src/services/api-client";
+import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-// import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
+import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
 import { TypesUsers } from "src/@types/users";
 import logo from "./temp/temp_logo.png";
 
@@ -11,7 +11,7 @@ interface IUserStore {
   type: TypesUsers;
   name: string;
   logo: string;
-  getUser: (isAuthorized: boolean) => void;
+  getUser: () => void;
   isAuthorized: boolean;
   isLoading: boolean;
 }
@@ -23,21 +23,23 @@ const useUserStore = create(
     logo: logo,
     isAuthorized: false,
     isLoading: true,
-    getUser: async (isAuthorized) => {
+    getUser: async () => {
       try {
         set({ isLoading: true });
 
-        // const refreshToken = Cookies.get(AUTH_REFRESH_TOKEN);
-        // const isRefreshTokenExpired = isTokenExpired(refreshToken);
+        const refreshToken = Cookies.get(AUTH_REFRESH_TOKEN);
+        const isRefreshTokenExpired = isTokenExpired(refreshToken);
 
-        // if (isRefreshTokenExpired) return null;
+        if (isRefreshTokenExpired) {
+          set({ isAuthorized: false });
+          set({ isLoading: false });
 
-        // const { data } = await instance.get("/user/getUser");
-        const data = await new Promise((resolve) =>
-          setTimeout(() => resolve(false), 3000)
-        );
+          return null;
+        }
 
-        set({ isAuthorized: isAuthorized });
+        const { data } = await instance.get("/user/getUser");
+
+        set({ isAuthorized: Boolean(data) });
         set({ isLoading: false });
 
         return data;

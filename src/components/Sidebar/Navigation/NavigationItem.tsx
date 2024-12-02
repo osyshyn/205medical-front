@@ -17,7 +17,7 @@ export const NavigationItem: FC<INavigationItemProps> = ({
   const isActive = pathname.includes(href);
 
   return (
-    <>
+    <li>
       <Link
         className={cn("flex items-center justify-between rounded-lg p-3", {
           "bg-purple-base": isActive,
@@ -46,6 +46,6 @@ export const NavigationItem: FC<INavigationItemProps> = ({
           ))}
         </ul>
       )}
-    </>
+    </li>
   );
 };
