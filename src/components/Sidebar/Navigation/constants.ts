@@ -88,6 +88,7 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
 ];
 
 const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [];
+
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
 
 export const USER_NAV_ITEMS: Record<TypesUsers, INavigationItem[]> = {

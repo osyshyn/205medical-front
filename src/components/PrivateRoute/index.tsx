@@ -17,7 +17,7 @@ export const PrivateRoute = ({
   redirectUrl = PATHNAMES.LOGIN,
 }: Props) => {
   const isAuthorized = useUserStore((state) => state.isAuthorized);
-  const userType = useUserStore((state) => state.type);
+  const userType = useUserStore((state) => state.role);
   const isLoading = useUserStore((state) => state.isLoading);
 
   const { SUB_USER, AUTHORIZED, UNAUTHORIZED } = ONLY_FOR;

@@ -1,9 +1,23 @@
 import { Row, StyledValue } from "src/@types/table";
 
+export interface IUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  password: string;
+  google_id?: string;
+  role: TypesUsers;
+  purchase_limit: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export enum TypesUsers {
-  SUB_USER = "sub-user",
-  CLIENT_ADMIN = "client-admin",
-  MEDICAL = "medical",
+  SUB_USER = 1,
+  CLIENT_ADMIN = 2,
+  MEDICAL = 3,
 }
 
 export enum IStatusesApproval {
