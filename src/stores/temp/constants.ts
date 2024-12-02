@@ -1,9 +1,5 @@
 import { StyledValue } from "src/@types/table";
-import {
-  IOrder,
-  IStatusesApproval,
-  IStatusesShip,
-} from "src/@types/users";
+import { IOrder, IStatusesApproval, IStatusesShip } from "src/@types/users";
 
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {
@@ -739,4 +735,3 @@ export const ORDER_DATA: IOrder[] = [
     customerPO: "1111125",
   },
 ];
-

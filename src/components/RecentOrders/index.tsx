@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
@@ -21,7 +21,13 @@ import {
 const DEBOUNCE_DELAY = 1000;
 
 export const RecentOrders: FC = () => {
+  const loadOrders = useOrderStore((state) => state.fetchOrders);
   const orders = useOrderStore((state) => state.recent_orders);
+  const isLoading = useOrderStore((state) => state.isLoading);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
