@@ -1,20 +1,30 @@
 import React, { FC } from "react";
+import { Sizes } from "src/@types/sizes";
 import { Column, Row } from "src/@types/table";
+import { Loader } from "../Loader";
 import { TableRow } from "./TableRow";
 
 interface Props {
   items: Row[];
   columns: Column[];
   emptyLabel?: string;
+  isLoading?: boolean;
 }
 
 export const TableBody: FC<Props> = ({
   items,
   columns,
   emptyLabel = "No data available",
+  isLoading,
 }) => (
   <tbody>
-    {items.length > 0 ? (
+    {isLoading ? (
+      <tr>
+        <td colSpan={columns.length}>
+          <Loader className="pt-8" size={Sizes.XXL} />
+        </td>
+      </tr>
+    ) : items.length > 0 ? (
       items.map((item) => (
         <TableRow key={item.key} rowData={item} columns={columns} />
       ))
