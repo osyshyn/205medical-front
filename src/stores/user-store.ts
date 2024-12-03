@@ -5,8 +5,6 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
 import { IUser } from "src/@types/users";
-import avatarTemp from "./temp/temp_avatar.png";
-import logoTemp from "./temp/temp_logo.png";
 
 interface IUserStore {
   user: IUser;
@@ -44,14 +42,10 @@ const useUserStore = create(
           return null;
         }
 
-        const { data } = await instance.get<{ user: IUser }>("/user/getUser");
+        const { data } = await instance.get<IUser>("/user/getUser");
 
         set({
-          user: {
-            avatar: { path: avatarTemp },
-            logo: { path: logoTemp },
-            ...data.user,
-          },
+          user: data,
           isAuthorized: true,
           isLoading: false,
         });

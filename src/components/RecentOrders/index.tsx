@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
@@ -11,7 +11,6 @@ import {
 } from "src/components/Table";
 import { Window } from "src/components/Window";
 import useOrderStore from "src/stores/order-store";
-import { IOrder } from "src/@types/users";
 import {
   ORDER_COLUMNS,
   ORDER_SORT_OPTIONS,
@@ -22,71 +21,26 @@ const DEBOUNCE_DELAY = 1000;
 
 export const RecentOrders: FC = () => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
-  const orders = useOrderStore((state) => state.recent_orders);
   const isLoading = useOrderStore((state) => state.isLoading);
-
-  useEffect(() => {
-    loadOrders();
-  }, [loadOrders]);
 
   const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [debouncedSearchQuery] = useDebounce(searchQuery, DEBOUNCE_DELAY);
+  const [debouncedQueryParams] = useDebounce(searchQuery, DEBOUNCE_DELAY);
 
-  const filteredData = useMemo(() => {
-    setCurrentPage(1);
+  useEffect(() => {
+    loadOrders({
+      search: debouncedQueryParams,
+      items_per_page: ORDERS_PER_PAGE,
+      current_page: currentPage,
+    });
+  }, [currentPage, debouncedQueryParams, loadOrders]);
 
-    return orders.filter((row) =>
-      Object.values(row).some((value) =>
-        value
-          .toString()
-          .toLowerCase()
-          .includes(debouncedSearchQuery.toLowerCase())
-      )
-    );
-  }, [debouncedSearchQuery, orders]);
+  const ordersResponse = useOrderStore((state) => state.recent_orders);
+  const ordersResults = ordersResponse?.result || [];
 
-  const sortedData = useMemo(() => {
-    const sortFunctions: Record<string, (a: IOrder, b: IOrder) => number> = {
-      amount_asc: (a, b) =>
-        parseFloat(a.amount.slice(1)) - parseFloat(b.amount.slice(1)),
-      amount_desc: (a, b) =>
-        parseFloat(b.amount.slice(1)) - parseFloat(a.amount.slice(1)),
-
-      customerPO_asc: (a, b) =>
-        parseFloat(a.customerPO.slice(1)) - parseFloat(b.customerPO.slice(1)),
-      customerPO_desc: (a, b) =>
-        parseFloat(b.customerPO.slice(1)) - parseFloat(a.customerPO.slice(1)),
-
-      poDate_asc: (a, b) =>
-        new Date(a.poDate).getTime() - new Date(b.poDate).getTime(),
-      poDate_desc: (a, b) =>
-        new Date(b.poDate).getTime() - new Date(a.poDate).getTime(),
-
-      approvalStatus_asc: (a, b) =>
-        a.approvalStatus.value.localeCompare(b.approvalStatus.value),
-      approvalStatus_desc: (a, b) =>
-        b.approvalStatus.value.localeCompare(a.approvalStatus.value),
-
-      shipStatus_asc: (a, b) =>
-        a.shipStatus.value.localeCompare(b.shipStatus.value),
-      shipStatus_desc: (a, b) =>
-        b.shipStatus.value.localeCompare(a.shipStatus.value),
-    };
-
-    const sortFunction = sortFunctions[sortBy.value] || (() => 0);
-    return [...filteredData].sort(sortFunction);
-  }, [filteredData, sortBy]);
-
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ORDERS_PER_PAGE;
-    const end = start + ORDERS_PER_PAGE;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
-
-  const pageCount = Math.ceil(sortedData.length / ORDERS_PER_PAGE);
+  const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
   const setPage = (page: number) => setCurrentPage(page);
@@ -114,14 +68,21 @@ export const RecentOrders: FC = () => {
 
       <Table ariaLabel="Recent orders table">
         <TableHeader columns={ORDER_COLUMNS} />
-        <TableBody items={paginatedData} columns={ORDER_COLUMNS} />
+        <TableBody
+          items={ordersResults}
+          columns={ORDER_COLUMNS}
+          isLoading={isLoading}
+        />
       </Table>
 
       <div className="mt-8 flex items-center justify-between">
         <DataRangeIndicator
           startEntry={(currentPage - 1) * ORDERS_PER_PAGE + 1}
-          endEntry={Math.min(currentPage * ORDERS_PER_PAGE, sortedData.length)}
-          totalEntries={sortedData.length}
+          endEntry={Math.min(
+            currentPage * ORDERS_PER_PAGE,
+            ordersResults.length
+          )}
+          totalEntries={ordersResults.length}
         />
 
         {isPaginated && (
