@@ -32,8 +32,10 @@ const useProductStore = create(
           ({ id, sku, name, price, minimum_order }): IProductTable => ({
             key: String(id),
             image: {
+              id,
               type: "image",
-              src: productImgTemp,
+              path: productImgTemp,
+              alt: name,
             },
             sku,
             name,

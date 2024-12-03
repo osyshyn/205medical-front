@@ -22,7 +22,7 @@ export const ProductDetail: FC = () => {
     loadProduct(+id);
   }, [id, loadProduct]);
 
-  const { name, image, description, price } = product;
+  const { name, description, price } = product;
 
   const onClose = () => {
     navigate(PATHNAMES.PRODUCT);
@@ -37,7 +37,7 @@ export const ProductDetail: FC = () => {
       ) : (
         <div className="flex gap-5">
           <div className="flex-1">
-            <img className="w-full" src={image} alt={name} />
+            {/* <img className="w-full" src={image} alt={name} /> */}
           </div>
 
           <div className="mt-5 flex flex-1 flex-col gap-8">

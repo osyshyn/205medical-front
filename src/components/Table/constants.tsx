@@ -14,9 +14,9 @@ export const getKeyValue = (
     return (
       <div className="h-10 w-10">
         <img
-          className="border-purple-lighter h-full w-full rounded-md border"
-          src={value.src}
-          alt={value.alt || "Image"}
+          className="h-full w-full rounded-md border border-purple-lighter"
+          src={value.path}
+          alt={value.alt}
         />
       </div>
     );

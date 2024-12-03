@@ -1,3 +1,5 @@
+import { Image } from ".";
+
 export interface Column {
   key: string;
   label: string;
@@ -10,10 +12,9 @@ export interface StyledValue {
   value: string;
 }
 
-export interface ImageValue {
+export interface ImageValue extends Image {
   type: "image";
-  src: string;
-  alt?: string;
+  alt: string;
 }
 
 export interface ComponentValue {

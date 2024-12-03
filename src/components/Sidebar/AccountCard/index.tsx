@@ -5,13 +5,17 @@ import { Sizes } from "src/@types/sizes";
 import { ROLE_USER } from "./constants";
 
 export const AccountCard = () => {
-  const { avatar, email, role } = useUserStore((state) => state.user);
+  const { avatar, email, role, first_name, last_name } = useUserStore(
+    (state) => state.user
+  );
+
+  const altText = `${first_name} ${last_name} avatar`;
 
   return (
     <div className="flex flex-col">
       <Avatar
         avatarUrl={avatar.path}
-        altText={avatar.type}
+        altText={altText}
         sizeVariant={Sizes.XS}
       />
 

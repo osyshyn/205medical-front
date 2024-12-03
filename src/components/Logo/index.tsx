@@ -3,7 +3,7 @@ import logoImg from "src/assets/images/logo.png";
 import { PATHNAMES } from "src/constants/routes";
 import { Link } from "react-router-dom";
 
-const ALT_TEXT_LOGO_IMG = "Bussiness Clone";
+const ALT_TEXT_LOGO_IMG = "205Medical";
 
 interface Props {
   linkHref?: string;
