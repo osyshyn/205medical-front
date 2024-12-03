@@ -1,23 +1,38 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { SortingDropdownList } from "src/components/SortDropdownList";
-import { IOptionSelect } from "src/@types/form";
-import { DATA_METRICS_OPTIONS } from "./constants";
+import { IOptionSelect, SetOptionSelect } from "src/@types/form";
+import { MONTH_OPTIONS_SELECT, YEARS_OPTIONS_SELECT } from "../constants";
 
-export const DateMetrics: FC = () => {
-  const [selectMonth, setSelectMonth] = useState<IOptionSelect>(
-    DATA_METRICS_OPTIONS[0]
-  );
+interface Props {
+  selectMonth: IOptionSelect;
+  setSelectMonth: SetOptionSelect;
+  selectYear: IOptionSelect;
+  setSelectYear: SetOptionSelect;
+}
 
-  return (
-    <div className="flex items-center justify-between">
-      <h3>{selectMonth.label} 2024</h3>
+export const DateMetrics: FC<Props> = ({
+  selectMonth,
+  setSelectMonth,
+  selectYear,
+  setSelectYear,
+}) => (
+  <div className="flex items-center justify-between">
+    <h3>{selectMonth.label} 2024</h3>
 
+    <div className="flex gap-3">
       <SortingDropdownList
-        options={DATA_METRICS_OPTIONS}
+        options={MONTH_OPTIONS_SELECT}
         activeOption={selectMonth}
         setOption={setSelectMonth}
         headLabel="Current Month:"
       />
+
+      <SortingDropdownList
+        options={YEARS_OPTIONS_SELECT}
+        activeOption={selectYear}
+        setOption={setSelectYear}
+        headLabel="Current Year:"
+      />
     </div>
-  );
-};
+  </div>
+);

@@ -37,9 +37,14 @@ const getMetrics = (
   };
 };
 
+interface FetchMetricsParams {
+  month: number;
+  year: number;
+}
+
 interface IMetricStore {
   metrics: IMetricsData;
-  fetchMetrics: () => void;
+  fetchMetrics: (params: FetchMetricsParams) => void;
   isLoading: boolean;
 }
 
@@ -47,11 +52,12 @@ const useMetricStore = create(
   devtools<IMetricStore>((set) => ({
     isLoading: false,
     metrics: null,
-    fetchMetrics: async () => {
+    fetchMetrics: async (params) => {
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IMetricsDataFromAPI>(
-          "order/countOrdersPerMonth"
+          "order/countOrdersPerMonth",
+          { params }
         );
 
         const approvalCustomizations = [

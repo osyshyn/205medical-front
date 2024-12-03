@@ -1,53 +1,34 @@
-// import { IMetrics } from "../../@types/metrics";
+import { IOptionSelect } from "src/@types/form";
 
-// export const APPROVALS_METRICS: IMetrics = {
-//   title: "Approvals",
-//   metrics: [
-//     {
-//       id: 1,
-//       label: "Approval Status",
-//       value: 542,
-//       icon: MarkIcon,
-//       color: "#108A00",
-//       trend: {
-//         value: 16,
-//         direction: "up",
-//         description: "this month",
-//       },
-//     },
-//     {
-//       id: 2,
-//       label: "Ship Status",
-//       value: 169,
-//       icon: ClockIcon,
-//       color: "#F4C732",
-//       trend: {
-//         value: 1,
-//         direction: "down",
-//         description: "this month",
-//       },
-//     },
-//   ],
-// };
+export const MONTH_OPTIONS_SELECT: IOptionSelect[] = [
+  { label: "January", value: 1 },
+  { label: "February", value: 2 },
+  { label: "March", value: 3 },
+  { label: "April", value: 4 },
+  { label: "May", value: 5 },
+  { label: "June", value: 6 },
+  { label: "July", value: 7 },
+  { label: "August", value: 8 },
+  { label: "September", value: 9 },
+  { label: "October", value: 10 },
+  { label: "November", value: 11 },
+  { label: "December", value: 12 },
+];
 
-// export const SHIPMENTS_METRICS: IMetrics = {
-//   title: "Shipments",
-//   metrics: [
-//     {
-//       id: 1,
-//       label: "Shipped",
-//       value: 189,
-//       icon: TruckIcon,
-//       color: "#DF0404",
-//     },
-//     {
-//       id: 2,
-//       label: "Delivered",
-//       value: 135,
-//       icon: DeliveryIcon,
-//       color: "#348ECF",
-//     },
-//   ],
-// };
+export const YEARS_OPTIONS_SELECT: IOptionSelect[] = Array.from(
+  { length: 5 },
+  (_, index) => {
+    const year = 2020 + index;
+    return { label: year.toString(), value: year };
+  }
+);
 
-export const s = "";
+export function getCurrentMonthOption(): IOptionSelect {
+  const currentMonth = new Date().getMonth() + 1;
+  return MONTH_OPTIONS_SELECT.find((option) => option.value === currentMonth);
+}
+
+export function getCurrentYearOption(): IOptionSelect {
+  const currentYear = new Date().getFullYear();
+  return YEARS_OPTIONS_SELECT.find((option) => option.value === currentYear);
+}
