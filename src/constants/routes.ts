@@ -10,8 +10,8 @@ export const PATHNAMES = {
 
   PRODUCT: "/products",
   PRODUCT_ITEM: "/products/:id",
-  PRODUCT_HISTORY: "/product/history",
-  PRODUCT_PURCHASES: "/product/purchases",
+  PRODUCT_HISTORY: "/products/history",
+  PRODUCT_PURCHASES: "/products/purchases",
 
   SHIPMENTS: "/shipments",
 
