@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IProduct, IProductDetails, IProductTable } from "src/@types/products";
-import productImgTemp from "./temp/temp.png";
 
 interface IProductStore {
   products: IProduct[];
@@ -29,13 +28,19 @@ const useProductStore = create(
         set({ products: data });
 
         const allProducts = data.map(
-          ({ id, sku, name, price, minimum_order }): IProductTable => ({
+          ({
+            id,
+            preview,
+            sku,
+            name,
+            price,
+            minimum_order,
+          }): IProductTable => ({
             key: String(id),
             image: {
-              id,
               type: "image",
-              path: productImgTemp,
               alt: name,
+              ...preview,
             },
             sku,
             name,

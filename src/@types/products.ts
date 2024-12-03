@@ -29,6 +29,7 @@ export interface IProduct {
   faq: string;
   created_at: string;
   updated_at: string;
+  preview: Image;
 }
 
 export interface IProductDetails extends IProduct {
