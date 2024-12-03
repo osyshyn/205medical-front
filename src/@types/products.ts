@@ -1,3 +1,5 @@
+import { ImageValue, Row } from "./table";
+
 export interface ICategory {
   id: number;
   name: string;
@@ -24,9 +26,21 @@ export interface IProduct {
   sku: string;
   created_at: string;
   updated_at: string;
-  category: ICategory;
+  how_to_use: string;
+  faq: string;
+}
+
+export interface IProductDetails extends IProduct {
   image: string;
-  howToUse: string;
-  faqs: string;
-  downloadLink: string;
+  down_load_link: string;
+  category: ICategory;
+}
+
+export interface IProductTable extends Row {
+  key: string;
+  image: ImageValue;
+  sku: string;
+  name: string;
+  price: number;
+  minimum_order: number;
 }

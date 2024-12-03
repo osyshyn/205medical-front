@@ -1,4 +1,4 @@
-import { IProduct } from "src/@types/products";
+import { IProduct, IProductDetails } from "src/@types/products";
 import { IProperty } from "./PropertiesCard/types";
 
 export const getProperties = ({
@@ -8,7 +8,7 @@ export const getProperties = ({
   size,
   sku,
   category,
-}: IProduct): IProperty[] => [
+}: IProductDetails): IProperty[] => [
   {
     label: "Certification",
     value: certification,
@@ -29,13 +29,13 @@ export const getProperties = ({
     label: "SKU",
     value: sku,
   },
-  {
-    label: "Categories",
-    value: category.name,
-  },
+  // {
+  //   label: "Categories",
+  //   value: category.name,
+  // },
 ];
 
-export const getTabs = ({ description, howToUse, faqs }: IProduct) => [
+export const getTabs = ({ description, how_to_use, faq }: IProduct) => [
   {
     label: "Description",
     slug: "description",
@@ -44,11 +44,11 @@ export const getTabs = ({ description, howToUse, faqs }: IProduct) => [
   {
     label: "How To Use",
     slug: "how-to-use",
-    value: howToUse,
+    value: how_to_use,
   },
   {
     label: "FAQS",
-    slug: "faqs",
-    value: faqs,
+    slug: "faq",
+    value: faq,
   },
 ];

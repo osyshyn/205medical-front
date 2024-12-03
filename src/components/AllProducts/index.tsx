@@ -1,37 +1,24 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect } from "react";
+import { Outlet } from "react-router";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Window } from "src/components/Window";
+import useProductStore from "src/stores/product-store";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { Button } from "../Button";
 import { ButtonVariants } from "../Button/types";
-import { ProductDetail } from "../ProductDetail";
 import { Title } from "../Title";
-import {
-  addActionButtons,
-  ALL_PRODUCTS_COLUMNS,
-  ALL_PRODUCTS_DATA_FROM_SERVER,
-} from "./constants";
+import { addActionButtons, ALL_PRODUCTS_COLUMNS } from "./constants";
 
 export const AllProducts: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const loadProducts = useProductStore((state) => state.fetchProducts);
+  const products = useProductStore((state) => state.all_products);
+  const isLoading = useProductStore((state) => state.isLoadingProducts);
 
-  const onOpen = () => {
-    setIsOpen(true);
-  };
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
-  const addToCart = () => {
-    console.log("addToCart");
-  };
-
-  const items = addActionButtons(
-    ALL_PRODUCTS_DATA_FROM_SERVER,
-    onOpen,
-    addToCart
-  );
+  const items = addActionButtons(products);
 
   return (
     <Window>
@@ -50,11 +37,15 @@ export const AllProducts: FC = () => {
       <div className="scrollbar max-h-150 overflow-y-scroll">
         <Table ariaLabel="All product table">
           <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
-          <TableBody items={items} columns={ALL_PRODUCTS_COLUMNS} />
+          <TableBody
+            items={items}
+            columns={ALL_PRODUCTS_COLUMNS}
+            isLoading={isLoading}
+          />
         </Table>
       </div>
 
-      <ProductDetail isOpen={isOpen} onClose={onClose} />
+      <Outlet />
     </Window>
   );
 };
