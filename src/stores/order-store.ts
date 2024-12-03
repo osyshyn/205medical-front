@@ -75,7 +75,6 @@ const useOrderStore = create(
         set({ isLoading: false });
       }
     },
-    isLoadingFetch: false,
   }))
 );
 
