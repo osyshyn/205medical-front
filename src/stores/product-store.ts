@@ -62,11 +62,11 @@ const useProductStore = create(
     fetchProductDetails: async (id) => {
       set({ isLoadingProductDetail: true });
       try {
-        const { data } = await instance.get<{ result: IProductDetails }>(
+        const { data } = await instance.get<IProductDetails>(
           `product/getProduct/${id}`
         );
 
-        set({ product_details: data.result });
+        set({ product_details: data });
       } catch (error) {
         NotificationService.error();
       } finally {

@@ -22,7 +22,7 @@ export const ProductDetail: FC = () => {
     loadProduct(+id);
   }, [id, loadProduct]);
 
-  const { name, description, price } = product;
+  const { photos, name, description, price } = product;
 
   const onClose = () => {
     navigate(PATHNAMES.PRODUCT);
@@ -37,11 +37,11 @@ export const ProductDetail: FC = () => {
       ) : (
         <div className="flex gap-5">
           <div className="flex flex-1 flex-col gap-2">
-            {/* {photos.map(({ id, path }) => (
+            {photos?.map(({ id, path }) => (
               <div key={id} className="flex-1">
-                <img className="w-full" src={path} alt={name} />
+                <img className="w-full" src={path} alt={path} />
               </div>
-            ))} */}
+            ))}
           </div>
 
           <div className="mt-5 flex flex-1 flex-col gap-8">
