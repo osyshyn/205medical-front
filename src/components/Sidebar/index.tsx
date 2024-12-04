@@ -14,7 +14,7 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "scrollbar flex h-full w-full flex-col items-center gap-15 overflow-y-scroll rounded-l-3xl border border-gray-soft bg-white-base p-7 pb-20",
+        "scrollbar flex h-full w-full flex-col items-center gap-15 overflow-y-scroll rounded-l-3xl border border-gray-soft bg-white-base p-7 pb-20 transition-all duration-200 ease-in-out",
         {
           "max-w-28.75": isSidebarCollapsed,
           "max-w-62.5": !isSidebarCollapsed,
@@ -23,7 +23,7 @@ export const Sidebar = () => {
       onClick={closeCart}
     >
       <ClientLogo />
-      <Navigation />
+      <Navigation isSidebarCollapsed={isSidebarCollapsed} />
 
       <div className="mt-auto flex flex-col gap-10">
         {!isSidebarCollapsed && <TourNavigation />}

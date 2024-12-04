@@ -5,10 +5,7 @@ import { Sidebar } from "src/components/Sidebar";
 const Layout: FC = () => (
   <div className="flex h-full">
     <Sidebar />
-
-    <div className="flex-1">
-      <Outlet />
-    </div>
+    <Outlet />
   </div>
 );
 

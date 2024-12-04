@@ -1,11 +1,14 @@
-import useSidebarStore from "src/stores/siderbar-store";
+import { FC } from "react";
 import useUserStore from "src/stores/user-store";
 import { USER_NAV_ITEMS } from "./constants";
 import { NavigationItem } from "./NavigationItem";
 
-export const Navigation = () => {
+interface Props {
+  isSidebarCollapsed: boolean;
+}
+
+export const Navigation: FC<Props> = ({ isSidebarCollapsed }) => {
   const role = useUserStore((state) => state.user.role);
-  const isSidebarCollapsed = useSidebarStore((state) => state.isCartOpen);
 
   return (
     <nav>
