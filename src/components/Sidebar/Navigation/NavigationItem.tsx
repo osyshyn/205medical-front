@@ -6,12 +6,14 @@ import { ReactComponent as ArrowIcon } from "src/assets/icons/sidebar/navigation
 import { SubNavigationItem } from "./SubNavigationItem";
 import { INavigationItemProps } from "./types";
 
-export const NavigationItem: FC<INavigationItemProps> = ({
-  href,
-  label,
-  icon: Icon,
-  iconActive: ActiveIcon,
-  subNavItems,
+interface Props {
+  isSidebarCollapsed: boolean;
+  item: INavigationItemProps;
+}
+
+export const NavigationItem: FC<Props> = ({
+  isSidebarCollapsed,
+  item: { href, label, icon: Icon, iconActive: ActiveIcon, subNavItems },
 }) => {
   const { pathname } = useLocation();
   const isActive = pathname.includes(href);
@@ -27,19 +29,21 @@ export const NavigationItem: FC<INavigationItemProps> = ({
         <div className="flex items-center gap-3">
           {isActive ? <ActiveIcon /> : <Icon className="h-6 w-6" />}
 
-          <span
-            className={cn("text-sm text-gray-ligth", {
-              "text-white-base": isActive,
-            })}
-          >
-            {label}
-          </span>
+          {!isSidebarCollapsed && (
+            <span
+              className={cn("text-sm text-gray-ligth", {
+                "text-white-base": isActive,
+              })}
+            >
+              {label}
+            </span>
+          )}
         </div>
 
-        {isActive && <ArrowIcon />}
+        {!isSidebarCollapsed && isActive && <ArrowIcon />}
       </Link>
 
-      {isActive && subNavItems && (
+      {!isSidebarCollapsed && isActive && subNavItems && (
         <ul className="mt-4 flex flex-col gap-2">
           {subNavItems.map(({ id, ...subNav }) => (
             <SubNavigationItem key={id} {...subNav} />

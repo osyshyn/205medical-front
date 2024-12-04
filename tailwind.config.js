@@ -56,6 +56,8 @@ module.exports = {
         18.75: "75px",
       },
       maxWidth: {
+        62.5: "250px",
+        28.75: "115px",
         127.5: "510px",
       },
       minWidth: {
@@ -71,11 +73,10 @@ module.exports = {
         30: "30px",
       },
       boxShadow: {
-        'modal-window': '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+        "modal-window": "0px 10px 60px 0px rgba(226, 236, 249, 0.5)",
       },
       backgroundImage: {
-        "login-banner":
-          "url('/src/assets/images/login/bg.png')",
+        "login-banner": "url('/src/assets/images/login/bg.png')",
       },
       screens: {
         default: "0px",
@@ -91,10 +92,10 @@ module.exports = {
   plugins: [
     function ({ addUtilities }) {
       addUtilities({
-        '.bg-gradient-text': {
-          background: 'linear-gradient(to right, #9b74e7, #1e40af)',
-          '-webkit-background-clip': 'text',
-          'color': 'transparent',
+        ".bg-gradient-text": {
+          background: "linear-gradient(to right, #9b74e7, #1e40af)",
+          "-webkit-background-clip": "text",
+          color: "transparent",
         },
       });
     },
