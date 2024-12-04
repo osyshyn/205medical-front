@@ -14,7 +14,7 @@ import {
 } from "./constans";
 import { IFormikValues } from "./types";
 
-export const PopupCard: FC = () => {
+export const CartProducts: FC = () => {
   const isCartOpen = useSidebarStore((state) => state.isCartOpen);
   const closeCart = useSidebarStore((state) => state.closeCart);
 

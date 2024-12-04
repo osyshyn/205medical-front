@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { PopupCard } from "src/page-components/products/PopupCard";
+import { CartProducts } from "src/page-components/products/CartProducts";
 import { AllProducts } from "src/components/AllProducts";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 
 const Products: FC = () => (
-  <PageWrapper mainClassName="flex flex-col gap-10" popup={PopupCard}>
+  <PageWrapper mainClassName="flex flex-col gap-10" popup={CartProducts}>
     <AllProducts />
   </PageWrapper>
 );
