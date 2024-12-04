@@ -1,18 +1,28 @@
 import { FC } from "react";
 import { useField } from "formik";
-import { IFormField } from "src/@types/form";
+import { IFormField, IOptionSelect } from "src/@types/form";
 import { FormField } from ".";
-import { SortingDropdownList } from "../SortDropdownList";
+import { SelectDropdownList } from "../SelectDropdownList";
 
-export const SelectDropdownListField: FC<IFormField> = ({
-  className,
-  fieldClassName,
-  labelClassName,
-  id,
-  label,
+interface Props {
+  formFieldProps: IFormField;
+  options?: IOptionSelect[];
+  headLabel?: string;
+  headLabelclassName?: string;
+}
+
+export const SelectDropdownListField: FC<Props> = ({
+  formFieldProps: {
+    className,
+    fieldClassName,
+    labelClassName,
+    id,
+    label,
+    ...props
+  },
   options,
-  variant,
-  ...props
+  headLabel,
+  headLabelclassName,
 }) => {
   const name = props.name as string;
 
@@ -32,7 +42,9 @@ export const SelectDropdownListField: FC<IFormField> = ({
         isShownError={isShownError}
         {...props}
       >
-        <SortingDropdownList
+        <SelectDropdownList
+          headLabelclassName={headLabelclassName}
+          headLabel={headLabel}
           className={className}
           options={options}
           activeOption={value}

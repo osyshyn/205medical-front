@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
-import { SortingDropdownList } from "src/components/SortDropdownList";
+import { SelectDropdownList } from "src/components/SelectDropdownList";
 import {
   DataRangeIndicator,
   Table,
@@ -57,7 +57,7 @@ export const RecentOrders: FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
 
-          <SortingDropdownList
+          <SelectDropdownList
             headLabel="Sort by:"
             options={ORDER_SORT_OPTIONS}
             activeOption={sortBy}

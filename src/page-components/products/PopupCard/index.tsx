@@ -39,10 +39,12 @@ export const PopupCard: FC = () => {
 
       <FormikProvider value={formik}>
         <Form className="flex flex-col gap-7.5">
-          <div className="mb-7.5 mt-10 flex flex-col gap-3">
+          <div className="mb-7.5 mt-10 flex flex-col gap-5">
             <SelectDropdownListField
-              name="orderLocation"
+              headLabelclassName="w-full justify-between !text-sm"
+              headLabel="Purchase Order Location"
               options={LOCATION_OPTIONS_SELECT}
+              formFieldProps={{ name: "orderLocation" }}
             />
 
             <TextInput

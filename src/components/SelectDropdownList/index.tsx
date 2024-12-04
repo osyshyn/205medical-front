@@ -10,25 +10,32 @@ interface Props {
   options: IOptionSelect[];
   activeOption: IOptionSelect;
   setOption: SetOptionSelect;
+  headLabelclassName?: string;
   headLabel?: string;
 }
 
-export const SortingDropdownList: FC<Props> = ({
+export const SelectDropdownList: FC<Props> = ({
   className,
   options,
   activeOption,
   setOption,
+  headLabelclassName,
   headLabel,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const headDropdownLabel = (
-    <div className="flex items-center gap-4 rounded-xl border border-gray-soft bg-white-base px-3.5 py-2">
-      <p className="flex gap-1 text-xs">
+    <div
+      className={cn(
+        "flex items-center gap-4 rounded-xl border border-gray-soft bg-white-base px-3.5 py-2 text-xs",
+        headLabelclassName
+      )}
+    >
+      <p className="flex gap-1">
         {headLabel && <span className="text-gray-medium">{headLabel}</span>}
 
         <span className="font-semibold text-black-ligth">
-          {activeOption.label}
+          {activeOption?.label}
         </span>
       </p>
 

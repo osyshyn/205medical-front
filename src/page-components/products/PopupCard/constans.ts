@@ -18,7 +18,7 @@ export const LOCATION_OPTIONS_SELECT: IOptionSelect[] = [
 ];
 
 export const PURCHASE_ORDER_INITIAL_VALUES: IFormikValues = {
-  orderLocation: LOCATION_OPTIONS_SELECT[4],
+  orderLocation: undefined,
   poNumber: "",
 };
 

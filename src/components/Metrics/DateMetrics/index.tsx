@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { SortingDropdownList } from "src/components/SortDropdownList";
+import { SelectDropdownList } from "src/components/SelectDropdownList";
 import { IOptionSelect, SetOptionSelect } from "src/@types/form";
 import { MONTH_OPTIONS_SELECT, YEARS_OPTIONS_SELECT } from "../constants";
 
@@ -20,14 +20,14 @@ export const DateMetrics: FC<Props> = ({
     <h3>{selectMonth.label} 2024</h3>
 
     <div className="flex gap-3">
-      <SortingDropdownList
+      <SelectDropdownList
         options={MONTH_OPTIONS_SELECT}
         activeOption={selectMonth}
         setOption={setSelectMonth}
         headLabel="Current Month:"
       />
 
-      <SortingDropdownList
+      <SelectDropdownList
         options={YEARS_OPTIONS_SELECT}
         activeOption={selectYear}
         setOption={setSelectYear}
