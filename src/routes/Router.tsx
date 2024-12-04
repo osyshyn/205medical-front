@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 import {
   CreateOrder,
   Dashboard,
+  Layout,
   Location,
   Login,
   NotFound,
@@ -19,10 +20,6 @@ import { PATHNAMES } from "src/constants/routes";
 
 const ROUTES = [
   {
-    path: PATHNAMES.HOME,
-    element: <Navigate to={PATHNAMES.DASHBOARD} replace />,
-  },
-  {
     element: (
       <PrivateRoute
         onlyFor={ONLY_FOR.UNAUTHORIZED}
@@ -33,38 +30,48 @@ const ROUTES = [
     path: PATHNAMES.LOGIN,
   },
   {
-    element: <PrivateRoute component={Dashboard} />,
-    path: PATHNAMES.DASHBOARD,
+    path: PATHNAMES.HOME,
+    element: <Navigate to={PATHNAMES.DASHBOARD} replace />,
   },
   {
-    element: <PrivateRoute component={CreateOrder} />,
-    path: PATHNAMES.CREATE_ORDER,
-  },
-  {
-    element: <PrivateRoute component={OrderAlerts} />,
-    path: PATHNAMES.ORDER_ALERTS,
-  },
-  {
-    element: <PrivateRoute component={Location} />,
-    path: PATHNAMES.LOCATION_SLUG,
-  },
-  {
-    element: <PrivateRoute component={Products} />,
-    path: PATHNAMES.PRODUCT,
+    element: <PrivateRoute component={Layout} />,
+    path: PATHNAMES.HOME,
     children: [
       {
-        element: <PrivateRoute component={ProductDetail} />,
-        path: PATHNAMES.PRODUCT_ITEM,
+        element: <PrivateRoute component={Dashboard} />,
+        path: PATHNAMES.DASHBOARD,
+      },
+      {
+        element: <PrivateRoute component={CreateOrder} />,
+        path: PATHNAMES.CREATE_ORDER,
+      },
+      {
+        element: <PrivateRoute component={OrderAlerts} />,
+        path: PATHNAMES.ORDER_ALERTS,
+      },
+      {
+        element: <PrivateRoute component={Location} />,
+        path: PATHNAMES.LOCATION_SLUG,
+      },
+      {
+        element: <PrivateRoute component={Products} />,
+        path: PATHNAMES.PRODUCT,
+        children: [
+          {
+            element: <PrivateRoute component={ProductDetail} />,
+            path: PATHNAMES.PRODUCT_ITEM,
+          },
+        ],
+      },
+      {
+        element: <PrivateRoute component={ProductsHistory} />,
+        path: PATHNAMES.PRODUCT_HISTORY,
+      },
+      {
+        element: <PrivateRoute component={ProductsPurchases} />,
+        path: PATHNAMES.PRODUCT_PURCHASES,
       },
     ],
-  },
-  {
-    element: <PrivateRoute component={ProductsHistory} />,
-    path: PATHNAMES.PRODUCT_HISTORY,
-  },
-  {
-    element: <PrivateRoute component={ProductsPurchases} />,
-    path: PATHNAMES.PRODUCT_PURCHASES,
   },
   {
     element: <NotFound />,
