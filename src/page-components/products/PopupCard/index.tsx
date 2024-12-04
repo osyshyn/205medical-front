@@ -1,12 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
+import { SelectDropdownListField } from "src/components/FormField/SelectDropdownListField";
 import { TextInput } from "src/components/FormField/TextInput";
 import { CloseButton } from "src/components/ModalWindow/CloseButton";
-import { SortingDropdownList } from "src/components/SortDropdownList";
 import useSidebarStore from "src/stores/siderbar-store";
-import { IOptionSelect } from "src/@types/form";
 import { Sizes } from "src/@types/sizes";
 import {
   LOCATION_OPTIONS_SELECT,
@@ -27,10 +26,6 @@ export const PopupCard: FC = () => {
     },
   };
 
-  const [location, setLocation] = useState<IOptionSelect>(
-    LOCATION_OPTIONS_SELECT[0]
-  );
-
   const formik = useFormik(formikProps);
 
   if (!isCartOpen) return null;
@@ -45,11 +40,9 @@ export const PopupCard: FC = () => {
       <FormikProvider value={formik}>
         <Form className="flex flex-col gap-7.5">
           <div className="mb-7.5 mt-10 flex flex-col gap-3">
-            <SortingDropdownList
+            <SelectDropdownListField
+              name="orderLocation"
               options={LOCATION_OPTIONS_SELECT}
-              activeOption={location}
-              setOption={setLocation}
-              headLabel="Purchase Order Location"
             />
 
             <TextInput

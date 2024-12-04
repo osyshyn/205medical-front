@@ -18,11 +18,11 @@ export const LOCATION_OPTIONS_SELECT: IOptionSelect[] = [
 ];
 
 export const PURCHASE_ORDER_INITIAL_VALUES: IFormikValues = {
-  orderLocation: LOCATION_OPTIONS_SELECT[0],
+  orderLocation: LOCATION_OPTIONS_SELECT[4],
   poNumber: "",
 };
 
 export const PURCHASE_ORDER_VALIDATION_SCHEMA = Yup.object().shape({
-  orderLocation: Yup.string().required("This field is required."),
+  orderLocation: Yup.object().required("This field is required."),
   poNumber: Yup.string().required("This field is required."),
 });
