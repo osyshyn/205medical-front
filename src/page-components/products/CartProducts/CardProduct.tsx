@@ -1,42 +1,55 @@
 import React, { FC } from "react";
+import { Button } from "src/components/Button";
 import { CloseButton } from "src/components/ModalWindow/CloseButton";
-import { SelectDropdownList } from "src/components/SelectDropdownList";
-import { IOptionSelect } from "src/@types/form";
-import { QUANTITY_ITEMS, temp } from "./temp/constants";
+import useCartStore from "src/stores/cart-store";
+import { ProductToCart } from "src/@types/cart";
 
-const { name, image, price } = temp;
+export const CardProduct: FC<ProductToCart> = ({
+  id,
+  name,
+  preview,
+  price,
+  quantity,
+}) => {
+  const removeProductFromCart = useCartStore(
+    (state) => state.removeProductFromCart
+  );
 
-export const CardProduct: FC = () => {
   return (
     <div className="flex h-32 justify-between border-t py-6 last:border-b">
       <div className="flex gap-5">
         <div className="h-10 w-10">
-          <img
-            className="h-full w-full rounded-md border border-purple-lighter"
-            src={image}
-            alt={name}
-          />
+          {preview && (
+            <img
+              className="h-full w-full rounded-md border border-purple-lighter"
+              src={preview.path}
+              alt={name}
+            />
+          )}
         </div>
 
         <div className="flex flex-col justify-between">
           <p className="font-semibold">{name}</p>
 
-          <SelectDropdownList
-            className="w-36"
-            headLabelclassName="w-36 justify-between"
-            headLabel="Quantity:"
-            options={QUANTITY_ITEMS}
-            activeOption={undefined}
-            setOption={function (option: IOptionSelect): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <p className="flex items-center gap-4 rounded-xl border border-gray-soft bg-white-base px-3.5 py-2 text-xs">
+            <span className="text-gray-medium">Quantity:</span>
+            <div className="flex gap-2 font-semibold text-black-ligth">
+              <Button className="h-5 w-5 rounded-xl border border-gray-soft bg-white-base">
+                +
+              </Button>
+
+              <span>{quantity}</span>
+
+              <Button className="h-5 w-5 rounded-xl border border-gray-soft bg-white-base">
+                -
+              </Button>
+            </div>
+          </p>
         </div>
       </div>
 
       <div className="flex flex-col items-end justify-between">
-        <CloseButton onClose={undefined} />
-
+        <CloseButton onClose={() => removeProductFromCart(id)} />
         <p className="text-22 font-medium">&#36;{price}</p>
       </div>
     </div>

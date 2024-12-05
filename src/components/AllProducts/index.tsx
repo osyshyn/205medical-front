@@ -12,7 +12,8 @@ import { addActionButtons, ALL_PRODUCTS_COLUMNS } from "./constants";
 
 export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
-  const products = useProductStore((state) => state.all_products);
+  const products = useProductStore((state) => state.products);
+  const tabel_products = useProductStore((state) => state.all_products);
   const isLoading = useProductStore((state) => state.isLoadingProducts);
   const fetchCart = useCartStore((state) => state.fetchCart);
 
@@ -21,7 +22,7 @@ export const AllProducts: FC = () => {
     fetchCart();
   }, [fetchCart, loadProducts]);
 
-  const items = addActionButtons(products);
+  const items = addActionButtons(tabel_products, products);
 
   return (
     <Window>

@@ -1,11 +1,12 @@
-interface ProductToCart {
+import { Image } from ".";
+
+export interface ProductToCart {
   id: number;
   quantity: number;
-  product: {
-    id: number;
-    name: string;
-    price: number;
-  };
+  name: string;
+  price: number;
+  minimum_order: number;
+  preview: Image;
 }
 
 export interface Cart {

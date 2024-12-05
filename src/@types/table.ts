@@ -21,7 +21,7 @@ export interface ComponentValue {
   type: "component";
   component: React.FC<{ [key: string]: any }>;
   props?: {
-    [key: string]: string | number | VoidFunction;
+    [key: string]: string | number | Image;
   };
 }
 

@@ -30,7 +30,7 @@ export const CartProducts: FC = () => {
 
   const formik = useFormik(formikProps);
 
-  if (!isCartOpen) return null;
+  if (!isCartOpen || !cart) return null;
 
   return (
     <div className="scrollbar h-full w-full max-w-md overflow-y-scroll rounded-r-3xl border border-gray-soft bg-white-base px-7.5 py-10">
@@ -57,11 +57,9 @@ export const CartProducts: FC = () => {
           </div>
 
           <div>
-            {cart?.product_to_carts ? (
-              cart.product_to_carts.map(({ id }) => <CardProduct key={id} />)
-            ) : (
-              <p>Empty</p>
-            )}
+            {cart.product_to_carts.map((product) => (
+              <CardProduct key={product.id} {...product} />
+            ))}
           </div>
 
           <Button size={Sizes.S} variant={ButtonVariants.PRIMARY} type="submit">

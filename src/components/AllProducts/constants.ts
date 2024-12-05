@@ -1,4 +1,4 @@
-import { IProductTable } from "src/@types/products";
+import { IProduct, IProductTable } from "src/@types/products";
 import { Column } from "src/@types/table";
 import { ActionsButtons } from "./ActionsButtons";
 
@@ -12,15 +12,16 @@ export const ALL_PRODUCTS_COLUMNS: Column[] = [
 ];
 
 export const addActionButtons = (
-  productsData: IProductTable[]
+  productsData: IProductTable[],
+  products: IProduct[]
 ): IProductTable[] =>
-  productsData.map((product) => ({
+  productsData.map((product, index) => ({
     ...product,
     actionButtons: {
       type: "component",
       component: ActionsButtons,
       props: {
-        id: product.key,
+        ...products[index],
       },
     },
   }));
