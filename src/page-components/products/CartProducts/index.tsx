@@ -5,7 +5,7 @@ import { ButtonVariants } from "src/components/Button/types";
 import { SelectDropdownListField } from "src/components/FormField/SelectDropdownListField";
 import { TextInput } from "src/components/FormField/TextInput";
 import { CloseButton } from "src/components/ModalWindow/CloseButton";
-import useSidebarStore from "src/stores/siderbar-store";
+import useCartStore from "src/stores/cart-store";
 import { Sizes } from "src/@types/sizes";
 import { CardProduct } from "./CardProduct";
 import {
@@ -16,9 +16,9 @@ import {
 import { IFormikValues } from "./types";
 
 export const CartProducts: FC = () => {
-  const isCartOpen = useSidebarStore((state) => state.isCartOpen);
-  const closeCart = useSidebarStore((state) => state.closeCart);
-  const cart = useSidebarStore((state) => state.cart);
+  const isCartOpen = useCartStore((state) => state.isCartOpen);
+  const closeCart = useCartStore((state) => state.closeCart);
+  const cart = useCartStore((state) => state.cart);
 
   const formikProps: FormikConfig<IFormikValues> = {
     initialValues: PURCHASE_ORDER_INITIAL_VALUES,

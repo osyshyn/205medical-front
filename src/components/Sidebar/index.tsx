@@ -1,15 +1,15 @@
 import cn from "classnames";
 import { ClientLogo } from "src/components/ClientLogo";
 import { Logo } from "src/components/Logo";
-import useSidebarStore from "src/stores/siderbar-store";
+import useCartStore from "src/stores/cart-store";
 import { AccountCard } from "./AccountCard";
 import { ActionsPanel } from "./ActionsPanel";
 import { Navigation } from "./Navigation";
 import { TourNavigation } from "./TourNavigation";
 
 export const Sidebar = () => {
-  const isSidebarCollapsed = useSidebarStore((state) => state.isCartOpen);
-  const closeCart = useSidebarStore((state) => state.closeCart);
+  const isSidebarCollapsed = useCartStore((state) => state.isCartOpen);
+  const closeCart = useCartStore((state) => state.closeCart);
 
   return (
     <aside

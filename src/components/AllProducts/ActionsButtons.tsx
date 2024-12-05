@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import useSidebarStore from "src/stores/siderbar-store";
+import useCartStore from "src/stores/cart-store";
 import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
 import { Button } from "../Button";
@@ -14,8 +14,8 @@ const price = 123;
 const image = "image";
 
 export const ActionsButtons: FC<Props> = ({ id }) => {
-  const openCard = useSidebarStore((state) => state.openCart);
-  const addProductToCart = useSidebarStore((state) => state.addProductToCart);
+  const openCard = useCartStore((state) => state.openCart);
+  const addProductToCart = useCartStore((state) => state.addProductToCart);
 
   const onClickAdd = () => {
     addProductToCart({ id, name, image, price });

@@ -11,7 +11,7 @@ interface AddProductToCartParams {
   image: string;
 }
 
-interface SidebarState {
+interface CartState {
   isCartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
@@ -22,8 +22,8 @@ interface SidebarState {
   removeProductFromCart: (productId: number) => void;
 }
 
-const useSidebarStore = create(
-  devtools<SidebarState>((set) => ({
+const useCartStore = create(
+  devtools<CartState>((set) => ({
     isCartOpen: false,
     openCart: () => set({ isCartOpen: true }),
     closeCart: () => set({ isCartOpen: false }),
@@ -96,4 +96,4 @@ const useSidebarStore = create(
   }))
 );
 
-export default useSidebarStore;
+export default useCartStore;
