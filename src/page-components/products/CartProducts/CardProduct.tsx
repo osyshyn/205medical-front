@@ -38,7 +38,6 @@ export const CardProduct: FC = () => {
         <CloseButton onClose={undefined} />
 
         <p className="text-22 font-medium">&#36;{price}</p>
-        <p className="text-xs text-gray-regular">Lorem ipsum</p>
       </div>
     </div>
   );

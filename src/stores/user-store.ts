@@ -44,8 +44,6 @@ const useUserStore = create(
 
         const { data } = await instance.get<IUser>("/user/getUser");
 
-        console.log("getUser", data);
-
         set({
           user: data,
           isAuthorized: true,

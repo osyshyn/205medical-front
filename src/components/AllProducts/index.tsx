@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Window } from "src/components/Window";
 import useProductStore from "src/stores/product-store";
+import useSidebarStore from "src/stores/siderbar-store";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { Button } from "../Button";
 import { ButtonVariants } from "../Button/types";
@@ -13,10 +14,12 @@ export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.all_products);
   const isLoading = useProductStore((state) => state.isLoadingProducts);
+  const fetchCart = useSidebarStore((state) => state.fetchCart);
 
   useEffect(() => {
     loadProducts();
-  }, [loadProducts]);
+    fetchCart();
+  }, [fetchCart, loadProducts]);
 
   const items = addActionButtons(products);
 

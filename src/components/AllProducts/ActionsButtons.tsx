@@ -9,11 +9,16 @@ import { ButtonVariants } from "../Button/types";
 interface Props {
   id: number;
 }
+const name = "name";
+const price = 123;
+const image = "image";
 
 export const ActionsButtons: FC<Props> = ({ id }) => {
   const openCard = useSidebarStore((state) => state.openCart);
+  const addProductToCart = useSidebarStore((state) => state.addProductToCart);
 
   const onClickAdd = () => {
+    addProductToCart({ id, name, image, price });
     openCard();
   };
 
