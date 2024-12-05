@@ -15,8 +15,6 @@ export const ORDER_SORT_OPTIONS: IOptionSelect[] = [
   { label: "Ship Status: Z to A", value: "shipStatus_desc" },
 ];
 
-export const ORDERS_PER_PAGE = 2;
-
 export const ORDER_COLUMNS: Column[] = [
   { key: "customer_po_number", label: "Customer PO #" },
   { key: "expected_delivery_date", label: "PO Date" },

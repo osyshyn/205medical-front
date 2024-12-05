@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
@@ -10,12 +10,11 @@ import {
   TableHeader,
 } from "src/components/Table";
 import { Window } from "src/components/Window";
-import useOrderStore from "src/stores/order-store";
-import {
-  ORDER_COLUMNS,
-  ORDER_SORT_OPTIONS,
-  ORDERS_PER_PAGE,
-} from "./constants";
+import { useQueryParams } from "src/hooks/useQueryParams";
+import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { IOptionSelect } from "src/@types/form";
+import { ORDER_COLUMNS, ORDER_SORT_OPTIONS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
@@ -23,19 +22,37 @@ export const RecentOrders: FC = () => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
-  const [sortBy, setSortBy] = useState(ORDER_SORT_OPTIONS[0]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const { getQueryParam, setQueryParam, setMultipleQueryParams } =
+    useQueryParams();
 
-  const [debouncedQueryParams] = useDebounce(searchQuery, DEBOUNCE_DELAY);
+  const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
+  const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
+
+  const [debouncedSearchQuery] = useDebounce(searchQuery, DEBOUNCE_DELAY);
+
+  const activeSortOption = ORDER_SORT_OPTIONS.find(
+    ({ value }) => value === getQueryParam(QUERY_PARAM_KEYS.SORTING)
+  );
+
+  const setSortOption = ({ value }: IOptionSelect) =>
+    setMultipleQueryParams({
+      [QUERY_PARAM_KEYS.SORTING]: value,
+      [QUERY_PARAM_KEYS.PAGE]: "1",
+    });
+
+  const onChangeSearch = (value: React.ChangeEvent<HTMLInputElement>) => {
+    setMultipleQueryParams({
+      [QUERY_PARAM_KEYS.SEARCH]: value.target.value,
+      [QUERY_PARAM_KEYS.PAGE]: "1",
+    });
+  };
 
   useEffect(() => {
     loadOrders({
-      search: debouncedQueryParams,
-      items_per_page: ORDERS_PER_PAGE,
+      search: debouncedSearchQuery,
       current_page: currentPage,
     });
-  }, [currentPage, debouncedQueryParams, loadOrders]);
+  }, [currentPage, debouncedSearchQuery, loadOrders]);
 
   const ordersResponse = useOrderStore((state) => state.recent_orders);
   const ordersResults = ordersResponse?.result || [];
@@ -43,7 +60,11 @@ export const RecentOrders: FC = () => {
   const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
-  const setPage = (page: number) => setCurrentPage(page);
+  const setPage = (page: number) => {
+    if (page !== currentPage) {
+      setQueryParam(QUERY_PARAM_KEYS.PAGE, page.toString());
+    }
+  };
 
   return (
     <Window>
@@ -54,14 +75,14 @@ export const RecentOrders: FC = () => {
           <Search
             className="text-xs"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={onChangeSearch}
           />
 
           <SelectDropdownList
             headLabel="Sort by:"
             options={ORDER_SORT_OPTIONS}
-            activeOption={sortBy}
-            setOption={setSortBy}
+            activeOption={activeSortOption || ORDER_SORT_OPTIONS[0]}
+            setOption={setSortOption}
           />
         </div>
       </div>
