@@ -5,9 +5,9 @@ import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
 import useProductStore from "src/stores/product-store";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { Button } from "../Button";
-import { ButtonVariants } from "../Button/types";
-import { Title } from "../Title";
+import { Button } from "../../../components/Button";
+import { ButtonVariants } from "../../../components/Button/types";
+import { Title } from "../../../components/Title";
 import { addActionButtons, ALL_PRODUCTS_COLUMNS } from "./constants";
 
 export const AllProducts: FC = () => {

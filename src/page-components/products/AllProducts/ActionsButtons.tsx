@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import useCartStore from "src/stores/cart-store";
 import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
-import { Button } from "../Button";
-import { ButtonVariants } from "../Button/types";
+import { Button } from "../../../components/Button";
+import { ButtonVariants } from "../../../components/Button/types";
 
 interface Props {
   id: number;
