@@ -13,7 +13,7 @@ export const CloseButton: FC<Props> = ({
   isActiveDefaultHoverEffect = true,
   onClose,
 }) => (
-  <button onClick={onClose}>
+  <button type="button" onClick={onClose}>
     <CloseIcon
       className={cn("visible opacity-50", className, {
         "group-hover:opacity-100": isActiveDefaultHoverEffect,

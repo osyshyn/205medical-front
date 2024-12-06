@@ -3,29 +3,19 @@ import { Link } from "react-router-dom";
 import useCartStore from "src/stores/cart-store";
 import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
-import { IProduct } from "src/@types/products";
 import { Button } from "../Button";
 import { ButtonVariants } from "../Button/types";
 
-export const ActionsButtons: FC<IProduct> = ({
-  id,
-  name,
-  preview,
-  price,
-  minimum_order,
-}) => {
+interface Props {
+  id: number;
+}
+
+export const ActionsButtons: FC<Props> = ({ id }) => {
   const openCard = useCartStore((state) => state.openCart);
   const addProductToCart = useCartStore((state) => state.addProductToCart);
 
   const onClickAdd = () => {
-    addProductToCart({
-      id,
-      name,
-      price,
-      minimum_order,
-      preview,
-      quantity: 1,
-    });
+    addProductToCart(id);
 
     openCard();
   };

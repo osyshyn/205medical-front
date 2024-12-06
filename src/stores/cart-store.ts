@@ -2,7 +2,7 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { Cart, ProductToCart } from "src/@types/cart";
+import { Cart } from "src/@types/cart";
 
 interface CartState {
   isCartOpen: boolean;
@@ -11,8 +11,9 @@ interface CartState {
   cart: Cart;
   isLoading: boolean;
   fetchCart: () => void;
-  addProductToCart: (product: ProductToCart) => void;
+  addProductToCart: (productId: number) => void;
   removeProductFromCart: (productId: number) => void;
+  updataQuantity: (productId: number, quantity: number) => void;
 }
 
 const useCartStore = create(
@@ -33,47 +34,12 @@ const useCartStore = create(
         set({ isLoading: false });
       }
     },
-    addProductToCart: async (product) => {
+    addProductToCart: async (productId) => {
       try {
-        await instance.post<Cart>("cart/addProductToCart", {
-          product_id: product.id,
-          quantity: product.minimum_order,
+        const { data } = await instance.post<Cart>("cart/addProductToCart", {
+          product_id: productId,
         });
-
-        set((state) => {
-          const existingProduct = state.cart.product_to_carts.find(
-            (item) => item.id === product.id
-          );
-
-          if (existingProduct) {
-            return {
-              cart: {
-                ...state.cart,
-                product_to_carts: state.cart.product_to_carts.map((item) =>
-                  item.id === product.id
-                    ? { ...item, quantity: item.quantity + 1 }
-                    : item
-                ),
-              },
-            };
-          }
-
-          const newProductToCart: ProductToCart = {
-            id: product.id,
-            quantity: 1,
-            ...product,
-          };
-
-          return {
-            cart: {
-              ...state.cart,
-              product_to_carts: [
-                ...state.cart.product_to_carts,
-                newProductToCart,
-              ],
-            },
-          };
-        });
+        set({ cart: data });
       } catch (error) {
         NotificationService.error();
       } finally {
@@ -85,7 +51,6 @@ const useCartStore = create(
         await instance.post<Cart>("cart/deleteProductInCart", {
           product_id: productId,
         });
-
         set((state) => ({
           cart: {
             ...state.cart,
@@ -94,6 +59,19 @@ const useCartStore = create(
             ),
           },
         }));
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updataQuantity: async (id, quantity) => {
+      try {
+        const { data } = await instance.post<Cart>("cart/updateProductInCart", {
+          id,
+          quantity,
+        });
+        set({ cart: data });
       } catch (error) {
         NotificationService.error();
       } finally {
