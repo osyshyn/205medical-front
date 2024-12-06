@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useField } from "formik";
-import { IFormField, IOptionSelect } from "src/@types/form";
+import { IFormField, IOptionSelect, SetOptionSelect } from "src/@types/form";
 import { FormField } from ".";
 import { SelectDropdownList } from "../SelectDropdownList";
 
@@ -9,6 +9,7 @@ interface Props {
   options?: IOptionSelect[];
   headLabel?: string;
   headLabelclassName?: string;
+  onChange?: (option: IOptionSelect) => void;
 }
 
 export const SelectDropdownListField: FC<Props> = ({
@@ -23,6 +24,7 @@ export const SelectDropdownListField: FC<Props> = ({
   options,
   headLabel,
   headLabelclassName,
+  onChange = () => {},
 }) => {
   const name = props.name as string;
 
@@ -30,6 +32,11 @@ export const SelectDropdownListField: FC<Props> = ({
 
   const [{ value }, { error, touched }, { setValue }] = useField(fieldId);
   const isShownError = Boolean((touched || value) && error);
+
+  const setOption: SetOptionSelect = (newOption) => {
+    setValue(newOption);
+    onChange(newOption);
+  };
 
   return (
     <div className="flex-1">
@@ -48,7 +55,7 @@ export const SelectDropdownListField: FC<Props> = ({
           className={className}
           options={options}
           activeOption={value}
-          setOption={setValue}
+          setOption={setOption}
         />
       </FormField>
     </div>
