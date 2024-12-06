@@ -1,6 +1,6 @@
 import { ICartProductTable } from "src/@types/table";
 import { Column } from "src/@types/table";
-import { DeleteButton } from "./ActionsButtons";
+import { DeleteButton } from "./DeleteButton";
 
 export const CART_PRODUCTS_COLUMNS: Column[] = [
   { key: "image", label: "" },
