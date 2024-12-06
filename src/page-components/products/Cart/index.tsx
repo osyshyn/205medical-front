@@ -18,7 +18,7 @@ import {
 } from "./constans";
 import { IFormikValues } from "./types";
 
-export const CartProducts: FC = () => {
+export const Cart: FC = () => {
   const isCartOpen = useCartStore((state) => state.isCartOpen);
   const closeCart = useCartStore((state) => state.closeCart);
   const cart = useCartStore((state) => state.cart);

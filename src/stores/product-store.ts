@@ -2,7 +2,8 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { IProduct, IProductDetails, IProductTable } from "src/@types/products";
+import { IProduct, IProductDetails } from "src/@types/products";
+import { IProductTable } from "src/@types/table";
 
 interface IProductStore {
   products: IProduct[];

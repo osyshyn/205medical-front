@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from "react";
 import { Outlet } from "react-router";
+import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
 import { Table, TableBody, TableHeader } from "src/components/Table";
+import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
 import useProductStore from "src/stores/product-store";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { Button } from "../../../components/Button";
-import { ButtonVariants } from "../../../components/Button/types";
-import { Title } from "../../../components/Title";
 import { addActionButtons, ALL_PRODUCTS_COLUMNS } from "./constants";
 
 export const AllProducts: FC = () => {

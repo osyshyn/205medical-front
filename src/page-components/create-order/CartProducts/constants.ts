@@ -1,0 +1,172 @@
+import { ICartProductTable } from "src/@types/table";
+import { Column } from "src/@types/table";
+import { DeleteButton } from "./ActionsButtons";
+
+export const CART_PRODUCTS_COLUMNS: Column[] = [
+  { key: "image", label: "" },
+  { key: "sku", label: "SKU" },
+  { key: "name", label: "Item name" },
+  { key: "category", label: "Category" },
+  { key: "package", label: "Package" },
+  { key: "quantity", label: "Quantity" },
+  { key: "price", label: "Unit Price" },
+  { key: "total", label: "Total" },
+  { key: "deleteButton", label: "" },
+];
+
+export const getTableItems = (
+  cartProducts: ICartProductTable[]
+): ICartProductTable[] =>
+  cartProducts.map((product) => ({
+    ...product,
+    deleteButton: {
+      type: "component",
+      component: DeleteButton,
+      props: {
+        id: product.key,
+      },
+    },
+  }));
+
+export const DATA_FROM_SERVER: ICartProductTable[] = [
+  {
+    sku: "dsfsefsdf",
+    name: "Test Product 1",
+    packageInfo: null,
+    price: 25.03,
+    category: "Category 1",
+    quantity: 3,
+    totalAmount: 75.09,
+    preview: {
+      id: 1,
+      type: "image",
+      alt: "Preview of Test Product 1",
+      path: "public\\uploads\\user\\product1.jpg",
+    },
+    key: "product-1",
+  },
+  {
+    sku: "gdfgfdf",
+    name: "Test Product 2",
+    packageInfo: null,
+    price: 13.5,
+    category: "Category 2",
+    quantity: 5,
+    totalAmount: 67.5,
+    preview: null,
+    key: "product-2",
+  },
+  {
+    sku: "lkjdsf987",
+    name: "Test Product 3",
+    packageInfo: "Box of 10",
+    price: 9.99,
+    category: "Category 3",
+    quantity: 10,
+    totalAmount: 99.9,
+    preview: {
+      id: 3,
+      type: "image",
+      alt: "Preview of Test Product 3",
+      path: "public\\uploads\\user\\product3.jpg",
+    },
+    key: "product-3",
+  },
+  {
+    sku: "qw12dsf44",
+    name: "Test Product 4",
+    packageInfo: "Pack of 5",
+    price: 15.25,
+    category: "Category 4",
+    quantity: 8,
+    totalAmount: 122,
+    preview: {
+      id: 4,
+      type: "image",
+      alt: "Preview of Test Product 4",
+      path: "public\\uploads\\user\\product4.jpg",
+    },
+    key: "product-4",
+  },
+  {
+    sku: "asd98asdf",
+    name: "Test Product 5",
+    packageInfo: null,
+    price: 49.99,
+    category: "Category 5",
+    quantity: 2,
+    totalAmount: 99.98,
+    preview: null,
+    key: "product-5",
+  },
+  {
+    sku: "kjasf9123",
+    name: "Test Product 6",
+    packageInfo: "Single",
+    price: 17.75,
+    category: "Category 6",
+    quantity: 4,
+    totalAmount: 71,
+    preview: {
+      id: 6,
+      type: "image",
+      alt: "Preview of Test Product 6",
+      path: "public\\uploads\\user\\product6.jpg",
+    },
+    key: "product-6",
+  },
+  {
+    sku: "ksdjf0948",
+    name: "Test Product 7",
+    packageInfo: null,
+    price: 10.5,
+    category: "Category 7",
+    quantity: 6,
+    totalAmount: 63,
+    preview: null,
+    key: "product-7",
+  },
+  {
+    sku: "lkj23jdsf",
+    name: "Test Product 8",
+    packageInfo: "Pack of 12",
+    price: 8.3,
+    category: "Category 8",
+    quantity: 7,
+    totalAmount: 58.1,
+    preview: {
+      id: 8,
+      type: "image",
+      alt: "Preview of Test Product 8",
+      path: "public\\uploads\\user\\product8.jpg",
+    },
+    key: "product-8",
+  },
+  {
+    sku: "as23lkdsf",
+    name: "Test Product 9",
+    packageInfo: "Bundle of 3",
+    price: 22.99,
+    category: "Category 9",
+    quantity: 3,
+    totalAmount: 68.97,
+    preview: {
+      id: 9,
+      type: "image",
+      alt: "Preview of Test Product 9",
+      path: "public\\uploads\\user\\product9.jpg",
+    },
+    key: "product-9",
+  },
+  {
+    sku: "afj94fdfs",
+    name: "Test Product 10",
+    packageInfo: null,
+    price: 19.99,
+    category: "Category 10",
+    quantity: 9,
+    totalAmount: 179.91,
+    preview: null,
+    key: "product-10",
+  },
+];

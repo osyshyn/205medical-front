@@ -1,4 +1,4 @@
-import { IProductTable } from "src/@types/products";
+import { IProductTable } from "src/@types/table";
 import { Column } from "src/@types/table";
 import { ActionsButtons } from "./ActionsButtons";
 

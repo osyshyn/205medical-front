@@ -36,3 +36,22 @@ export interface Row {
   key: string;
   [key: string]: RowValue;
 }
+
+export interface IProductTable extends Row {
+  image: ImageValue;
+  sku: string;
+  name: string;
+  price: number;
+  minimum_order: number;
+}
+
+export interface ICartProductTable extends Row {
+  quantity: number;
+  name: string;
+  price: number;
+  preview: ImageValue;
+  sku: string;
+  packageInfo: string;
+  category: string;
+  totalAmount: number;
+}
