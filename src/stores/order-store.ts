@@ -11,9 +11,8 @@ import {
 } from "src/@types/orders";
 
 interface FetchOrdersParams {
-  current_page: number;
-  items_per_page: number;
   search: string;
+  current_page: number;
 }
 
 interface IOrderStore {
@@ -22,6 +21,8 @@ interface IOrderStore {
   fetchOrders: (params: FetchOrdersParams) => void;
   isLoading: boolean;
 }
+
+export const ORDERS_PER_PAGE = 2;
 
 const useOrderStore = create(
   devtools<IOrderStore>((set) => ({
@@ -32,10 +33,8 @@ const useOrderStore = create(
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IResponseWithPagination<IOrder>>(
-          "order/getOrders",
-          {
-            params,
-          }
+          `order/getOrders?&items_per_page=${ORDERS_PER_PAGE}`,
+          { params }
         );
 
         set({ orders: data });

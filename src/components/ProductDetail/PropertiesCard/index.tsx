@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { PRODUCT_TEMP } from "src/components/AllProducts/temp/constants";
+import { IProductDetails } from "src/@types/products";
 import { getProperties } from "../constants";
 import { Property } from "./Property";
 
-export const PropertiesCard: FC = () => {
-  const properties = getProperties(PRODUCT_TEMP);
+export const PropertiesCard: FC<IProductDetails> = ({ ...product }) => {
+  const properties = getProperties(product);
 
   return (
     <div className="mt-2">

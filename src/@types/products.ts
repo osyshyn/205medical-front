@@ -1,3 +1,6 @@
+import { Image } from ".";
+import { ImageValue, Row } from "./table";
+
 export interface ICategory {
   id: number;
   name: string;
@@ -13,20 +16,33 @@ export interface IAttribute {
 export interface IProduct {
   id: number;
   name: string;
-  description: string;
   price: number;
   minimum_order: number;
   categories_id: number;
   certification: string;
+  sku: string;
+  description: string;
   type: string;
   package_info: string;
   size: string;
-  sku: string;
+  how_to_use: string;
+  faq: string;
   created_at: string;
   updated_at: string;
+  preview: Image;
+}
+
+export interface IProductDetails extends IProduct {
+  photos: Image[];
+  down_load_link: string;
   category: ICategory;
-  image: string;
-  howToUse: string;
-  faqs: string;
-  downloadLink: string;
+}
+
+export interface IProductTable extends Row {
+  key: string;
+  image: ImageValue;
+  sku: string;
+  name: string;
+  price: number;
+  minimum_order: number;
 }

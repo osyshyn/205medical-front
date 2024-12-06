@@ -1,13 +1,13 @@
 import React, { FC, useState } from "react";
-import { PRODUCT_TEMP } from "src/components/AllProducts/temp/constants";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
+import { IProductDetails } from "src/@types/products";
 import { Sizes } from "src/@types/sizes";
 import { getTabs } from "../constants";
 import { ITab } from "./types";
 
-export const Tabs: FC = () => {
-  const tabs = getTabs(PRODUCT_TEMP);
+export const Tabs: FC<IProductDetails> = ({ ...product }) => {
+  const tabs = getTabs(product);
 
   const [visbleTab, setVisbleTab] = useState(tabs[0]);
 

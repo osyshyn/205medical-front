@@ -10,6 +10,9 @@ interface ILocationStore {
   isLoadingUpdate: boolean;
   fetchLocation: () => void;
   isLoadingFetch: boolean;
+  getLocationAvailableProducts: (locationId: number) => void;
+  available_products: number[];
+  isLoadingAvailableProducts: boolean;
 }
 
 const useLocationStore = create(
@@ -52,7 +55,6 @@ const useLocationStore = create(
       set({ isLoadingFetch: true });
       try {
         const { data } = await instance.get<ILocation[]>("/location");
-
         set({ locations: data });
       } catch (error) {
         NotificationService.error();
@@ -61,6 +63,21 @@ const useLocationStore = create(
       }
     },
     isLoadingFetch: false,
+    getLocationAvailableProducts: async (id) => {
+      set({ isLoadingAvailableProducts: true });
+      try {
+        const { data } = await instance.get<number[]>(
+          `/location/getAvailableLocationProducts?id=${id}`
+        );
+        set({ available_products: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingAvailableProducts: false });
+      }
+    },
+    available_products: [],
+    isLoadingAvailableProducts: false,
   }))
 );
 

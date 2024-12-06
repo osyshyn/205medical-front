@@ -12,7 +12,5 @@ export interface ILink {
 
 export interface Image {
   id: number;
-  user_id: number;
-  type: string;
   path: string;
 }

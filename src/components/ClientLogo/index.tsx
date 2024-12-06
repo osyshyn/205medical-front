@@ -8,12 +8,14 @@ interface Props {
 }
 
 export const ClientLogo: FC<Props> = ({ linkHref }) => {
-  const { path, type } = useUserStore((state) => state.user.logo);
+  const { logo, first_name, last_name } = useUserStore((state) => state.user);
+
+  const altText = `${first_name} ${last_name} logo`;
 
   return (
     <div>
       <Link to={linkHref || PATHNAMES.DASHBOARD}>
-        <img src={path} alt={type} />
+        <img src={logo.path} alt={altText} />
       </Link>
     </div>
   );
