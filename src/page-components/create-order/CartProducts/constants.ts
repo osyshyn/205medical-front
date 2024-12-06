@@ -1,16 +1,17 @@
 import { ICartProductTable } from "src/@types/table";
 import { Column } from "src/@types/table";
 import { DeleteButton } from "./DeleteButton";
+import { QuantityToggle } from "./QuantityToggle";
 
 export const CART_PRODUCTS_COLUMNS: Column[] = [
-  { key: "image", label: "" },
+  { key: "preview", label: "" },
   { key: "sku", label: "SKU" },
   { key: "name", label: "Item name" },
   { key: "category", label: "Category" },
-  { key: "package", label: "Package" },
-  { key: "quantity", label: "Quantity" },
+  { key: "packageInfo", label: "Package" },
+  { key: "quantityComponent", label: "Quantity" },
   { key: "price", label: "Unit Price" },
-  { key: "total", label: "Total" },
+  { key: "totalAmount", label: "Total" },
   { key: "deleteButton", label: "" },
 ];
 
@@ -19,6 +20,14 @@ export const getTableItems = (
 ): ICartProductTable[] =>
   cartProducts.map((product) => ({
     ...product,
+    quantityComponent: {
+      type: "component",
+      component: QuantityToggle,
+      props: {
+        id: product.key,
+        quantity: product.quantity,
+      },
+    },
     deleteButton: {
       type: "component",
       component: DeleteButton,
@@ -32,7 +41,7 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
   {
     sku: "dsfsefsdf",
     name: "Test Product 1",
-    packageInfo: null,
+    packageInfo: "Box of 10",
     price: 25.03,
     category: "Category 1",
     quantity: 3,
@@ -40,21 +49,26 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 1,
       type: "image",
-      alt: "Preview of Test Product 1",
+      alt: "preview-1",
       path: "public\\uploads\\user\\product1.jpg",
     },
-    key: "product-1",
+    key: 1,
   },
   {
     sku: "gdfgfdf",
     name: "Test Product 2",
-    packageInfo: null,
+    packageInfo: "Box of 10",
     price: 13.5,
     category: "Category 2",
     quantity: 5,
     totalAmount: 67.5,
-    preview: null,
-    key: "product-2",
+    preview: {
+      id: 2,
+      type: "image",
+      alt: "preview-1",
+      path: "public\\uploads\\user\\product1.jpg",
+    },
+    key: 2,
   },
   {
     sku: "lkjdsf987",
@@ -67,10 +81,10 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 3,
       type: "image",
-      alt: "Preview of Test Product 3",
+      alt: "preview-3",
       path: "public\\uploads\\user\\product3.jpg",
     },
-    key: "product-3",
+    key: 3,
   },
   {
     sku: "qw12dsf44",
@@ -83,21 +97,26 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 4,
       type: "image",
-      alt: "Preview of Test Product 4",
+      alt: "preview-4",
       path: "public\\uploads\\user\\product4.jpg",
     },
-    key: "product-4",
+    key: 4,
   },
   {
     sku: "asd98asdf",
     name: "Test Product 5",
-    packageInfo: null,
+    packageInfo: "Box of 10",
     price: 49.99,
     category: "Category 5",
     quantity: 2,
     totalAmount: 99.98,
-    preview: null,
-    key: "product-5",
+    preview: {
+      id: 5,
+      type: "image",
+      alt: "preview-1",
+      path: "public\\uploads\\user\\product1.jpg",
+    },
+    key: 5,
   },
   {
     sku: "kjasf9123",
@@ -110,21 +129,26 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 6,
       type: "image",
-      alt: "Preview of Test Product 6",
+      alt: "preview-6",
       path: "public\\uploads\\user\\product6.jpg",
     },
-    key: "product-6",
+    key: 6,
   },
   {
     sku: "ksdjf0948",
     name: "Test Product 7",
-    packageInfo: null,
+    packageInfo: "Box of 10",
     price: 10.5,
     category: "Category 7",
     quantity: 6,
     totalAmount: 63,
-    preview: null,
-    key: "product-7",
+    preview: {
+      id: 7,
+      type: "image",
+      alt: "preview-1",
+      path: "public\\uploads\\user\\product1.jpg",
+    },
+    key: 7,
   },
   {
     sku: "lkj23jdsf",
@@ -137,10 +161,10 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 8,
       type: "image",
-      alt: "Preview of Test Product 8",
+      alt: "preview-8",
       path: "public\\uploads\\user\\product8.jpg",
     },
-    key: "product-8",
+    key: 8,
   },
   {
     sku: "as23lkdsf",
@@ -153,20 +177,25 @@ export const DATA_FROM_SERVER: ICartProductTable[] = [
     preview: {
       id: 9,
       type: "image",
-      alt: "Preview of Test Product 9",
+      alt: "preview-9",
       path: "public\\uploads\\user\\product9.jpg",
     },
-    key: "product-9",
+    key: 9,
   },
   {
     sku: "afj94fdfs",
     name: "Test Product 10",
-    packageInfo: null,
+    packageInfo: "Box of 10",
     price: 19.99,
     category: "Category 10",
     quantity: 9,
     totalAmount: 179.91,
-    preview: null,
-    key: "product-10",
+    preview: {
+      id: 10,
+      type: "image",
+      alt: "preview-1",
+      path: "public\\uploads\\user\\product1.jpg",
+    },
+    key: 10,
   },
 ];

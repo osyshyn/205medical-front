@@ -3,12 +3,12 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IResponseWithPagination } from "src/@types/api";
+import { IOrder } from "src/@types/orders";
 import {
-  IOrder,
   IRecentOrderTable,
   STATUSES_APPROVAL,
   STATUSES_SHIPS,
-} from "src/@types/orders";
+} from "src/@types/table";
 
 interface FetchOrdersParams {
   search: string;
@@ -49,7 +49,7 @@ const useOrderStore = create(
             expected_delivery_date,
             approval_status,
           }) => ({
-            key: String(id),
+            key: id,
             order_number,
             location,
             order_amt,
