@@ -13,6 +13,8 @@ import {
 interface FetchOrdersParams {
   search: string;
   current_page: number;
+  year: string;
+  month: string;
 }
 
 interface IOrderStore {

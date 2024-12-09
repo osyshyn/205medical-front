@@ -2,7 +2,6 @@ import React, { FC, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
-import { SelectDropdownList } from "src/components/SelectDropdownList";
 import {
   DataRangeIndicator,
   Table,
@@ -13,8 +12,11 @@ import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
-import { IOptionSelect } from "src/@types/form";
-import { ORDER_COLUMNS, ORDER_SORT_OPTIONS } from "./constants";
+import {
+  getCurrentMonthOption,
+  getCurrentYearOption,
+} from "../SelectDate/constants";
+import { ORDER_COLUMNS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
@@ -25,20 +27,15 @@ export const RecentOrders: FC = () => {
   const { getQueryParam, setQueryParam, setMultipleQueryParams } =
     useQueryParams();
 
+  const year =
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value;
+  const month =
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value;
+
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
 
   const [debouncedSearchQuery] = useDebounce(searchQuery, DEBOUNCE_DELAY);
-
-  const activeSortOption = ORDER_SORT_OPTIONS.find(
-    ({ value }) => value === getQueryParam(QUERY_PARAM_KEYS.SORTING)
-  );
-
-  const setSortOption = ({ value }: IOptionSelect) =>
-    setMultipleQueryParams({
-      [QUERY_PARAM_KEYS.SORTING]: value,
-      [QUERY_PARAM_KEYS.PAGE]: "1",
-    });
 
   const onChangeSearch = (value: React.ChangeEvent<HTMLInputElement>) => {
     setMultipleQueryParams({
@@ -51,8 +48,10 @@ export const RecentOrders: FC = () => {
     loadOrders({
       search: debouncedSearchQuery,
       current_page: currentPage,
+      year: year as string,
+      month: month as string,
     });
-  }, [currentPage, debouncedSearchQuery, loadOrders]);
+  }, [currentPage, debouncedSearchQuery, month, year, loadOrders]);
 
   const ordersResponse = useOrderStore((state) => state.recent_orders);
   const ordersResults = ordersResponse?.result || [];
@@ -71,20 +70,11 @@ export const RecentOrders: FC = () => {
       <div className="flex items-center justify-between">
         <h3>Recent Orders</h3>
 
-        <div className="flex items-center gap-4">
-          <Search
-            className="text-xs"
-            value={searchQuery}
-            onChange={onChangeSearch}
-          />
-
-          <SelectDropdownList
-            headLabel="Sort by:"
-            options={ORDER_SORT_OPTIONS}
-            activeOption={activeSortOption || ORDER_SORT_OPTIONS[0]}
-            setOption={setSortOption}
-          />
-        </div>
+        <Search
+          className="text-xs"
+          value={searchQuery}
+          onChange={onChangeSearch}
+        />
       </div>
 
       <Table ariaLabel="Recent orders table">
