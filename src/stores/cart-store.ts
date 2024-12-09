@@ -53,7 +53,13 @@ const useCartStore = create(
         const { data } = await instance.get<ICartProductTable[]>(
           "cart/getCartProduct"
         );
-        set({ cart_products: data });
+
+        set({
+          cart_products: data.map((product) => ({
+            ...product,
+            total: +(product.quantity * product.price).toFixed(2),
+          })),
+        });
       } catch (error) {
         NotificationService.error();
       } finally {
@@ -108,7 +114,13 @@ const useCartStore = create(
 
         set((state) => ({
           cart_products: state.cart_products.map((product) =>
-            product.id === id ? { ...product, quantity } : product
+            product.id === id
+              ? {
+                  ...product,
+                  quantity,
+                  total: +(quantity * product.price).toFixed(2),
+                }
+              : product
           ),
         }));
       } catch (error) {

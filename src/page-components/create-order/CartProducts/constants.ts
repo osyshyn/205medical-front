@@ -8,10 +8,10 @@ export const CART_PRODUCTS_COLUMNS: Column[] = [
   { key: "sku", label: "SKU" },
   { key: "name", label: "Item name" },
   { key: "category", label: "Category" },
-  { key: "packageInfo", label: "Package" },
+  { key: "package_info", label: "Package" },
   { key: "quantityComponent", label: "Quantity" },
   { key: "price", label: "Unit Price" },
-  { key: "totalAmount", label: "Total" },
+  { key: "total", label: "Total" },
   { key: "deleteButton", label: "" },
 ];
 

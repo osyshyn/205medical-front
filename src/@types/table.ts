@@ -105,7 +105,7 @@ export interface ICartProductTable extends Row {
   minimum_order: number;
   preview: ImageValue;
   sku: string;
-  packageInfo: string;
+  package_info: string;
   category: string;
-  totalAmount: number;
+  total: number;
 }
