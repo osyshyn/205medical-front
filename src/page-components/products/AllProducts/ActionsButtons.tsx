@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
 import useCartStore from "src/stores/cart-store";
 import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
-import { Button } from "../Button";
-import { ButtonVariants } from "../Button/types";
 
 interface Props {
   id: number;
@@ -16,7 +16,6 @@ export const ActionsButtons: FC<Props> = ({ id }) => {
 
   const onClickAdd = () => {
     addProductToCart(id);
-
     openCard();
   };
 

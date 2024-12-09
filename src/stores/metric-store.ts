@@ -30,8 +30,8 @@ const getMetrics = (
         label: metric.label,
         value: metric.value,
         trend: metric.trend,
-        icon: customization?.icon || null, // Прокинута іконка
-        color: customization?.color || "#000000", // Прокинутий колір або дефолтний
+        icon: customization?.icon || null,
+        color: customization?.color || "#000000",
       };
     }),
   };
