@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
-
-// import useCartStore from "src/stores/cart-store";
+import useCartStore from "src/stores/cart-store";
 
 interface Props {
   id: number;
@@ -10,14 +9,14 @@ interface Props {
 }
 
 export const QuantityToggle: FC<Props> = ({ id, quantity, minimum_order }) => {
-  // const updataQuantity = useCartStore((state) => state.updataQuantity);
+  const updataQuantity = useCartStore((state) => state.updataQuantity);
 
   const incrementQuantity = () => {
-    // updataQuantity(id, quantity + 1);
+    updataQuantity(id, quantity + 1);
   };
 
   const decrementQuantity = () => {
-    // updataQuantity(id, quantity - 1);
+    updataQuantity(id, quantity - 1);
   };
 
   const isDecrementBtnDisabled = quantity === minimum_order;

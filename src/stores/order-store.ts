@@ -49,7 +49,7 @@ const useOrderStore = create(
             expected_delivery_date,
             approval_status,
           }) => ({
-            key: id,
+            id,
             order_number,
             location,
             order_amt,

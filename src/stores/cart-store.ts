@@ -3,14 +3,18 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { Cart } from "src/@types/cart";
+import { ICartProductTable } from "src/@types/table";
 
 interface CartState {
   isCartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
   cart: Cart;
+  cart_products: ICartProductTable[];
   isLoading: boolean;
+  isLoadingCartProduct: boolean;
   fetchCart: () => void;
+  fetchCartProduct: () => void;
   addProductToCart: (productId: number) => void;
   removeProductFromCart: (productId: number) => void;
   updataQuantity: (productId: number, quantity: number) => void;
@@ -22,7 +26,9 @@ const useCartStore = create(
     openCart: () => set({ isCartOpen: true }),
     closeCart: () => set({ isCartOpen: false }),
     cart: null,
+    cart_products: [],
     isLoading: false,
+    isLoadingCartProduct: false,
     fetchCart: async () => {
       set({ isLoading: true });
       try {
@@ -32,6 +38,21 @@ const useCartStore = create(
         NotificationService.error();
       } finally {
         set({ isLoading: false });
+      }
+    },
+    fetchCartProduct: async () => {
+      set({ isLoadingCartProduct: true });
+      try {
+        const { data } = await instance.get<ICartProductTable[]>(
+          "cart/getCartProduct"
+        );
+
+        console.log(data);
+        set({ cart_products: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingCartProduct: false });
       }
     },
     addProductToCart: async (productId) => {

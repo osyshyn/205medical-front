@@ -37,7 +37,7 @@ const useProductStore = create(
             price,
             minimum_order,
           }): IProductTable => ({
-            key: id,
+            id,
             image: {
               type: "image",
               alt: name,

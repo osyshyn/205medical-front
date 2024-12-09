@@ -20,7 +20,7 @@ export const addActionButtons = (
       type: "component",
       component: ActionsButtons,
       props: {
-        id: product.key,
+        id: product.id,
       },
     },
   }));

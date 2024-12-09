@@ -34,7 +34,7 @@ export type RowValue =
   | ComponentValue;
 
 export interface Row {
-  key: number;
+  id: number;
   [key: string]: RowValue;
 }
 
@@ -102,6 +102,7 @@ export interface ICartProductTable extends Row {
   quantity: number;
   name: string;
   price: number;
+  minimum_order: number;
   preview: ImageValue;
   sku: string;
   packageInfo: string;

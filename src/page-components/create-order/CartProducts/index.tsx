@@ -1,15 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
-import {
-  CART_PRODUCTS_COLUMNS,
-  DATA_FROM_SERVER,
-  getTableItems,
-} from "./constants";
+import useCartStore from "src/stores/cart-store";
+import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const CartProducts: FC = () => {
-  const items = getTableItems(DATA_FROM_SERVER);
+  const loadCartProduct = useCartStore((state) => state.fetchCartProduct);
+  const isLoading = useCartStore((state) => state.isLoadingCartProduct);
+  const cartProducts = useCartStore((state) => state.cart_products);
+
+  useEffect(() => {
+    loadCartProduct();
+  }, [loadCartProduct]);
+
+  const items = getTableItems(cartProducts);
 
   return (
     <Window>
@@ -21,7 +26,11 @@ export const CartProducts: FC = () => {
       <div className="scrollbar max-h-162.5 overflow-y-scroll">
         <Table ariaLabel="Products">
           <TableHeader columns={CART_PRODUCTS_COLUMNS} />
-          <TableBody items={items} columns={CART_PRODUCTS_COLUMNS} />
+          <TableBody
+            items={items}
+            columns={CART_PRODUCTS_COLUMNS}
+            isLoading={isLoading}
+          />
         </Table>
       </div>
     </Window>
