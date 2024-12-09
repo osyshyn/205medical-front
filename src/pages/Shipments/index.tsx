@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from "react";
+import { ShipmentHistory } from "src/page-components/shipments/ShipmentHistory";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
 import { SelectDate } from "src/components/SelectDate";
@@ -57,7 +58,7 @@ const Shipments: FC = () => {
         setSelectYear={setSelectYearOption}
       />
       <Metrics metrics={metrics} isLoading={isLoading} />
-      <div>table</div>
+      <ShipmentHistory />
     </PageWrapper>
   );
 };
