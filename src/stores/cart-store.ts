@@ -5,6 +5,12 @@ import { NotificationService } from "src/helpers/notifications";
 import { Cart } from "src/@types/cart";
 import { ICartProductTable } from "src/@types/table";
 
+export interface UpdataCartParams {
+  location_id: string | number;
+  poNumber: string;
+  onSuccess: () => void;
+}
+
 interface CartState {
   isCartOpen: boolean;
   openCart: () => void;
@@ -18,10 +24,11 @@ interface CartState {
   addProductToCart: (productId: number) => void;
   removeProductFromCart: (productId: number) => void;
   updataQuantity: (productId: number, quantity: number) => void;
+  updataCart: (values: UpdataCartParams) => void;
 }
 
 const useCartStore = create(
-  devtools<CartState>((set) => ({
+  devtools<CartState>((set, get) => ({
     isCartOpen: false,
     openCart: () => set({ isCartOpen: true }),
     closeCart: () => set({ isCartOpen: false }),
@@ -93,6 +100,21 @@ const useCartStore = create(
           quantity,
         });
         set({ cart: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updataCart: async ({ location_id, poNumber, onSuccess }) => {
+      try {
+        await instance.post<Cart>("cart/updateCart", {
+          id: get().cart.id,
+          po_number: poNumber,
+          location_id,
+        });
+        NotificationService.success();
+        onSuccess();
       } catch (error) {
         NotificationService.error();
       } finally {

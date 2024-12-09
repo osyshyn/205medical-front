@@ -1,4 +1,5 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
@@ -8,6 +9,7 @@ import { Loader } from "src/components/Loader";
 import { CloseButton } from "src/components/ModalWindow/CloseButton";
 import useCartStore from "src/stores/cart-store";
 import useLocationStore from "src/stores/location-store";
+import { PATHNAMES } from "src/constants/routes";
 import { IOptionSelect } from "src/@types/form";
 import { Sizes } from "src/@types/sizes";
 import { CardProduct } from "./CardProduct";
@@ -19,16 +21,28 @@ import {
 import { IFormikValues } from "./types";
 
 export const Cart: FC = () => {
+  const navigation = useNavigate();
+
   const isCartOpen = useCartStore((state) => state.isCartOpen);
   const closeCart = useCartStore((state) => state.closeCart);
   const cart = useCartStore((state) => state.cart);
+  const updataCart = useCartStore((state) => state.updataCart);
+
+  const [initialValues, setInitialValues] = useState<IFormikValues>(
+    PURCHASE_ORDER_INITIAL_VALUES
+  );
 
   const formikProps: FormikConfig<IFormikValues> = {
-    initialValues: PURCHASE_ORDER_INITIAL_VALUES,
+    initialValues,
     validationSchema: PURCHASE_ORDER_VALIDATION_SCHEMA,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: ({ orderLocation, poNumber }) => {
+      updataCart({
+        location_id: orderLocation.value,
+        poNumber,
+        onSuccess: () => navigation(PATHNAMES.CREATE_ORDER),
+      });
     },
+    enableReinitialize: true,
   };
 
   const formik = useFormik(formikProps);
@@ -52,6 +66,20 @@ export const Cart: FC = () => {
   useEffect(() => {
     fetchLocation();
   }, []);
+
+  useEffect(() => {
+    if (cart && cart.location) {
+      setInitialValues({
+        orderLocation: {
+          value: cart.location.id,
+          label: cart.location.name,
+        },
+        poNumber: cart.po_number ?? "",
+      });
+
+      getLocationAvailableProducts(cart.location.id);
+    }
+  }, [cart]);
 
   if (!isCartOpen || !cart) return null;
 
