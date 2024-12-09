@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
@@ -67,8 +67,10 @@ export const Cart: FC = () => {
     fetchLocation();
   }, []);
 
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
-    if (cart && cart.location) {
+    if (cart && cart.location && isFirstRender.current) {
       setInitialValues({
         orderLocation: {
           value: cart.location.id,
@@ -78,6 +80,8 @@ export const Cart: FC = () => {
       });
 
       getLocationAvailableProducts(cart.location.id);
+
+      isFirstRender.current = false;
     }
   }, [cart]);
 

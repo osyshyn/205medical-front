@@ -53,8 +53,6 @@ const useCartStore = create(
         const { data } = await instance.get<ICartProductTable[]>(
           "cart/getCartProduct"
         );
-
-        console.log(data);
         set({ cart_products: data });
       } catch (error) {
         NotificationService.error();
