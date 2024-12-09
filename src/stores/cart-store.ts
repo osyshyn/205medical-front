@@ -85,6 +85,12 @@ const useCartStore = create(
             ),
           },
         }));
+
+        set((state) => ({
+          cart_products: state.cart_products.filter(
+            (product) => product.id !== productId
+          ),
+        }));
       } catch (error) {
         NotificationService.error();
       } finally {
@@ -97,7 +103,14 @@ const useCartStore = create(
           id,
           quantity,
         });
+
         set({ cart: data });
+
+        set((state) => ({
+          cart_products: state.cart_products.map((product) =>
+            product.id === id ? { ...product, quantity } : product
+          ),
+        }));
       } catch (error) {
         NotificationService.error();
       } finally {

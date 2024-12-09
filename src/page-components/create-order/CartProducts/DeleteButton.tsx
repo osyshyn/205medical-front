@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
+import useCartStore from "src/stores/cart-store";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 
 interface Props {
@@ -7,9 +8,17 @@ interface Props {
 }
 
 export const DeleteButton: FC<Props> = ({ id }) => {
+  const removeProductFromCart = useCartStore(
+    (state) => state.removeProductFromCart
+  );
+
+  const removeProduct = () => {
+    removeProductFromCart(id);
+  };
+
   return (
     <Button>
-      <CloseIcon />
+      <CloseIcon onClick={removeProduct} />
     </Button>
   );
 };
