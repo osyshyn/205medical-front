@@ -1,9 +1,11 @@
 import React, { FC } from "react";
+import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { TextInput } from "src/components/FormField/TextInput";
 import useAuthStore from "src/stores/auth-store";
+import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import {
   LABEL_CLASSNAME,
@@ -14,6 +16,7 @@ import {
 import { IFormikValues } from "./types";
 
 export const PasswordRecoveryForm: FC = () => {
+  const navigate = useNavigate();
   const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
   const recoveryPassword = useAuthStore((state) => state.recoveryPassword);
 
@@ -21,7 +24,9 @@ export const PasswordRecoveryForm: FC = () => {
     initialValues: PASSWRD_RECOVERY_INITIAL_VALUES,
     validationSchema: PASSWRD_RECOVERY_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      recoveryPassword(values, () => {});
+      recoveryPassword(values, () => {
+        navigate(PATHNAMES.CHECK_OPT);
+      });
     },
   };
 
