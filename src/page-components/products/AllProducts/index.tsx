@@ -38,16 +38,17 @@ export const AllProducts: FC = () => {
         </Button>
       </div>
 
-      <div className="scrollbar max-h-150 overflow-y-scroll">
-        <Table ariaLabel="All product table">
-          <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
-          <TableBody
-            items={items}
-            columns={ALL_PRODUCTS_COLUMNS}
-            isLoading={isLoading}
-          />
-        </Table>
-      </div>
+      <Table
+        className="scrollbar max-h-150 overflow-y-scroll"
+        ariaLabel="All product table"
+      >
+        <TableHeader columns={ALL_PRODUCTS_COLUMNS} />
+        <TableBody
+          items={items}
+          columns={ALL_PRODUCTS_COLUMNS}
+          isLoading={isLoading}
+        />
+      </Table>
 
       <Outlet />
     </Window>

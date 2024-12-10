@@ -57,16 +57,17 @@ export const ShipmentHistory: FC = () => {
     <Window>
       <h3>Shipment History</h3>
 
-      <div className="scrollbar max-h-150 overflow-y-scroll">
-        <Table ariaLabel="All product table">
-          <TableHeader columns={SHIPMENT_HISTORY_COLUMNS} />
-          <TableBody
-            items={items}
-            columns={SHIPMENT_HISTORY_COLUMNS}
-            isLoading={isLoading}
-          />
-        </Table>
-      </div>
+      <Table
+        className="scrollbar max-h-150 overflow-y-scroll"
+        ariaLabel="All product table"
+      >
+        <TableHeader columns={SHIPMENT_HISTORY_COLUMNS} />
+        <TableBody
+          items={items}
+          columns={SHIPMENT_HISTORY_COLUMNS}
+          isLoading={isLoading}
+        />
+      </Table>
 
       <div className="mt-8 flex items-center justify-between">
         <DataRangeIndicator

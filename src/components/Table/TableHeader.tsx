@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const TableHeader: React.FC<Props> = ({ columns }) => (
-  <thead>
+  <thead className="sticky top-0 mt-10 bg-white-base">
     <tr>
       {columns.map((column) => (
         <th
