@@ -19,6 +19,7 @@ export const CheckOtpForm: FC = () => {
   const navigate = useNavigate();
   const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
   const checkOtp = useAuthStore((state) => state.checkOtp);
+  const sendCodeAgain = useAuthStore((state) => state.sendCodeAgain);
 
   const formikProps: FormikConfig<IFormikValues> = {
     initialValues: CHECK_OTP_INITIAL_VALUES,
@@ -57,16 +58,15 @@ export const CheckOtpForm: FC = () => {
               Submit
             </Button>
 
-            <Link to={PATHNAMES.PASSWRD_RECOVERY}>
-              <Button
-                className="w-full rounded-30 text-lg"
-                size={Sizes.S}
-                variant={ButtonVariants.SECONDARY}
-                type="button"
-              >
-                Send again
-              </Button>
-            </Link>
+            <Button
+              className="w-full rounded-30 text-lg"
+              onClick={sendCodeAgain}
+              size={Sizes.S}
+              variant={ButtonVariants.SECONDARY}
+              type="button"
+            >
+              Send again
+            </Button>
           </div>
         </Form>
       </FormikProvider>

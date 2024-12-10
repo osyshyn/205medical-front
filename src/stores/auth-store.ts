@@ -41,7 +41,9 @@ interface IAuthStore {
   ) => void;
   checkOtp: (values: CheckOtpParams, onSuccess: () => void) => void;
   changePassword: (values: ChangePasswordParams, onSuccess: () => void) => void;
+  sendCodeAgain: () => void;
   isLoadingRecoveryPassword: boolean;
+  isLoadingSendCodeAgain: boolean;
 }
 
 const useAuthStore = create(
@@ -93,6 +95,23 @@ const useAuthStore = create(
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingRecoveryPassword: false });
+        NotificationService.error(errorText);
+      }
+    },
+    isLoadingSendCodeAgain: false,
+    sendCodeAgain: async () => {
+      set({ isLoadingSendCodeAgain: true });
+
+      try {
+        await instance.post("user/recoveryPassword/", {
+          email: Cookies.get(EMAIL),
+        });
+
+        set({ isLoadingSendCodeAgain: false });
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingSendCodeAgain: false });
         NotificationService.error(errorText);
       }
     },
