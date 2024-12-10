@@ -1,4 +1,4 @@
-import { Row, StyledValue } from "src/@types/table";
+import { StyledValue } from "./table";
 
 export interface IOrder {
   id: number;
@@ -17,18 +17,6 @@ export interface IOrder {
   status: number;
   updated_at: string;
   user_id: number;
-}
-
-export interface IRecentOrderTable extends Row {
-  key: string;
-  customer_po_number: string;
-  expected_delivery_date: string;
-  order_number: string;
-  location: string;
-  order_amt: number;
-
-  approvalStatus: StyledValue;
-  shipStatus: StyledValue;
 }
 
 export enum IStatusesApproval {

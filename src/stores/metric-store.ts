@@ -14,6 +14,16 @@ import {
   IMetricsFromAPI,
 } from "src/@types/metrics";
 
+const approvalCustomizations = [
+  { id: 1, icon: MarkIcon, color: "#108A00" },
+  { id: 2, icon: ClockIcon, color: "#F4C732" },
+];
+
+const shipmentCustomizations = [
+  { id: 1, icon: TruckIcon, color: "#DF0404" },
+  { id: 2, icon: DeliveryIcon, color: "#348ECF" },
+];
+
 const getMetrics = (
   metricsFromAPI: IMetricsFromAPI,
   customizations: Array<{ id: number; icon: SVGReactComponent; color: string }>
@@ -30,8 +40,8 @@ const getMetrics = (
         label: metric.label,
         value: metric.value,
         trend: metric.trend,
-        icon: customization?.icon || null, // Прокинута іконка
-        color: customization?.color || "#000000", // Прокинутий колір або дефолтний
+        icon: customization?.icon || null,
+        color: customization?.color || "#000000",
       };
     }),
   };
@@ -43,32 +53,24 @@ interface FetchMetricsParams {
 }
 
 interface IMetricStore {
-  metrics: IMetricsData;
-  fetchMetrics: (params: FetchMetricsParams) => void;
+  metrics_orders: IMetricsData;
+  fetchMetricOrders: (params: FetchMetricsParams) => void;
+  metrics_shipments: IMetricsData;
+  fetchMetricShipments: (params: FetchMetricsParams) => void;
   isLoading: boolean;
 }
 
 const useMetricStore = create(
   devtools<IMetricStore>((set) => ({
     isLoading: false,
-    metrics: null,
-    fetchMetrics: async (params) => {
+    metrics_orders: null,
+    fetchMetricOrders: async (params) => {
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IMetricsDataFromAPI>(
           "order/countOrdersPerMonth",
           { params }
         );
-
-        const approvalCustomizations = [
-          { id: 1, icon: MarkIcon, color: "#108A00" },
-          { id: 2, icon: ClockIcon, color: "#F4C732" },
-        ];
-
-        const shipmentCustomizations = [
-          { id: 1, icon: TruckIcon, color: "#DF0404" },
-          { id: 2, icon: DeliveryIcon, color: "#348ECF" },
-        ];
 
         const approvalMetrics = getMetrics(
           data.approval_metrics,
@@ -80,7 +82,37 @@ const useMetricStore = create(
         );
 
         set({
-          metrics: {
+          metrics_orders: {
+            approval_metrics: approvalMetrics,
+            shipments_metrics: shipmentMetrics,
+          },
+        });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    metrics_shipments: null,
+    fetchMetricShipments: async (params) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get<IMetricsDataFromAPI>(
+          "shipment/getMetrics",
+          { params }
+        );
+
+        const approvalMetrics = getMetrics(
+          data.approval_metrics,
+          approvalCustomizations
+        );
+        const shipmentMetrics = getMetrics(
+          data.shipments_metrics,
+          shipmentCustomizations
+        );
+
+        set({
+          metrics_shipments: {
             approval_metrics: approvalMetrics,
             shipments_metrics: shipmentMetrics,
           },

@@ -7,4 +7,5 @@ export { default as Products } from "./Products";
 export { default as ProductsHistory } from "./Products/ProductsHistory";
 export { default as ProductsPurchases } from "./Products/ProductsPurchases";
 export { default as Location } from "./Location";
+export { default as Shipments } from "./Shipments";
 export { default as NotFound } from "./NotFound";

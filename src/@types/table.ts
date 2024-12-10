@@ -26,6 +26,7 @@ export interface ComponentValue {
 }
 
 export type RowValue =
+  | Date
   | string
   | number
   | StyledValue
@@ -33,6 +34,6 @@ export type RowValue =
   | ComponentValue;
 
 export interface Row {
-  key: string;
+  id: number;
   [key: string]: RowValue;
 }

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cn from "classnames";
-import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
+import { ReactComponent as CloseIcon } from "src/assets/icons/close-circle.svg";
 
 interface Props {
   className?: string;

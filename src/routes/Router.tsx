@@ -11,6 +11,7 @@ import {
   Products,
   ProductsHistory,
   ProductsPurchases,
+  Shipments,
 } from "src/pages";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
@@ -70,6 +71,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={ProductsPurchases} />,
         path: PATHNAMES.PRODUCT_PURCHASES,
+      },
+      {
+        element: <PrivateRoute component={Shipments} />,
+        path: PATHNAMES.SHIPMENTS,
       },
     ],
   },

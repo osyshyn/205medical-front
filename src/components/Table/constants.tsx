@@ -29,7 +29,7 @@ export const getKeyValue = (
   }
 
   if (isStyledValue(value)) {
-    return <span style={value.style}>{value.value}</span>;
+    return <span className="w-max" style={value.style}>{value.value}</span>;
   }
 
   return null;

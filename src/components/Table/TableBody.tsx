@@ -26,7 +26,7 @@ export const TableBody: FC<Props> = ({
       </tr>
     ) : items.length > 0 ? (
       items.map((item) => (
-        <TableRow key={item.key} rowData={item} columns={columns} />
+        <TableRow key={item.id} rowData={item} columns={columns} />
       ))
     ) : (
       <tr>

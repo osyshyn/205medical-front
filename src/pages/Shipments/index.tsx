@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
+import { ShipmentHistory } from "src/page-components/shipments/ShipmentHistory";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
-import { RecentOrders } from "src/components/RecentOrders";
 import { SelectDate } from "src/components/SelectDate";
 import {
   getCurrentMonthOption,
@@ -14,7 +14,7 @@ import useMetricStore from "src/stores/metric-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
 
-const Dashboard: FC = () => {
+const Shipments: FC = () => {
   const loadMetrics = useMetricStore((state) => state.fetchMetricOrders);
   const metrics = useMetricStore((state) => state.metrics_orders);
   const isLoading = useMetricStore((state) => state.isLoading);
@@ -44,8 +44,8 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     loadMetrics({
-      month: selectMonthOption?.value as number,
-      year: selectYearOption?.value as number,
+      year: selectMonthOption?.value as number,
+      month: selectYearOption?.value as number,
     });
   }, [loadMetrics, selectMonthOption, selectYearOption]);
 
@@ -57,11 +57,10 @@ const Dashboard: FC = () => {
         selectYear={selectYearOption || getCurrentYearOption()}
         setSelectYear={setSelectYearOption}
       />
-
       <Metrics metrics={metrics} isLoading={isLoading} />
-      <RecentOrders />
+      <ShipmentHistory />
     </PageWrapper>
   );
 };
 
-export default Dashboard;
+export default Shipments;
