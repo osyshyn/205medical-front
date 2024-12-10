@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
@@ -17,8 +17,13 @@ import { IFormikValues } from "./types";
 
 export const CheckOtpForm: FC = () => {
   const navigate = useNavigate();
-  const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
+  const isLoadingRecoveryPassword = useAuthStore(
+    (state) => state.isLoadingRecoveryPassword
+  );
   const checkOtp = useAuthStore((state) => state.checkOtp);
+  const isLoadingSendCodeAgain = useAuthStore(
+    (state) => state.isLoadingSendCodeAgain
+  );
   const sendCodeAgain = useAuthStore((state) => state.sendCodeAgain);
 
   const formikProps: FormikConfig<IFormikValues> = {
@@ -52,8 +57,8 @@ export const CheckOtpForm: FC = () => {
               size={Sizes.S}
               variant={ButtonVariants.PRIMARY}
               type="submit"
-              isDisabled={isLoading}
-              isLoading={isLoading}
+              isDisabled={isLoadingRecoveryPassword}
+              isLoading={isLoadingRecoveryPassword}
             >
               Submit
             </Button>
@@ -64,6 +69,8 @@ export const CheckOtpForm: FC = () => {
               size={Sizes.S}
               variant={ButtonVariants.SECONDARY}
               type="button"
+              isDisabled={isLoadingSendCodeAgain}
+              isLoading={isLoadingSendCodeAgain}
             >
               Send again
             </Button>
