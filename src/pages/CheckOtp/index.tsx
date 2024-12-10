@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { CheckOtpForm } from "src/page-components/check-otp/CheckOtpForm";
 import { PageWrapper } from "src/components/Layouts/LoginPageWrapper";
 
 const CheckOtp: FC = () => (
@@ -12,6 +13,8 @@ const CheckOtp: FC = () => (
         new password for your account
       </p>
     </div>
+
+    <CheckOtpForm />
   </PageWrapper>
 );
 

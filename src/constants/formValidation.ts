@@ -1,5 +1,9 @@
 import * as Yup from "yup";
 
+export const SIX_DIGIT_VALIDATION = Yup.string()
+  .matches(/^\d{6}$/, "Must be exactly 6 digits.")
+  .required("This field is required.");
+
 export const LENGTH_VALIDATION = (min: number, max: number) =>
   Yup.string()
     .trim()

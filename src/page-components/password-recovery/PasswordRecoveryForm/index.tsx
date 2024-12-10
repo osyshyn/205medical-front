@@ -35,7 +35,7 @@ export const PasswordRecoveryForm: FC = () => {
   return (
     <div className="mt-6 w-full">
       <FormikProvider value={formik}>
-        <Form className="flex flex-col gap-6">
+        <Form>
           <TextInput
             className={TEXT_INPUT_CLASSNAME}
             name="email"
