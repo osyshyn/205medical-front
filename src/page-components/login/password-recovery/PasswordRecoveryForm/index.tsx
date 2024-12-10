@@ -3,6 +3,7 @@ import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { TextInput } from "src/components/FormField/TextInput";
+import useAuthStore from "src/stores/auth-store";
 import { Sizes } from "src/@types/sizes";
 import {
   LABEL_CLASSNAME,
@@ -13,11 +14,14 @@ import {
 import { IFormikValues } from "./types";
 
 export const PasswordRecoveryForm: FC = () => {
+  const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
+  const recoveryPassword = useAuthStore((state) => state.recoveryPassword);
+
   const formikProps: FormikConfig<IFormikValues> = {
     initialValues: PASSWRD_RECOVERY_INITIAL_VALUES,
     validationSchema: PASSWRD_RECOVERY_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      console.log(values);
+      recoveryPassword(values, () => {});
     },
   };
 
@@ -41,6 +45,8 @@ export const PasswordRecoveryForm: FC = () => {
             size={Sizes.S}
             variant={ButtonVariants.PRIMARY}
             type="submit"
+            isDisabled={isLoading}
+            isLoading={isLoading}
           >
             Send code
           </Button>

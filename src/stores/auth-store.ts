@@ -14,10 +14,19 @@ interface LoginParams {
   password: string;
 }
 
+interface RecoveryPasswordParams {
+  email: string;
+}
+
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
   logout: () => void;
+  recoveryPassword: (
+    values: RecoveryPasswordParams,
+    onSuccess: () => void
+  ) => void;
+  isLoadingRecoveryPassword: boolean;
 }
 
 const useAuthStore = create(
@@ -53,6 +62,22 @@ const useAuthStore = create(
       NotificationService.success();
       useUserStore.getState().isAuthorized = false;
       history.replace(PATHNAMES.LOGIN);
+    },
+    isLoadingRecoveryPassword: false,
+    recoveryPassword: async (values, onSuccess) => {
+      set({ isLoadingRecoveryPassword: true });
+
+      try {
+        await instance.post("user/recoveryPassword/", values);
+
+        set({ isLoadingRecoveryPassword: false });
+        onSuccess();
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingRecoveryPassword: false });
+        NotificationService.error(errorText);
+      }
     },
   }))
 );
