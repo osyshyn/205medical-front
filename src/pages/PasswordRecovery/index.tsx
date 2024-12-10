@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { PageWrapper } from "src/page-components/login/PageWrapper";
-import { PasswordRecoveryForm } from "src/page-components/login/password-recovery/PasswordRecoveryForm";
+import { PageWrapper } from "src/components/Layouts/LoginPageWrapper";
+import { PasswordRecoveryForm } from "src/page-components/password-recovery/PasswordRecoveryForm";
 
 const PasswordRecovery: FC = () => (
   <PageWrapper>

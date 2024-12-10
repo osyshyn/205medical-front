@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PageWrapper } from "src/page-components/login/PageWrapper";
+import { PageWrapper } from "src/components/Layouts/LoginPageWrapper";
 
 const CheckOtp: FC = () => (
   <PageWrapper>

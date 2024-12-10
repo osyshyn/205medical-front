@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { AuthGoogleButton } from "src/page-components/login/AuthGoogleButton";
 import { LoginForm } from "src/page-components/login/LoginForm";
 import { OrSingWithEmail } from "src/page-components/login/OrSingWithEmail";
-import { PageWrapper } from "src/page-components/login/PageWrapper";
+import { PageWrapper } from "src/components/Layouts/LoginPageWrapper";
 import { Logo } from "src/components/Logo";
 
 const Login: FC = () => (
