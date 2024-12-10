@@ -1,5 +1,3 @@
-import { Row } from "./table";
-
 export interface IShipment {
   id: number;
   po_number: string;
