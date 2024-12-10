@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import {
+  CheckOtp,
   CreateOrder,
   Dashboard,
   Layout,
@@ -39,7 +40,17 @@ const ROUTES = [
         redirectUrl={PATHNAMES.DASHBOARD}
       />
     ),
-    path: PATHNAMES.LOGIN_PASSWRD_RECOVERY,
+    path: PATHNAMES.PASSWRD_RECOVERY,
+  },
+  {
+    element: (
+      <PrivateRoute
+        onlyFor={ONLY_FOR.UNAUTHORIZED}
+        component={CheckOtp}
+        redirectUrl={PATHNAMES.DASHBOARD}
+      />
+    ),
+    path: PATHNAMES.CHECK_OPT,
   },
   {
     path: PATHNAMES.HOME,

@@ -45,7 +45,7 @@ export const LoginForm: FC = () => {
 
           <Link
             className="ml-auto mt-3 block w-max text-sm font-semibold text-purple-base transition-all duration-300 hover:opacity-80"
-            to={PATHNAMES.LOGIN_PASSWRD_RECOVERY}
+            to={PATHNAMES.PASSWRD_RECOVERY}
           >
             Forget Password?
           </Link>

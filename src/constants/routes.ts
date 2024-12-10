@@ -2,7 +2,8 @@ export const PATHNAMES = {
   HOME: "/",
 
   LOGIN: "/login",
-  LOGIN_PASSWRD_RECOVERY: "/login/password-recovery",
+  PASSWRD_RECOVERY: "/password-recovery",
+  CHECK_OPT: "/check-opt",
 
   DASHBOARD: "/dashboard",
 
