@@ -1,7 +1,7 @@
 import { Column } from "src/@types/table";
 
 export const SHIPMENT_HISTORY_COLUMNS: Column[] = [
-  { key: "invoice", label: "Invoice #" },
+  { key: "invoice_id", label: "Invoice #" },
   { key: "po_number", label: "PO # " },
   { key: "po_date", label: "PO Date # " },
   { key: "destination", label: "Destination" },

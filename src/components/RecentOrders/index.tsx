@@ -55,6 +55,7 @@ export const RecentOrders: FC = () => {
 
   const ordersResponse = useOrderStore((state) => state.recent_orders);
   const ordersResults = ordersResponse?.result || [];
+  const ordersLength = ordersResponse?.count || 0;
 
   const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
@@ -89,11 +90,8 @@ export const RecentOrders: FC = () => {
       <div className="mt-8 flex items-center justify-between">
         <DataRangeIndicator
           startEntry={(currentPage - 1) * ORDERS_PER_PAGE + 1}
-          endEntry={Math.min(
-            currentPage * ORDERS_PER_PAGE,
-            ordersResults.length
-          )}
-          totalEntries={ordersResults.length}
+          endEntry={Math.min(currentPage * ORDERS_PER_PAGE, ordersLength)}
+          totalEntries={ordersLength}
         />
 
         {isPaginated && (

@@ -27,6 +27,7 @@ export interface ComponentValue {
 }
 
 export type RowValue =
+  | Date
   | string
   | number
   | StyledValue
