@@ -25,7 +25,7 @@ export const PasswordRecoveryForm: FC = () => {
     validationSchema: PASSWRD_RECOVERY_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
       recoveryPassword(values, () => {
-        navigate(PATHNAMES.CHECK_OPT);
+        navigate(PATHNAMES.CHECK_OTP);
       });
     },
   };

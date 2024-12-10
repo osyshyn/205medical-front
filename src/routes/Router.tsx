@@ -50,7 +50,7 @@ const ROUTES = [
         redirectUrl={PATHNAMES.DASHBOARD}
       />
     ),
-    path: PATHNAMES.CHECK_OPT,
+    path: PATHNAMES.CHECK_OTP,
   },
   {
     path: PATHNAMES.HOME,

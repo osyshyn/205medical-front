@@ -1,3 +1,3 @@
 export interface IFormikValues {
-  code: string;
+  otp: string;
 }

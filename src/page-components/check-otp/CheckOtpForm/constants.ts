@@ -6,9 +6,9 @@ export const LABEL_CLASSNAME = "font-semibold text-gray-dark";
 export const TEXT_INPUT_CLASSNAME = "px-6 py-4.5";
 
 export const CHECK_OTP_INITIAL_VALUES: IFormikValues = {
-  code: "",
+  otp: "",
 };
 
 export const CHECK_OTP_FORM_VALIDATION_SCHEMA = Yup.object().shape({
-  code: SIX_DIGIT_VALIDATION,
+  otp: SIX_DIGIT_VALIDATION,
 });

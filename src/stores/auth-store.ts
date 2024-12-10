@@ -4,7 +4,11 @@ import { history } from "src/services/history";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { ACCESS_TOKEN, AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
+import {
+  ACCESS_TOKEN,
+  AUTH_REFRESH_TOKEN,
+  EMAIL,
+} from "src/constants/cookiesKeys";
 import { PATHNAMES } from "src/constants/routes";
 import { IAuthTokens } from "src/@types/auth";
 import useUserStore from "./user-store";
@@ -18,6 +22,10 @@ interface RecoveryPasswordParams {
   email: string;
 }
 
+interface CheckOtpParams {
+  otp: string;
+}
+
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
@@ -26,6 +34,7 @@ interface IAuthStore {
     values: RecoveryPasswordParams,
     onSuccess: () => void
   ) => void;
+  checkOtp: (values: CheckOtpParams, onSuccess: () => void) => void;
   isLoadingRecoveryPassword: boolean;
 }
 
@@ -69,6 +78,26 @@ const useAuthStore = create(
 
       try {
         await instance.post("user/recoveryPassword/", values);
+
+        Cookies.set(EMAIL, values.email);
+
+        set({ isLoadingRecoveryPassword: false });
+        onSuccess();
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingRecoveryPassword: false });
+        NotificationService.error(errorText);
+      }
+    },
+    checkOtp: async (values, onSuccess) => {
+      set({ isLoadingRecoveryPassword: true });
+
+      try {
+        await instance.post("user/recoveryPasswordCheckOtp", {
+          email: Cookies.get(EMAIL),
+          ...values,
+        });
 
         set({ isLoadingRecoveryPassword: false });
         onSuccess();
