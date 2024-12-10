@@ -60,7 +60,7 @@ const useAuthStore = create(
       Cookies.remove(ACCESS_TOKEN);
       Cookies.remove(AUTH_REFRESH_TOKEN);
       NotificationService.success();
-      useUserStore.getState().isAuthorized = false;
+      useUserStore.getState().getUser();
       history.replace(PATHNAMES.LOGIN);
     },
     isLoadingRecoveryPassword: false,
