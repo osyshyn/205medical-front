@@ -1,10 +1,13 @@
 import Cookies from "js-cookie";
 import { instance } from "src/services/api-client";
+import { history } from "src/services/history";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { ACCESS_TOKEN, AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
+import { PATHNAMES } from "src/constants/routes";
 import { IAuthTokens } from "src/@types/auth";
+import useUserStore from "./user-store";
 
 interface LoginParams {
   email: string;
@@ -14,7 +17,7 @@ interface LoginParams {
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
-  logout: (onSuccess: () => void) => void;
+  logout: () => void;
 }
 
 const useAuthStore = create(
@@ -47,6 +50,9 @@ const useAuthStore = create(
     logout: () => {
       Cookies.remove(ACCESS_TOKEN);
       Cookies.remove(AUTH_REFRESH_TOKEN);
+      NotificationService.success();
+      useUserStore.getState().isAuthorized = false;
+      history.replace(PATHNAMES.LOGIN);
     },
   }))
 );
