@@ -11,13 +11,13 @@ const LABEL_CLASSNAME = "font-semibold text-gray-dark";
 const TEXT_INPUT_CLASSNAME = "px-6 py-4.5";
 
 export const CHANGE_PASSWORD_INITIAL_VALUES: IFormikValues = {
-  password: "",
+  new_password: "",
   confirm_password: "",
 };
 
 export const CHANGE_PASSWORD_FORM_FIELDS: IRenderFormField[] = [
   {
-    name: "password",
+    name: "new_password",
     type: "password",
     label: "New Password",
     component: TextInput,
@@ -37,6 +37,6 @@ export const CHANGE_PASSWORD_FORM_FIELDS: IRenderFormField[] = [
 ];
 
 export const CHANGE_PASSWORD_FORM_VALIDATION_SCHEMA = Yup.object().shape({
-  password: PASSWORD_VALIDATION_SCHEMA,
-  confirm_password: REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA("password"),
+  new_password: PASSWORD_VALIDATION_SCHEMA,
+  confirm_password: REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA("new_password"),
 });

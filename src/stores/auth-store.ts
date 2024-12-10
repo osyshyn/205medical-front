@@ -26,6 +26,11 @@ interface CheckOtpParams {
   otp: string;
 }
 
+interface ChangePasswordParams {
+  new_password: string;
+  confirm_password: string;
+}
+
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
@@ -35,6 +40,7 @@ interface IAuthStore {
     onSuccess: () => void
   ) => void;
   checkOtp: (values: CheckOtpParams, onSuccess: () => void) => void;
+  changePassword: (values: ChangePasswordParams, onSuccess: () => void) => void;
   isLoadingRecoveryPassword: boolean;
 }
 
@@ -95,6 +101,24 @@ const useAuthStore = create(
 
       try {
         await instance.post("user/recoveryPasswordCheckOtp", {
+          email: Cookies.get(EMAIL),
+          ...values,
+        });
+
+        set({ isLoadingRecoveryPassword: false });
+        onSuccess();
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingRecoveryPassword: false });
+        NotificationService.error(errorText);
+      }
+    },
+    changePassword: async (values, onSuccess) => {
+      set({ isLoadingRecoveryPassword: true });
+
+      try {
+        await instance.post("user/recoveryPasswordChangePassword", {
           email: Cookies.get(EMAIL),
           ...values,
         });

@@ -1,4 +1,4 @@
 export interface IFormikValues {
-  password: string;
+  new_password: string;
   confirm_password: string;
 }

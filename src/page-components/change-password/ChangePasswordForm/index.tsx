@@ -1,8 +1,11 @@
 import React, { FC } from "react";
+import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { RenderFormFields } from "src/components/RenderFormFields";
+import useAuthStore from "src/stores/auth-store";
+import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import {
   CHANGE_PASSWORD_FORM_FIELDS,
@@ -12,11 +15,17 @@ import {
 import { IFormikValues } from "./types";
 
 export const ChangePasswordForm: FC = () => {
+  const navigate = useNavigate();
+  const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
+  const changePassword = useAuthStore((state) => state.changePassword);
+
   const formikProps: FormikConfig<IFormikValues> = {
     initialValues: CHANGE_PASSWORD_INITIAL_VALUES,
     validationSchema: CHANGE_PASSWORD_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      console.log(values);
+      changePassword(values, () => {
+        navigate(PATHNAMES.LOGIN);
+      });
     },
   };
 
@@ -35,6 +44,8 @@ export const ChangePasswordForm: FC = () => {
             size={Sizes.S}
             variant={ButtonVariants.PRIMARY}
             type="submit"
+            isDisabled={isLoading}
+            isLoading={isLoading}
           >
             Update Password
           </Button>
