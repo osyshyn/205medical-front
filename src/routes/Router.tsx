@@ -16,6 +16,7 @@ import {
   ProductsPurchases,
   Shipments,
 } from "src/pages";
+import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
 import { ProductDetail } from "src/components/ProductDetail";
@@ -34,6 +35,7 @@ const ROUTES = [
     path: PATHNAMES.LOGIN,
   },
   {
+    path: PATHNAMES.PASSWRD_RECOVERY,
     element: (
       <PrivateRoute
         onlyFor={ONLY_FOR.UNAUTHORIZED}
@@ -41,27 +43,30 @@ const ROUTES = [
         redirectUrl={PATHNAMES.DASHBOARD}
       />
     ),
-    path: PATHNAMES.PASSWRD_RECOVERY,
   },
   {
-    element: (
-      <PrivateRoute
-        onlyFor={ONLY_FOR.UNAUTHORIZED}
-        component={CheckOtp}
-        redirectUrl={PATHNAMES.DASHBOARD}
-      />
-    ),
     path: PATHNAMES.CHECK_OTP,
+    element: (
+      <PasswordRecoveryProgress step="otp">
+        <PrivateRoute
+          onlyFor={ONLY_FOR.UNAUTHORIZED}
+          component={CheckOtp}
+          redirectUrl={PATHNAMES.DASHBOARD}
+        />
+      </PasswordRecoveryProgress>
+    ),
   },
   {
-    element: (
-      <PrivateRoute
-        onlyFor={ONLY_FOR.UNAUTHORIZED}
-        component={ChangePassword}
-        redirectUrl={PATHNAMES.DASHBOARD}
-      />
-    ),
     path: PATHNAMES.CHANGE_PASSWORD,
+    element: (
+      <PasswordRecoveryProgress step="password">
+        <PrivateRoute
+          onlyFor={ONLY_FOR.UNAUTHORIZED}
+          component={ChangePassword}
+          redirectUrl={PATHNAMES.DASHBOARD}
+        />
+      </PasswordRecoveryProgress>
+    ),
   },
   {
     path: PATHNAMES.HOME,

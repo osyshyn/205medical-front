@@ -123,6 +123,8 @@ const useAuthStore = create(
           ...values,
         });
 
+        Cookies.remove(EMAIL);
+
         set({ isLoadingRecoveryPassword: false });
         onSuccess();
         NotificationService.success();
