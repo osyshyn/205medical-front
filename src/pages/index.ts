@@ -3,6 +3,7 @@ export { default as Dashboard } from "./Dashboard";
 export { default as Login } from "./Login";
 export { default as PasswordRecovery } from "./PasswordRecovery";
 export { default as CheckOtp } from "./CheckOtp";
+export { default as ChangePassword } from "./ChangePassword";
 export { default as CreateOrder } from "./CreateOrder";
 export { default as OrderAlerts } from "./CreateOrder/OrderAlerts";
 export { default as Products } from "./Products";

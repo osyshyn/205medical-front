@@ -30,10 +30,10 @@ export const PASSWORD_VALIDATION_SCHEMA = LENGTH_VALIDATION(6, 100)
   .matches(/[A-Z]/, "Password must include at least one uppercase letter.")
   .required("This field is required.");
 
-// export const REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA = (ref: string) =>
-//   Yup.string()
-//     .required("Password confirmation is required.")
-//     .oneOf([Yup.ref(ref), null], "Passwords must match.");
+export const REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA = (ref: string) =>
+  Yup.string()
+    .required("Password confirmation is required.")
+    .oneOf([Yup.ref(ref), null], "Passwords must match.");
 
 // export const MAX_LENGTH_VALIDATION = (max: number) =>
 //   Yup.string().max(max, `max-symbols ${max}`).trim();
