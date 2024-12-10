@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
@@ -42,6 +42,13 @@ export const LoginForm: FC = () => {
           <div className="flex flex-col gap-6">
             <RenderFormFields fields={AUTH_FORM_FIELDS} />
           </div>
+
+          <Link
+            className="ml-auto mt-3 block w-max text-sm font-semibold text-purple-base transition-all duration-300 hover:opacity-80"
+            to={PATHNAMES.LOGIN_PASSWRD_RECOVERY}
+          >
+            Forget Password?
+          </Link>
 
           <Button
             className="mt-6 w-full rounded-30 text-lg"

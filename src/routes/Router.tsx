@@ -8,6 +8,7 @@ import {
   Login,
   NotFound,
   OrderAlerts,
+  PasswordRecovery,
   Products,
   ProductsHistory,
   ProductsPurchases,
@@ -29,6 +30,16 @@ const ROUTES = [
       />
     ),
     path: PATHNAMES.LOGIN,
+  },
+  {
+    element: (
+      <PrivateRoute
+        onlyFor={ONLY_FOR.UNAUTHORIZED}
+        component={PasswordRecovery}
+        redirectUrl={PATHNAMES.DASHBOARD}
+      />
+    ),
+    path: PATHNAMES.LOGIN_PASSWRD_RECOVERY,
   },
   {
     path: PATHNAMES.HOME,
