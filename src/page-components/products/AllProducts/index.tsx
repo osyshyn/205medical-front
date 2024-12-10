@@ -8,11 +8,12 @@ import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
 import useProductStore from "src/stores/product-store";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { addActionButtons, ALL_PRODUCTS_COLUMNS } from "./constants";
+import { Row } from "src/@types/table";
+import { ALL_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
-  const products = useProductStore((state) => state.all_products);
+  const products = useProductStore((state) => state.products);
   const isLoading = useProductStore((state) => state.isLoadingProducts);
   const fetchCart = useCartStore((state) => state.fetchCart);
 
@@ -21,7 +22,7 @@ export const AllProducts: FC = () => {
     fetchCart();
   }, [fetchCart, loadProducts]);
 
-  const items = addActionButtons(products);
+  const items = getTableItems(products) as unknown as Row[];
 
   return (
     <Window>

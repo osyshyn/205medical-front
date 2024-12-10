@@ -1,3 +1,4 @@
+import { IOrder, STATUSES_APPROVAL, STATUSES_SHIPS } from "src/@types/orders";
 import { Column } from "src/@types/table";
 
 export const ORDER_COLUMNS: Column[] = [
@@ -9,3 +10,10 @@ export const ORDER_COLUMNS: Column[] = [
   { key: "approvalStatus", label: "Approval Status" },
   { key: "shipStatus", label: "Ship Status" },
 ];
+
+export const getTableItems = (orders: IOrder[]): IOrder[] =>
+  orders.map((order) => ({
+    approvalStatus: STATUSES_APPROVAL[order.approval_status],
+    shipStatus: STATUSES_SHIPS[order.approval_status],
+    ...order,
+  }));

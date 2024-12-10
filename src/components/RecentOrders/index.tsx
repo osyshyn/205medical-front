@@ -12,11 +12,12 @@ import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { Row } from "src/@types/table";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
 } from "../SelectDate/constants";
-import { ORDER_COLUMNS } from "./constants";
+import { getTableItems, ORDER_COLUMNS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
@@ -53,7 +54,7 @@ export const RecentOrders: FC = () => {
     });
   }, [currentPage, debouncedSearchQuery, month, year, loadOrders]);
 
-  const ordersResponse = useOrderStore((state) => state.recent_orders);
+  const ordersResponse = useOrderStore((state) => state.orders);
   const ordersResults = ordersResponse?.result || [];
   const ordersLength = ordersResponse?.count || 0;
 
@@ -65,6 +66,8 @@ export const RecentOrders: FC = () => {
       setQueryParam(QUERY_PARAM_KEYS.PAGE, page.toString());
     }
   };
+
+  const items = getTableItems(ordersResults) as unknown as Row[];
 
   return (
     <Window>
@@ -81,7 +84,7 @@ export const RecentOrders: FC = () => {
       <Table ariaLabel="Recent orders table">
         <TableHeader columns={ORDER_COLUMNS} />
         <TableBody
-          items={ordersResults}
+          items={items}
           columns={ORDER_COLUMNS}
           isLoading={isLoading}
         />

@@ -3,11 +3,9 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IProduct, IProductDetails } from "src/@types/products";
-import { IProductTable } from "src/@types/table";
 
 interface IProductStore {
   products: IProduct[];
-  all_products: IProductTable[];
   product_details: IProductDetails;
   fetchProducts: () => void;
   fetchProductDetails: (id: number) => void;
@@ -18,7 +16,6 @@ interface IProductStore {
 const useProductStore = create(
   devtools<IProductStore>((set) => ({
     products: [],
-    all_products: [],
     product_details: {} as IProductDetails,
     isLoadingProducts: false,
     fetchProducts: async () => {
@@ -27,32 +24,6 @@ const useProductStore = create(
         const { data } = await instance.get<IProduct[]>("product/getProducts");
 
         set({ products: data });
-
-        const allProducts = data.map(
-          ({
-            id,
-            preview,
-            sku,
-            name,
-            price,
-            minimum_order,
-          }): IProductTable => ({
-            id,
-            image: {
-              type: "image",
-              alt: name,
-              ...preview,
-            },
-            sku,
-            name,
-            price,
-            minimum_order,
-          })
-        );
-
-        set({
-          all_products: allProducts,
-        });
       } catch (error) {
         NotificationService.error();
       } finally {

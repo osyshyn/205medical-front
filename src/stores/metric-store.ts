@@ -102,8 +102,6 @@ const useMetricStore = create(
           { params }
         );
 
-        console.log(data);
-
         const approvalMetrics = getMetrics(
           data.approval_metrics,
           approvalCustomizations

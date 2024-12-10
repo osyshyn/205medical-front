@@ -2,8 +2,7 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { Cart } from "src/@types/cart";
-import { ICartProductTable } from "src/@types/table";
+import { Cart, ICartProduct } from "src/@types/cart";
 
 export interface UpdataCartParams {
   location_id: string | number;
@@ -16,7 +15,7 @@ interface CartState {
   openCart: () => void;
   closeCart: () => void;
   cart: Cart;
-  cart_products: ICartProductTable[];
+  cart_products: ICartProduct[];
   isLoading: boolean;
   isLoadingCartProduct: boolean;
   fetchCart: () => void;
@@ -50,7 +49,7 @@ const useCartStore = create(
     fetchCartProduct: async () => {
       set({ isLoadingCartProduct: true });
       try {
-        const { data } = await instance.get<ICartProductTable[]>(
+        const { data } = await instance.get<ICartProduct[]>(
           "cart/getCartProduct"
         );
 

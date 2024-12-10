@@ -3,6 +3,7 @@ import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
+import { Row } from "src/@types/table";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const CartProducts: FC = () => {
@@ -14,7 +15,7 @@ export const CartProducts: FC = () => {
     loadCartProduct();
   }, [loadCartProduct]);
 
-  const items = getTableItems(cartProducts);
+  const items = getTableItems(cartProducts) as unknown as Row[];
 
   return (
     <Window>

@@ -1,4 +1,4 @@
-import { ICartProductTable } from "src/@types/table";
+import { ICartProduct } from "src/@types/cart";
 import { Column } from "src/@types/table";
 import { DeleteButton } from "./DeleteButton";
 import { QuantityToggle } from "./QuantityToggle";
@@ -15,9 +15,7 @@ export const CART_PRODUCTS_COLUMNS: Column[] = [
   { key: "deleteButton", label: "" },
 ];
 
-export const getTableItems = (
-  cartProducts: ICartProductTable[]
-): ICartProductTable[] =>
+export const getTableItems = (cartProducts: ICartProduct[]): ICartProduct[] =>
   cartProducts.map((product) => ({
     ...product,
     quantityComponent: {
