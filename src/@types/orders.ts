@@ -31,6 +31,12 @@ export enum IStatusesShip {
   CANCELED = 3,
 }
 
+export enum IStatusesInvoice {
+  OPEN = 1,
+  PAID = 2,
+  NOT_ISSUED = 3,
+}
+
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {
     style: {
@@ -70,5 +76,26 @@ export const STATUSES_SHIPS: Record<IStatusesShip, StyledValue> = {
       color: "#DF0404",
     },
     value: "Canceled",
+  },
+};
+
+export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
+  [IStatusesInvoice.PAID]: {
+    style: {
+      color: "#008767",
+    },
+    value: "Paid",
+  },
+  [IStatusesInvoice.OPEN]: {
+    style: {
+      color: "#FFB700",
+    },
+    value: "Open",
+  },
+  [IStatusesInvoice.NOT_ISSUED]: {
+    style: {
+      color: "#DF0404",
+    },
+    value: "Not-Issued",
   },
 };

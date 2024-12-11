@@ -18,7 +18,7 @@ interface IOrderStore {
   isLoading: boolean;
 }
 
-export const ORDERS_PER_PAGE = 2;
+export const ORDERS_PER_PAGE = 5;
 
 const useOrderStore = create(
   devtools<IOrderStore>((set) => ({

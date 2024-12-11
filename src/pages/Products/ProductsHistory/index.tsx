@@ -4,7 +4,7 @@ import { RecentOrders } from "src/components/RecentOrders";
 
 const ProductsHistory: FC = () => (
   <PageWrapper mainClassName="flex flex-col gap-10">
-    <RecentOrders />
+    <RecentOrders isExtendedTable/>
   </PageWrapper>
 );
 
