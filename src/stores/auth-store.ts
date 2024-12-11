@@ -31,6 +31,13 @@ interface ChangePasswordParams {
   confirm_password: string;
 }
 
+interface UpdateSettingParams {
+  email?: string;
+  phone?: string;
+  new_password?: string;
+  confirm_password?: string;
+}
+
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
@@ -44,6 +51,8 @@ interface IAuthStore {
   sendCodeAgain: () => void;
   isLoadingRecoveryPassword: boolean;
   isLoadingSendCodeAgain: boolean;
+  updateSetting: (values: UpdateSettingParams) => void;
+  isLoadingUpdateSetting: boolean;
 }
 
 const useAuthStore = create(
@@ -150,6 +159,21 @@ const useAuthStore = create(
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingRecoveryPassword: false });
+        NotificationService.error(errorText);
+      }
+    },
+    isLoadingUpdateSetting: false,
+    updateSetting: async (values) => {
+      set({ isLoadingUpdateSetting: true });
+
+      try {
+        await instance.post("user/updateSetting", values);
+
+        set({ isLoadingUpdateSetting: false });
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingUpdateSetting: false });
         NotificationService.error(errorText);
       }
     },

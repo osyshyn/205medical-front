@@ -4,21 +4,31 @@ import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { RenderFormFields } from "src/components/RenderFormFields";
 import { Window } from "src/components/Window";
+import useAuthStore from "src/stores/auth-store";
+import useUserStore from "src/stores/user-store";
 import { Sizes } from "src/@types/sizes";
 import {
-  EDIT_LOCATION_VALIDATION_SCHEMA,
+  getInitialValues,
   SETTINGS_BUYER_INFO_FORM_FIELDS,
   SETTINGS_CHANGE_PASSWORD_FORM_FIELDS,
-  SETTINGS_INITIAL_VALUES,
+  SETTINGS_VALIDATION_SCHEMA,
 } from "./contants";
 import { IFormikValues } from "./types";
 
 export const SettingsForm: FC = () => {
+  const user = useUserStore((state) => state.user);
+  const updateSetting = useAuthStore((state) => state.updateSetting);
+  const isLoading = useAuthStore((state) => state.isLoadingUpdateSetting);
+
   const formikProps: FormikConfig<IFormikValues> = {
-    initialValues: SETTINGS_INITIAL_VALUES,
-    validationSchema: EDIT_LOCATION_VALIDATION_SCHEMA,
+    initialValues: getInitialValues(user),
+    validationSchema: SETTINGS_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      console.log(values);
+      updateSetting(
+        Object.fromEntries(
+          Object.entries(values).filter(([_, value]) => value !== "")
+        )
+      );
     },
   };
 
@@ -49,6 +59,8 @@ export const SettingsForm: FC = () => {
               type="submit"
               variant={ButtonVariants.PRIMARY}
               size={Sizes.S}
+              isDisabled={isLoading}
+              isLoading={isLoading}
             >
               Save
             </Button>
