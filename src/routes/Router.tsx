@@ -14,6 +14,7 @@ import {
   Products,
   ProductsHistory,
   ProductsPurchases,
+  Settings,
   Shipments,
 } from "src/pages";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
@@ -113,6 +114,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Shipments} />,
         path: PATHNAMES.SHIPMENTS,
+      },
+      {
+        element: <PrivateRoute component={Settings} />,
+        path: PATHNAMES.SETTINGS,
       },
     ],
   },
