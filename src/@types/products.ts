@@ -1,11 +1,5 @@
 import { Image } from ".";
-
-export interface ICategory {
-  id: number;
-  name: string;
-  created_at: string;
-  updated_at: string;
-}
+import { ICategory } from "./categories";
 
 export interface IProduct {
   id: number;

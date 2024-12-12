@@ -1,34 +1,31 @@
 import React, { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
-import { RenderFormFields } from "src/components/RenderFormFields";
+import { TextInput } from "src/components/FormField/TextInput";
 import useAuthStore from "src/stores/auth-store";
-import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import {
-  AUTH_FORM_FIELDS,
-  AUTH_FORM_VALIDATION_SCHEMA,
-  AUTH_INITIAL_VALUES,
+  LABEL_CLASSNAME,
+  PASSWRD_RECOVERY_FORM_VALIDATION_SCHEMA,
+  PASSWRD_RECOVERY_INITIAL_VALUES,
+  TEXT_INPUT_CLASSNAME,
 } from "./constants";
 import { IFormikValues } from "./types";
 
-export const LoginForm: FC = () => {
+export const PasswordRecoveryForm: FC = () => {
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
-  const isLoading = useAuthStore((state) => state.isLoading);
-
-  const getUser = useUserStore((state) => state.getUser);
+  const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
+  const recoveryPassword = useAuthStore((state) => state.recoveryPassword);
 
   const formikProps: FormikConfig<IFormikValues> = {
-    initialValues: AUTH_INITIAL_VALUES,
-    validationSchema: AUTH_FORM_VALIDATION_SCHEMA,
+    initialValues: PASSWRD_RECOVERY_INITIAL_VALUES,
+    validationSchema: PASSWRD_RECOVERY_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      login(values, () => {
-        getUser();
-        navigate(PATHNAMES.DASHBOARD);
+      recoveryPassword(values, () => {
+        navigate(PATHNAMES.CHECK_OTP);
       });
     },
   };
@@ -39,16 +36,14 @@ export const LoginForm: FC = () => {
     <div className="mt-6 w-full">
       <FormikProvider value={formik}>
         <Form>
-          <div className="flex flex-col gap-6">
-            <RenderFormFields fields={AUTH_FORM_FIELDS} />
-          </div>
-
-          <Link
-            className="ml-auto mt-3 block w-max text-sm font-semibold text-purple-base transition-all duration-300 hover:opacity-80"
-            to={PATHNAMES.PASSWRD_RECOVERY}
-          >
-            Forget Password?
-          </Link>
+          <TextInput
+            className={TEXT_INPUT_CLASSNAME}
+            name="email"
+            type="email"
+            label="Email"
+            labelClassName={LABEL_CLASSNAME}
+            placeholder="Enter your email id"
+          />
 
           <Button
             className="mt-6 w-full rounded-30 text-lg"
@@ -58,7 +53,7 @@ export const LoginForm: FC = () => {
             isDisabled={isLoading}
             isLoading={isLoading}
           >
-            Sign In
+            Send code
           </Button>
         </Form>
       </FormikProvider>

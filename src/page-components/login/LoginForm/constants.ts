@@ -38,6 +38,5 @@ export const AUTH_FORM_FIELDS: IRenderFormField[] = [
 
 export const AUTH_FORM_VALIDATION_SCHEMA = Yup.object().shape({
   email: EMAIL_VALIDATION_SCHEMA,
-  //temp
-  // password: PASSWORD_VALIDATION_SCHEMA,
+  password: PASSWORD_VALIDATION_SCHEMA,
 });

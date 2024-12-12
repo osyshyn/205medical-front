@@ -37,3 +37,14 @@ export interface IMetricsData {
   approval_metrics: IMetrics;
   shipments_metrics: IMetrics;
 }
+
+export interface IMetricProductData {
+  order_date: number;
+  total_amount: number;
+  total_quantity: number;
+}
+
+export interface IMetricProduct {
+  count: number;
+  metrics: IMetricProductData[];
+}

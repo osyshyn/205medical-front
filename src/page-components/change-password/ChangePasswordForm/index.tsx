@@ -1,34 +1,30 @@
 import React, { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { RenderFormFields } from "src/components/RenderFormFields";
 import useAuthStore from "src/stores/auth-store";
-import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import {
-  AUTH_FORM_FIELDS,
-  AUTH_FORM_VALIDATION_SCHEMA,
-  AUTH_INITIAL_VALUES,
+  CHANGE_PASSWORD_FORM_FIELDS,
+  CHANGE_PASSWORD_FORM_VALIDATION_SCHEMA,
+  CHANGE_PASSWORD_INITIAL_VALUES,
 } from "./constants";
 import { IFormikValues } from "./types";
 
-export const LoginForm: FC = () => {
+export const ChangePasswordForm: FC = () => {
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
-  const isLoading = useAuthStore((state) => state.isLoading);
-
-  const getUser = useUserStore((state) => state.getUser);
+  const isLoading = useAuthStore((state) => state.isLoadingRecoveryPassword);
+  const changePassword = useAuthStore((state) => state.changePassword);
 
   const formikProps: FormikConfig<IFormikValues> = {
-    initialValues: AUTH_INITIAL_VALUES,
-    validationSchema: AUTH_FORM_VALIDATION_SCHEMA,
+    initialValues: CHANGE_PASSWORD_INITIAL_VALUES,
+    validationSchema: CHANGE_PASSWORD_FORM_VALIDATION_SCHEMA,
     onSubmit: (values) => {
-      login(values, () => {
-        getUser();
-        navigate(PATHNAMES.DASHBOARD);
+      changePassword(values, () => {
+        navigate(PATHNAMES.LOGIN);
       });
     },
   };
@@ -40,15 +36,8 @@ export const LoginForm: FC = () => {
       <FormikProvider value={formik}>
         <Form>
           <div className="flex flex-col gap-6">
-            <RenderFormFields fields={AUTH_FORM_FIELDS} />
+            <RenderFormFields fields={CHANGE_PASSWORD_FORM_FIELDS} />
           </div>
-
-          <Link
-            className="ml-auto mt-3 block w-max text-sm font-semibold text-purple-base transition-all duration-300 hover:opacity-80"
-            to={PATHNAMES.PASSWRD_RECOVERY}
-          >
-            Forget Password?
-          </Link>
 
           <Button
             className="mt-6 w-full rounded-30 text-lg"
@@ -58,7 +47,7 @@ export const LoginForm: FC = () => {
             isDisabled={isLoading}
             isLoading={isLoading}
           >
-            Sign In
+            Update Password
           </Button>
         </Form>
       </FormikProvider>

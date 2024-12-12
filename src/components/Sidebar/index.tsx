@@ -25,7 +25,7 @@ export const Sidebar = () => {
       <ClientLogo />
       <Navigation isSidebarCollapsed={isSidebarCollapsed} />
 
-      <div className="mt-auto flex flex-col gap-10">
+      <div className="flex w-full flex-col gap-10">
         {!isSidebarCollapsed && <TourNavigation />}
 
         <div className="flex flex-col gap-5">
