@@ -11,16 +11,6 @@ export const ORDER_COLUMNS: Column[] = [
   { key: "expected_delivery_date", label: "PO Date" },
   { key: "order_number", label: "Sales Order #" },
   { key: "location", label: "Ship To" },
-  { key: "order_amt", label: "Amount" },
-  { key: "approvalStatus", label: "Approval Status" },
-  { key: "shipStatus", label: "Ship Status" },
-];
-
-export const ORDER_COLUMNS_EXTENDED: Column[] = [
-  { key: "customer_po_number", label: "Customer PO #" },
-  { key: "expected_delivery_date", label: "PO Date" },
-  { key: "order_number", label: "Sales Order #" },
-  { key: "location", label: "Ship To" },
   { key: "order_amt", label: "Order Amt." },
   { key: "shipping_fee", label: "Shipping fee" },
   { key: "approvalStatus", label: "Approval Stat." },

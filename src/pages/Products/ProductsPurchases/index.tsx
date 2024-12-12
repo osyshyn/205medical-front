@@ -6,7 +6,7 @@ import { RecentOrders } from "src/components/RecentOrders";
 const ProductsPurchases: FC = () => (
   <PageWrapper mainClassName="flex flex-col gap-10">
     <ProductMetrics />
-    <RecentOrders isExtendedTable />
+    <RecentOrders />
   </PageWrapper>
 );
 

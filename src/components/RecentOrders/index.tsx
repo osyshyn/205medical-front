@@ -17,19 +17,11 @@ import {
   getCurrentMonthOption,
   getCurrentYearOption,
 } from "../SelectDate/constants";
-import {
-  getTableItems,
-  ORDER_COLUMNS,
-  ORDER_COLUMNS_EXTENDED,
-} from "./constants";
+import { getTableItems, ORDER_COLUMNS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
-interface Props {
-  isExtendedTable?: boolean;
-}
-
-export const RecentOrders: FC<Props> = ({ isExtendedTable }) => {
+export const RecentOrders: FC = () => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
@@ -75,7 +67,6 @@ export const RecentOrders: FC<Props> = ({ isExtendedTable }) => {
     }
   };
 
-  const columns = isExtendedTable ? ORDER_COLUMNS_EXTENDED : ORDER_COLUMNS;
   const items = getTableItems(ordersResults) as unknown as Row[];
 
   return (
@@ -91,8 +82,12 @@ export const RecentOrders: FC<Props> = ({ isExtendedTable }) => {
       </div>
 
       <Table ariaLabel="Recent orders table">
-        <TableHeader columns={columns} />
-        <TableBody items={items} columns={columns} isLoading={isLoading} />
+        <TableHeader columns={ORDER_COLUMNS} />
+        <TableBody
+          items={items}
+          columns={ORDER_COLUMNS}
+          isLoading={isLoading}
+        />
       </Table>
 
       <div className="mt-8 flex items-center justify-between">
