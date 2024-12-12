@@ -1,26 +1,31 @@
 import React, { FC, useEffect } from "react";
 import { Outlet } from "react-router";
-import { Button } from "src/components/Button";
-import { ButtonVariants } from "src/components/Button/types";
+import { FilterButton } from "src/components/FilterButton";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
+import useCategoryStore from "src/stores/category-store";
 import useProductStore from "src/stores/product-store";
-import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { Row } from "src/@types/table";
 import { ALL_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.products);
-  const isLoading = useProductStore((state) => state.isLoadingProducts);
+  const isLoadingProducts = useProductStore((state) => state.isLoadingProducts);
+
+  const loadCategories = useCategoryStore((state) => state.fetchCategories);
+  const categories = useCategoryStore((state) => state.categories);
+  // const isLoading = useCategoryStore((state) => state.isLoading);
+
   const fetchCart = useCartStore((state) => state.fetchCart);
 
   useEffect(() => {
     loadProducts();
+    loadCategories();
     fetchCart();
-  }, [fetchCart, loadProducts]);
+  }, [fetchCart, loadCategories, loadProducts]);
 
   const items = getTableItems(products) as unknown as Row[];
 
@@ -32,10 +37,7 @@ export const AllProducts: FC = () => {
           subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
         />
 
-        <Button className="gap-2.5 px-4 py-2.5" variant={ButtonVariants.WHITE}>
-          <FilterIcon />
-          <span>Filter</span>
-        </Button>
+        <FilterButton items={categories} />
       </div>
 
       <Table
@@ -46,7 +48,7 @@ export const AllProducts: FC = () => {
         <TableBody
           items={items}
           columns={ALL_PRODUCTS_COLUMNS}
-          isLoading={isLoading}
+          isLoading={isLoadingProducts}
         />
       </Table>
 
