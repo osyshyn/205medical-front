@@ -68,8 +68,6 @@ const OrderAlerts: FC = () => {
 
   const items = getTableItems(paginatedData) as unknown as Row[];
 
-  console.log("Items: ", items);
-
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <div>

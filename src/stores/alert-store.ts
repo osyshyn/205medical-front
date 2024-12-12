@@ -32,8 +32,6 @@ const useAlertsStore = create(
           `alert/get?&type=1`,
           { params }
         );
-        // console.log(instance.defaults.baseURL, "alert/getAlerts?&type=1");
-        console.log("DATA: ", data);
         set({ alerts: data });
       } catch (error) {
         NotificationService.error();
