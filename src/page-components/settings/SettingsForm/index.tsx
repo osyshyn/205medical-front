@@ -13,6 +13,7 @@ import {
   SETTINGS_CHANGE_PASSWORD_FORM_FIELDS,
   SETTINGS_VALIDATION_SCHEMA,
 } from "./contants";
+import { SingInGoogleButton } from "./SingInGoogleButton";
 import { IFormikValues } from "./types";
 
 export const SettingsForm: FC = () => {
@@ -53,6 +54,8 @@ export const SettingsForm: FC = () => {
               <RenderFormFields fields={SETTINGS_CHANGE_PASSWORD_FORM_FIELDS} />
             </div>
           </div>
+
+          <SingInGoogleButton />
 
           <div className="flex gap-3">
             <Button
