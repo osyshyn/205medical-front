@@ -5,11 +5,9 @@ interface Props {
   subtitle: string;
 }
 
-export const Title: FC<Props> = ({title, subtitle}) => (
+export const Title: FC<Props> = ({ title, subtitle }) => (
   <div>
     <h3>{title}</h3>
-    <p className="text-green-ligth text-sm mt-1.5">
-      {subtitle}
-    </p>
+    <p className="mt-1.5 text-sm text-green-ligth">{subtitle}</p>
   </div>
 );
