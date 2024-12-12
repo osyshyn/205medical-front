@@ -17,7 +17,7 @@ export const AllProducts: FC = () => {
 
   const loadCategories = useCategoryStore((state) => state.fetchCategories);
   const categories = useCategoryStore((state) => state.categories);
-  // const isLoading = useCategoryStore((state) => state.isLoading);
+  const isLoadingCategories = useCategoryStore((state) => state.isLoading);
 
   const fetchCart = useCartStore((state) => state.fetchCart);
 
@@ -37,7 +37,7 @@ export const AllProducts: FC = () => {
           subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
         />
 
-        <FilterButton items={categories} />
+        <FilterButton items={categories} isLoading={isLoadingCategories} />
       </div>
 
       <Table
