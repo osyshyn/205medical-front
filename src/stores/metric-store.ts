@@ -8,6 +8,7 @@ import { ReactComponent as DeliveryIcon } from "src/assets/icons/delivery.svg";
 import { ReactComponent as MarkIcon } from "src/assets/icons/mark.svg";
 import { ReactComponent as TruckIcon } from "src/assets/icons/truck.svg";
 import {
+  IMetricProduct,
   IMetrics,
   IMetricsData,
   IMetricsDataFromAPI,
@@ -57,6 +58,8 @@ interface IMetricStore {
   fetchMetricOrders: (params: FetchMetricsParams) => void;
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
+  metrics_products: IMetricProduct;
+  fetchMetricProducts: () => void;
   isLoading: boolean;
 }
 
@@ -117,6 +120,19 @@ const useMetricStore = create(
             shipments_metrics: shipmentMetrics,
           },
         });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    metrics_products: null,
+    fetchMetricProducts: async () => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get<IMetricProduct>("product/metrics");
+
+        set({ metrics_products: data });
       } catch (error) {
         NotificationService.error();
       } finally {
