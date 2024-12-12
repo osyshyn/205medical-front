@@ -2,13 +2,13 @@ import { FC, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { ICategory } from "src/@types/categories";
+import { IOptionSelect } from "src/@types/form";
 import { Dropdown } from "../Dropdown";
 import { Loader } from "../Loader";
 import { CheckOption } from "./CheckOption";
 
 interface Props {
-  items: ICategory[];
+  items: IOptionSelect[];
   isLoading?: boolean;
 }
 
@@ -33,7 +33,7 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
         <Loader />
       ) : (
         <ul className="flex flex-col gap-2">
-          {items?.map((item) => <CheckOption key={item.id} name={item.name} />)}
+          {items?.map((item) => <CheckOption key={item.value} {...item} />)}
         </ul>
       )}
     </Dropdown>

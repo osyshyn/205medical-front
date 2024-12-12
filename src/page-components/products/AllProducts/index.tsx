@@ -4,11 +4,17 @@ import { FilterButton } from "src/components/FilterButton";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
+import { useQueryParams } from "src/hooks/useQueryParams";
 import useCartStore from "src/stores/cart-store";
 import useCategoryStore from "src/stores/category-store";
 import useProductStore from "src/stores/product-store";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
-import { ALL_PRODUCTS_COLUMNS, getTableItems } from "./constants";
+import {
+  ALL_PRODUCTS_COLUMNS,
+  getCategoriesOption,
+  getTableItems,
+} from "./constants";
 
 export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
@@ -23,11 +29,16 @@ export const AllProducts: FC = () => {
 
   const fetchCart = useCartStore((state) => state.fetchCart);
 
+  const { getQueryParam } = useQueryParams();
+
+  const category_ids =
+    getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)?.split(",") || [];
+
   useEffect(() => {
-    loadProducts();
+    loadProducts(category_ids);
     loadCategories();
     fetchCart();
-  }, [fetchCart, loadCategories, loadProducts]);
+  }, [, fetchCart, loadCategories, loadProducts]);
 
   const items = getTableItems(products) as unknown as Row[];
 
@@ -39,7 +50,10 @@ export const AllProducts: FC = () => {
           subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
         />
 
-        <FilterButton items={categories} isLoading={isLoadingCategories} />
+        <FilterButton
+          items={getCategoriesOption(categories)}
+          isLoading={isLoadingCategories}
+        />
       </div>
 
       <Table

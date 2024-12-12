@@ -3,27 +3,25 @@ import cn from "classnames";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { ReactComponent as CheckIcon } from "src/assets/icons/check.svg";
+import { IOptionSelect } from "src/@types/form";
 import { Button } from "../Button";
 
-interface Props {
-  name: string;
-}
-
-export const CheckOption: FC<Props> = ({ name }) => {
+export const CheckOption: FC<IOptionSelect> = ({ label, value }) => {
   const { getQueryParam, addToQueryParamArray, removeFromQueryParamArray } =
     useQueryParams();
 
-  const activeCategories = (getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)?.split(
-    ","
-  ) || []) as string[];
+  const valueToString = value.toString();
 
-  const isCheck = activeCategories.includes(name);
+  const activeCategories =
+    getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)?.split(",") || [];
+
+  const isCheck = activeCategories.includes(valueToString);
 
   const onClick = () => {
     if (isCheck) {
-      removeFromQueryParamArray(QUERY_PARAM_KEYS.CATEGORIES, name);
+      removeFromQueryParamArray(QUERY_PARAM_KEYS.CATEGORIES, valueToString);
     } else {
-      addToQueryParamArray(QUERY_PARAM_KEYS.CATEGORIES, name);
+      addToQueryParamArray(QUERY_PARAM_KEYS.CATEGORIES, valueToString);
     }
   };
 
@@ -40,7 +38,7 @@ export const CheckOption: FC<Props> = ({ name }) => {
       </Button>
 
       <p className="cursor-pointer" onClick={onClick}>
-        {name}
+        {label}
       </p>
     </li>
   );
