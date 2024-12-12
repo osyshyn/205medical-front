@@ -31,14 +31,13 @@ export const AllProducts: FC = () => {
 
   const { getQueryParam } = useQueryParams();
 
-  const category_ids =
-    getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)?.split(",") || [];
+  const category_ids = getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)|| "";
 
   useEffect(() => {
     loadProducts(category_ids);
     loadCategories();
     fetchCart();
-  }, [, fetchCart, loadCategories, loadProducts]);
+  }, [category_ids, fetchCart, loadCategories, loadProducts]);
 
   const items = getTableItems(products) as unknown as Row[];
 

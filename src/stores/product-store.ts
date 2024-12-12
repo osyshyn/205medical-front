@@ -7,7 +7,7 @@ import { IProduct, IProductDetails } from "src/@types/products";
 interface IProductStore {
   products: IProduct[];
   product_details: IProductDetails;
-  fetchProducts: (category_ids: string[]) => void;
+  fetchProducts: (category_ids: string) => void;
   fetchProductDetails: (id: number) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
@@ -23,7 +23,7 @@ const useProductStore = create(
       try {
         const { data } = await instance.get<IProduct[]>("product/getProducts", {
           params: {
-            category_ids,
+            category_ids: category_ids?.split(","),
           },
         });
 
