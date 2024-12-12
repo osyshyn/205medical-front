@@ -1,8 +1,17 @@
 import React, { FC, useState } from "react";
 import cn from "classnames";
 
-export const Switch: FC = () => {
+interface Props {
+  onClick: VoidFunction;
+}
+
+export const Switch: FC<Props> = ({ onClick }) => {
   const [isSelected, setIsSelected] = useState(true);
+
+  const handleClick = () => {
+    setIsSelected(!isSelected);
+    onClick();
+  };
 
   const containerClass =
     "relative select-none flex h-max w-14 cursor-pointer rounded-full p-0.5 transition-all duration-300";
@@ -15,7 +24,7 @@ export const Switch: FC = () => {
 
   return (
     <div
-      onClick={() => setIsSelected(!isSelected)}
+      onClick={handleClick}
       className={cn(containerClass, "bg-gray-regular", {
         "!bg-purple-base": isSelected,
       })}

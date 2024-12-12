@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -11,6 +11,7 @@ import {
 import { Window } from "src/components/Window";
 import useMetricStore from "src/stores/metric-store";
 import { Switch } from "./Switch";
+import { BarChartOptions } from "./types";
 
 // temp
 const metrics = [
@@ -50,12 +51,24 @@ const metrics = [
 const count = 50;
 
 export const ProductMetrics: FC = () => {
+  const [option, setOption] = useState<BarChartOptions>(
+    BarChartOptions.QUANTITY
+  );
+
   const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
   // const { metrics, count } = useMetricStore((state) => state.metrics_products);
 
   useEffect(() => {
     loadMetrics();
   }, [loadMetrics]);
+
+  const onClickSwitch = () => {
+    setOption(
+      option === BarChartOptions.QUANTITY
+        ? BarChartOptions.AMOUNT
+        : BarChartOptions.QUANTITY
+    );
+  };
 
   return (
     <Window className="flex flex-col gap-3">
@@ -64,7 +77,7 @@ export const ProductMetrics: FC = () => {
       <div className="flex justify-between">
         <p className="text-32 text-purple-base">{count} Orders</p>
 
-        <Switch />
+        <Switch onClick={onClickSwitch} />
       </div>
 
       <ResponsiveContainer width="100%" height={200}>
@@ -73,7 +86,7 @@ export const ProductMetrics: FC = () => {
           <XAxis dataKey="order_date" />
           <YAxis />
 
-          <Bar dataKey="total_quantity" barSize={15}>
+          <Bar dataKey={option} barSize={15}>
             {metrics.map((_, index) => (
               <Cell
                 cursor="pointer"
