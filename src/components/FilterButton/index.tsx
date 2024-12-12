@@ -23,23 +23,19 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
   );
 
   return (
-    <div>
-      <Dropdown
-        head={head}
-        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      >
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {items?.map((item) => (
-              <CheckOption key={item.id} name={item.name} />
-            ))}
-          </ul>
-        )}
-      </Dropdown>
-    </div>
+    <Dropdown
+      head={head}
+      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    >
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ul className="flex flex-col gap-2">
+          {items?.map((item) => <CheckOption key={item.id} name={item.name} />)}
+        </ul>
+      )}
+    </Dropdown>
   );
 };
