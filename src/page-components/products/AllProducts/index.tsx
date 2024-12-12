@@ -16,7 +16,9 @@ export const AllProducts: FC = () => {
   const isLoadingProducts = useProductStore((state) => state.isLoadingProducts);
 
   const loadCategories = useCategoryStore((state) => state.fetchCategories);
-  const categories = useCategoryStore((state) => state.categories);
+  const categories = useCategoryStore(
+    (state) => state.user_products_categories
+  );
   const isLoadingCategories = useCategoryStore((state) => state.isLoading);
 
   const fetchCart = useCartStore((state) => state.fetchCart);

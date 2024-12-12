@@ -5,6 +5,7 @@ import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { ICategory } from "src/@types/categories";
 import { Dropdown } from "../Dropdown";
 import { Loader } from "../Loader";
+import { CheckOption } from "./CheckOption";
 
 interface Props {
   items: ICategory[];
@@ -34,9 +35,7 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
         ) : (
           <ul className="flex flex-col gap-2">
             {items?.map((item) => (
-              <p key={item.id} className="text-sm">
-                {item.name}
-              </p>
+              <CheckOption key={item.id} name={item.name} />
             ))}
           </ul>
         )}
