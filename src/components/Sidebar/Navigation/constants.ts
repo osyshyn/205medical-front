@@ -63,6 +63,13 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
     label: "Shipments",
     href: PATHNAMES.SHIPMENTS,
     iconActive: ShipmentsActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Shipment alerts",
+        href: PATHNAMES.SHIPMENT_ALERTS,
+      },
+    ],
   },
   {
     id: 5,
