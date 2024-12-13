@@ -20,10 +20,11 @@ const useProductStore = create(
     isLoadingProducts: false,
     fetchProducts: async (category_ids) => {
       set({ isLoadingProducts: true });
+
       try {
         const { data } = await instance.get<IProduct[]>("product/getProducts", {
           params: {
-            category_ids: category_ids?.split(","),
+            category_ids: category_ids !== "" ? category_ids?.split(",") : [],
           },
         });
 
