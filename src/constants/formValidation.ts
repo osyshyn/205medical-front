@@ -42,8 +42,8 @@ export const PHONE_VALIDATION_SCHEMA = Yup.string()
   )
   .required("Phone number is required");
 
-// export const MAX_LENGTH_VALIDATION = (max: number) =>
-//   Yup.string().max(max, `max-symbols ${max}`).trim();
+export const MIN_LENGTH_VALIDATION = (min: number) =>
+  Yup.string().min(min, `Minimum ${min} characters required.`);
 
 // export const WEBSITE_LINK_VALIDATION_SCHEMA =
 //   Yup.string().url("url-is-invalid");

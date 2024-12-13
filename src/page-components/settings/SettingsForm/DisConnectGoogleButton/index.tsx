@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
 import useAuthStore from "src/stores/auth-store";
+import useUserStore from "src/stores/user-store";
 import { ReactComponent as GoogleIcon } from "src/assets/icons/google.svg";
 
 interface Props {
@@ -8,10 +9,13 @@ interface Props {
 }
 
 export const DisConnectGoogleButton: FC<Props> = ({ google_id }) => {
+  const getUser = useUserStore((state) => state.getUser);
   const disConnectGoogle = useAuthStore((state) => state.disConnectGoogle);
 
   const handleDisConnect = () => {
-    disConnectGoogle({ google_id });
+    disConnectGoogle({ google_id }, () => {
+      getUser();
+    });
   };
 
   return (

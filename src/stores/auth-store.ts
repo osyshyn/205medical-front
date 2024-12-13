@@ -59,8 +59,8 @@ interface IAuthStore {
   updateSetting: (values: UpdateSettingParams) => void;
   isLoadingUpdateSetting: boolean;
   loginWithGoogle: (values: GoogleParams, onSuccess: () => void) => void;
-  connectGoogle: (values: GoogleParams) => void;
-  disConnectGoogle: (values: GoogleParams) => void;
+  connectGoogle: (values: GoogleParams, onSuccess: () => void) => void;
+  disConnectGoogle: (values: GoogleParams, onSuccess: () => void) => void;
   isLoadingGoogle: boolean;
 }
 
@@ -209,7 +209,7 @@ const useAuthStore = create(
         NotificationService.error(errorText);
       }
     },
-    connectGoogle: async (values) => {
+    connectGoogle: async (values, onSuccess) => {
       set({ isLoadingGoogle: true });
       try {
         await instance.post("user/bindingUserSocial", values);
@@ -217,13 +217,14 @@ const useAuthStore = create(
         set({ isLoadingGoogle: false });
 
         NotificationService.success();
+        onSuccess();
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingGoogle: false });
         NotificationService.error(errorText);
       }
     },
-    disConnectGoogle: async (values) => {
+    disConnectGoogle: async (values, onSuccess) => {
       set({ isLoadingGoogle: true });
       try {
         await instance.post("user/unBindingUserSocial", values);
@@ -231,6 +232,7 @@ const useAuthStore = create(
         set({ isLoadingGoogle: false });
 
         NotificationService.success();
+        onSuccess();
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingGoogle: false });
