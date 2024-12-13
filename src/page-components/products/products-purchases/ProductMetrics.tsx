@@ -8,12 +8,21 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  getCurrentMonthOption,
+  getCurrentYearOption,
+} from "src/components/SelectDate/constants";
 import { Window } from "src/components/Window";
+import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Switch } from "./Switch";
 import { BarChartOptions } from "./types";
 
 export const ProductMetrics: FC = () => {
+  const { getQueryParam } = useQueryParams();
+
   const [option, setOption] = useState<BarChartOptions>(
     BarChartOptions.QUANTITY
   );
@@ -21,9 +30,22 @@ export const ProductMetrics: FC = () => {
   const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
   const metrics_products = useMetricStore((state) => state.metrics_products);
 
+  const year =
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+    getCurrentYearOption().value.toString();
+  const month =
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+    getCurrentMonthOption().value.toString();
+
+  const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
+
   useEffect(() => {
-    loadMetrics();
-  }, [loadMetrics]);
+    loadMetrics({
+      year,
+      month,
+      product_ids: getArrayFromStringParams(product_ids),
+    });
+  }, [loadMetrics, month, year, product_ids]);
 
   const onClickSwitch = () => {
     setOption(

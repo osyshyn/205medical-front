@@ -49,8 +49,12 @@ const getMetrics = (
 };
 
 interface FetchMetricsParams {
-  month: number;
-  year: number;
+  month: string;
+  year: string;
+}
+
+interface FetchMetricsProductsParams extends FetchMetricsParams {
+  product_ids: string[];
 }
 
 interface IMetricStore {
@@ -59,7 +63,7 @@ interface IMetricStore {
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
   metrics_products: IMetricProduct;
-  fetchMetricProducts: () => void;
+  fetchMetricProducts: (params: FetchMetricsProductsParams) => void;
   isLoading: boolean;
 }
 
@@ -127,10 +131,12 @@ const useMetricStore = create(
       }
     },
     metrics_products: null,
-    fetchMetricProducts: async () => {
+    fetchMetricProducts: async (params) => {
       set({ isLoading: true });
       try {
-        const { data } = await instance.get<IMetricProduct>("product/metrics");
+        const { data } = await instance.get<IMetricProduct>("product/metrics", {
+          params,
+        });
 
         set({ metrics_products: data });
       } catch (error) {

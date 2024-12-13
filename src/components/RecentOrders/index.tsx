@@ -30,9 +30,9 @@ export const RecentOrders: FC = () => {
     useQueryParams();
 
   const year =
-    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value;
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value.toString();
   const month =
-    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value;
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value.toString();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
@@ -53,8 +53,8 @@ export const RecentOrders: FC = () => {
     loadOrders({
       search: debouncedSearchQuery,
       current_page: currentPage,
-      year: year as string,
-      month: month as string,
+      year: year,
+      month: month,
       location_ids: getArrayFromStringParams(location_ids),
       product_ids: getArrayFromStringParams(product_ids),
     });

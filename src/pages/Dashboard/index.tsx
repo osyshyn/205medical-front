@@ -44,8 +44,8 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     loadMetrics({
-      month: selectMonthOption?.value as number,
-      year: selectYearOption?.value as number,
+      month: selectMonthOption?.value.toString(),
+      year: selectYearOption?.value.toString(),
     });
   }, [loadMetrics, selectMonthOption, selectYearOption]);
 
