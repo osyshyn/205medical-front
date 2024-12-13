@@ -29,7 +29,7 @@ const useAlertsStore = create(
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IResponseWithPagination<IAlert>>(
-          `alert/get?&type=1`,
+          `alert/get?&type=${params.type}`,
           { params }
         );
         set({ alerts: data });
