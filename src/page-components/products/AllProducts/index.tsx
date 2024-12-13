@@ -31,13 +31,16 @@ export const AllProducts: FC = () => {
 
   const { getQueryParam } = useQueryParams();
 
-  const category_ids = getQueryParam(QUERY_PARAM_KEYS.CATEGORIES)|| "";
+  const category_ids = getQueryParam(QUERY_PARAM_KEYS.CATEGORIES) || "";
 
   useEffect(() => {
     loadProducts(category_ids);
-    loadCategories();
     fetchCart();
-  }, [category_ids, fetchCart, loadCategories, loadProducts]);
+  }, [category_ids, fetchCart, loadProducts]);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
 
   const items = getTableItems(products) as unknown as Row[];
 
@@ -51,6 +54,7 @@ export const AllProducts: FC = () => {
 
         <FilterButton
           items={getCategoriesOption(categories)}
+          queryKey={QUERY_PARAM_KEYS.CATEGORIES}
           isLoading={isLoadingCategories}
         />
       </div>

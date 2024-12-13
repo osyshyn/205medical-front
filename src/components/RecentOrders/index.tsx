@@ -45,14 +45,24 @@ export const RecentOrders: FC = () => {
     });
   };
 
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+
   useEffect(() => {
     loadOrders({
       search: debouncedSearchQuery,
       current_page: currentPage,
       year: year as string,
       month: month as string,
+      location_ids,
     });
-  }, [currentPage, debouncedSearchQuery, month, year, loadOrders]);
+  }, [
+    currentPage,
+    debouncedSearchQuery,
+    month,
+    year,
+    loadOrders,
+    location_ids,
+  ]);
 
   const ordersResponse = useOrderStore((state) => state.orders);
   const ordersResults = ordersResponse?.result || [];

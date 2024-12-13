@@ -10,6 +10,7 @@ interface FetchOrdersParams {
   current_page: number;
   year: string;
   month: string;
+  location_ids?: string;
 }
 
 interface IOrderStore {
@@ -24,8 +25,15 @@ const useOrderStore = create(
   devtools<IOrderStore>((set) => ({
     orders: null,
     isLoading: false,
-    fetchOrders: async (params) => {
+    fetchOrders: async (values) => {
       set({ isLoading: true });
+
+      const params = {
+        location_ids:
+          values.location_ids !== "" ? values.location_ids?.split(",") : [],
+        ...values,
+      };
+
       try {
         const { data } = await instance.get<IResponseWithPagination<IOrder>>(
           `order/getOrders?&items_per_page=${ORDERS_PER_PAGE}`,

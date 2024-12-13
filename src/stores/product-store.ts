@@ -7,7 +7,7 @@ import { IProduct, IProductDetails } from "src/@types/products";
 interface IProductStore {
   products: IProduct[];
   product_details: IProductDetails;
-  fetchProducts: (category_ids: string) => void;
+  fetchProducts: (category_ids?: string) => void;
   fetchProductDetails: (id: number) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
@@ -18,7 +18,7 @@ const useProductStore = create(
     products: [],
     product_details: {} as IProductDetails,
     isLoadingProducts: false,
-    fetchProducts: async (category_ids) => {
+    fetchProducts: async (category_ids = "") => {
       set({ isLoadingProducts: true });
 
       try {

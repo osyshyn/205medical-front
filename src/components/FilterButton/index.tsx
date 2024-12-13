@@ -8,11 +8,12 @@ import { Loader } from "../Loader";
 import { CheckOption } from "./CheckOption";
 
 interface Props {
+  queryKey: string;
   items: IOptionSelect[];
   isLoading?: boolean;
 }
 
-export const FilterButton: FC<Props> = ({ items, isLoading }) => {
+export const FilterButton: FC<Props> = ({ queryKey, items, isLoading }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const head = (
@@ -33,7 +34,9 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
         <Loader />
       ) : (
         <ul className="flex flex-col gap-2">
-          {items?.map((item) => <CheckOption key={item.value} {...item} />)}
+          {items?.map((item) => (
+            <CheckOption key={item.value} option={item} queryKey={queryKey} />
+          ))}
         </ul>
       )}
     </Dropdown>
