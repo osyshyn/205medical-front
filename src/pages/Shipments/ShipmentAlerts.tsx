@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
@@ -26,8 +26,7 @@ import { Row } from "src/@types/table";
 const ShipmentAlerts: FC = () => {
   const loadAlerts = useAlertsStore((state) => state.fetchAlerts);
 
-  const { getQueryParam, setQueryParam, setMultipleQueryParams } =
-    useQueryParams();
+  const { getQueryParam, setMultipleQueryParams } = useQueryParams();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,13 +56,7 @@ const ShipmentAlerts: FC = () => {
   const pageCount = Math.ceil(alertsCount / ALERTS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ALERTS_PER_PAGE;
-    const end = start + ALERTS_PER_PAGE;
-    return alertsResult.slice(start, end);
-  }, [alertsResult, currentPage]);
-
-  const items = getTableItems(paginatedData) as unknown as Row[];
+  const items = getTableItems(alertsResult) as unknown as Row[];
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
@@ -75,11 +68,19 @@ const ShipmentAlerts: FC = () => {
         <Window className="mt-6">
           <div className="flex items-start justify-between">
             <Title title="Shipment Alerts" subtitle="" />
-            <Search className="text-xs" value={""} onChange={() => {}} />
+            <Search
+              className="text-xs"
+              value={searchQuery}
+              onChange={onChangeSearch}
+            />
           </div>
           <Table ariaLabel="All shipments table">
-            <TableHeader columns={ORDER_TABLE_COLUMNS} />
-            <TableBody items={items} columns={ORDER_TABLE_COLUMNS} />
+            <TableHeader className="text-left" columns={ORDER_TABLE_COLUMNS} />
+            <TableBody
+              rowClassname="!text-left"
+              items={items}
+              columns={ORDER_TABLE_COLUMNS}
+            />
           </Table>
           <div className="mt-8 flex items-center justify-between">
             <DataRangeIndicator

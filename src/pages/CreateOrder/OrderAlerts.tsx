@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
@@ -20,8 +20,6 @@ import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useAlertsStore from "src/stores/alert-store";
-import useOrderStore from "src/stores/order-store";
-import useProductStore from "src/stores/product-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
 import { Row } from "src/@types/table";
@@ -29,8 +27,7 @@ import { Row } from "src/@types/table";
 const OrderAlerts: FC = () => {
   const loadAlerts = useAlertsStore((state) => state.fetchAlerts);
 
-  const { getQueryParam, setQueryParam, setMultipleQueryParams } =
-    useQueryParams();
+  const { getQueryParam, setMultipleQueryParams } = useQueryParams();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,13 +57,7 @@ const OrderAlerts: FC = () => {
   const pageCount = Math.ceil(alertsCount / ALERTS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ALERTS_PER_PAGE;
-    const end = start + ALERTS_PER_PAGE;
-    return alertsResult.slice(start, end);
-  }, [alertsResult, currentPage]);
-
-  const items = getTableItems(paginatedData) as unknown as Row[];
+  const items = getTableItems(alertsResult) as unknown as Row[];
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
@@ -85,8 +76,12 @@ const OrderAlerts: FC = () => {
             />
           </div>
           <Table ariaLabel="All alerts table">
-            <TableHeader columns={ORDER_TABLE_COLUMNS} />
-            <TableBody items={items} columns={ORDER_TABLE_COLUMNS} />
+            <TableHeader className="text-left" columns={ORDER_TABLE_COLUMNS} />
+            <TableBody
+              rowClassname="!text-left"
+              items={items}
+              columns={ORDER_TABLE_COLUMNS}
+            />
           </Table>
           <div className="mt-8 flex items-center justify-between">
             <DataRangeIndicator
