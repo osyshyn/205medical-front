@@ -34,6 +34,7 @@ interface ChangePasswordParams {
 interface UpdateSettingParams {
   email?: string;
   phone?: string;
+  password?: string;
   new_password?: string;
   confirm_password?: string;
 }
