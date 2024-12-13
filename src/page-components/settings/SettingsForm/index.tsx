@@ -7,13 +7,13 @@ import { Window } from "src/components/Window";
 import useAuthStore from "src/stores/auth-store";
 import useUserStore from "src/stores/user-store";
 import { Sizes } from "src/@types/sizes";
+import { ConnectGoogleButton } from "./ConnectGoogleButton";
 import {
   getInitialValues,
   SETTINGS_BUYER_INFO_FORM_FIELDS,
   SETTINGS_CHANGE_PASSWORD_FORM_FIELDS,
   SETTINGS_VALIDATION_SCHEMA,
 } from "./contants";
-import { SingInGoogleButton } from "./SingInGoogleButton";
 import { IFormikValues } from "./types";
 
 export const SettingsForm: FC = () => {
@@ -55,7 +55,7 @@ export const SettingsForm: FC = () => {
             </div>
           </div>
 
-          <SingInGoogleButton />
+          <ConnectGoogleButton />
 
           <div className="flex gap-3">
             <Button

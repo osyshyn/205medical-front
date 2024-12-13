@@ -38,6 +38,10 @@ interface UpdateSettingParams {
   confirm_password?: string;
 }
 
+interface GoogleParams {
+  google_id: string;
+}
+
 interface IAuthStore {
   isLoading: boolean;
   login: (values: LoginParams, onSuccess: () => void) => void;
@@ -53,6 +57,9 @@ interface IAuthStore {
   isLoadingSendCodeAgain: boolean;
   updateSetting: (values: UpdateSettingParams) => void;
   isLoadingUpdateSetting: boolean;
+  loginWithGoogle: (values: GoogleParams, onSuccess: () => void) => void;
+  connectGoogle: (values: GoogleParams) => void;
+  isLoadingGoogle: boolean;
 }
 
 const useAuthStore = create(
@@ -174,6 +181,43 @@ const useAuthStore = create(
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingUpdateSetting: false });
+        NotificationService.error(errorText);
+      }
+    },
+    isLoadingGoogle: false,
+    loginWithGoogle: async (values, onSuccess) => {
+      set({ isLoadingGoogle: true });
+
+      try {
+        const { data } = await instance.post<IAuthTokens>(
+          "user/socialLogin/",
+          values
+        );
+
+        Cookies.set(ACCESS_TOKEN, data.access_token);
+        Cookies.set(AUTH_REFRESH_TOKEN, data.refresh_token);
+
+        set({ isLoadingGoogle: false });
+
+        onSuccess();
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingGoogle: false });
+        NotificationService.error(errorText);
+      }
+    },
+    connectGoogle: async (values) => {
+      set({ isLoadingGoogle: true });
+      try {
+        await instance.post("user/bindingUserSocial", values);
+
+        set({ isLoadingGoogle: false });
+
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingGoogle: false });
         NotificationService.error(errorText);
       }
     },
