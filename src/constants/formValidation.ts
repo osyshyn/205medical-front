@@ -20,7 +20,7 @@ export const EMAIL_VALIDATION_SCHEMA = LENGTH_VALIDATION(3, 100)
   .email("Incorrect email format.")
   .required("This field is required.");
 
-export const PASSWORD_VALIDATION_SCHEMA = LENGTH_VALIDATION(4, 100)
+export const PASSWORD_VALIDATION_SCHEMA = LENGTH_VALIDATION(6, 100)
   .matches(
     /^(?=.*[0-9])|(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
     "Password must contain at least one number or special character."
