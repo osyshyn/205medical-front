@@ -1,5 +1,5 @@
+import { IFilterList } from "src/components/FilterButton/types";
 import { ICategory } from "src/@types/categories";
-import { IOptionSelect } from "src/@types/form";
 import { IProduct } from "src/@types/products";
 import { Column } from "src/@types/table";
 import { ActionsButtons } from "./ActionsButtons";
@@ -25,8 +25,10 @@ export const getTableItems = (productsData: IProduct[]): IProduct[] =>
     },
   }));
 
-export const getCategoriesOption = (categories: ICategory[]): IOptionSelect[] =>
-  categories?.map((category) => ({
+export const getFilterList = (categories: ICategory[]): IFilterList => ({
+  title: "Categories",
+  items: categories?.map((category) => ({
     value: category.id,
     label: category.name,
-  }));
+  })),
+});

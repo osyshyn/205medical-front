@@ -2,32 +2,22 @@ import { FC } from "react";
 import cn from "classnames";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import { ReactComponent as CheckIcon } from "src/assets/icons/check.svg";
-import { IOptionSelect } from "src/@types/form";
 import { Button } from "../Button";
 
 interface Props {
+  isActive: boolean;
+  value: string;
   queryKey: string;
-  option: IOptionSelect;
 }
 
-export const CheckOption: FC<Props> = ({
-  queryKey,
-  option: { label, value },
-}) => {
-  const { getQueryParam, addToQueryParamArray, removeFromQueryParamArray } =
-    useQueryParams();
-
-  const valueToString = value.toString();
-
-  const activeCategories = getQueryParam(queryKey)?.split(",") || [];
-
-  const isCheck = activeCategories.includes(valueToString);
+export const CheckOption: FC<Props> = ({ isActive, value, queryKey }) => {
+  const { addToQueryParamArray, removeFromQueryParamArray } = useQueryParams();
 
   const onClick = () => {
-    if (isCheck) {
-      removeFromQueryParamArray(queryKey, valueToString);
+    if (isActive) {
+      removeFromQueryParamArray(queryKey, value);
     } else {
-      addToQueryParamArray(queryKey, valueToString);
+      addToQueryParamArray(queryKey, value);
     }
   };
 
@@ -36,15 +26,15 @@ export const CheckOption: FC<Props> = ({
       <Button
         className={cn(
           "flex h-3.5 w-3.5 cursor-pointer items-center justify-center rounded-sm border",
-          { "border-black-base": isCheck }
+          { "border-black-base": isActive }
         )}
         onClick={onClick}
       >
-        {isCheck && <CheckIcon className="pointer-events-none" />}
+        {isActive && <CheckIcon className="pointer-events-none" />}
       </Button>
 
       <p className="cursor-pointer" onClick={onClick}>
-        {label}
+        {value}
       </p>
     </li>
   );

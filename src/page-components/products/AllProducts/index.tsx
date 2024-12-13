@@ -12,7 +12,7 @@ import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
 import {
   ALL_PRODUCTS_COLUMNS,
-  getCategoriesOption,
+  getFilterList,
   getTableItems,
 } from "./constants";
 
@@ -53,8 +53,8 @@ export const AllProducts: FC = () => {
         />
 
         <FilterButton
-          items={getCategoriesOption(categories)}
           queryKey={QUERY_PARAM_KEYS.CATEGORIES}
+          list={getFilterList(categories)}
           isLoading={isLoadingCategories}
         />
       </div>

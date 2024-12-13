@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { getLocationsOption } from "src/page-components/products/products-history/constants";
+import { getFilterList } from "src/page-components/products/products-history/constants";
 import { FilterButton } from "src/components/FilterButton";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { RecentOrders } from "src/components/RecentOrders";
@@ -52,8 +52,8 @@ const ProductsHistory: FC = () => {
       <div className="flex items-center justify-between">
         <FilterButton
           queryKey={QUERY_PARAM_KEYS.LOCATIONS}
-          items={getLocationsOption(locations)}
           isLoading={isLoadingFetch}
+          list={getFilterList(locations)}
         />
 
         <SelectDate
