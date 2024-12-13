@@ -8,6 +8,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useCartStore from "src/stores/cart-store";
 import useCategoryStore from "src/stores/category-store";
 import useProductStore from "src/stores/product-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
 import {
@@ -34,7 +35,9 @@ export const AllProducts: FC = () => {
   const category_ids = getQueryParam(QUERY_PARAM_KEYS.CATEGORIES) || "";
 
   useEffect(() => {
-    loadProducts(category_ids);
+    loadProducts({
+      category_ids: getArrayFromStringParams(category_ids),
+    });
     fetchCart();
   }, [category_ids, fetchCart, loadProducts]);
 
@@ -53,7 +56,6 @@ export const AllProducts: FC = () => {
         />
 
         <FilterButton
-          queryKey={QUERY_PARAM_KEYS.CATEGORIES}
           list={getFilterList(categories)}
           isLoading={isLoadingCategories}
         />

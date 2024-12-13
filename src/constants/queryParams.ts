@@ -6,4 +6,5 @@ export const QUERY_PARAM_KEYS = {
   YEAR: "year",
   CATEGORIES: "categories",
   LOCATIONS: "locations",
+  PRODUCTS: "products",
 };

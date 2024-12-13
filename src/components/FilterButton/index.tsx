@@ -8,12 +8,11 @@ import { FilterList } from "./FilterList";
 import { IFilterList } from "./types";
 
 interface Props {
-  queryKey: string;
-  list: IFilterList;
+  list: IFilterList[];
   isLoading?: boolean;
 }
 
-export const FilterButton: FC<Props> = ({ queryKey, list, isLoading }) => {
+export const FilterButton: FC<Props> = ({ list, isLoading }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const head = (
@@ -30,7 +29,15 @@ export const FilterButton: FC<Props> = ({ queryKey, list, isLoading }) => {
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
-      {isLoading ? <Loader /> : <FilterList queryKey={queryKey} list={list} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-col gap-3">
+          {list.map((item) => (
+            <FilterList {...item} />
+          ))}
+        </div>
+      )}
     </Dropdown>
   );
 };

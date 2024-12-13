@@ -3,12 +3,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import { CheckOption } from "./CheckOption";
 import { IFilterList } from "./types";
 
-interface Props {
-  queryKey: string;
-  list: IFilterList;
-}
-
-export const FilterList: FC<Props> = ({ queryKey, list: { title, items } }) => {
+export const FilterList: FC<IFilterList> = ({ queryKey, title, items }) => {
   const { getQueryParam } = useQueryParams();
 
   const activeCategories = getQueryParam(queryKey)?.split(",") || [];

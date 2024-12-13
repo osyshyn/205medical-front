@@ -1,4 +1,5 @@
 import { IFilterList } from "src/components/FilterButton/types";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { ICategory } from "src/@types/categories";
 import { IProduct } from "src/@types/products";
 import { Column } from "src/@types/table";
@@ -25,10 +26,13 @@ export const getTableItems = (productsData: IProduct[]): IProduct[] =>
     },
   }));
 
-export const getFilterList = (categories: ICategory[]): IFilterList => ({
-  title: "Categories",
-  items: categories?.map((category) => ({
-    value: category.id,
-    label: category.name,
-  })),
-});
+export const getFilterList = (categories: ICategory[]): IFilterList[] => [
+  {
+    title: "Categories",
+    items: categories?.map((category) => ({
+      value: category.id,
+      label: category.name,
+    })),
+    queryKey: QUERY_PARAM_KEYS.CATEGORIES,
+  },
+];

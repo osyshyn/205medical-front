@@ -4,10 +4,14 @@ import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IProduct, IProductDetails } from "src/@types/products";
 
+interface FetchOrdersParams {
+  category_ids: string[];
+}
+
 interface IProductStore {
   products: IProduct[];
   product_details: IProductDetails;
-  fetchProducts: (category_ids?: string) => void;
+  fetchProducts: (params?: FetchOrdersParams) => void;
   fetchProductDetails: (id: number) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
@@ -18,14 +22,12 @@ const useProductStore = create(
     products: [],
     product_details: {} as IProductDetails,
     isLoadingProducts: false,
-    fetchProducts: async (category_ids = "") => {
+    fetchProducts: async (params) => {
       set({ isLoadingProducts: true });
 
       try {
         const { data } = await instance.get<IProduct[]>("product/getProducts", {
-          params: {
-            category_ids: category_ids !== "" ? category_ids?.split(",") : [],
-          },
+          params,
         });
 
         set({ products: data });
