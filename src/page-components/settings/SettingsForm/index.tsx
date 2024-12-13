@@ -14,6 +14,7 @@ import {
   SETTINGS_CHANGE_PASSWORD_FORM_FIELDS,
   SETTINGS_VALIDATION_SCHEMA,
 } from "./contants";
+import { DisConnectGoogleButton } from "./DisConnectGoogleButton";
 import { IFormikValues } from "./types";
 
 export const SettingsForm: FC = () => {
@@ -35,6 +36,8 @@ export const SettingsForm: FC = () => {
 
   const formik = useFormik(formikProps);
 
+  const isGoogleAccountConnect = Boolean(user.google_id);
+
   return (
     <Window className="flex-1">
       <FormikProvider value={formik}>
@@ -55,7 +58,11 @@ export const SettingsForm: FC = () => {
             </div>
           </div>
 
-          <ConnectGoogleButton />
+          {isGoogleAccountConnect ? (
+            <DisConnectGoogleButton google_id={user.google_id} />
+          ) : (
+            <ConnectGoogleButton />
+          )}
 
           <div className="flex gap-3">
             <Button

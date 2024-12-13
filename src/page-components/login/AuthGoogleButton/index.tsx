@@ -21,8 +21,9 @@ export const AuthGoogleButton = () => {
 
   return (
     <Button
-      onClick={() => handleLogin()}
       className="mb-10 mt-6 w-full gap-3 rounded-xl border bg-white-base px-3.5 py-2 text-lg text-gray-dark"
+      onClick={() => handleLogin()}
+      type="button"
     >
       <GoogleIcon />
       <span>Sign in with Google</span>
