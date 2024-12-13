@@ -11,6 +11,7 @@ interface Props {
 export const DisConnectGoogleButton: FC<Props> = ({ google_id }) => {
   const getUser = useUserStore((state) => state.getUser);
   const disConnectGoogle = useAuthStore((state) => state.disConnectGoogle);
+  const isLoading = useAuthStore((state) => state.isLoadingGoogle);
 
   const handleDisConnect = () => {
     disConnectGoogle({ google_id }, () => {
@@ -23,6 +24,8 @@ export const DisConnectGoogleButton: FC<Props> = ({ google_id }) => {
       onClick={handleDisConnect}
       className="w-max gap-3 rounded-xl border bg-white-base px-14 py-4 text-sm text-gray-dark"
       type="button"
+      isLoading={isLoading}
+      isDisabled={isLoading}
     >
       <GoogleIcon />
       <span>Disconnect Google Account</span>
