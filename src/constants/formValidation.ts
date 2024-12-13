@@ -35,13 +35,15 @@ export const REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA = (ref: string) =>
     .required("Password confirmation is required.")
     .oneOf([Yup.ref(ref), null], "Passwords must match.");
 
-export const PHONE_VALIDATION_SCHEMA = LENGTH_VALIDATION(3, 20).matches(
-  /^(\+?[1-9]{1,4}[ -]*|\([0-9]{2,3}\)[ -]*|[0-9]{2,4}[ -]*)*?[0-9]{3,4}[ -]*[0-9]{3,4}([ -]*x[0-9]+)?$/,
-  "Incorrect phone number format."
-);
+export const PHONE_VALIDATION_SCHEMA = Yup.string()
+  .matches(
+    /^(?:\+1[-.\s]?|1[-.\s]?)?\(?([2-9][0-9]{2})\)?[-.\s]?([2-9][0-9]{2})[-.\s]?([0-9]{4})$/,
+    "Invalid US phone number format."
+  )
+  .required("Phone number is required");
 
-// export const MAX_LENGTH_VALIDATION = (max: number) =>
-//   Yup.string().max(max, `max-symbols ${max}`).trim();
+export const MIN_LENGTH_VALIDATION = (min: number) =>
+  Yup.string().min(min, `Minimum ${min} characters required.`);
 
 // export const WEBSITE_LINK_VALIDATION_SCHEMA =
 //   Yup.string().url("url-is-invalid");

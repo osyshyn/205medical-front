@@ -1,3 +1,5 @@
+import { ICategory } from "src/@types/categories";
+import { IOptionSelect } from "src/@types/form";
 import { IProduct } from "src/@types/products";
 import { Column } from "src/@types/table";
 import { ActionsButtons } from "./ActionsButtons";
@@ -21,4 +23,10 @@ export const getTableItems = (productsData: IProduct[]): IProduct[] =>
         id: product.id,
       },
     },
+  }));
+
+export const getCategoriesOption = (categories: ICategory[]): IOptionSelect[] =>
+  categories?.map((category) => ({
+    value: category.id,
+    label: category.name,
   }));

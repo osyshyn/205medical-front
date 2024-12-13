@@ -7,7 +7,7 @@ import { IProduct, IProductDetails } from "src/@types/products";
 interface IProductStore {
   products: IProduct[];
   product_details: IProductDetails;
-  fetchProducts: () => void;
+  fetchProducts: (category_ids: string) => void;
   fetchProductDetails: (id: number) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
@@ -18,10 +18,14 @@ const useProductStore = create(
     products: [],
     product_details: {} as IProductDetails,
     isLoadingProducts: false,
-    fetchProducts: async () => {
+    fetchProducts: async (category_ids) => {
       set({ isLoadingProducts: true });
       try {
-        const { data } = await instance.get<IProduct[]>("product/getProducts");
+        const { data } = await instance.get<IProduct[]>("product/getProducts", {
+          params: {
+            category_ids: category_ids?.split(","),
+          },
+        });
 
         set({ products: data });
       } catch (error) {

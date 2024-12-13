@@ -11,7 +11,7 @@ import { IFormikValues } from "./types";
 export const getInitialValues = ({ phone, email }: IUser): IFormikValues => ({
   phone,
   email,
-  current_password: "",
+  password: "",
   new_password: "",
   confirm_password: "",
 });
@@ -33,7 +33,7 @@ export const SETTINGS_BUYER_INFO_FORM_FIELDS: IRenderFormField[] = [
 
 export const SETTINGS_CHANGE_PASSWORD_FORM_FIELDS: IRenderFormField[] = [
   {
-    name: "current_password",
+    name: "password",
     type: "password",
     label: "Currently Password",
     component: TextInput,

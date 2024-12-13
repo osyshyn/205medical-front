@@ -5,23 +5,23 @@ import { NotificationService } from "src/helpers/notifications";
 import { ICategory } from "src/@types/categories";
 
 interface ICategoryStore {
-  categories: ICategory[];
+  user_products_categories: ICategory[];
   fetchCategories: () => void;
   isLoading: boolean;
 }
 
 const useCategoryStore = create(
   devtools<ICategoryStore>((set) => ({
-    categories: null,
+    user_products_categories: null,
     isLoading: false,
     fetchCategories: async () => {
       set({ isLoading: true });
       try {
         const { data } = await instance.get<ICategory[]>(
-          "category/getCategories"
+          "category/userProductsCategory"
         );
 
-        set({ categories: data });
+        set({ user_products_categories: data });
       } catch (error) {
         NotificationService.error();
       } finally {

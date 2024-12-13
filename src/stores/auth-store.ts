@@ -34,8 +34,13 @@ interface ChangePasswordParams {
 interface UpdateSettingParams {
   email?: string;
   phone?: string;
+  password?: string;
   new_password?: string;
   confirm_password?: string;
+}
+
+interface GoogleParams {
+  google_id: string;
 }
 
 interface IAuthStore {
@@ -53,6 +58,10 @@ interface IAuthStore {
   isLoadingSendCodeAgain: boolean;
   updateSetting: (values: UpdateSettingParams) => void;
   isLoadingUpdateSetting: boolean;
+  loginWithGoogle: (values: GoogleParams, onSuccess: () => void) => void;
+  connectGoogle: (values: GoogleParams, onSuccess: () => void) => void;
+  disConnectGoogle: (values: GoogleParams, onSuccess: () => void) => void;
+  isLoadingGoogle: boolean;
 }
 
 const useAuthStore = create(
@@ -174,6 +183,59 @@ const useAuthStore = create(
       } catch ({ response }) {
         const errorText = response?.data?.error;
         set({ isLoadingUpdateSetting: false });
+        NotificationService.error(errorText);
+      }
+    },
+    isLoadingGoogle: false,
+    loginWithGoogle: async (values, onSuccess) => {
+      set({ isLoadingGoogle: true });
+
+      try {
+        const { data } = await instance.post<IAuthTokens>(
+          "user/socialLogin/",
+          values
+        );
+
+        Cookies.set(ACCESS_TOKEN, data.access_token);
+        Cookies.set(AUTH_REFRESH_TOKEN, data.refresh_token);
+
+        set({ isLoadingGoogle: false });
+
+        onSuccess();
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingGoogle: false });
+        NotificationService.error(errorText);
+      }
+    },
+    connectGoogle: async (values, onSuccess) => {
+      set({ isLoadingGoogle: true });
+      try {
+        await instance.post("user/bindingUserSocial", values);
+
+        set({ isLoadingGoogle: false });
+
+        NotificationService.success();
+        onSuccess();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingGoogle: false });
+        NotificationService.error(errorText);
+      }
+    },
+    disConnectGoogle: async (values, onSuccess) => {
+      set({ isLoadingGoogle: true });
+      try {
+        await instance.post("user/unBindingUserSocial", values);
+
+        set({ isLoadingGoogle: false });
+
+        NotificationService.success();
+        onSuccess();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        set({ isLoadingGoogle: false });
         NotificationService.error(errorText);
       }
     },

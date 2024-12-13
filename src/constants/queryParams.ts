@@ -4,4 +4,5 @@ export const QUERY_PARAM_KEYS = {
   ORDERING: "ordering",
   MONTH: "month",
   YEAR: "year",
+  CATEGORIES: "categories",
 };

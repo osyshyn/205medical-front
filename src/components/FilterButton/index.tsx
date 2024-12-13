@@ -2,12 +2,13 @@ import { FC, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { ICategory } from "src/@types/categories";
+import { IOptionSelect } from "src/@types/form";
 import { Dropdown } from "../Dropdown";
 import { Loader } from "../Loader";
+import { CheckOption } from "./CheckOption";
 
 interface Props {
-  items: ICategory[];
+  items: IOptionSelect[];
   isLoading?: boolean;
 }
 
@@ -22,25 +23,19 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
   );
 
   return (
-    <div>
-      <Dropdown
-        head={head}
-        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      >
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {items?.map((item) => (
-              <p key={item.id} className="text-sm">
-                {item.name}
-              </p>
-            ))}
-          </ul>
-        )}
-      </Dropdown>
-    </div>
+    <Dropdown
+      head={head}
+      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    >
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ul className="flex flex-col gap-2">
+          {items?.map((item) => <CheckOption key={item.value} {...item} />)}
+        </ul>
+      )}
+    </Dropdown>
   );
 };

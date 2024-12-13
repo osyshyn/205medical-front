@@ -7,12 +7,14 @@ import { Window } from "src/components/Window";
 import useAuthStore from "src/stores/auth-store";
 import useUserStore from "src/stores/user-store";
 import { Sizes } from "src/@types/sizes";
+import { ConnectGoogleButton } from "./ConnectGoogleButton";
 import {
   getInitialValues,
   SETTINGS_BUYER_INFO_FORM_FIELDS,
   SETTINGS_CHANGE_PASSWORD_FORM_FIELDS,
   SETTINGS_VALIDATION_SCHEMA,
 } from "./contants";
+import { DisConnectGoogleButton } from "./DisConnectGoogleButton";
 import { IFormikValues } from "./types";
 
 export const SettingsForm: FC = () => {
@@ -34,6 +36,8 @@ export const SettingsForm: FC = () => {
 
   const formik = useFormik(formikProps);
 
+  const isGoogleAccountConnect = Boolean(user.google_id);
+
   return (
     <Window className="flex-1">
       <FormikProvider value={formik}>
@@ -53,6 +57,12 @@ export const SettingsForm: FC = () => {
               <RenderFormFields fields={SETTINGS_CHANGE_PASSWORD_FORM_FIELDS} />
             </div>
           </div>
+
+          {isGoogleAccountConnect ? (
+            <DisConnectGoogleButton google_id={user.google_id} />
+          ) : (
+            <ConnectGoogleButton />
+          )}
 
           <div className="flex gap-3">
             <Button

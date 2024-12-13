@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { TextInput } from "src/components/FormField/TextInput";
 import {
   EMAIL_VALIDATION_SCHEMA,
-  PASSWORD_VALIDATION_SCHEMA,
+  MIN_LENGTH_VALIDATION,
 } from "src/constants/formValidation";
 import { IRenderFormField } from "src/@types/form";
 import { IFormikValues } from "./types";
@@ -38,5 +38,5 @@ export const AUTH_FORM_FIELDS: IRenderFormField[] = [
 
 export const AUTH_FORM_VALIDATION_SCHEMA = Yup.object().shape({
   email: EMAIL_VALIDATION_SCHEMA,
-  password: PASSWORD_VALIDATION_SCHEMA,
+  password: MIN_LENGTH_VALIDATION(4),
 });
