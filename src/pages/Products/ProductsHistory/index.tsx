@@ -12,7 +12,6 @@ import {
 } from "src/components/SelectDate/constants";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useLocationStore from "src/stores/location-store";
-import useProductStore from "src/stores/product-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
 
@@ -20,10 +19,6 @@ const ProductsHistory: FC = () => {
   const loadLocation = useLocationStore((state) => state.fetchLocation);
   const locations = useLocationStore((state) => state.locations);
   const isLoadingLocation = useLocationStore((state) => state.isLoadingFetch);
-
-  const loadProducts = useProductStore((state) => state.fetchProducts);
-  const products = useProductStore((state) => state.products);
-  const isLoadingProducts = useProductStore((state) => state.isLoadingProducts);
 
   const { getQueryParam, setMultipleQueryParams } = useQueryParams();
 
@@ -50,15 +45,14 @@ const ProductsHistory: FC = () => {
 
   useEffect(() => {
     loadLocation();
-    loadProducts();
-  }, [loadLocation, loadProducts]);
+  }, [loadLocation]);
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <FilterButton
-          isLoading={isLoadingLocation || isLoadingProducts}
-          list={getFilterList(locations, products)}
+          isLoading={isLoadingLocation}
+          list={getFilterList(locations)}
         />
 
         <SelectDate
