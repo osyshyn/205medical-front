@@ -2,11 +2,13 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { Cart, ICartProduct } from "src/@types/cart";
+import { Cart, ICartProduct, ProductToCart } from "src/@types/cart";
 
-export interface UpdataCartParams {
+export interface CreateOrderParams {
   location_id: string | number;
   poNumber: string;
+  type: number;
+  product_to_carts: ProductToCart[];
   onSuccess: () => void;
 }
 
@@ -23,7 +25,7 @@ interface CartState {
   addProductToCart: (productId: number) => void;
   removeProductFromCart: (productId: number) => void;
   updataQuantity: (productId: number, quantity: number) => void;
-  updataCart: (values: UpdataCartParams) => void;
+  createOrder: (values: CreateOrderParams) => void;
 }
 
 const useCartStore = create(
@@ -128,12 +130,21 @@ const useCartStore = create(
         set({ isLoading: false });
       }
     },
-    updataCart: async ({ location_id, poNumber, onSuccess }) => {
+    createOrder: async ({
+      location_id,
+      poNumber,
+      product_to_carts,
+      onSuccess,
+    }) => {
       try {
-        await instance.post<Cart>("cart/updateCart", {
-          id: get().cart.id,
-          po_number: poNumber,
+        await instance.post("order/create", {
+          order_number: poNumber,
           location_id,
+          type: 2,
+          order_products: product_to_carts.map(({ id, quantity }) => ({
+            id,
+            quantity,
+          })),
         });
         NotificationService.success();
         onSuccess();
