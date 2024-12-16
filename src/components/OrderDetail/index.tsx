@@ -82,7 +82,6 @@ export const OrderDetail: FC = () => {
     updated_at,
   } = shipment ?? {};
 
-  console.log("Order to products", order_to_products);
   const tableData = transformOrderToProducts(order_to_products);
 
   return (

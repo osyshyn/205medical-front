@@ -46,7 +46,6 @@ const useShipmentStore = create(
         const { data }: any = await instance.get<IShipmentDetail>(
           `shipment/getShipment/${id}`
         );
-        console.log(data); // Проверяем, что приходит от сервера
         if (data && data.result) {
           set({ detailShipment: data.result });
         }
