@@ -1,18 +1,21 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
+import useModalWindowStore from "src/stores/modal-window-store";
 
 interface Props {
   id: number;
 }
 
 export const ActionsButtons: FC<Props> = ({ id }) => {
-  const onClickAdd = () => {
-    console.log("onClickAdd");
-  };
+  const openProduct = useModalWindowStore((state) => state.openProductItem);
 
   const onView = () => {
-    console.log("onView");
+    openProduct(id);
+  };
+
+  const onClickAdd = () => {
+    console.log("onClickAdd");
   };
 
   return (

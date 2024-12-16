@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { FilterButton } from "src/components/FilterButton";
+import { ProductDetail } from "src/components/ProductDetail";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
@@ -67,6 +68,8 @@ export const AllProducts: FC = () => {
           isLoading={isLoadingProducts}
         />
       </Table>
+
+      <ProductDetail />
     </Window>
   );
 };

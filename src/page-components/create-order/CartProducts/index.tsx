@@ -60,7 +60,6 @@ export const CartProducts: FC = () => {
           className="w-3/4"
           onClose={onClose}
           isOpen={isOpen}
-          isActivePortal
         >
           <AllProducts />
         </ModalWindow>
