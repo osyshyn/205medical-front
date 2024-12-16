@@ -1,4 +1,5 @@
 import { StyledValue } from "./table";
+import { IUser } from "./users";
 
 export interface IOrder {
   id: number;

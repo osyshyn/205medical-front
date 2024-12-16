@@ -11,5 +11,6 @@ export { default as ProductsHistory } from "./Products/ProductsHistory";
 export { default as ProductsPurchases } from "./Products/ProductsPurchases";
 export { default as Location } from "./Location";
 export { default as Shipments } from "./Shipments";
+export { default as ShipmentAlerts } from "./Shipments/ShipmentAlerts";
 export { default as Settings } from "./Settings";
 export { default as NotFound } from "./NotFound";
