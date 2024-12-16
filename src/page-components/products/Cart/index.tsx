@@ -63,7 +63,8 @@ export const Cart: FC = () => {
 
   useEffect(() => {
     fetchLocation();
-  }, [fetchLocation]);
+    getLocationAvailableProducts();
+  }, [fetchLocation, getLocationAvailableProducts]);
 
   if (!isCartOpen || !cart) return null;
 
