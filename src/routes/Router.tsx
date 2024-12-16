@@ -15,9 +15,10 @@ import {
   ProductsHistory,
   ProductsPurchases,
   Settings,
+  ShipmentAlerts,
   Shipments,
 } from "src/pages";
-import ShipmentAlerts from "src/pages/Shipments/ShipmentAlerts";
+import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
@@ -115,6 +116,12 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Shipments} />,
         path: PATHNAMES.SHIPMENTS,
+        children: [
+          {
+            element: <PrivateRoute component={OrderDetail} />,
+            path: PATHNAMES.ORDER_DETAIL,
+          },
+        ],
       },
       {
         element: <PrivateRoute component={ShipmentAlerts} />,
