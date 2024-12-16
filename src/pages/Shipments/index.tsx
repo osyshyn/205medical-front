@@ -1,5 +1,8 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 import { ShipmentHistory } from "src/page-components/shipments/ShipmentHistory";
+import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
 import { SelectDate } from "src/components/SelectDate";
@@ -11,7 +14,9 @@ import {
 } from "src/components/SelectDate/constants";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
+import { getItemPath } from "src/utils/getItemPath";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { PATHNAMES } from "src/constants/routes";
 import { IOptionSelect } from "src/@types/form";
 
 const Shipments: FC = () => {
@@ -59,6 +64,7 @@ const Shipments: FC = () => {
       />
       <Metrics metrics={metrics} isLoading={isLoading} />
       <ShipmentHistory />
+      <Outlet />
     </PageWrapper>
   );
 };

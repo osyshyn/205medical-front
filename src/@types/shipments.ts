@@ -1,3 +1,6 @@
+import { IOrder } from "./orders";
+import { IUser } from "./users";
+
 export interface IShipment {
   id: number;
   po_number: string;
@@ -10,6 +13,19 @@ export interface IShipment {
   ship_date: Date;
   created_at: Date;
   updated_at: Date;
+  order: IOrder;
+}
+
+interface IOrderDetails extends IOrder {
+  user: IUser;
+  order_to_products: [];
+}
+
+export interface IShipmentDetail extends IShipment {
+  location_id: number;
+  status: number;
+  user: IUser;
+  order: IOrderDetails;
 }
 
 export enum IStatusesApproval {
