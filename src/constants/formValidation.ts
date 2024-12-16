@@ -20,15 +20,15 @@ export const EMAIL_VALIDATION_SCHEMA = LENGTH_VALIDATION(3, 100)
   .email("Incorrect email format.")
   .required("This field is required.");
 
-export const PASSWORD_VALIDATION_SCHEMA = LENGTH_VALIDATION(6, 100)
-  .matches(
-    /^(?=.*[0-9])|(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
-    "Password must contain at least one number or special character."
-  )
-  .matches(/[0-9]/, "Password must include at least one number.")
-  .matches(/[a-z]/, "Password must include at least one lowercase letter.")
-  .matches(/[A-Z]/, "Password must include at least one uppercase letter.")
-  .required("This field is required.");
+export const PASSWORD_VALIDATION_SCHEMA = LENGTH_VALIDATION(4, 100);
+// .matches(
+//   /^(?=.*[0-9])|(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+//   "Password must contain at least one number or special character."
+// )
+// .matches(/[0-9]/, "Password must include at least one number.")
+// .matches(/[a-z]/, "Password must include at least one lowercase letter.")
+// .matches(/[A-Z]/, "Password must include at least one uppercase letter.")
+// .required("This field is required.");
 
 export const REPEAT_CONFIRM_PASSWORD_VALIDATION_SCHEMA = (ref: string) =>
   Yup.string()

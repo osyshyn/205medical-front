@@ -15,7 +15,7 @@ export const ClientLogo: FC<Props> = ({ linkHref }) => {
   return (
     <div>
       <Link to={linkHref || PATHNAMES.DASHBOARD}>
-        <img src={logo.path} alt={altText} />
+        <img src={logo?.path} alt={altText} />
       </Link>
     </div>
   );

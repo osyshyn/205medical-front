@@ -5,11 +5,12 @@ import { NotificationService } from "src/helpers/notifications";
 import { IResponseWithPagination } from "src/@types/api";
 import { IOrder } from "src/@types/orders";
 
-interface FetchOrdersParams {
+export interface FetchOrdersParams {
   search: string;
   current_page: number;
   year: string;
   month: string;
+  su_users_ids?: any[];
 }
 
 interface IOrderStore {
