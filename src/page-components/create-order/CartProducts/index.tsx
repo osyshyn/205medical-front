@@ -8,8 +8,8 @@ import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
 import useModalWindowStore from "src/stores/modal-window-store";
 import { Row } from "src/@types/table";
+import { AllProducts } from "./AllProducts";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
-import { AllProducts } from "src/components/AllProducts";
 
 export const CartProducts: FC = () => {
   const isOpenProductItem = useModalWindowStore(
