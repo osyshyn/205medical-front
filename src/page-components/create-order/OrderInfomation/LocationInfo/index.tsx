@@ -26,7 +26,6 @@ export const LocationInfo: FC = () => {
     fetchLocation();
   }, [fetchLocation]);
 
-  console.log(locations);
   return (
     <div className="flex flex-col gap-6">
       <h3>Ship To</h3>
