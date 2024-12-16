@@ -1,47 +1,46 @@
-export const LOCATION_INFO = [
+import { IOptionSelect } from "src/@types/form";
+import { ILocation } from "src/@types/location";
+
+export const getLocationInfo = (location: ILocation) => [
   {
     id: 1,
     label: "Location Name",
-    value: "location1",
+    value: location.name,
   },
   {
     id: 2,
     label: "Address 1",
-    value: "address1",
+    value: location.address_1,
   },
   {
     id: 3,
     label: "Address 2",
-    value: "address2",
+    value: location.address_2,
   },
   {
     id: 4,
     label: "City",
-    value: "city1",
+    value: location.city,
   },
   {
     id: 5,
     label: "State",
-    value: "state1",
+    value: location.state,
   },
   {
     id: 6,
     label: "ZIP",
-    value: "zip1",
+    value: location.zip_code,
   },
   {
     id: 7,
     label: "Contact Name",
-    value: "contactName1",
-  },
-  {
-    id: 8,
-    label: "Contact Number",
-    value: "contactNumber1",
+    value: location.contact_name,
   },
 ];
 
-
+export const getLocationList = (locations: ILocation[]): IOptionSelect[] =>
+  locations.map((location) => ({ value: location.id, label: location.name }));
 
 export const BUYER_INFO = [
   {
@@ -60,4 +59,3 @@ export const BUYER_INFO = [
     value: "buyerPhoneNumber1",
   },
 ];
-
