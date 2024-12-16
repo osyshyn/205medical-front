@@ -6,8 +6,8 @@ import { Sizes } from "src/@types/sizes";
 import {
   CREATE_ORDER_FORM_VALIDATION_SCHEMA,
   CREATE_ORDER_INITIAL_VALUES,
-} from "./constants";
-import { IFormikValues } from "./types";
+} from "../constants";
+import { IFormikValues } from "../types";
 
 interface Props {
   children: ReactNode;
