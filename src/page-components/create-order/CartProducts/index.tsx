@@ -6,11 +6,16 @@ import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
+import useModalWindowStore from "src/stores/modal-window-store";
 import { Row } from "src/@types/table";
 import { AllProducts } from "../AllProducts";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const CartProducts: FC = () => {
+  const isOpenProductItem = useModalWindowStore(
+    (state) => state.isOpenProductItem
+  );
+
   const loadCartProduct = useCartStore((state) => state.fetchCartProduct);
   const isLoading = useCartStore((state) => state.isLoadingCartProduct);
   const cartProducts = useCartStore((state) => state.cart_products);
@@ -60,6 +65,7 @@ export const CartProducts: FC = () => {
           className="w-3/4"
           onClose={onClose}
           isOpen={isOpen}
+          isActiveCloseClickOutside={!isOpenProductItem}
         >
           <AllProducts />
         </ModalWindow>

@@ -34,6 +34,7 @@ export const ProductDetail: FC = () => {
       className="w-3/4"
       onClose={onClose}
       isOpen={isOpen}
+      isActivePortal
     >
       {isLoading ? (
         <Loader size={Sizes.XXL} />
