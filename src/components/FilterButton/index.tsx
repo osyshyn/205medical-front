@@ -34,7 +34,7 @@ export const FilterButton: FC<Props> = ({ list, isLoading }) => {
       ) : (
         <div className="flex flex-col gap-3">
           {list.map((item) => (
-            <FilterList {...item} />
+            <FilterList key={item.queryKey} {...item} />
           ))}
         </div>
       )}
