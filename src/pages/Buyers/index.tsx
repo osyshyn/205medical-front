@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
 import { BUYERS_COLUMNS, getTableItems } from "src/components/Buyers/constants";
+import { FilterButton } from "src/components/FilterButton";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { SelectDate } from "src/components/SelectDate";
 import { Table, TableBody, TableHeader } from "src/components/Table";
@@ -28,10 +30,14 @@ export const Buyers: FC = () => {
     <PageWrapper mainClassName="flex flex-col gap-10">
       <div>
         <div className="flex">
-          <Button className="gap-2.5 px-4 py-2.5">
+          <FilterButton items={[]} isLoading={isLoading} />
+          {/* <Button
+            variant={ButtonVariants.WHITE}
+            className="gap-2.5 px-4 py-2.5"
+          >
             <FilterIcon />
             <span>Filter</span>
-          </Button>
+          </Button> */}
         </div>
 
         <Window className="mt-6">

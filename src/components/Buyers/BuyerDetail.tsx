@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import useOrderStore, { FetchOrdersParams } from "src/stores/order-store";
 import useUserStore from "src/stores/user-store";
@@ -19,35 +19,41 @@ export const BuyerDetail: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [isOrderHistoryVisible, setIsOrderHistoryVisible] = useState(true);
+
   const userOrder = useOrderStore((state) => state.orders);
   const buyerDetail = useUserStore((state) => state.detailUser);
   const approvedLocations = useUserStore((state) => state.approvedLocations);
   const userNotes = useUserStore((state) => state.userNotes);
+  const userCategories = useUserStore((state) => state.userCategories);
   const loadBuyerDetail = useUserStore((state) => state.getUserDetail);
   const loadApprovedLocations = useUserStore(
     (state) => state.getUserApprovedLocations
   );
   const loadUserNotes = useUserStore((state) => state.getUserNotes);
   const loadUserOrders = useOrderStore((state) => state.fetchOrders);
+  const loadUserCategories = useUserStore((state) => state.getUserCategories);
 
   useEffect(() => {
     const params: FetchOrdersParams = {
-      month: "12", // Convert to string
+      month: "12",
       year: "2024",
-      su_users_ids: [Number(id)], // Pass `id` as `su_users_ids`
-      search: "", // Optional, depending on your use case
-      current_page: 1, // Set the current page (or handle pagination)
+      su_users_ids: [Number(id)],
+      search: "",
+      current_page: 1,
     };
 
     loadBuyerDetail(id);
     loadApprovedLocations(id);
     loadUserNotes(id);
-    loadUserOrders(params); // Now matches the expected type
+    loadUserOrders(params);
+    loadUserCategories(id);
   }, [
     loadBuyerDetail,
     loadApprovedLocations,
     loadUserNotes,
     loadUserNotes,
+    loadUserCategories,
     id,
   ]);
 
@@ -60,15 +66,17 @@ export const BuyerDetail: FC = () => {
 
   const userOrdersResults = userOrder?.result || [];
 
-  console.log("User Orders: ", userOrdersResults[0]);
+  console.log("User Categories: ", userCategories);
 
   const items = getBuyerOrderTableItems(userOrdersResults) as unknown as Row[];
 
-  // console.log("Items: ", items);
+  const toggleOrderHistory = () => {
+    setIsOrderHistoryVisible((prev) => !prev);
+  };
 
   return (
     <ModalWindow
-      className="max-h-[900px] w-3/5 overflow-y-auto"
+      className="max-h-[800px] w-3/5 overflow-y-auto"
       onClose={onClose}
       isOpen={true}
       isActivePortal
@@ -84,7 +92,7 @@ export const BuyerDetail: FC = () => {
         {/* Body */}
         <div className="flex gap-15">
           <div className="min-h-[800px] w-[150px]">
-            <div className="mb-4 h-[140px] w-[140px] overflow-hidden bg-gray-200">
+            <div className="mb-4 h-[180px] w-[180px] overflow-hidden bg-gray-200">
               {buyerDetail.avatar?.path ? (
                 <img
                   src={`${process.env.REACT_APP_BASE_URL}/${buyerDetail.avatar.path.replace(
@@ -123,7 +131,7 @@ export const BuyerDetail: FC = () => {
           </div>
           <div className="flex-1">
             {/* USER INFO */}
-            <div className="mt-8 flex border-b pb-8">
+            <div className="flex border-b pb-8">
               <div className="flex-1 flex-col gap-12">
                 <div className="flex gap-2">
                   <p className="text-[#344054A1]">Name:</p>
@@ -172,14 +180,38 @@ export const BuyerDetail: FC = () => {
             </div>
 
             {/* Metrics */}
-            <div className="mt-5 flex w-full justify-center">
+            <div className="mt-5 flex w-full">
               <Metric title="Orders" metrics={[]} />
             </div>
 
-            <Table>
-              <TableHeader columns={BUYERS_ORDER_TABLE_COLUMNS} />
-              <TableBody items={items} columns={BUYERS_ORDER_TABLE_COLUMNS} />
-            </Table>
+            <div className="mt-8">
+              <button
+                onClick={toggleOrderHistory}
+                className="flex w-full items-center justify-items-start gap-2 text-lg font-semibold"
+              >
+                Order History
+                <span
+                  className={`transform transition-transform ${
+                    isOrderHistoryVisible ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  ↓
+                </span>
+              </button>
+
+              {/* Table */}
+              {isOrderHistoryVisible && (
+                <div className="mt-4">
+                  <Table>
+                    <TableHeader columns={BUYERS_ORDER_TABLE_COLUMNS} />
+                    <TableBody
+                      items={items}
+                      columns={BUYERS_ORDER_TABLE_COLUMNS}
+                    />
+                  </Table>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

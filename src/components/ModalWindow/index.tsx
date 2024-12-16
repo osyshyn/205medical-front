@@ -19,6 +19,7 @@ interface Props {
   className?: string;
   closeButtonClassName?: string;
   onClose: VoidFunction;
+  bgColor?: string;
 }
 
 export const ModalWindow: FC<Props> = ({
@@ -33,6 +34,8 @@ export const ModalWindow: FC<Props> = ({
   isHasOutsideCloseButton = false,
   isActiveDefaultHoverCloseButton,
   isActiveCloseClickOutside = true,
+  bgColor = "white",
+
   onClose,
 }) => {
   const modalRef = useRef(null);
@@ -60,9 +63,9 @@ export const ModalWindow: FC<Props> = ({
   const component = (
     <div className={combinedOverlayClassNames}>
       <div ref={modalRef} className={combinedModalClassNames}>
-        <Window className="shadow-modal-window relative">
+        <Window className="relative shadow-modal-window">
           {isShownCloseButton && !isHasOutsideCloseButton && (
-            <div className="absolute top-7.5 right-7.5 flex w-full justify-end">
+            <div className="absolute right-7.5 top-7.5 flex w-full justify-end">
               <CloseButton className={closeButtonClassName} onClose={onClose} />
             </div>
           )}

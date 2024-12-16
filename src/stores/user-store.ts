@@ -14,7 +14,9 @@ interface IUserStore {
   // approvedLocations: ILocation[];
   approvedLocations: any[];
   userNotes: any[];
+  userCategories: any[];
   getUserNotes: (id) => void;
+  getUserCategories: (id) => void;
 
   getUser: () => void;
   getAllUsers: () => void;
@@ -47,6 +49,7 @@ const useUserStore = create(
     isLoading: true,
     approvedLocations: {} as ILocation[],
     userNotes: {} as any[],
+    userCategories: {} as any[],
     getUser: async () => {
       try {
         set({ isLoading: true });
@@ -104,6 +107,16 @@ const useUserStore = create(
           `/user/getUserNotes?user_id=${id}`
         );
         set({ userNotes: data });
+      } catch {
+        return [];
+      }
+    },
+    getUserCategories: async (id) => {
+      try {
+        const { data } = await instance.get<any[]>(
+          `/category/userProductsCategory?user_id=${id}`
+        );
+        set({ userCategories: data });
       } catch {
         return [];
       }
