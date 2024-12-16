@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import { AllProducts } from "src/page-components/products/AllProducts";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ModalWindow } from "src/components/ModalWindow";
@@ -8,6 +7,7 @@ import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
 import { Row } from "src/@types/table";
+import { AllProducts } from "../AllProducts";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const CartProducts: FC = () => {
@@ -62,8 +62,7 @@ export const CartProducts: FC = () => {
           isOpen={isOpen}
           isActivePortal
         >
-          <p>all Product</p>
-
+          <AllProducts />
         </ModalWindow>
       </div>
     </Window>
