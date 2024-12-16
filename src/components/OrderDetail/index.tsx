@@ -1,6 +1,5 @@
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { ALL_PRODUCTS_COLUMNS } from "src/page-components/products/AllProducts/constants";
 import useShipmentStore from "src/stores/shipment-store";
 import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as CopyIcon } from "src/assets/icons/copy.svg";
