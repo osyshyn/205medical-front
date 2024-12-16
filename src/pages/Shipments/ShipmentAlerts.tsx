@@ -21,6 +21,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useAlertsStore, { ALERTS_PER_PAGE } from "src/stores/alert-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
+import { IAlertType } from "src/@types/alert";
 import { Row } from "src/@types/table";
 
 const ShipmentAlerts: FC = () => {
@@ -45,7 +46,7 @@ const ShipmentAlerts: FC = () => {
       search: debouncedSearchQuery,
       current_page: currentPage,
       items_per_page: ALERTS_PER_PAGE,
-      type: "2",
+      type: IAlertType.SHIPMENT,
     });
   }, [currentPage, debouncedSearchQuery, loadAlerts]);
 
