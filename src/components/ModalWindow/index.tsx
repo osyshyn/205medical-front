@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import cn from "classnames";
 import { useClickOutside } from "src/hooks/useClickOutside";
 import { MODAL_ROOT_ELEMENT } from "src/constants/rootElements";
-import { Window } from "../Window";
 import { CloseButton } from "./CloseButton";
 
 interface Props {
@@ -60,14 +59,14 @@ export const ModalWindow: FC<Props> = ({
   const component = (
     <div className={combinedOverlayClassNames}>
       <div ref={modalRef} className={combinedModalClassNames}>
-        <Window className="shadow-modal-window relative">
+        <div className="relative">
           {isShownCloseButton && !isHasOutsideCloseButton && (
-            <div className="absolute top-7.5 right-7.5 flex w-full justify-end">
+            <div className="absolute right-7.5 top-7.5 flex w-full justify-end">
               <CloseButton className={closeButtonClassName} onClose={onClose} />
             </div>
           )}
           {children}
-        </Window>
+        </div>
       </div>
       {isShownCloseButton && isHasOutsideCloseButton && (
         <CloseButton

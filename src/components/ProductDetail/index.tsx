@@ -7,6 +7,7 @@ import useProductStore from "src/stores/product-store";
 import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import { Loader } from "../Loader";
+import { Window } from "../Window";
 import { PropertiesCard } from "./PropertiesCard";
 import { Tabs } from "./Tabs";
 
@@ -35,7 +36,7 @@ export const ProductDetail: FC = () => {
       {isLoading ? (
         <Loader size={Sizes.XXL} />
       ) : (
-        <div className="flex gap-5">
+        <Window className="flex gap-5 shadow-modal-window">
           <div className="flex flex-1 flex-col gap-2">
             {photos?.map(({ id, path }) => (
               <div key={id} className="flex-1">
@@ -66,7 +67,7 @@ export const ProductDetail: FC = () => {
 
             <Tabs {...product} />
           </div>
-        </div>
+        </Window>
       )}
     </ModalWindow>
   );

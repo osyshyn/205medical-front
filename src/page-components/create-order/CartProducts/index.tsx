@@ -1,4 +1,8 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { AllProducts } from "src/page-components/products/AllProducts";
+import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
+import { ModalWindow } from "src/components/ModalWindow";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
@@ -17,6 +21,16 @@ export const CartProducts: FC = () => {
 
   const items = getTableItems(cartProducts) as unknown as Row[];
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <Window>
       <Title
@@ -33,6 +47,24 @@ export const CartProducts: FC = () => {
             isLoading={isLoading}
           />
         </Table>
+
+        <Button
+          className="mt-10"
+          variant={ButtonVariants.SECONDARY_SQUARE}
+          onClick={onOpen}
+        >
+          Add product
+        </Button>
+
+        <ModalWindow
+          className="w-3/4"
+          onClose={onClose}
+          isOpen={isOpen}
+          isActivePortal
+        >
+          <p>all Product</p>
+
+        </ModalWindow>
       </div>
     </Window>
   );
