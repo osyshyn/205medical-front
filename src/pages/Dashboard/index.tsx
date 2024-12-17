@@ -55,16 +55,16 @@ const Dashboard: FC = () => {
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
-      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
-        <FilterByLocationByUser />
-      </Show>
-
       <SelectDate
         selectMonth={selectMonthOption || getCurrentMonthOption()}
         setSelectMonth={setSelectMonthOption}
         selectYear={selectYearOption || getCurrentYearOption()}
         setSelectYear={setSelectYearOption}
       />
+
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <FilterByLocationByUser />
+      </Show>
 
       <Metrics metrics={metrics} isLoading={isLoading} />
 
