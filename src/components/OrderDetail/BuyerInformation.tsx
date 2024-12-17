@@ -13,15 +13,7 @@ export const BuyerInformation: FC<BuyerInformationProps> = ({
   email,
 }) => {
   const handleCopyToClipboard = () => {
-    navigator.clipboard
-      .writeText(email)
-      .then(() => {
-        NotificationService.success("The email is copied to the clipboard");
-      })
-      .catch((err) => {
-        console.error("Ошибка копирования: ", err);
-        NotificationService.error("Failed to copy email");
-      });
+    navigator.clipboard.writeText(email);
   };
 
   return (

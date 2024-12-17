@@ -2,9 +2,7 @@ import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import useShipmentStore from "src/stores/shipment-store";
 import { PATHNAMES } from "src/constants/routes";
-import { ReactComponent as CopyIcon } from "src/assets/icons/copy.svg";
 import { ReactComponent as DownloadIcon } from "src/assets/icons/download.svg";
-import { ReactComponent as MailIcon } from "src/assets/icons/mail.svg";
 import { Sizes } from "src/@types/sizes";
 import { Loader } from "../Loader";
 import { Logo } from "../Logo";
@@ -15,20 +13,17 @@ import { Window } from "../Window";
 import { BuyerInformation } from "./BuyerInformation";
 import {
   ALL_ORDERS_DETAIL_COLUMNS,
-  ALL_ORDERS_DETAIL_DATA_TEMP,
-  transformOrderToProducts, // transformOrderToProducts,
+  transformOrderToProducts,
 } from "./constants";
 import { CostSummary } from "./CostSummary";
 import { OrderInfo } from "./OrderInfo";
 import { OrderStatusInfo } from "./OrderStatusInformation";
 import { ShippingAddress } from "./ShippingAddress";
-import StatusBadge from "./StatusBadge";
 
 export const OrderDetail: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Запит на сервер
   const shipment = useShipmentStore((state) => state.detailShipment);
   const loadShipment = useShipmentStore((state) => state.fetchShipmentDetails);
   const isLoading = useShipmentStore((state) => state.isLoading);
@@ -47,38 +42,15 @@ export const OrderDetail: FC = () => {
   const {
     created_at,
     destination,
-    invoice_id,
-    location_id,
-    location_name,
     order: {
-      id: orderId,
       order_number,
       approval_status,
-      customer_po_number,
-      expected_delivery_date,
-      order_amt,
       order_to_products,
       rush_service,
       ship_status,
-      shipping_fee,
-      status: orderStatus,
-      updated_at: orderUpdatedAt,
-      user: {
-        id: userId,
-        first_name,
-        last_name,
-        email,
-        phone,
-        role,
-        created_at: userCreatedAt,
-      },
-      user_id,
+      user: { first_name, last_name, email },
     },
     po_number,
-    ship_carrier,
-    ship_date,
-    status,
-    updated_at,
   } = shipment ?? {};
 
   const tableData = transformOrderToProducts(order_to_products);
@@ -95,7 +67,6 @@ export const OrderDetail: FC = () => {
       ) : (
         <div className="space-y-16">
           <Logo />
-          {/* Header */}
           <div className="mt-8 flex items-center justify-between">
             <Title title="Order Details" subtitle="" />
             <a
@@ -110,7 +81,7 @@ export const OrderDetail: FC = () => {
             purchase_order_number={po_number}
             date_expected={""}
             sales_order_number={order_number}
-            sales_order_date={new Date(created_at).toLocaleDateString()} // Преобразуем в объект Date
+            sales_order_date={new Date(created_at).toLocaleDateString()}
           />
 
           <div className="mt-8 grid grid-cols-2 gap-8 border-b pb-8">

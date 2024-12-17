@@ -53,7 +53,7 @@ const OrderAlerts: FC = () => {
       search: debouncedSearchQuery,
       current_page: currentPage,
       items_per_page: ALERTS_PER_PAGE,
-      type: IAlertType.OREDR,
+      type: IAlertType.ORDER,
     });
   }, [currentPage, debouncedSearchQuery, loadAlerts]);
 
