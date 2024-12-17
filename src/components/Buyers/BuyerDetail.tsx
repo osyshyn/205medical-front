@@ -161,8 +161,8 @@ export const BuyerDetail: FC = () => {
                 <Window className="min-h-62.5">
                   <Title title="Approved locations" subtitle="" />
                   <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                    {locations.length > 0 &&
-                      locations.map((location) => (
+                    {locations?.length > 0 &&
+                      locations?.map((location) => (
                         <li key={location.id}>{location.name}</li>
                       ))}
                   </dl>
@@ -172,8 +172,8 @@ export const BuyerDetail: FC = () => {
                 <Window className="min-h-62.5 max-h-62.5 overflow-y-auto">
                   <Title title="Approved products" subtitle="" />
                   <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                    {products.length > 0 &&
-                      products.map((product) => (
+                    {products?.length > 0 &&
+                      products?.map((product) => (
                         <li key={product.id}>{product.name}</li>
                       ))}
                   </dl>
