@@ -13,7 +13,7 @@ export const FinanceSummaryCard: FC = () => {
   );
   const monthlyPurchases = useMetricStore((state) => state.monthlyPurchases);
   const openInvoiceTotal = useMetricStore((state) => state.monthlyPurchases);
-  
+
   const isLoading = useMetricStore((state) => state.isLoadingInvoice);
 
   useEffect(() => {
