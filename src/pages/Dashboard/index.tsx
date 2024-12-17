@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { FilterByLocationByUser } from "src/page-components/dashboard/FilterByLocationByUser";
+import { ProductMetrics } from "src/page-components/dashboard/ProductMetrics";
 import { FinanceSummaryCard } from "src/components/FinanceSummaryCard";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
@@ -79,6 +80,10 @@ const Dashboard: FC = () => {
       </Show>
 
       <Metrics metrics={metrics} isLoading={isLoading} />
+
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <ProductMetrics />
+      </Show>
 
       <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
         <FinanceSummaryCard />
