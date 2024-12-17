@@ -17,7 +17,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ alertId }) => {
       style={{ cursor: "pointer", fontSize: "20px", color: "#3C3C4399" }}
       onClick={handleDelete}
     >
-      &times; {/* Unicode symbol for "×" */}
+      &times;
     </div>
   );
 };

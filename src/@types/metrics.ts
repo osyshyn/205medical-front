@@ -38,15 +38,15 @@ export interface IMetricsData {
   shipments_metrics: IMetrics;
 }
 
-export interface IMetricProductData {
+interface IMetricRechartsData {
   order_date: number;
   total_amount: number;
   total_quantity: number;
 }
 
-export interface IMetricProduct {
+export interface IMetricRecharts {
   count: number;
-  metrics: IMetricProductData[];
+  metrics: IMetricRechartsData[];
 }
 
 export interface IMetricUserFromApi {

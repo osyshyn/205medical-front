@@ -12,11 +12,19 @@ interface FetchAlertsParams {
   search: string;
 }
 
+interface UpdateAlertParams {
+  order_pending: boolean;
+  order_rejected: boolean;
+  order_approval: boolean;
+  invoice_paid: boolean;
+}
+
 interface IAlertsStore {
   alerts: IResponseWithPagination<IAlert>;
   fetchAlerts: (params: FetchAlertsParams) => void;
   isLoading: boolean;
   deleteAlert: (id: number) => void;
+  updateOrderAlertSetting: (params: UpdateAlertParams) => void;
 }
 
 export const ALERTS_PER_PAGE = 5;
@@ -29,7 +37,7 @@ const useAlertsStore = create(
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IResponseWithPagination<IAlert>>(
-          `alert/get?&type=${params.type}`,
+          `alert/get`,
           { params }
         );
         set({ alerts: data });
@@ -62,6 +70,18 @@ const useAlertsStore = create(
         });
       } catch (error) {
         NotificationService.error("Failed to delete alert.");
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updateOrderAlertSetting: async (params) => {
+      set({ isLoading: true });
+      try {
+        await instance.post(`alert/updateOrderAlertSetting`, {
+          params,
+        });
+      } catch (error) {
+        NotificationService.error();
       } finally {
         set({ isLoading: false });
       }

@@ -4,20 +4,24 @@ import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IDetailUser, IUser } from "src/@types/users";
+import { IDetailUser, ISubUser, IUser } from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
+  subUsers: ISubUser[];
   users: IUser[];
   detailUser: IDetailUser;
   userNotes: any[];
   getUserNotes: (id) => void;
+  getSubUsers: () => void;
 
   getUser: () => void;
   getAllUsers: () => void;
   getUserDetail: (id: string) => void;
+
   isAuthorized: boolean;
   isLoading: boolean;
+  isLoadingSubUsers: boolean;
 }
 
 const useUserStore = create(
@@ -38,7 +42,7 @@ const useUserStore = create(
     },
     users: [],
     detailUser: {} as IDetailUser,
-
+    subUsers: [],
     isAuthorized: false,
     isLoading: true,
     userNotes: {} as any[],
@@ -91,6 +95,18 @@ const useUserStore = create(
         set({ userNotes: data });
       } catch {
         return [];
+      }
+    },
+    isLoadingSubUsers: true,
+    getSubUsers: async () => {
+      set({ isLoadingSubUsers: true });
+      try {
+        const { data } = await instance.get<ISubUser[]>("/user/subUsers");
+
+        set({ subUsers: data });
+        set({ isLoadingSubUsers: false });
+      } catch {
+        set({ isLoadingSubUsers: false });
       }
     },
   }))

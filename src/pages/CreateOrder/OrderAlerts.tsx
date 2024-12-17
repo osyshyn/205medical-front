@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
-import { Button } from "src/components/Button";
-import { ButtonVariants } from "src/components/Button/types";
+import { SORT_LIST_ORDER_ALERTS } from "src/page-components/create-order/order-alerts/constants";
+import { FilterButton } from "src/components/FilterButton";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import {
   ALERTS_PER_PAGE,
@@ -20,20 +20,24 @@ import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useAlertsStore from "src/stores/alert-store";
-import useOrderStore from "src/stores/order-store";
-import useProductStore from "src/stores/product-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
-import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
+import { IAlertType } from "src/@types/alert";
 import { Row } from "src/@types/table";
 
 const OrderAlerts: FC = () => {
   const loadAlerts = useAlertsStore((state) => state.fetchAlerts);
+  const updateOrderAlertSetting = useAlertsStore(
+    (state) => state.updateOrderAlertSetting
+  );
 
-  const { getQueryParam, setQueryParam, setMultipleQueryParams } =
-    useQueryParams();
+  const { getQueryParam, setMultipleQueryParams } = useQueryParams();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const [currentPage, setCurrentPage] = useState(1);
+
+  const orderSortParams = getQueryParam(QUERY_PARAM_KEYS.ORDER_ALERTS) || "";
+  const orderSortParamsArray = getArrayFromStringParams(orderSortParams);
 
   const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
 
@@ -49,9 +53,18 @@ const OrderAlerts: FC = () => {
       search: debouncedSearchQuery,
       current_page: currentPage,
       items_per_page: ALERTS_PER_PAGE,
-      type: "1",
+      type: IAlertType.ORDER,
     });
   }, [currentPage, debouncedSearchQuery, loadAlerts]);
+
+  useEffect(() => {
+    updateOrderAlertSetting({
+      order_pending: orderSortParamsArray.includes("order_pending"),
+      order_rejected: orderSortParamsArray.includes("order_rejected"),
+      order_approval: orderSortParamsArray.includes("order_approval"),
+      invoice_paid: orderSortParamsArray.includes("invoice_paid"),
+    });
+  }, [orderSortParamsArray, updateOrderAlertSetting]);
 
   const alerts = useAlertsStore((state) => state.alerts);
   const alertsResult = alerts?.result || [];
@@ -60,51 +73,45 @@ const OrderAlerts: FC = () => {
   const pageCount = Math.ceil(alertsCount / ALERTS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ALERTS_PER_PAGE;
-    const end = start + ALERTS_PER_PAGE;
-    return alertsResult.slice(start, end);
-  }, [alertsResult, currentPage]);
-
-  const items = getTableItems(paginatedData) as unknown as Row[];
+  const items = getTableItems(alertsResult) as unknown as Row[];
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
-      <div>
-        <Button className="gap-2.5 px-4 py-2.5" variant={ButtonVariants.WHITE}>
-          <FilterIcon />
-          <span>Filter</span>
-        </Button>
-        <Window className="mt-6">
-          <div className="flex items-start justify-between">
-            <Title title="Order Alerts" subtitle="" />
-            <Search
-              className="text-xs"
-              value={searchQuery}
-              onChange={onChangeSearch}
-            />
-          </div>
-          <Table ariaLabel="All alerts table">
-            <TableHeader columns={ORDER_TABLE_COLUMNS} />
-            <TableBody items={items} columns={ORDER_TABLE_COLUMNS} />
-          </Table>
-          <div className="mt-8 flex items-center justify-between">
-            <DataRangeIndicator
-              startEntry={(currentPage - 1) * ALERTS_PER_PAGE + 1}
-              endEntry={Math.min(currentPage * ALERTS_PER_PAGE, alertsCount)}
-              totalEntries={alertsCount}
-            />
+      <FilterButton className="w-max" list={SORT_LIST_ORDER_ALERTS} />
 
-            {isPaginated && (
-              <Pagination
-                page={currentPage}
-                pageCount={pageCount}
-                setPage={setCurrentPage}
-              />
-            )}
-          </div>
-        </Window>
-      </div>
+      <Window>
+        <div className="flex items-start justify-between">
+          <Title title="Order Alerts" subtitle="" />
+          <Search
+            className="text-xs"
+            value={searchQuery}
+            onChange={onChangeSearch}
+          />
+        </div>
+        <Table ariaLabel="All alerts table">
+          <TableHeader className="text-left" columns={ORDER_TABLE_COLUMNS} />
+          <TableBody
+            rowClassname="!text-left"
+            items={items}
+            columns={ORDER_TABLE_COLUMNS}
+          />
+        </Table>
+        <div className="mt-8 flex items-center justify-between">
+          <DataRangeIndicator
+            startEntry={(currentPage - 1) * ALERTS_PER_PAGE + 1}
+            endEntry={Math.min(currentPage * ALERTS_PER_PAGE, alertsCount)}
+            totalEntries={alertsCount}
+          />
+
+          {isPaginated && (
+            <Pagination
+              page={currentPage}
+              pageCount={pageCount}
+              setPage={setCurrentPage}
+            />
+          )}
+        </div>
+      </Window>
     </PageWrapper>
   );
 };

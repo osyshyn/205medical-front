@@ -4,5 +4,10 @@ export interface IAlert {
   status: number;
   type: number;
   type_id: number;
-  created_at: string; // ISO 8601 формат даты
+  created_at: string;
+}
+
+export enum IAlertType {
+  ORDER = "1",
+  SHIPMENT = "2",
 }

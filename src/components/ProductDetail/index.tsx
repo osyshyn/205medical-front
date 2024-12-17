@@ -1,41 +1,45 @@
 import React, { FC, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ModalWindow } from "src/components/ModalWindow";
+import useModalWindowStore from "src/stores/modal-window-store";
 import useProductStore from "src/stores/product-store";
-import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 import { Loader } from "../Loader";
+import { Window } from "../Window";
 import { PropertiesCard } from "./PropertiesCard";
 import { Tabs } from "./Tabs";
 
 export const ProductDetail: FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const isOpen = useModalWindowStore((state) => state.isOpenProductItem);
+  const onClose = useModalWindowStore((state) => state.closeProductItem);
+  const id = useModalWindowStore((state) => state.productId);
 
   const product = useProductStore((state) => state.product_details);
   const loadProduct = useProductStore((state) => state.fetchProductDetails);
   const isLoading = useProductStore((state) => state.isLoadingProductDetail);
 
   useEffect(() => {
-    loadProduct(+id);
+    if (id) {
+      loadProduct(+id);
+    }
   }, [id, loadProduct]);
 
   const { photos, name, description, price } = product;
 
-  const onClose = () => {
-    navigate(PATHNAMES.PRODUCT);
-  };
-
   if (!product && !isLoading) return null;
 
   return (
-    <ModalWindow className="w-3/4" onClose={onClose} isOpen isActivePortal>
+    <ModalWindow
+      className="w-3/4"
+      onClose={onClose}
+      isOpen={isOpen}
+      isActivePortal
+    >
       {isLoading ? (
         <Loader size={Sizes.XXL} />
       ) : (
-        <div className="flex gap-5">
+        <Window className="flex gap-5 shadow-modal-window">
           <div className="flex flex-1 flex-col gap-2">
             {photos?.map(({ id, path }) => (
               <div key={id} className="flex-1">
@@ -66,7 +70,7 @@ export const ProductDetail: FC = () => {
 
             <Tabs {...product} />
           </div>
-        </div>
+        </Window>
       )}
     </ModalWindow>
   );

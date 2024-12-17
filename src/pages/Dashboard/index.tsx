@@ -1,6 +1,10 @@
 import React, { FC, useEffect } from "react";
+import { FilterByLocationByUser } from "src/page-components/dashboard/FilterByLocationByUser";
+import { PurchaseHistory } from "src/page-components/dashboard/PurchaseHistory";
+import { FinanceSummaryCard } from "src/components/FinanceSummaryCard";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
+import { Show } from "src/components/PrivateRoute/Show";
 import { RecentOrders } from "src/components/RecentOrders";
 import { SelectDate } from "src/components/SelectDate";
 import {
@@ -11,8 +15,10 @@ import {
 } from "src/components/SelectDate/constants";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
+import { TypesUsers } from "src/@types/users";
 
 const Dashboard: FC = () => {
   const loadMetrics = useMetricStore((state) => state.fetchMetricOrders);
@@ -42,12 +48,23 @@ const Dashboard: FC = () => {
     });
   };
 
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
+
   useEffect(() => {
     loadMetrics({
-      month: selectMonthOption?.value as number,
-      year: selectYearOption?.value as number,
+      month: selectMonthOption?.value.toString(),
+      year: selectYearOption?.value.toString(),
+      location_ids: getArrayFromStringParams(location_ids),
+      su_users_ids: getArrayFromStringParams(su_users_ids),
     });
-  }, [loadMetrics, selectMonthOption, selectYearOption]);
+  }, [
+    loadMetrics,
+    location_ids,
+    selectMonthOption,
+    selectYearOption,
+    su_users_ids,
+  ]);
 
   console.log("Metrics: ", metrics);
 
@@ -60,7 +77,20 @@ const Dashboard: FC = () => {
         setSelectYear={setSelectYearOption}
       />
 
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <FilterByLocationByUser />
+      </Show>
+
       <Metrics metrics={metrics} isLoading={isLoading} />
+
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <PurchaseHistory />
+      </Show>
+
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <FinanceSummaryCard />
+      </Show>
+
       <RecentOrders />
     </PageWrapper>
   );

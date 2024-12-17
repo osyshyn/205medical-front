@@ -25,7 +25,6 @@ import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
-import { ProductDetail } from "src/components/ProductDetail";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 
@@ -101,12 +100,6 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Products} />,
         path: PATHNAMES.PRODUCT,
-        children: [
-          {
-            element: <PrivateRoute component={ProductDetail} />,
-            path: PATHNAMES.PRODUCT_ITEM,
-          },
-        ],
       },
       {
         element: <PrivateRoute component={Buyers} />,

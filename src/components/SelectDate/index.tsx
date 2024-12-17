@@ -8,6 +8,7 @@ interface Props {
   setSelectMonth: SetOptionSelect;
   selectYear: IOptionSelect;
   setSelectYear: SetOptionSelect;
+  isTitleHidden?: boolean;
 }
 
 export const SelectDate: FC<Props> = ({
@@ -15,11 +16,14 @@ export const SelectDate: FC<Props> = ({
   setSelectMonth,
   selectYear,
   setSelectYear,
+  isTitleHidden,
 }) => (
   <div className="flex items-center justify-between">
-    <h3>
-      {selectMonth.label} {selectYear.label}
-    </h3>
+    {!isTitleHidden && (
+      <h3>
+        {selectMonth.label} {selectYear.label}
+      </h3>
+    )}
 
     <div className="flex gap-3">
       <SelectDropdownList

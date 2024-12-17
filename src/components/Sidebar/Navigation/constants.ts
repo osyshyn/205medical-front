@@ -98,6 +98,14 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   {
     id: 1,
     icon: DashboardIcon,
+
+    label: "Dashboard",
+    href: PATHNAMES.DASHBOARD,
+    iconActive: DashboardActiveIcon,
+  },
+  {
+    id: 2,
+    icon: DashboardIcon,
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: DashboardActiveIcon,

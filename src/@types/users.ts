@@ -22,6 +22,12 @@ export interface IDetailUser extends IUser {
   products: IProduct[];
 }
 
+export interface ISubUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
+
 export enum TypesUsers {
   SUB_USER = 1,
   CLIENT_ADMIN = 2,

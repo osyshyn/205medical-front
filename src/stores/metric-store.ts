@@ -8,7 +8,7 @@ import { ReactComponent as DeliveryIcon } from "src/assets/icons/delivery.svg";
 import { ReactComponent as MarkIcon } from "src/assets/icons/mark.svg";
 import { ReactComponent as TruckIcon } from "src/assets/icons/truck.svg";
 import {
-  IMetricProduct,
+  IMetricRecharts,
   IMetrics,
   IMetricsData,
   IMetricsDataFromAPI,
@@ -56,9 +56,11 @@ const getMetrics = (
 };
 
 interface FetchMetricsParams {
-  month: number;
-  year: number;
-  su_users_ids?: number[];
+  month?: string;
+  year?: string;
+  location_ids?: string[];
+  su_users_ids?: string[];
+  product_ids?: string[];
 }
 
 interface IMetricStore {
@@ -66,11 +68,25 @@ interface IMetricStore {
   fetchMetricOrders: (params: FetchMetricsParams) => void;
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
-  metrics_products: IMetricProduct;
-  fetchMetricProducts: () => void;
+
   user_metric: IMetrics;
   fetchUserMetric: (params: FetchMetricsParams) => void;
+
   isLoading: boolean;
+
+  metrics_products: IMetricRecharts;
+  fetchMetricProducts: (params: FetchMetricsParams) => void;
+  isLoadingProducts: boolean;
+
+  monthlyPurchases: { total_amount: number };
+  fetchMonthlyPurchases: (params: FetchMetricsParams) => void;
+  openInvoiceTotal: { total_amount: number };
+  fetchOpenInvoiceTotal: (params: FetchMetricsParams) => void;
+  isLoadingInvoice: boolean;
+
+  purchase_history: IMetricRecharts;
+  fetchPurchaseHistory: (params: FetchMetricsParams) => void;
+  isLoadingPurchaseHistory: boolean;
 }
 
 const useMetricStore = create(
@@ -136,17 +152,63 @@ const useMetricStore = create(
         set({ isLoading: false });
       }
     },
+
+    isLoadingProducts: false,
     metrics_products: null,
-    fetchMetricProducts: async () => {
-      set({ isLoading: true });
+    fetchMetricProducts: async (params) => {
+      set({ isLoadingProducts: true });
       try {
-        const { data } = await instance.get<IMetricProduct>("product/metrics");
+        const { data } = await instance.get<IMetricRecharts>(
+          "product/metrics",
+          {
+            params,
+          }
+        );
 
         set({ metrics_products: data });
       } catch (error) {
         NotificationService.error();
       } finally {
-        set({ isLoading: false });
+        set({ isLoadingProducts: false });
+      }
+    },
+    isLoadingInvoice: false,
+    monthlyPurchases: { total_amount: 0 },
+    fetchMonthlyPurchases: async () => {
+      set({ isLoadingInvoice: true });
+      try {
+        const { data } = await instance.get("invoice/metricsMonthly");
+        set({ monthlyPurchases: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingInvoice: false });
+      }
+    },
+    openInvoiceTotal: { total_amount: 0 },
+    fetchOpenInvoiceTotal: async () => {
+      set({ isLoadingInvoice: true });
+      try {
+        const { data } = await instance.get("invoice/metricsTotal");
+        set({ openInvoiceTotal: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingInvoice: false });
+      }
+    },
+
+    isLoadingPurchaseHistory: false,
+    purchase_history: null,
+    fetchPurchaseHistory: async () => {
+      set({ isLoadingPurchaseHistory: true });
+      try {
+        const { data } = await instance.get("order/metricsOrders");
+        set({ purchase_history: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingPurchaseHistory: false });
       }
     },
     user_metric: null,
