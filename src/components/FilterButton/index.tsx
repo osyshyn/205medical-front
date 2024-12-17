@@ -8,11 +8,12 @@ import { FilterList } from "./FilterList";
 import { IFilterList } from "./types";
 
 interface Props {
+  className?: string;
   list: IFilterList[];
   isLoading?: boolean;
 }
 
-export const FilterButton: FC<Props> = ({ list, isLoading }) => {
+export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const head = (
@@ -23,21 +24,23 @@ export const FilterButton: FC<Props> = ({ list, isLoading }) => {
   );
 
   return (
-    <Dropdown
-      head={head}
-      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    >
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="flex flex-col gap-3">
-          {list.map((item) => (
-            <FilterList key={item.queryKey} {...item} />
-          ))}
-        </div>
-      )}
-    </Dropdown>
+    <div className={className}>
+      <Dropdown
+        head={head}
+        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      >
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="flex flex-col gap-3">
+            {list.map((item) => (
+              <FilterList key={item.queryKey} {...item} />
+            ))}
+          </div>
+        )}
+      </Dropdown>
+    </div>
   );
 };

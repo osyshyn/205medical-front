@@ -4,13 +4,16 @@ import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IUser } from "src/@types/users";
+import { ISubUser, IUser } from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
+  subUsers: ISubUser[];
   getUser: () => void;
+  getSubUsers: () => void;
   isAuthorized: boolean;
   isLoading: boolean;
+  isLoadingSubUsers: boolean;
 }
 
 const useUserStore = create(
@@ -29,6 +32,7 @@ const useUserStore = create(
       avatar: undefined,
       logo: undefined,
     },
+    subUsers: [],
     isAuthorized: false,
     isLoading: true,
     getUser: async () => {
@@ -51,6 +55,18 @@ const useUserStore = create(
         });
       } catch {
         set({ isAuthorized: false, isLoading: false });
+      }
+    },
+    isLoadingSubUsers: true,
+    getSubUsers: async () => {
+      set({ isLoadingSubUsers: true });
+      try {
+        const { data } = await instance.get<ISubUser[]>("/user/subUsers");
+
+        set({ subUsers: data });
+        set({ isLoadingSubUsers: false });
+      } catch {
+        set({ isLoadingSubUsers: false });
       }
     },
   }))

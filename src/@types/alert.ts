@@ -11,8 +11,3 @@ export enum IAlertType {
   ORDER = "1",
   SHIPMENT = "2",
 }
-
-export enum IAlertType {
-  OREDR = "1",
-  SHIPMENT = "2",
-}

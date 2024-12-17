@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import {
-  Bar,
-  BarChart,
   CartesianGrid,
-  Cell,
+  Line,
+  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
+import { Loader } from "src/components/Loader";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
@@ -17,18 +17,20 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { Sizes } from "src/@types/sizes";
 import { Switch } from "./Switch";
 import { BarChartOptions } from "./types";
 
-export const ProductMetrics: FC = () => {
+export const PurchaseHistory: FC = () => {
   const { getQueryParam } = useQueryParams();
 
   const [option, setOption] = useState<BarChartOptions>(
     BarChartOptions.QUANTITY
   );
 
-  const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
-  const metrics_products = useMetricStore((state) => state.metrics_products);
+  const loadMetrics = useMetricStore((state) => state.fetchPurchaseHistory);
+  const metrics_products = useMetricStore((state) => state.purchase_history);
+  const isLoading = useMetricStore((state) => state.isLoadingPurchaseHistory);
 
   const year =
     getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
@@ -37,15 +39,17 @@ export const ProductMetrics: FC = () => {
     getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
     getCurrentMonthOption().value.toString();
 
-  const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
 
   useEffect(() => {
     loadMetrics({
       year,
       month,
-      product_ids: getArrayFromStringParams(product_ids),
+      location_ids: getArrayFromStringParams(location_ids),
+      su_users_ids: getArrayFromStringParams(su_users_ids),
     });
-  }, [loadMetrics, month, year, product_ids]);
+  }, [loadMetrics, month, year, su_users_ids, location_ids]);
 
   const onClickSwitch = () => {
     setOption(
@@ -68,23 +72,24 @@ export const ProductMetrics: FC = () => {
         <Switch onClick={onClickSwitch} />
       </div>
 
-      <ResponsiveContainer width="100%" height={200}>
-        <BarChart data={metrics}>
-          <CartesianGrid stroke="#F1F1F1" strokeWidth="1" />
-          <XAxis dataKey="order_date" />
-          <YAxis />
+      {isLoading ? (
+        <Loader size={Sizes.XXL} />
+      ) : (
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={metrics}>
+            <CartesianGrid stroke="#F1F1F1" strokeWidth="1" />
+            <XAxis dataKey="order_date" />
+            <YAxis />
 
-          <Bar dataKey={option} barSize={15}>
-            {metrics.map((_, index) => (
-              <Cell
-                cursor="pointer"
-                fill={index % 2 === 0 ? "#9197B3" : "#E9EAF0"}
-                key={`cell-${index}`}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <Line
+              type="monotone"
+              dataKey={option}
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
     </Window>
   );
 };

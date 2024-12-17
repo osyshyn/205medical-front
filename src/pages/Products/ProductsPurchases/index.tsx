@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { getFilterList } from "src/page-components/products/products-purchases/constants";
-import { ProductMetrics } from "src/page-components/products/products-purchases/ProductMetrics";
+import { PurchasesByProduct } from "src/page-components/products/products-purchases/PurchasesByProduct";
 import { FilterButton } from "src/components/FilterButton";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { RecentOrders } from "src/components/RecentOrders";
@@ -65,7 +65,7 @@ const ProductsPurchases: FC = () => {
         />
       </div>
 
-      <ProductMetrics />
+      <PurchasesByProduct />
       <RecentOrders />
     </PageWrapper>
   );

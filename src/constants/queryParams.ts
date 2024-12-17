@@ -8,4 +8,5 @@ export const QUERY_PARAM_KEYS = {
   LOCATIONS: "locations",
   PRODUCTS: "products",
   ORDER_ALERTS: "order-alerts",
+  SUB_USERS: "sub-users",
 };
