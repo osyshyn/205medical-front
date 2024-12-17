@@ -78,7 +78,7 @@ const useAlertsStore = create(
     updateOrderAlertSetting: async (params) => {
       set({ isLoading: true });
       try {
-        await instance.get(`alert/updateOrderAlertSetting`, {
+        await instance.post(`alert/updateOrderAlertSetting`, {
           params,
         });
       } catch (error) {
