@@ -1,6 +1,7 @@
+import { ProductToLists } from "src/@types/product-list";
 import { Column } from "src/@types/table";
-// import { DeleteButton } from "./DeleteButton";
-// import { QuantityToggle } from "./QuantityToggle";
+import { DeleteButton } from "./DeleteButton";
+import { QuantityToggle } from "./QuantityToggle";
 
 export const CART_PRODUCTS_COLUMNS: Column[] = [
   { key: "preview", label: "" },
@@ -14,23 +15,25 @@ export const CART_PRODUCTS_COLUMNS: Column[] = [
   { key: "deleteButton", label: "" },
 ];
 
-// export const getTableItems = (cartProducts: ICartProduct[]): ICartProduct[] =>
-//   cartProducts.map((product) => ({
-//     ...product,
-//     quantityComponent: {
-//       type: "component",
-//       component: QuantityToggle,
-//       props: {
-//         id: product.id,
-//         quantity: product.quantity,
-//         minimum_order: product.minimum_order,
-//       },
-//     },
-//     deleteButton: {
-//       type: "component",
-//       component: DeleteButton,
-//       props: {
-//         id: product.id,
-//       },
-//     },
-//   }));
+export const getTableItems = (
+  productToLists: ProductToLists[]
+): ProductToLists[] =>
+  productToLists.map((product) => ({
+    ...product,
+    quantityComponent: {
+      type: "component",
+      component: QuantityToggle,
+      props: {
+        id: product.id,
+        quantity: product.quantity,
+        minimum_order: product.minimum_order,
+      },
+    },
+    deleteButton: {
+      type: "component",
+      component: DeleteButton,
+      props: {
+        id: product.id,
+      },
+    },
+  }));
