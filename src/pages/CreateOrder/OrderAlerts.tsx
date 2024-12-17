@@ -24,6 +24,7 @@ import useOrderStore from "src/stores/order-store";
 import useProductStore from "src/stores/product-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
+import { IAlertType } from "src/@types/alert";
 import { Row } from "src/@types/table";
 
 const OrderAlerts: FC = () => {
@@ -49,7 +50,7 @@ const OrderAlerts: FC = () => {
       search: debouncedSearchQuery,
       current_page: currentPage,
       items_per_page: ALERTS_PER_PAGE,
-      type: "1",
+      type: IAlertType.ORDER,
     });
   }, [currentPage, debouncedSearchQuery, loadAlerts]);
 

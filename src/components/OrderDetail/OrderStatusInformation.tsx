@@ -1,5 +1,6 @@
 import { FC } from "react";
 import StatusBadge from "./StatusBadge";
+import { Status } from "./type";
 
 interface OrderStatusInfoProps {
   approvalStatus: number;
@@ -17,21 +18,21 @@ export const OrderStatusInfo: FC<OrderStatusInfoProps> = ({
     <div className="flex justify-between">
       <span>Approval Status:</span>
       <StatusBadge
-        status={approvalStatus === 1 ? "approved" : "pending"}
+        status={approvalStatus === 1 ? Status.Approved : Status.Pending}
         label={approvalStatus === 1 ? "Approved" : "Pending"}
       />
     </div>
     <div className="flex justify-between">
       <span>Ship Status:</span>
       <StatusBadge
-        status={shipStatus === 1 ? "shipped" : "pending"}
+        status={shipStatus === 1 ? Status.Shipped : Status.Pending}
         label={shipStatus === 1 ? "Shipped" : "Pending"}
       />
     </div>
     <div className="flex justify-between">
       <span>Rush Service:</span>
       <StatusBadge
-        status={rushService === "4" ? "pending" : "none"}
+        status={rushService === "4" ? Status.RushService : Status.None}
         label={rushService === "4" ? "Rush" : "None"}
       />
     </div>
