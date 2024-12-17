@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
+import { Show } from "src/components/PrivateRoute/Show";
 import { RecentOrders } from "src/components/RecentOrders";
 import { SelectDate } from "src/components/SelectDate";
 import {
@@ -13,6 +14,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
+import { TypesUsers } from "src/@types/users";
 
 const Dashboard: FC = () => {
   const loadMetrics = useMetricStore((state) => state.fetchMetricOrders);
@@ -57,8 +59,10 @@ const Dashboard: FC = () => {
         selectYear={selectYearOption || getCurrentYearOption()}
         setSelectYear={setSelectYearOption}
       />
-
       <Metrics metrics={metrics} isLoading={isLoading} />
+
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>FOR ADMIN</Show>
+
       <RecentOrders />
     </PageWrapper>
   );

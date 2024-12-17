@@ -94,7 +94,15 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
   },
 ];
 
-const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [];
+const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
+  {
+    id: 1,
+    icon: DashboardIcon,
+    label: "Dashboard",
+    href: PATHNAMES.DASHBOARD,
+    iconActive: DashboardActiveIcon,
+  },
+];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
 
