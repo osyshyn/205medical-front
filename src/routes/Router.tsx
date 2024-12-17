@@ -18,6 +18,7 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { Chat } from "src/pages/Chat";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
@@ -94,6 +95,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Location} />,
         path: PATHNAMES.LOCATION_SLUG,
+      },
+      {
+        element: <PrivateRoute component={Chat} />,
+        path: PATHNAMES.CHAT,
       },
       {
         element: <PrivateRoute component={Products} />,
