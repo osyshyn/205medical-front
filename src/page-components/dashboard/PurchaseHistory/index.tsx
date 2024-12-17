@@ -58,31 +58,31 @@ const metrics_products = {
 };
 
 export const PurchaseHistory: FC = () => {
-  const { getQueryParam } = useQueryParams();
+  // const { getQueryParam } = useQueryParams();
 
   const [option, setOption] = useState<BarChartOptions>(
     BarChartOptions.QUANTITY
   );
 
-  const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
+  // const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
   // const metrics_products = useMetricStore((state) => state.metrics_products);
 
-  const year =
-    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
-    getCurrentYearOption().value.toString();
-  const month =
-    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
-    getCurrentMonthOption().value.toString();
+  // const year =
+  //   getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+  //   getCurrentYearOption().value.toString();
+  // const month =
+  //   getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+  //   getCurrentMonthOption().value.toString();
 
-  const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
+  // const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
-  useEffect(() => {
-    loadMetrics({
-      year,
-      month,
-      product_ids: getArrayFromStringParams(product_ids),
-    });
-  }, [loadMetrics, month, year, product_ids]);
+  // useEffect(() => {
+  //   loadMetrics({
+  //     year,
+  //     month,
+  //     product_ids: getArrayFromStringParams(product_ids),
+  //   });
+  // }, [loadMetrics, month, year, product_ids]);
 
   const onClickSwitch = () => {
     setOption(

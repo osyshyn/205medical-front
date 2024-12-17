@@ -69,9 +69,11 @@ interface IMetricStore {
   fetchMetricOrders: (params: FetchMetricsParams) => void;
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
+  isLoading: boolean;
+
   metrics_products: IMetricProduct;
   fetchMetricProducts: (params: FetchMetricsProductsParams) => void;
-  isLoading: boolean;
+  isLoadingProducts: boolean;
 
   monthlyPurchases: { total_amount: number };
   fetchMonthlyPurchases: (params: FetchMetricsInvoiceParams) => void;
@@ -143,9 +145,11 @@ const useMetricStore = create(
         set({ isLoading: false });
       }
     },
+
+    isLoadingProducts: false,
     metrics_products: null,
     fetchMetricProducts: async (params) => {
-      set({ isLoading: true });
+      set({ isLoadingProducts: true });
       try {
         const { data } = await instance.get<IMetricProduct>("product/metrics", {
           params,
@@ -155,7 +159,7 @@ const useMetricStore = create(
       } catch (error) {
         NotificationService.error();
       } finally {
-        set({ isLoading: false });
+        set({ isLoadingProducts: false });
       }
     },
     isLoadingInvoice: false,

@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Loader } from "src/components/Loader";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
@@ -17,6 +18,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { Sizes } from "src/@types/sizes";
 import { Switch } from "./Switch";
 import { BarChartOptions } from "./types";
 
@@ -29,6 +31,7 @@ export const PurchasesByProduct: FC = () => {
 
   const loadMetrics = useMetricStore((state) => state.fetchMetricProducts);
   const metrics_products = useMetricStore((state) => state.metrics_products);
+  const isLoading = useMetricStore((state) => state.isLoadingProducts);
 
   const year =
     getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
@@ -68,23 +71,27 @@ export const PurchasesByProduct: FC = () => {
         <Switch onClick={onClickSwitch} />
       </div>
 
-      <ResponsiveContainer width="100%" height={200}>
-        <BarChart data={metrics}>
-          <CartesianGrid stroke="#F1F1F1" strokeWidth="1" />
-          <XAxis dataKey="order_date" />
-          <YAxis />
+      {isLoading ? (
+        <Loader size={Sizes.XXL} />
+      ) : (
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart data={metrics}>
+            <CartesianGrid stroke="#F1F1F1" strokeWidth="1" />
+            <XAxis dataKey="order_date" />
+            <YAxis />
 
-          <Bar dataKey={option} barSize={15}>
-            {metrics.map((_, index) => (
-              <Cell
-                cursor="pointer"
-                fill={index % 2 === 0 ? "#9197B3" : "#E9EAF0"}
-                key={`cell-${index}`}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <Bar dataKey={option} barSize={15}>
+              {metrics.map((_, index) => (
+                <Cell
+                  cursor="pointer"
+                  fill={index % 2 === 0 ? "#9197B3" : "#E9EAF0"}
+                  key={`cell-${index}`}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      )}
     </Window>
   );
 };
