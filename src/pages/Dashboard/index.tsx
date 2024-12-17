@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { FilterButton } from "src/components/FilterButton";
+import { FilterByLocationByUser } from "src/page-components/dashboard/FilterByLocationByUser";
 import { FinanceSummaryCard } from "src/components/FinanceSummaryCard";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
@@ -14,14 +14,11 @@ import {
 } from "src/components/SelectDate/constants";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
-import useUserStore from "src/stores/user-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
 import { TypesUsers } from "src/@types/users";
 
 const Dashboard: FC = () => {
-  const user = useUserStore((state) => state.user);
-
   const loadMetrics = useMetricStore((state) => state.fetchMetricOrders);
   const metrics = useMetricStore((state) => state.metrics_orders);
   const isLoading = useMetricStore((state) => state.isLoading);
@@ -59,11 +56,7 @@ const Dashboard: FC = () => {
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
-        <FilterButton
-          className="w-max"
-          list={[]}
-          // isLoading={isLoadingCategories}
-        />
+        <FilterByLocationByUser />
       </Show>
 
       <SelectDate
@@ -71,7 +64,6 @@ const Dashboard: FC = () => {
         setSelectMonth={setSelectMonthOption}
         selectYear={selectYearOption || getCurrentYearOption()}
         setSelectYear={setSelectYearOption}
-        isTitleHidden={user.role === TypesUsers.CLIENT_ADMIN}
       />
 
       <Metrics metrics={metrics} isLoading={isLoading} />
