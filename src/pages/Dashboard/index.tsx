@@ -14,6 +14,7 @@ import {
 } from "src/components/SelectDate/constants";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
 import { TypesUsers } from "src/@types/users";
@@ -46,12 +47,23 @@ const Dashboard: FC = () => {
     });
   };
 
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
+
   useEffect(() => {
     loadMetrics({
       month: selectMonthOption?.value.toString(),
       year: selectYearOption?.value.toString(),
+      location_ids: getArrayFromStringParams(location_ids),
+      su_users_ids: getArrayFromStringParams(su_users_ids),
     });
-  }, [loadMetrics, selectMonthOption, selectYearOption]);
+  }, [
+    loadMetrics,
+    location_ids,
+    selectMonthOption,
+    selectYearOption,
+    su_users_ids,
+  ]);
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">

@@ -51,10 +51,17 @@ const getMetrics = (
 interface FetchMetricsParams {
   month: string;
   year: string;
+  location_ids?: string[];
+  su_users_ids?: string[];
 }
 
 interface FetchMetricsProductsParams extends FetchMetricsParams {
   product_ids: string[];
+}
+
+interface FetchMetricsInvoiceParams {
+  location_ids: string[];
+  su_users_ids: string[];
 }
 
 interface IMetricStore {
@@ -67,9 +74,9 @@ interface IMetricStore {
   isLoading: boolean;
 
   monthlyPurchases: { total_amount: number };
-  fetchMonthlyPurchases: () => void;
+  fetchMonthlyPurchases: (params: FetchMetricsInvoiceParams) => void;
   openInvoiceTotal: { total_amount: number };
-  fetchOpenInvoiceTotal: () => void;
+  fetchOpenInvoiceTotal: (params: FetchMetricsInvoiceParams) => void;
   isLoadingInvoice: boolean;
 }
 
