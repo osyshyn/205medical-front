@@ -65,6 +65,12 @@ interface IMetricStore {
   metrics_products: IMetricProduct;
   fetchMetricProducts: (params: FetchMetricsProductsParams) => void;
   isLoading: boolean;
+
+  monthlyPurchases: { total_amount: number };
+  fetchMonthlyPurchases: () => void;
+  openInvoiceTotal: { total_amount: number };
+  fetchOpenInvoiceTotal: () => void;
+  isLoadingInvoice: boolean;
 }
 
 const useMetricStore = create(
@@ -143,6 +149,31 @@ const useMetricStore = create(
         NotificationService.error();
       } finally {
         set({ isLoading: false });
+      }
+    },
+    isLoadingInvoice: false,
+    monthlyPurchases: { total_amount: 0 },
+    fetchMonthlyPurchases: async () => {
+      set({ isLoadingInvoice: true });
+      try {
+        const { data } = await instance.get("invoice/metricsMonthly");
+        set({ monthlyPurchases: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingInvoice: false });
+      }
+    },
+    openInvoiceTotal: { total_amount: 0 },
+    fetchOpenInvoiceTotal: async () => {
+      set({ isLoadingInvoice: true });
+      try {
+        const { data } = await instance.get("invoice/metricsTotal");
+        set({ openInvoiceTotal: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingInvoice: false });
       }
     },
   }))
