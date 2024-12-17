@@ -9,22 +9,14 @@ import useCartStore from "src/stores/cart-store";
 import useModalWindowStore from "src/stores/modal-window-store";
 import { Row } from "src/@types/table";
 import { AllProducts } from "./AllProducts";
-import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
+import { CART_PRODUCTS_COLUMNS } from "./constants";
 
 export const CartProducts: FC = () => {
   const isOpenProductItem = useModalWindowStore(
     (state) => state.isOpenProductItem
   );
 
-  const loadCartProduct = useCartStore((state) => state.fetchCartProduct);
-  const isLoading = useCartStore((state) => state.isLoadingCartProduct);
-  const cartProducts = useCartStore((state) => state.cart_products);
-
-  useEffect(() => {
-    loadCartProduct();
-  }, [loadCartProduct]);
-
-  const items = getTableItems(cartProducts) as unknown as Row[];
+  // const items = getTableItems(cartProducts) as unknown as Row[];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,9 +39,9 @@ export const CartProducts: FC = () => {
         <Table ariaLabel="Products">
           <TableHeader columns={CART_PRODUCTS_COLUMNS} />
           <TableBody
-            items={items}
+            items={[]}
             columns={CART_PRODUCTS_COLUMNS}
-            isLoading={isLoading}
+            // isLoading={isLoading}
           />
         </Table>
 
