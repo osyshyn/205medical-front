@@ -20,7 +20,7 @@ import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Switch } from "./Switch";
 import { BarChartOptions } from "./types";
 
-export const ProductMetrics: FC = () => {
+export const PurchasesByProduct: FC = () => {
   const { getQueryParam } = useQueryParams();
 
   const [option, setOption] = useState<BarChartOptions>(
