@@ -15,7 +15,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useShipmentStore, { SHIPMENT_PER_PAGE } from "src/stores/shipment-store";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
-import { SHIPMENT_HISTORY_COLUMNS } from "./constants";
+import { getTableItems, SHIPMENT_HISTORY_COLUMNS } from "./constants";
 
 export const ShipmentHistory: FC = () => {
   const loadShipments = useShipmentStore((state) => state.fetcShipment);
@@ -51,7 +51,7 @@ export const ShipmentHistory: FC = () => {
     }
   };
 
-  const items = shipmentResults as unknown as Row[];
+  const items = getTableItems(shipmentResults) as unknown as Row[];
 
   return (
     <Window>

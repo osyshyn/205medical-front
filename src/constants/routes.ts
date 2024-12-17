@@ -18,6 +18,7 @@ export const PATHNAMES = {
 
   SHIPMENTS: "/shipments",
   SHIPMENT_ALERTS: "/shipments/alerts",
+  ORDER_DETAIL: "/shipments/:id",
 
   LOCATION: "/location",
   LOCATION_SLUG: "/location/:slug?",
