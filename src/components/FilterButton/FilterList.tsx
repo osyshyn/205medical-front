@@ -17,6 +17,7 @@ export const FilterList: FC<IFilterList> = ({ queryKey, title, items }) => {
           isActive={activeCategories.includes(String(item.value))}
           value={item.value.toString()}
           queryKey={queryKey}
+          label={item.label}
         />
       ))}
     </ul>

@@ -25,7 +25,7 @@ export const FilterButton: FC<Props> = ({ list, isLoading }) => {
   return (
     <Dropdown
       head={head}
-      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
+      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >

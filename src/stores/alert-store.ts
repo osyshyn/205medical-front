@@ -12,11 +12,19 @@ interface FetchAlertsParams {
   search: string; // строка поиска
 }
 
+interface UpdateAlertParams {
+  order_pending: boolean;
+  order_rejected: boolean;
+  order_approval: boolean;
+  invoice_paid: boolean;
+}
+
 interface IAlertsStore {
   alerts: IResponseWithPagination<IAlert>; //IAlert[];
   fetchAlerts: (params: FetchAlertsParams) => void;
   isLoading: boolean;
   deleteAlert: (id: number) => void;
+  updateOrderAlertSetting: (params: UpdateAlertParams) => void;
 }
 
 export const ALERTS_PER_PAGE = 5;
@@ -63,6 +71,18 @@ const useAlertsStore = create(
         });
       } catch (error) {
         NotificationService.error("Failed to delete alert.");
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updateOrderAlertSetting: async (params) => {
+      set({ isLoading: true });
+      try {
+        await instance.get(`alert/updateOrderAlertSetting`, {
+          params,
+        });
+      } catch (error) {
+        NotificationService.error();
       } finally {
         set({ isLoading: false });
       }

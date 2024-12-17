@@ -7,10 +7,16 @@ import { Button } from "../Button";
 interface Props {
   isActive: boolean;
   value: string;
+  label: string;
   queryKey: string;
 }
 
-export const CheckOption: FC<Props> = ({ isActive, value, queryKey }) => {
+export const CheckOption: FC<Props> = ({
+  isActive,
+  value,
+  label,
+  queryKey,
+}) => {
   const { addToQueryParamArray, removeFromQueryParamArray } = useQueryParams();
 
   const onClick = () => {
@@ -34,7 +40,7 @@ export const CheckOption: FC<Props> = ({ isActive, value, queryKey }) => {
       </Button>
 
       <p className="cursor-pointer" onClick={onClick}>
-        {value}
+        {label}
       </p>
     </li>
   );
