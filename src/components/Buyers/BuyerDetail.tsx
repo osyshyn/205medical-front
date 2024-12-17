@@ -46,9 +46,9 @@ export const BuyerDetail: FC = () => {
     loadUserNotes(id);
     loadUserOrders(params);
     loadUserMetrics({
-      month: currentDate.getMonth() + 1,
-      year: currentDate.getFullYear(),
-      su_users_ids: [Number(id)],
+      month: String(currentDate.getMonth() + 1),
+      year: String(currentDate.getFullYear()),
+      su_users_ids: [id],
     });
   }, [loadBuyerDetail, loadUserNotes, loadUserMetrics, loadUserOrders, id]);
 
