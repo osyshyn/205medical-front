@@ -77,9 +77,7 @@ const OrderAlerts: FC = () => {
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
-      <div className="w-max">
-        <FilterButton list={SORT_LIST_ORDER_ALERTS} />
-      </div>
+      <FilterButton className="w-max" list={SORT_LIST_ORDER_ALERTS} />
 
       <Window>
         <div className="flex items-start justify-between">
