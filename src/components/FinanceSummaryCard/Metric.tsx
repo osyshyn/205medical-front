@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Metric: FC<Props> = ({ color, title, value, subtitle }) => (
-  <Window className="flex flex-1 items-center gap-10">
+  <Window className="flex min-w- flex-1 items-center gap-10">
     <div
       className="h-20 w-20 rounded-full border-4"
       style={{ borderColor: color }}

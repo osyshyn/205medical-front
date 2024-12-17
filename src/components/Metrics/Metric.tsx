@@ -3,7 +3,7 @@ import { Window } from "src/components/Window";
 import { IMetrics } from "src/@types/metrics";
 
 export const Metric: FC<IMetrics> = ({ title, metrics }) => (
-  <Window className="relative flex-1">
+  <Window className="relative min-w-127.5 flex-1">
     <h3>{title}</h3>
 
     <div className="mt-2 flex justify-between">
