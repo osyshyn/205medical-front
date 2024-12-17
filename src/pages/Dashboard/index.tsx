@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from "react";
+import { FinanceSummaryCard } from "src/components/FinanceSummaryCard";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
 import { Show } from "src/components/PrivateRoute/Show";
@@ -61,7 +62,9 @@ const Dashboard: FC = () => {
       />
       <Metrics metrics={metrics} isLoading={isLoading} />
 
-      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>FOR ADMIN</Show>
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+        <FinanceSummaryCard />
+      </Show>
 
       <RecentOrders />
     </PageWrapper>
