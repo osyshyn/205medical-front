@@ -5,6 +5,10 @@ import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Sizes } from "src/@types/sizes";
 import { Loader } from "../Loader";
+import {
+  getCurrentMonthOption,
+  getCurrentYearOption,
+} from "../SelectDate/constants";
 import { Metric } from "./Metric";
 
 export const FinanceSummaryCard: FC = () => {
@@ -21,11 +25,20 @@ export const FinanceSummaryCard: FC = () => {
 
   const isLoading = useMetricStore((state) => state.isLoadingInvoice);
 
+  const year =
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+    getCurrentYearOption().value.toString();
+  const month =
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+    getCurrentMonthOption().value.toString();
+
   const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
   const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
 
   useEffect(() => {
     fetchMonthlyPurchases({
+      year,
+      month,
       location_ids: getArrayFromStringParams(location_ids),
       su_users_ids: getArrayFromStringParams(su_users_ids),
     });
@@ -36,6 +49,8 @@ export const FinanceSummaryCard: FC = () => {
   }, [
     fetchMonthlyPurchases,
     fetchOpenInvoiceTotal,
+    year,
+    month,
     location_ids,
     su_users_ids,
   ]);
