@@ -6,14 +6,14 @@ import { IAlert } from "src/@types/alert";
 import { IResponseWithPagination } from "src/@types/api";
 
 interface FetchAlertsParams {
-  type: string; // тип алерта
-  current_page: number; // текущая страница
-  items_per_page: number; // количество элементов на странице
-  search: string; // строка поиска
+  type: string;
+  current_page: number;
+  items_per_page: number;
+  search: string;
 }
 
 interface IAlertsStore {
-  alerts: IResponseWithPagination<IAlert>; //IAlert[];
+  alerts: IResponseWithPagination<IAlert>;
   fetchAlerts: (params: FetchAlertsParams) => void;
   isLoading: boolean;
   deleteAlert: (id: number) => void;
@@ -42,10 +42,9 @@ const useAlertsStore = create(
     deleteAlert: async (id) => {
       set({ isLoading: true });
       try {
-        await instance.post("alert/delete", { id }); // Отправка запроса на удаление
+        await instance.post("alert/delete", { id });
         NotificationService.success("Alert deleted successfully.");
 
-        // Обновление локального состояния, удаляя запись из списка
         set((state) => {
           if (state.alerts) {
             const updatedAlerts = state.alerts.result.filter(
@@ -54,8 +53,8 @@ const useAlertsStore = create(
             return {
               alerts: {
                 ...state.alerts,
-                result: updatedAlerts, // Обновляем список алертов
-                count: state.alerts.count - 1, // Уменьшаем количество
+                result: updatedAlerts,
+                count: state.alerts.count - 1,
               },
             };
           }

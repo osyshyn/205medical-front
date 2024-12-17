@@ -19,8 +19,8 @@ export const CostSummary: FC<CostSummaryProps> = ({ orderToProducts }) => {
     return total + item.product.price * item.quantity;
   }, 0);
 
-  const shipping = 10; // Замокал 10
-  const tax = productCost * 0.1; // Замокал 10%
+  const shipping = 10;
+  const tax = productCost * 0.1;
 
   const total = productCost + shipping + tax;
 
