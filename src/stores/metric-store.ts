@@ -8,7 +8,7 @@ import { ReactComponent as DeliveryIcon } from "src/assets/icons/delivery.svg";
 import { ReactComponent as MarkIcon } from "src/assets/icons/mark.svg";
 import { ReactComponent as TruckIcon } from "src/assets/icons/truck.svg";
 import {
-  IMetricProduct,
+  IMetricRecharts,
   IMetrics,
   IMetricsData,
   IMetricsDataFromAPI,
@@ -53,10 +53,7 @@ interface FetchMetricsParams {
   year: string;
   location_ids?: string[];
   su_users_ids?: string[];
-}
-
-interface FetchMetricsProductsParams extends FetchMetricsParams {
-  product_ids: string[];
+  product_ids?: string[];
 }
 
 interface FetchMetricsInvoiceParams {
@@ -71,8 +68,8 @@ interface IMetricStore {
   fetchMetricShipments: (params: FetchMetricsParams) => void;
   isLoading: boolean;
 
-  metrics_products: IMetricProduct;
-  fetchMetricProducts: (params: FetchMetricsProductsParams) => void;
+  metrics_products: IMetricRecharts;
+  fetchMetricProducts: (params: FetchMetricsParams) => void;
   isLoadingProducts: boolean;
 
   monthlyPurchases: { total_amount: number };
@@ -80,6 +77,10 @@ interface IMetricStore {
   openInvoiceTotal: { total_amount: number };
   fetchOpenInvoiceTotal: (params: FetchMetricsInvoiceParams) => void;
   isLoadingInvoice: boolean;
+
+  purchase_history: IMetricRecharts;
+  fetchPurchaseHistory: (params: FetchMetricsParams) => void;
+  isLoadingPurchaseHistory: boolean;
 }
 
 const useMetricStore = create(
@@ -151,9 +152,12 @@ const useMetricStore = create(
     fetchMetricProducts: async (params) => {
       set({ isLoadingProducts: true });
       try {
-        const { data } = await instance.get<IMetricProduct>("product/metrics", {
-          params,
-        });
+        const { data } = await instance.get<IMetricRecharts>(
+          "product/metrics",
+          {
+            params,
+          }
+        );
 
         set({ metrics_products: data });
       } catch (error) {
@@ -185,6 +189,20 @@ const useMetricStore = create(
         NotificationService.error();
       } finally {
         set({ isLoadingInvoice: false });
+      }
+    },
+
+    isLoadingPurchaseHistory: false,
+    purchase_history: null,
+    fetchPurchaseHistory: async () => {
+      set({ isLoadingPurchaseHistory: true });
+      try {
+        const { data } = await instance.get("order/metricsOrders");
+        set({ purchase_history: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingPurchaseHistory: false });
       }
     },
   }))
