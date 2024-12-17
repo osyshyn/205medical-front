@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import useMetricStore from "src/stores/metric-store";
 import useOrderStore, { FetchOrdersParams } from "src/stores/order-store";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
-import { Sizes } from "src/@types/sizes";
 import { Row } from "src/@types/table";
-import { Loader } from "../Loader";
-import { Metric } from "../Metrics/Metric";
 import { ModalWindow } from "../ModalWindow";
 import { Table, TableBody, TableHeader } from "../Table";
+import { Title } from "../Title";
 import { Window } from "../Window";
+import { UserMetric } from "./UserMetrics";
 import {
   BUYERS_ORDER_TABLE_COLUMNS,
   getBuyerOrderTableItems,
@@ -23,16 +23,13 @@ export const BuyerDetail: FC = () => {
 
   const userOrder = useOrderStore((state) => state.orders);
   const buyerDetail = useUserStore((state) => state.detailUser);
-  const approvedLocations = useUserStore((state) => state.approvedLocations);
   const userNotes = useUserStore((state) => state.userNotes);
-  const userCategories = useUserStore((state) => state.userCategories);
   const loadBuyerDetail = useUserStore((state) => state.getUserDetail);
-  const loadApprovedLocations = useUserStore(
-    (state) => state.getUserApprovedLocations
-  );
   const loadUserNotes = useUserStore((state) => state.getUserNotes);
   const loadUserOrders = useOrderStore((state) => state.fetchOrders);
-  const loadUserCategories = useUserStore((state) => state.getUserCategories);
+
+  const userMetrics = useMetricStore((state) => state.user_metric);
+  const loadUserMetrics = useMetricStore((state) => state.fetchUserMetric);
 
   useEffect(() => {
     const params: FetchOrdersParams = {
@@ -43,30 +40,34 @@ export const BuyerDetail: FC = () => {
       current_page: 1,
     };
 
+    const currentDate = new Date();
+
     loadBuyerDetail(id);
-    loadApprovedLocations(id);
     loadUserNotes(id);
     loadUserOrders(params);
-    loadUserCategories(id);
-  }, [
-    loadBuyerDetail,
-    loadApprovedLocations,
-    loadUserNotes,
-    loadUserNotes,
-    loadUserCategories,
-    id,
-  ]);
+    loadUserMetrics({
+      month: currentDate.getMonth() + 1,
+      year: currentDate.getFullYear(),
+      su_users_ids: [Number(id)],
+    });
+  }, [loadBuyerDetail, loadUserNotes, loadUserMetrics, loadUserOrders, id]);
 
   const onClose = () => {
     navigate(PATHNAMES.BUYERS);
   };
 
-  const { first_name, last_name, email, phone, role, purchase_limit } =
-    buyerDetail;
+  const {
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    purchase_limit,
+    locations,
+    products,
+  } = buyerDetail;
 
   const userOrdersResults = userOrder?.result || [];
-
-  console.log("User Categories: ", userCategories);
 
   const items = getBuyerOrderTableItems(userOrdersResults) as unknown as Row[];
 
@@ -82,14 +83,12 @@ export const BuyerDetail: FC = () => {
       isActivePortal
     >
       <div className="space-y-8">
-        {/* Header */}
         <div className="flex items-center justify-between border-b pb-4">
           <div>
             <h1 className="text-2xl font-semibold">User Overview</h1>
           </div>
         </div>
 
-        {/* Body */}
         <div className="flex gap-15">
           <div className="min-h-[800px] w-[150px]">
             <div className="mb-4 h-[180px] w-[180px] overflow-hidden bg-gray-200">
@@ -130,7 +129,6 @@ export const BuyerDetail: FC = () => {
             </div>
           </div>
           <div className="flex-1">
-            {/* USER INFO */}
             <div className="flex border-b pb-8">
               <div className="flex-1 flex-col gap-12">
                 <div className="flex gap-2">
@@ -158,30 +156,38 @@ export const BuyerDetail: FC = () => {
               </div>
             </div>
 
-            {/* Approval */}
-            <div className="mt-8 grid grid-cols-2 border-b pb-8">
+            <div className="mt-8 grid grid-cols-2 gap-5 border-b pb-8">
               <div className="flex flex-col gap-4">
-                <h3 className="text-[14px] font-[500]">Approved locations</h3>
-                <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                  {approvedLocations.length > 0 &&
-                    approvedLocations.map((location) => (
-                      <li key={location}>{location}</li>
-                    ))}
-                </dl>
+                <Window className="min-h-62.5">
+                  <Title title="Approved locations" subtitle="" />
+                  <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
+                    {locations.length > 0 &&
+                      locations.map((location) => (
+                        <li key={location.id}>{location.name}</li>
+                      ))}
+                  </dl>
+                </Window>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-[14px] font-[500]">Approved locations</h3>
-                <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                  <li>Location 1</li>
-                  <li>Location 2</li>
-                  <li>Location 3</li>
-                </dl>
+                <Window className="min-h-62.5 max-h-62.5 overflow-y-auto">
+                  <Title title="Approved products" subtitle="" />
+                  <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
+                    {products.length > 0 &&
+                      products.map((product) => (
+                        <li key={product.id}>{product.name}</li>
+                      ))}
+                  </dl>
+                </Window>
               </div>
             </div>
 
-            {/* Metrics */}
             <div className="mt-5 flex w-full">
-              <Metric title="Orders" metrics={[]} />
+              {userMetrics && (
+                <UserMetric
+                  title={userMetrics.title}
+                  metrics={userMetrics.metrics}
+                />
+              )}
             </div>
 
             <div className="mt-8">
@@ -199,7 +205,6 @@ export const BuyerDetail: FC = () => {
                 </span>
               </button>
 
-              {/* Table */}
               {isOrderHistoryVisible && (
                 <div className="mt-4">
                   <Table>

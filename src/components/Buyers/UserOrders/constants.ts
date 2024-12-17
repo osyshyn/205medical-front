@@ -1,33 +1,30 @@
 import { IOrder } from "src/@types/orders";
 import { Column, Row } from "src/@types/table";
 
-// Обновленные колонки
 export const BUYERS_ORDER_TABLE_COLUMNS: Column[] = [
   { key: "customer_po_number", label: "Customer PO #" },
   { key: "invoice_status", label: "Invoice Status" },
-  { key: "date", label: "Date" }, // Указал ключ "date" для соответствия строкам
+  { key: "date", label: "Date" },
   { key: "location", label: "Location" },
-  { key: "order_total", label: "Order Total" }, // Уточнил label для суммы заказа
-  { key: "due_date", label: "Due Date" }, // Оставил ключ "due_date"
-  { key: "delivery_status", label: "Delivery Status" }, // Добавил статус доставки
-  { key: "payment_status", label: "Payment Status" }, // Добавил статус оплаты
+  { key: "order_total", label: "Order Total" },
+  { key: "due_date", label: "Due Date" },
+  { key: "delivery_status", label: "Delivery Status" },
+  { key: "payment_status", label: "Payment Status" },
 ];
 
-// Обновленная функция получения элементов для таблицы
 export const getBuyerOrderTableItems = (orders: any[]): Row[] =>
   orders.map((order) => ({
-    id: order.id, // ID строки
-    customer_po_number: order.customer_po_number || "N/A", // Номер PO клиента
-    invoice_status: getInvoiceStatusLabel(order.invoice_status), // Статус счета
-    date: formatDate(order.created_at), // Дата создания
-    location: order.location || "N/A", // Местоположение
-    order_total: order.order_amt, // Сумма заказа
-    due_date: formatDate(order.expected_delivery_date), // Ожидаемая дата доставки
-    delivery_status: getDeliveryStatusLabel(order.ship_status), // Статус доставки
-    payment_status: getPaymentStatusLabel(order.status), // Статус оплаты
+    id: order.id,
+    customer_po_number: order.customer_po_number || "N/A",
+    invoice_status: getInvoiceStatusLabel(order.invoice_status),
+    date: formatDate(order.created_at),
+    location: order.location || "N/A",
+    order_total: order.order_amt,
+    due_date: formatDate(order.expected_delivery_date),
+    delivery_status: getDeliveryStatusLabel(order.ship_status),
+    payment_status: getPaymentStatusLabel(order.status),
   }));
 
-// Универсальная функция форматирования даты
 const formatDate = (date: string | number | undefined): string => {
   if (!date) return "Invalid date";
   const parsedDate = new Date(date);
@@ -42,7 +39,6 @@ const formatDate = (date: string | number | undefined): string => {
       });
 };
 
-// Функция для получения текста статуса счета
 const getInvoiceStatusLabel = (status: number): string => {
   switch (status) {
     case 1:

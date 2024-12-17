@@ -48,3 +48,7 @@ export interface IMetricProduct {
   count: number;
   metrics: IMetricProductData[];
 }
+
+export interface IMetricUserFromApi {
+  approval_metrics: IMetrics;
+}

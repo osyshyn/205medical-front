@@ -49,6 +49,8 @@ const Dashboard: FC = () => {
     });
   }, [loadMetrics, selectMonthOption, selectYearOption]);
 
+  console.log("Metrics: ", metrics);
+
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <SelectDate

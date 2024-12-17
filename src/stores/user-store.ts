@@ -4,24 +4,18 @@ import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { ILocation } from "src/@types/location";
-import { IUser } from "src/@types/users";
+import { IDetailUser, IUser } from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
   users: IUser[];
-  detailUser: IUser;
-  // approvedLocations: ILocation[];
-  approvedLocations: any[];
+  detailUser: IDetailUser;
   userNotes: any[];
-  userCategories: any[];
   getUserNotes: (id) => void;
-  getUserCategories: (id) => void;
 
   getUser: () => void;
   getAllUsers: () => void;
   getUserDetail: (id: string) => void;
-  getUserApprovedLocations: (id: string) => void;
   isAuthorized: boolean;
   isLoading: boolean;
 }
@@ -43,13 +37,11 @@ const useUserStore = create(
       logo: undefined,
     },
     users: [],
-    detailUser: {} as IUser,
+    detailUser: {} as IDetailUser,
 
     isAuthorized: false,
     isLoading: true,
-    approvedLocations: {} as ILocation[],
     userNotes: {} as any[],
-    userCategories: {} as any[],
     getUser: async () => {
       try {
         set({ isLoading: true });
@@ -82,21 +74,11 @@ const useUserStore = create(
     },
     getUserDetail: async (id) => {
       try {
-        const { data } = await instance.get<IUser>(
+        const { data } = await instance.get<IDetailUser>(
           `/user/getUserDetail?id=${id}`
         );
         set({ detailUser: data });
         console.log("User: ", data);
-      } catch {
-        return [];
-      }
-    },
-    getUserApprovedLocations: async (id) => {
-      try {
-        const { data } = await instance.get<ILocation[]>(
-          `/user/getUserApprovedLocations?user_id=${id}`
-        );
-        set({ approvedLocations: data });
       } catch {
         return [];
       }
@@ -107,16 +89,6 @@ const useUserStore = create(
           `/user/getUserNotes?user_id=${id}`
         );
         set({ userNotes: data });
-      } catch {
-        return [];
-      }
-    },
-    getUserCategories: async (id) => {
-      try {
-        const { data } = await instance.get<any[]>(
-          `/category/userProductsCategory?user_id=${id}`
-        );
-        set({ userCategories: data });
       } catch {
         return [];
       }

@@ -5,7 +5,7 @@ export const BUYERS_COLUMNS: Column[] = [
   { key: "image", label: "" },
   { key: "first_name", label: "First Name" },
   { key: "last_name", label: "Last Name" },
-  { key: "region", label: "Region" },
+  { key: "state", label: "State" },
   { key: "locations", label: "Locations" },
   { key: "products", label: "Products" },
   { key: "actionButtons", label: "" },
@@ -15,7 +15,7 @@ export const BUYERS_PER_PAGE = 10;
 
 export const getTableItems = (buyers: any[]): any[] =>
   buyers.map((buyer) => ({
-    id: buyer.id, // Mandatory row ID
+    id: buyer.id,
     image: {
       type: "image",
       src: buyer.imageUrl || "default-image.jpg",
@@ -23,7 +23,7 @@ export const getTableItems = (buyers: any[]): any[] =>
     },
     first_name: buyer.first_name,
     last_name: buyer.last_name,
-    region: buyer.region,
+    state: buyer.state,
     locations:
       Array.isArray(buyer.locations) && buyer.locations.length > 0
         ? `${buyer.locations[0]?.name || JSON.stringify(buyer.locations[0])}...`
@@ -34,7 +34,7 @@ export const getTableItems = (buyers: any[]): any[] =>
         : "N/A",
     actionButtons: {
       type: "component",
-      component: ActionsButtons, // Empty button for now
+      component: ActionsButtons,
       props: {
         id: buyer.id,
       },
