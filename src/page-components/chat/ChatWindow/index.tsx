@@ -28,6 +28,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   socket,
   chatId,
   activeChat,
+  userRole,
 }) => {
   const [newMessage, setNewMessage] = useState<string>("");
 
@@ -110,7 +111,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
         ))}
       </div>
 
-      {!isCompanyChannel && (
+      {!isCompanyChannel && userRole === 1 && (
         <div className="flex items-center border-t border-gray-200 p-4">
           <input
             type="text"
