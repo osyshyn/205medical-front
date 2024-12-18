@@ -26,4 +26,7 @@ export const PATHNAMES = {
   SETTINGS: "/settings",
 
   NOT_FOUND: "/*",
+
+  RECENT_ORDERS: "/recent-orders",
+  AWAITING_APPROVAL: "/awaiting-approval",
 };

@@ -19,7 +19,7 @@ export const PageWrapper: FC<Props> = ({
     <div className="flex flex-1">
       <div
         className={cn(
-          "scrollbar flex flex-1 flex-col gap-10 overflow-y-auto px-18.75 py-10",
+          "scrollbar flex flex-1 flex-col gap-20 overflow-y-auto px-18.75 py-10",
           className
         )}
       >

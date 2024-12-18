@@ -14,9 +14,18 @@ interface FetchOrdersParams {
   product_ids?: string[];
 }
 
+interface FetchOrdersToApproveParams {
+  current_page: string;
+  year: string;
+  month: string;
+}
+
 interface IOrderStore {
   orders: IResponseWithPagination<IOrder>;
   fetchOrders: (params: FetchOrdersParams) => void;
+  approvesOrders: any;
+  fetchApprovesOrder: (params: FetchOrdersToApproveParams) => void;
+
   isLoading: boolean;
 }
 
@@ -37,6 +46,34 @@ const useOrderStore = create(
 
         set({ orders: data });
       } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+
+    approvesOrders: null,
+    fetchApprovesOrder: async (params) => {
+      set({ isLoading: true });
+      console.log("Передаваемые параметры:", params); // Для отладки
+
+      try {
+        const { data } = await instance.get<any>(
+          `order/getOrdersToApprove?&items_per_page=${ORDERS_PER_PAGE}`,
+          {
+            params: {
+              current_page: params.current_page,
+              month: params.month,
+              year: params.year,
+            },
+          }
+        );
+
+        console.log("Ответ от сервера:", data);
+
+        set({ approvesOrders: data });
+      } catch (error) {
+        console.error("Ошибка при получении ordersToApprove:", error); // Добавьте лог ошибки
         NotificationService.error();
       } finally {
         set({ isLoading: false });

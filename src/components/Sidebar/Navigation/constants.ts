@@ -102,6 +102,20 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     href: PATHNAMES.DASHBOARD,
     iconActive: DashboardActiveIcon,
   },
+  {
+    id: 2,
+    icon: DashboardIcon,
+    label: "Dashboard",
+    href: PATHNAMES.RECENT_ORDERS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "AWAITING APPROVAL",
+        href: PATHNAMES.AWAITING_APPROVAL,
+      },
+    ],
+  },
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [];

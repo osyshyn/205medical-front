@@ -18,6 +18,7 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
@@ -123,6 +124,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Settings} />,
         path: PATHNAMES.SETTINGS,
+      },
+      {
+        element: <PrivateRoute component={AwaitingApproval} />,
+        path: PATHNAMES.AWAITING_APPROVAL,
       },
     ],
   },
