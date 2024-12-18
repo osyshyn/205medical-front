@@ -34,7 +34,8 @@ export interface ChatData {
 }
 
 export const Chat: FC = () => {
-  const userId = useUserStore((state) => state.user.id);
+  const user = useUserStore((state) => state.user);
+
   const [chats, setChats] = useState<ChatData[]>([]);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
@@ -47,7 +48,7 @@ export const Chat: FC = () => {
 
     socket.on("connect", () => {
       console.log("Connected to the socket server");
-      socket.emit("get_chats", { userId });
+      socket.emit("get_chats", { userId: user.id });
     });
 
     socket.on("chat_list", (chats) => {
@@ -87,25 +88,31 @@ export const Chat: FC = () => {
         socket.disconnect();
       }
     };
-  }, [userId]);
+  }, [user.id]);
 
   const handleChatSelect = (chatId: number) => {
     setActiveChatId(chatId);
     setActiveChat(chats.find((c) => c.id === chatId) || null);
     if (socket) {
-      socket.emit("join", { chatId, userId, role: "user", type: "member" });
+      socket.emit("join", {
+        chatId,
+        userId: user.id,
+        role: "user",
+        type: "member",
+      });
     }
   };
 
-  useEffect(() => {
-    console.log("chats: ", chats);
-  }, [chats]);
-
   const sortedChats = chats.sort((a, b) => {
-    const aDate = new Date(a.last_message.created_at);
-    const bDate = new Date(b.last_message.created_at);
+    if (a.name === "Company Name") return -1; // Ensure "Company" is always first
+    if (b.name === "Company Name") return 1;
+
+    const aDate = new Date(a.last_message?.created_at || 0);
+    const bDate = new Date(b.last_message?.created_at || 0);
     return bDate.getTime() - aDate.getTime();
   });
+
+  console.log("User: ", user);
 
   return (
     <PageWrapper mainClassName="flex gap-10">
@@ -113,8 +120,9 @@ export const Chat: FC = () => {
       {activeChatId && (
         <ChatWindow
           messages={messages}
-          userId={userId}
+          userId={user.id}
           socket={socket}
+          userRole={user.role}
           chatId={activeChatId}
           activeChat={activeChat}
         />

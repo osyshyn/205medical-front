@@ -19,6 +19,7 @@ interface ChatWindowProps {
   socket: Socket | null;
   chatId: number | null;
   activeChat: ChatData | null;
+  userRole: number;
 }
 
 export const ChatWindow: FC<ChatWindowProps> = ({
@@ -29,6 +30,8 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   activeChat,
 }) => {
   const [newMessage, setNewMessage] = useState<string>("");
+
+  const isCompanyChannel = activeChat?.name === "Company Name";
 
   const sendMessage = () => {
     if (socket && chatId && newMessage.trim() !== "") {
@@ -107,28 +110,30 @@ export const ChatWindow: FC<ChatWindowProps> = ({
         ))}
       </div>
 
-      <div className="flex items-center border-t border-gray-200 p-4">
-        <input
-          type="text"
-          placeholder="Type here..."
-          className="h-12 flex-1 rounded-full border border-[#5932EA] p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5932EA]"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button
-          className="text-white ml-2 rounded-full p-2"
-          onClick={sendMessage}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="#5932EA"
-            className="h-5 w-5"
+      {!isCompanyChannel && (
+        <div className="flex items-center border-t border-gray-200 p-4">
+          <input
+            type="text"
+            placeholder="Type here..."
+            className="h-12 flex-1 rounded-full border border-[#5932EA] p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5932EA]"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button
+            className="text-white ml-2 rounded-full p-2"
+            onClick={sendMessage}
           >
-            <path d="M2 21L23 12 2 3v7l15 2-15 2v7z" />
-          </svg>
-        </button>
-      </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#5932EA"
+              className="h-5 w-5"
+            >
+              <path d="M2 21L23 12 2 3v7l15 2-15 2v7z" />
+            </svg>
+          </button>
+        </div>
+      )}
     </Window>
   );
 };

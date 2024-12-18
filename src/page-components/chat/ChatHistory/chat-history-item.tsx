@@ -49,7 +49,7 @@ export const ChatHistoryItem: FC<ChatHistoryItemProps> = ({
       {/* Время */}
       <div className="text-sm text-gray-400">
         {chat?.last_message?.created_at &&
-          formatCreatedAt(chat.last_message.created_at)}
+          formatCreatedAt(chat?.last_message.created_at)}
       </div>
     </div>
   );
