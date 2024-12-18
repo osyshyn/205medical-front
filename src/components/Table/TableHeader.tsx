@@ -1,11 +1,12 @@
 import { Column } from "src/@types/table";
 
 interface Props {
+  className?: string;
   columns: Column[];
 }
 
-export const TableHeader: React.FC<Props> = ({ columns }) => (
-  <thead className="sticky top-0 mt-10 bg-white-base">
+export const TableHeader: React.FC<Props> = ({ className, columns }) => (
+  <thead className={className}>
     <tr>
       {columns.map((column) => (
         <th

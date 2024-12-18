@@ -1,18 +1,22 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import useCartStore from "src/stores/cart-store";
-import { getItemPath } from "src/utils/getItemPath";
-import { PATHNAMES } from "src/constants/routes";
+import useModalWindowStore from "src/stores/modal-window-store";
 
 interface Props {
   id: number;
 }
 
 export const ActionsButtons: FC<Props> = ({ id }) => {
+  const openProduct = useModalWindowStore((state) => state.openProductItem);
+
   const openCard = useCartStore((state) => state.openCart);
   const addProductToCart = useCartStore((state) => state.addProductToCart);
+
+  const onView = () => {
+    openProduct(id);
+  };
 
   const onClickAdd = () => {
     addProductToCart(id);
@@ -21,9 +25,9 @@ export const ActionsButtons: FC<Props> = ({ id }) => {
 
   return (
     <div className="max-w flex justify-center gap-3">
-      <Link to={getItemPath(PATHNAMES.PRODUCT_ITEM, { id })}>
-        <Button variant={ButtonVariants.SECONDARY_SQUARE}>View</Button>
-      </Link>
+      <Button onClick={onView} variant={ButtonVariants.SECONDARY_SQUARE}>
+        View
+      </Button>
 
       <Button onClick={onClickAdd} variant={ButtonVariants.PRIMARY_SQUARE}>
         Add

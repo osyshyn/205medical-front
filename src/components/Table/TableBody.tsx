@@ -5,6 +5,7 @@ import { Loader } from "../Loader";
 import { TableRow } from "./TableRow";
 
 interface Props {
+  rowClassname?: string;
   items: Row[];
   columns: Column[];
   emptyLabel?: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export const TableBody: FC<Props> = ({
+  rowClassname,
   items,
   columns,
   emptyLabel = "No data available",
@@ -26,7 +28,12 @@ export const TableBody: FC<Props> = ({
       </tr>
     ) : items.length > 0 ? (
       items.map((item) => (
-        <TableRow key={item.id} rowData={item} columns={columns} />
+        <TableRow
+          className={rowClassname}
+          key={item.id}
+          rowData={item}
+          columns={columns}
+        />
       ))
     ) : (
       <tr>

@@ -49,8 +49,8 @@ const Shipments: FC = () => {
 
   useEffect(() => {
     loadMetrics({
-      year: selectMonthOption?.value as number,
-      month: selectYearOption?.value as number,
+      year: selectMonthOption?.value.toString(),
+      month: selectYearOption?.value.toString(),
     });
   }, [loadMetrics, selectMonthOption, selectYearOption]);
 

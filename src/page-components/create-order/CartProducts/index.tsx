@@ -1,12 +1,21 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { Button } from "src/components/Button";
+import { ButtonVariants } from "src/components/Button/types";
+import { ModalWindow } from "src/components/ModalWindow";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useCartStore from "src/stores/cart-store";
+import useModalWindowStore from "src/stores/modal-window-store";
 import { Row } from "src/@types/table";
+import { AllProducts } from "./AllProducts";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
 
 export const CartProducts: FC = () => {
+  const isOpenProductItem = useModalWindowStore(
+    (state) => state.isOpenProductItem
+  );
+
   const loadCartProduct = useCartStore((state) => state.fetchCartProduct);
   const isLoading = useCartStore((state) => state.isLoadingCartProduct);
   const cartProducts = useCartStore((state) => state.cart_products);
@@ -16,6 +25,16 @@ export const CartProducts: FC = () => {
   }, [loadCartProduct]);
 
   const items = getTableItems(cartProducts) as unknown as Row[];
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
 
   return (
     <Window>
@@ -33,6 +52,23 @@ export const CartProducts: FC = () => {
             isLoading={isLoading}
           />
         </Table>
+
+        <Button
+          className="mt-10"
+          variant={ButtonVariants.SECONDARY_SQUARE}
+          onClick={onOpen}
+        >
+          Add product
+        </Button>
+
+        <ModalWindow
+          className="w-3/4"
+          onClose={onClose}
+          isOpen={isOpen}
+          isActiveCloseClickOutside={!isOpenProductItem}
+        >
+          <AllProducts />
+        </ModalWindow>
       </div>
     </Window>
   );

@@ -2,17 +2,18 @@ import { FC, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ReactComponent as FilterIcon } from "src/assets/icons/filter.svg";
-import { IOptionSelect } from "src/@types/form";
 import { Dropdown } from "../Dropdown";
 import { Loader } from "../Loader";
-import { CheckOption } from "./CheckOption";
+import { FilterList } from "./FilterList";
+import { IFilterList } from "./types";
 
 interface Props {
-  items: IOptionSelect[];
+  className?: string;
+  list: IFilterList[];
   isLoading?: boolean;
 }
 
-export const FilterButton: FC<Props> = ({ items, isLoading }) => {
+export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const head = (
@@ -23,19 +24,23 @@ export const FilterButton: FC<Props> = ({ items, isLoading }) => {
   );
 
   return (
-    <Dropdown
-      head={head}
-      bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border"
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    >
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <ul className="flex flex-col gap-2">
-          {items?.map((item) => <CheckOption key={item.value} {...item} />)}
-        </ul>
-      )}
-    </Dropdown>
+    <div className={className}>
+      <Dropdown
+        head={head}
+        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      >
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="flex flex-col gap-3">
+            {list.map((item) => (
+              <FilterList key={item.queryKey} {...item} />
+            ))}
+          </div>
+        )}
+      </Dropdown>
+    </div>
   );
 };

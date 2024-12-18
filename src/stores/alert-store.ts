@@ -6,17 +6,25 @@ import { IAlert } from "src/@types/alert";
 import { IResponseWithPagination } from "src/@types/api";
 
 interface FetchAlertsParams {
-  type: string; // тип алерта
-  current_page: number; // текущая страница
-  items_per_page: number; // количество элементов на странице
-  search: string; // строка поиска
+  type: string;
+  current_page: number;
+  items_per_page: number;
+  search: string;
+}
+
+interface UpdateAlertParams {
+  order_pending: boolean;
+  order_rejected: boolean;
+  order_approval: boolean;
+  invoice_paid: boolean;
 }
 
 interface IAlertsStore {
-  alerts: IResponseWithPagination<IAlert>; //IAlert[];
+  alerts: IResponseWithPagination<IAlert>;
   fetchAlerts: (params: FetchAlertsParams) => void;
   isLoading: boolean;
   deleteAlert: (id: number) => void;
+  updateOrderAlertSetting: (params: UpdateAlertParams) => void;
 }
 
 export const ALERTS_PER_PAGE = 5;
@@ -29,7 +37,7 @@ const useAlertsStore = create(
       set({ isLoading: true });
       try {
         const { data } = await instance.get<IResponseWithPagination<IAlert>>(
-          `alert/get?&type=${params.type}`,
+          `alert/get`,
           { params }
         );
         set({ alerts: data });
@@ -42,10 +50,9 @@ const useAlertsStore = create(
     deleteAlert: async (id) => {
       set({ isLoading: true });
       try {
-        await instance.post("alert/delete", { id }); // Отправка запроса на удаление
+        await instance.post("alert/delete", { id });
         NotificationService.success("Alert deleted successfully.");
 
-        // Обновление локального состояния, удаляя запись из списка
         set((state) => {
           if (state.alerts) {
             const updatedAlerts = state.alerts.result.filter(
@@ -54,8 +61,8 @@ const useAlertsStore = create(
             return {
               alerts: {
                 ...state.alerts,
-                result: updatedAlerts, // Обновляем список алертов
-                count: state.alerts.count - 1, // Уменьшаем количество
+                result: updatedAlerts,
+                count: state.alerts.count - 1,
               },
             };
           }
@@ -63,6 +70,18 @@ const useAlertsStore = create(
         });
       } catch (error) {
         NotificationService.error("Failed to delete alert.");
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updateOrderAlertSetting: async (params) => {
+      set({ isLoading: true });
+      try {
+        await instance.post(`alert/updateOrderAlertSetting`, {
+          params,
+        });
+      } catch (error) {
+        NotificationService.error();
       } finally {
         set({ isLoading: false });
       }

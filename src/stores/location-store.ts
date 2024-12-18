@@ -10,7 +10,7 @@ interface ILocationStore {
   isLoadingUpdate: boolean;
   fetchLocation: () => void;
   isLoadingFetch: boolean;
-  getLocationAvailableProducts: (locationId: number) => void;
+  getLocationAvailableProducts: (locationId?: number) => void;
   available_products: number[];
   isLoadingAvailableProducts: boolean;
 }

@@ -11,6 +11,7 @@ import {
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
 import {
@@ -29,9 +30,9 @@ export const RecentOrders: FC = () => {
     useQueryParams();
 
   const year =
-    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value;
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value.toString();
   const month =
-    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value;
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value.toString();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
@@ -45,14 +46,27 @@ export const RecentOrders: FC = () => {
     });
   };
 
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
+
   useEffect(() => {
     loadOrders({
       search: debouncedSearchQuery,
       current_page: currentPage,
-      year: year as string,
-      month: month as string,
+      year: year,
+      month: month,
+      location_ids: getArrayFromStringParams(location_ids),
+      product_ids: getArrayFromStringParams(product_ids),
     });
-  }, [currentPage, debouncedSearchQuery, month, year, loadOrders]);
+  }, [
+    currentPage,
+    debouncedSearchQuery,
+    month,
+    year,
+    location_ids,
+    product_ids,
+    loadOrders,
+  ]);
 
   const ordersResponse = useOrderStore((state) => state.orders);
   const ordersResults = ordersResponse?.result || [];

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import { Button } from "src/components/Button";
@@ -26,19 +26,17 @@ export const Cart: FC = () => {
   const isCartOpen = useCartStore((state) => state.isCartOpen);
   const closeCart = useCartStore((state) => state.closeCart);
   const cart = useCartStore((state) => state.cart);
-  const updataCart = useCartStore((state) => state.updataCart);
-
-  const [initialValues, setInitialValues] = useState<IFormikValues>(
-    PURCHASE_ORDER_INITIAL_VALUES
-  );
+  const createOrder = useCartStore((state) => state.createOrder);
 
   const formikProps: FormikConfig<IFormikValues> = {
-    initialValues,
+    initialValues: PURCHASE_ORDER_INITIAL_VALUES,
     validationSchema: PURCHASE_ORDER_VALIDATION_SCHEMA,
     onSubmit: ({ orderLocation, poNumber }) => {
-      updataCart({
+      createOrder({
         location_id: orderLocation.value,
         poNumber,
+        type: 2,
+        product_to_carts: cart.product_to_carts,
         onSuccess: () => navigation(PATHNAMES.CREATE_ORDER),
       });
     },
@@ -65,25 +63,8 @@ export const Cart: FC = () => {
 
   useEffect(() => {
     fetchLocation();
-  }, []);
-
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (cart && cart.location && isFirstRender.current) {
-      setInitialValues({
-        orderLocation: {
-          value: cart.location.id,
-          label: cart.location.name,
-        },
-        poNumber: cart.po_number ?? "",
-      });
-
-      getLocationAvailableProducts(cart.location.id);
-
-      isFirstRender.current = false;
-    }
-  }, [cart]);
+    getLocationAvailableProducts();
+  }, [fetchLocation, getLocationAvailableProducts]);
 
   if (!isCartOpen || !cart) return null;
 
