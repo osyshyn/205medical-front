@@ -19,6 +19,7 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { Chat } from "src/pages/Chat";
 import { Buyers } from "src/pages/Buyers";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OrderDetail } from "src/components/OrderDetail";
@@ -96,6 +97,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Location} />,
         path: PATHNAMES.LOCATION_SLUG,
+      },
+      {
+        element: <PrivateRoute component={Chat} />,
+        path: PATHNAMES.CHAT,
       },
       {
         element: <PrivateRoute component={Products} />,
