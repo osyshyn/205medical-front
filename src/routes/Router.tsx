@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
+import path from "path";
 import {
   ChangePassword,
   CheckOtp,
@@ -18,6 +19,8 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { Buyers } from "src/pages/Buyers";
+import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
@@ -97,6 +100,16 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Products} />,
         path: PATHNAMES.PRODUCT,
+      },
+      {
+        element: <PrivateRoute component={Buyers} />,
+        path: PATHNAMES.BUYERS,
+        children: [
+          {
+            element: <PrivateRoute component={BuyerDetail} />,
+            path: PATHNAMES.BUYER_ITEM,
+          },
+        ],
       },
       {
         element: <PrivateRoute component={ProductsHistory} />,

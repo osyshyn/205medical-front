@@ -7,5 +7,13 @@ interface Props {
 }
 
 export const Window: FC<Props> = ({ children, className }) => (
-  <div className={cn("p-7.5 bg-white-base border border-gray-soft rounded-30", className)}>{children}</div>
+  <div
+    className={cn(
+      "rounded-30 bg-white-base",
+      className,
+      "border border-gray-soft p-7.5"
+    )}
+  >
+    {children}
+  </div>
 );
