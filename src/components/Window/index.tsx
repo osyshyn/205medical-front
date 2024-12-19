@@ -11,6 +11,7 @@ export const Window: FC<Props> = ({ children, className }) => (
     className={cn(
       "rounded-30 border border-gray-soft bg-white-base p-7.5",
       className
+
     )}
   >
     {children}

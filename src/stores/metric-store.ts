@@ -13,6 +13,7 @@ import {
   IMetricsData,
   IMetricsDataFromAPI,
   IMetricsFromAPI,
+  IMetricUserFromApi,
 } from "src/@types/metrics";
 
 const approvalCustomizations = [
@@ -23,6 +24,12 @@ const approvalCustomizations = [
 const shipmentCustomizations = [
   { id: 1, icon: TruckIcon, color: "#DF0404" },
   { id: 2, icon: DeliveryIcon, color: "#348ECF" },
+];
+
+const userMetricCustomizations = [
+  { id: 1, icon: MarkIcon, color: "#108A00" },
+  { id: 2, icon: ClockIcon, color: "#F4C732" },
+  { id: 3, icon: ClockIcon, color: "#DF0404" },
 ];
 
 const getMetrics = (
@@ -61,6 +68,10 @@ interface IMetricStore {
   fetchMetricOrders: (params: FetchMetricsParams) => void;
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
+
+  user_metric: IMetrics;
+  fetchUserMetric: (params: FetchMetricsParams) => void;
+
   isLoading: boolean;
 
   metrics_products: IMetricRecharts;
@@ -198,6 +209,33 @@ const useMetricStore = create(
         NotificationService.error();
       } finally {
         set({ isLoadingPurchaseHistory: false });
+      }
+    },
+    user_metric: null,
+    fetchUserMetric: async (params) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get<IMetricUserFromApi>(
+          "user/userDetailMetrics",
+          {
+            params,
+          }
+        );
+
+        console.log("data: ", data.approval_metrics);
+
+        const approvalMetrics = getMetrics(
+          data.approval_metrics,
+          userMetricCustomizations
+        );
+
+        set({ user_metric: approvalMetrics });
+
+        // set({ user_metric: data.approval_metrics });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
       }
     },
   }))
