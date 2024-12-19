@@ -2,12 +2,13 @@ import React, { FC } from "react";
 import { Window } from "src/components/Window";
 import { IMetrics } from "src/@types/metrics";
 
-export const Metric: FC<IMetrics> = ({ title, metrics }) => (
-  <Window className="relative min-w-127.5 flex-1">
+export const UserMetric: FC<IMetrics> = ({ title, metrics }) => (
+  <Window className="max-w-160 relative flex-1">
+    {" "}
+    {/* Increased max-width */}
     <h3>{title}</h3>
-
     <div className="mt-2 flex justify-between">
-      {metrics?.map(({ id, icon: Icon, color, label, value, trend }) => (
+      {metrics.map(({ id, icon: Icon, color, label, value, trend }) => (
         <div key={id} className="flex items-center gap-5">
           <div
             className="flex h-15 w-15 items-center justify-center rounded-full"
@@ -23,7 +24,7 @@ export const Metric: FC<IMetrics> = ({ title, metrics }) => (
             {trend && (
               <p className="flex gap-1 text-sm">
                 <span className="font-bold" style={{ color }}>
-                  {`${trend.value.toFixed(2)}%`}
+                  {`${trend.value}%`}
                 </span>
                 <span className="font-regular">{trend.description}</span>
               </p>
@@ -31,8 +32,6 @@ export const Metric: FC<IMetrics> = ({ title, metrics }) => (
           </div>
         </div>
       ))}
-
-      <div className="absolute bottom-10 left-1/2 top-20 w-px bg-gray-soft" />
     </div>
   </Window>
 );

@@ -48,3 +48,7 @@ export interface IMetricRecharts {
   count: number;
   metrics: IMetricRechartsData[];
 }
+
+export interface IMetricUserFromApi {
+  approval_metrics: IMetrics;
+}

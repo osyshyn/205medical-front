@@ -62,71 +62,73 @@ export const OrderDetail: FC = () => {
       isOpen
       isActivePortal
     >
-      {isLoading ? (
-        <Loader size={Sizes.XXL} />
-      ) : (
-        <div className="space-y-16">
-          <Logo />
-          <div className="mt-8 flex items-center justify-between">
-            <Title title="Order Details" subtitle="" />
-            <a
-              href="#"
-              className="flex items-center gap-1 text-blue-600 hover:underline"
-            >
-              Download PDF <DownloadIcon />
-            </a>
-          </div>
-
-          <OrderInfo
-            purchase_order_number={po_number}
-            date_expected={""}
-            sales_order_number={order_number}
-            sales_order_date={new Date(created_at).toLocaleDateString()}
-          />
-
-          <div className="mt-8 grid grid-cols-2 gap-8 border-b pb-8">
-            <ShippingAddress
-              address={destination}
-              name={`${first_name} ${last_name}`}
-              email={email}
-            />
-            <CostSummary orderToProducts={order_to_products} />
-          </div>
-          <div className="mt-8 grid grid-cols-2 gap-8 border-b pb-8">
-            <BuyerInformation
-              name={`${first_name} ${last_name}`}
-              email={email}
-            />
-
-            <OrderStatusInfo
-              approvalStatus={approval_status}
-              shipStatus={ship_status}
-              rushService={rush_service}
-            />
-          </div>
-          <div className="mt-8 grid grid-cols-2 gap-8">
-            <Window className="flex flex-col gap-4">
-              <div className="flex items-start justify-between">
-                <Title title="Item section" subtitle="" />
-              </div>
-              <Table
-                className="scrollbar max-h-[550px] overflow-y-scroll"
-                ariaLabel="Item section"
+      <Window>
+        {isLoading ? (
+          <Loader size={Sizes.XXL} />
+        ) : (
+          <div className="space-y-16">
+            <Logo />
+            <div className="mt-8 flex items-center justify-between">
+              <Title title="Order Details" subtitle="" />
+              <a
+                href="#"
+                className="flex items-center gap-1 text-blue-600 hover:underline"
               >
-                <TableHeader columns={ALL_ORDERS_DETAIL_COLUMNS} />
-                <TableBody
-                  items={tableData}
-                  columns={ALL_ORDERS_DETAIL_COLUMNS}
-                  isLoading={false}
-                />
-              </Table>
-            </Window>
-            <Window className="flex flex-col gap-4">
-              <h2 className="text-lg font-semibold">Notes</h2>
-            </Window>
+                Download PDF <DownloadIcon />
+              </a>
+            </div>
+
+            <OrderInfo
+              purchase_order_number={po_number}
+              date_expected={""}
+              sales_order_number={order_number}
+              sales_order_date={new Date(created_at).toLocaleDateString()}
+            />
+
+            <div className="mt-8 grid grid-cols-2 gap-8 border-b pb-8">
+              <ShippingAddress
+                address={destination}
+                name={`${first_name} ${last_name}`}
+                email={email}
+              />
+              <CostSummary orderToProducts={order_to_products} />
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-8 border-b pb-8">
+              <BuyerInformation
+                name={`${first_name} ${last_name}`}
+                email={email}
+              />
+
+              <OrderStatusInfo
+                approvalStatus={approval_status}
+                shipStatus={ship_status}
+                rushService={rush_service}
+              />
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-8">
+              <Window className="flex flex-col gap-4">
+                <div className="flex items-start justify-between">
+                  <Title title="Item section" subtitle="" />
+                </div>
+                <Table
+                  className="scrollbar max-h-[550px] overflow-y-scroll"
+                  ariaLabel="Item section"
+                >
+                  <TableHeader columns={ALL_ORDERS_DETAIL_COLUMNS} />
+                  <TableBody
+                    items={tableData}
+                    columns={ALL_ORDERS_DETAIL_COLUMNS}
+                    isLoading={false}
+                  />
+                </Table>
+              </Window>
+              <Window className="flex flex-col gap-4">
+                <h2 className="text-lg font-semibold">Notes</h2>
+              </Window>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </Window>
     </ModalWindow>
   );
 };

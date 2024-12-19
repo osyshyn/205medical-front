@@ -18,6 +18,7 @@ interface Props {
   className?: string;
   closeButtonClassName?: string;
   onClose: VoidFunction;
+  bgColor?: string;
 }
 
 export const ModalWindow: FC<Props> = ({
@@ -32,6 +33,8 @@ export const ModalWindow: FC<Props> = ({
   isHasOutsideCloseButton = false,
   isActiveDefaultHoverCloseButton,
   isActiveCloseClickOutside = true,
+  bgColor = "white",
+
   onClose,
 }) => {
   const modalRef = useRef(null);

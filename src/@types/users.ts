@@ -1,4 +1,6 @@
 import { Image } from ".";
+import { ILocation } from "./location";
+import { IProduct } from "./products";
 
 export interface IUser {
   id: number;
@@ -13,6 +15,11 @@ export interface IUser {
   updated_at: string;
   avatar: Image;
   logo: Image;
+}
+
+export interface IDetailUser extends IUser {
+  locations: ILocation[];
+  products: IProduct[];
 }
 
 export interface ISubUser {
