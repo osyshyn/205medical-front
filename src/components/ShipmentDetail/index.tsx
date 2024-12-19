@@ -20,7 +20,7 @@ import { OrderInfo } from "./OrderInfo";
 import { OrderStatusInfo } from "./OrderStatusInformation";
 import { ShippingAddress } from "./ShippingAddress";
 
-export const OrderDetail: FC = () => {
+export const ShipmentDetail: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 

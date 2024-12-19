@@ -23,10 +23,10 @@ import { Buyers } from "src/pages/Buyers";
 import { Chat } from "src/pages/Chat";
 import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
-import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
+import { ShipmentDetail } from "src/components/ShipmentDetail";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 
@@ -130,7 +130,7 @@ const ROUTES = [
         path: PATHNAMES.SHIPMENTS,
         children: [
           {
-            element: <PrivateRoute component={OrderDetail} />,
+            element: <PrivateRoute component={ShipmentDetail} />,
             path: PATHNAMES.ORDER_DETAIL,
           },
         ],

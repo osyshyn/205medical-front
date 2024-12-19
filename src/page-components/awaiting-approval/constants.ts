@@ -1,5 +1,6 @@
 import { IOrderToApprove } from "src/@types/orders";
 import { Column, Row } from "src/@types/table";
+import { ActionsButtons } from "../shipments/ShipmentHistory/ActionButtons";
 import { Checkbox } from "./checkbox";
 
 export const AWAITING_APPROVALS_COLUMNS: Column[] = [
@@ -12,6 +13,7 @@ export const AWAITING_APPROVALS_COLUMNS: Column[] = [
   { key: "expected_date", label: "Expected Date" },
   { key: "service_type", label: "Service Type" },
   { key: "ship_method", label: "Ship Method Req." },
+  { key: "actionButtons", label: "" }, // Добавляем колонку для ActionButtons
 ];
 
 const getServiceType = (shipMethod: string): string => {
@@ -60,4 +62,11 @@ export const getTableItems = (orders: IOrderToApprove[]): IOrderToApprove[] =>
     expected_date: getExpectedDate(order.rush_service, order.created_at),
     service_type: getServiceType(order.rush_service),
     ship_method: order.rush_service,
+    actionButtons: {
+      type: "component",
+      component: ActionsButtons,
+      props: {
+        id: order.id,
+      },
+    },
   }));

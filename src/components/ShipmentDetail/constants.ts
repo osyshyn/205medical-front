@@ -19,7 +19,7 @@ export const transformOrderToProducts = (
   orderToProducts: OrderToProduct[]
 ): Row[] => {
   return orderToProducts.map((item, index) => {
-    if (!item.product) {
+    if (!item?.product) {
       console.error(`Product is undefined at index ${index}`, item);
       return {
         id: index + 1,
