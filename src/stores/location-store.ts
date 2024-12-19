@@ -13,6 +13,7 @@ interface ILocationStore {
   getLocationAvailableProducts: (locationId?: number) => void;
   available_products: number[];
   isLoadingAvailableProducts: boolean;
+  deleteLocation: (id: number) => void;
 }
 
 const useLocationStore = create(
@@ -23,6 +24,7 @@ const useLocationStore = create(
       onSuccess?: VoidFunction
     ) => {
       const toastId = NotificationService.loading();
+      debugger;
 
       set({ isLoadingUpdate: true });
       try {
@@ -34,6 +36,10 @@ const useLocationStore = create(
           city: updatedLocation.city,
           state: updatedLocation.state,
           zip_code: updatedLocation.zip_code,
+          contact_name: updatedLocation.contact_name,
+          contact_email: updatedLocation.contact_email,
+          buyer_name: updatedLocation.buyer_name,
+          buyer_email: updatedLocation.buyer_email,
         });
 
         set((state) => ({
@@ -78,6 +84,20 @@ const useLocationStore = create(
     },
     available_products: [],
     isLoadingAvailableProducts: false,
+    deleteLocation: async (id) => {
+      set({ isLoadingUpdate: true });
+      try {
+        await instance.post("/location/delete", { id });
+        NotificationService.success("Location deleted successfully.");
+        set((state) => ({
+          locations: state.locations.filter((location) => location.id !== id),
+        }));
+      } catch (error) {
+        NotificationService.error("Failed to delete location.");
+      } finally {
+        set({ isLoadingUpdate: false });
+      }
+    },
   }))
 );
 
