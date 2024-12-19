@@ -12,7 +12,7 @@ import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
-import useOrderStore from "src/stores/order-store";
+import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
@@ -61,6 +61,7 @@ export const AwaitingApproval: FC = () => {
     });
     loadOrdersToApproves({
       current_page: "1",
+      items_per_page: ORDERS_PER_PAGE,
       month: selectMonthOption?.value.toString(),
       year: selectYearOption?.value.toString(),
     });

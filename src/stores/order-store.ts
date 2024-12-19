@@ -16,6 +16,7 @@ export interface FetchOrdersParams {
 }
 
 interface FetchOrdersToApproveParams {
+  items_per_page: number;
   current_page: string;
   year: string;
   month: string;
@@ -56,17 +57,13 @@ const useOrderStore = create(
     approvesOrders: null,
     fetchApprovesOrder: async (params) => {
       set({ isLoading: true });
-      console.log("Передаваемые параметры:", params); // Для отладки
+      console.log("параметри:", params); // Для отладки
 
       try {
-        const { data } = await instance.get<any>(
-          `order/getOrdersToApprove?&items_per_page=${ORDERS_PER_PAGE}`,
+        const { data } = await instance.get<IResponseWithPagination<IOrder>>(
+          `order/getOrdersToApprove`,
           {
-            params: {
-              current_page: params.current_page,
-              month: params.month,
-              year: params.year,
-            },
+            params,
           }
         );
 
