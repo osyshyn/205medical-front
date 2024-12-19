@@ -47,17 +47,14 @@ export const Chat: FC = () => {
     setSocket(socket);
 
     socket.on("connect", () => {
-      console.log("Connected to the socket server");
       socket.emit("get_chats", { userId: user.id });
     });
 
     socket.on("chat_list", (chats) => {
-      console.log("Received chat list:", chats);
       setChats(chats);
     });
 
     socket.on("chat_history", ({ messages, chatInfo }) => {
-      console.log("Received chat history:", messages, chatInfo);
       setMessages(messages);
     });
 
@@ -79,9 +76,7 @@ export const Chat: FC = () => {
       }
     });
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from the socket server");
-    });
+    socket.on("disconnect", () => {});
 
     return () => {
       if (socket) {
@@ -111,8 +106,6 @@ export const Chat: FC = () => {
     const bDate = new Date(b.last_message?.created_at || 0);
     return bDate.getTime() - aDate.getTime();
   });
-
-  console.log("User: ", user);
 
   return (
     <PageWrapper mainClassName="flex gap-10">

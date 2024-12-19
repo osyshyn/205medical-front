@@ -16,8 +16,11 @@ export const Checkbox: FC<CheckboxProps> = ({ orderId, ...props }) => {
   };
 
   useEffect(() => {
-    console.log("selectedOrders:", selectedOrders);
-  }, [selectedOrders]);
+    if (!selectedOrders) return;
+    setChecked(
+      selectedOrders.some((selectedOrder) => selectedOrder.id === orderId)
+    );
+  }, [selectedOrders, orderId]);
 
   return (
     <label className="inline-flex cursor-pointer items-center">
@@ -26,7 +29,7 @@ export const Checkbox: FC<CheckboxProps> = ({ orderId, ...props }) => {
         checked={checked}
         onChange={handleCheckboxChange}
         className="hidden"
-        {...props} // Передаем остальные пропсы
+        {...props}
       />
       <div
         className={`flex h-6 w-6 items-center justify-center rounded-md border-2 border-gray-700 ${

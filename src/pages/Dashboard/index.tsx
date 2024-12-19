@@ -66,8 +66,6 @@ const Dashboard: FC = () => {
     su_users_ids,
   ]);
 
-  console.log("Metrics: ", metrics);
-
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <SelectDate

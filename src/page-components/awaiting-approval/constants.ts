@@ -14,7 +14,6 @@ export const AWAITING_APPROVALS_COLUMNS: Column[] = [
   { key: "ship_method", label: "Ship Method Req." },
 ];
 
-// Допоміжна функція для визначення service_type
 const getServiceType = (shipMethod: string): string => {
   const rushMethods = [
     "2 Day",
@@ -24,10 +23,9 @@ const getServiceType = (shipMethod: string): string => {
   ];
   if (shipMethod === "Standard delivery") return "Regular Order";
   if (rushMethods.includes(shipMethod)) return "Rush Order";
-  return "Unknown"; // На випадок, якщо значення не відповідає жодному методу
+  return "Unknown";
 };
 
-// Допоміжна функція для обчислення expected_date
 const getExpectedDate = (shipMethod: string, poDate: string): string => {
   const date = new Date(poDate);
   switch (shipMethod) {
@@ -38,14 +36,15 @@ const getExpectedDate = (shipMethod: string, poDate: string): string => {
       date.setDate(date.getDate() + 1);
       break;
     default:
-      // Якщо інші методи, повертаємо PO Date як Expected Date
       return poDate;
   }
-  return date.toISOString().split("T")[0]; // Повертаємо дату у форматі YYYY-MM-DD
+  return date.toISOString().split("T")[0];
 };
 
+export const AWAITING_PER_PAGE = 10;
+
 export const getTableItems = (orders: IOrderToApprove[]): IOrderToApprove[] =>
-  orders.map((order) => ({
+  orders?.map((order) => ({
     ...order,
     checkbox: {
       type: "component",
