@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IResponseWithPagination } from "src/@types/api";
-import { IOrder } from "src/@types/orders";
+import { IOrder, IOrderToApprove } from "src/@types/orders";
 
 export interface FetchOrdersParams {
   search: string;
@@ -27,6 +27,8 @@ interface IOrderStore {
   fetchOrders: (params: FetchOrdersParams) => void;
   approvesOrders: any;
   fetchApprovesOrder: (params: FetchOrdersToApproveParams) => void;
+  selectedApprovedOrders: any[];
+  setSelectedApprovedOrders: (orders: any) => void;
 
   isLoading: boolean;
 }
@@ -76,6 +78,22 @@ const useOrderStore = create(
       } finally {
         set({ isLoading: false });
       }
+    },
+    selectedApprovedOrders: null,
+    setSelectedApprovedOrders: (order) => {
+      set((state) => {
+        const isOrderSelected = state.selectedApprovedOrders?.some(
+          (selectedOrder) => selectedOrder.id === order.id
+        );
+
+        return {
+          selectedApprovedOrders: isOrderSelected
+            ? state.selectedApprovedOrders.filter(
+                (selectedOrder) => selectedOrder.id !== order.id
+              )
+            : [...(state.selectedApprovedOrders || []), order],
+        };
+      });
     },
   }))
 );

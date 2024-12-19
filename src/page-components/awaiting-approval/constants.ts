@@ -1,7 +1,9 @@
 import { IOrderToApprove } from "src/@types/orders";
 import { Column, Row } from "src/@types/table";
+import { Checkbox } from "./checkbox";
 
 export const AWAITING_APPROVALS_COLUMNS: Column[] = [
+  { key: "checkbox", label: "" },
   { key: "buyer_name", label: "Buyer Name" },
   { key: "po_date", label: "PO Date" },
   { key: "po_number", label: "PO #" },
@@ -45,6 +47,13 @@ const getExpectedDate = (shipMethod: string, poDate: string): string => {
 export const getTableItems = (orders: IOrderToApprove[]): IOrderToApprove[] =>
   orders.map((order) => ({
     ...order,
+    checkbox: {
+      type: "component",
+      component: Checkbox,
+      props: {
+        orderId: order.id,
+      },
+    },
     buyer_name: order.buyer_name,
     po_number: order.id,
     location_name: order.location,
