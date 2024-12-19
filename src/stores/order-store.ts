@@ -60,7 +60,7 @@ const useOrderStore = create(
       console.log("параметри:", params); // Для отладки
 
       try {
-        const { data } = await instance.get<IResponseWithPagination<IOrder>>(
+        const { data } = await instance.get<IResponseWithPagination<any>>(
           `order/getOrdersToApprove`,
           {
             params,

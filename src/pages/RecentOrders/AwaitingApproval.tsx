@@ -1,4 +1,8 @@
 import { FC, useEffect } from "react";
+import {
+  AWAITING_APPROVALS_COLUMNS,
+  getTableItems,
+} from "src/page-components/awaiting-approval/constants";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Metrics } from "src/components/Metrics";
 import { SelectDate } from "src/components/SelectDate";
@@ -8,6 +12,7 @@ import {
   MONTH_OPTIONS_SELECT,
   YEARS_OPTIONS_SELECT,
 } from "src/components/SelectDate/constants";
+import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
@@ -16,6 +21,7 @@ import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
+import { Row } from "src/@types/table";
 
 export const AwaitingApproval: FC = () => {
   const loadMetrics = useMetricStore((state) => state.fetchMetricOrders);
@@ -23,7 +29,8 @@ export const AwaitingApproval: FC = () => {
   const loadOrdersToApproves = useOrderStore(
     (state) => state.fetchApprovesOrder
   );
-  const ordersToApproves = useOrderStore((state) => state.approvesOrders);
+  const ordersToApprove = useOrderStore((state) => state.approvesOrders);
+
   const isLoading = useMetricStore((state) => state.isLoading);
 
   const { getQueryParam, setMultipleQueryParams } = useQueryParams();
@@ -52,6 +59,13 @@ export const AwaitingApproval: FC = () => {
   const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
   const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
 
+  const year =
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+    getCurrentYearOption().value.toString();
+  const month =
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+    getCurrentMonthOption().value.toString();
+
   useEffect(() => {
     loadMetrics({
       month: selectMonthOption?.value.toString(),
@@ -60,10 +74,10 @@ export const AwaitingApproval: FC = () => {
       su_users_ids: getArrayFromStringParams(su_users_ids),
     });
     loadOrdersToApproves({
-      current_page: "1",
+      month: month.toString(),
+      year: year.toString(),
       items_per_page: ORDERS_PER_PAGE,
-      month: selectMonthOption?.value.toString(),
-      year: selectYearOption?.value.toString(),
+      current_page: "1",
     });
   }, [
     loadMetrics,
@@ -74,7 +88,15 @@ export const AwaitingApproval: FC = () => {
     location_ids,
   ]);
 
-  console.log("Orders to Approves: ", ordersToApproves);
+  const ordersToApproves = useOrderStore((state) => state.approvesOrders);
+  const ordersToApprovesResult = ordersToApproves?.result;
+  const ordersLength = ordersToApproves?.total || 0;
+
+  console.log("ordersToApprovesResult:", ordersToApprovesResult);
+
+  const items = getTableItems(ordersToApprovesResult || []) as unknown as Row[];
+
+  console.log("items:", items);
 
   return (
     <PageWrapper className="flex flex-col">
@@ -89,6 +111,15 @@ export const AwaitingApproval: FC = () => {
 
       <Window className="mt-10">
         <Title title="Awaiting approval" subtitle="" />
+
+        <Table>
+          <TableHeader columns={AWAITING_APPROVALS_COLUMNS} />
+          <TableBody
+            items={items}
+            columns={AWAITING_APPROVALS_COLUMNS}
+            isLoading={isLoading}
+          />
+        </Table>
       </Window>
     </PageWrapper>
   );

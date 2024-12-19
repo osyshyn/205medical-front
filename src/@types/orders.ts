@@ -1,3 +1,4 @@
+import { IProduct } from "./products";
 import { StyledValue } from "./table";
 import { IUser } from "./users";
 
@@ -18,6 +19,16 @@ export interface IOrder {
   status: number;
   updated_at: string;
   user_id: number;
+}
+
+export interface IOrderToApprove {
+  id: number;
+  buyer_name: string;
+  created_at: string;
+  expected_delivery_date: string;
+  location: string;
+  products: IProduct[];
+  rush_service: string;
 }
 
 export enum IStatusesApproval {
