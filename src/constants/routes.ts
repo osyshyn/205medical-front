@@ -25,6 +25,10 @@ export const PATHNAMES = {
   CHAT: "/chat",
   SETTINGS: "/settings",
 
+  // ADMIN
+  BUYERS: "/buyers",
+  BUYER_ITEM: "/buyers/:id",
+
   NOT_FOUND: "/*",
 
   RECENT_ORDERS: "/recent-orders",
