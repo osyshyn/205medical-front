@@ -109,6 +109,21 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Buyers Alerts",
+        href: PATHNAMES.BUYER_ITEM,
+      },
+    ],
+  },
+  {
+    id: 3,
+    icon: LocationIcon,
+
+    label: "Location",
+    href: PATHNAMES.LOCATION,
+    iconActive: LocationActiveIcon,
   },
 ];
 

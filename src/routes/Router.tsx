@@ -19,8 +19,8 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
-import { Chat } from "src/pages/Chat";
 import { Buyers } from "src/pages/Buyers";
+import { Chat } from "src/pages/Chat";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
