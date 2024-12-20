@@ -39,6 +39,9 @@ export const EditLocation: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.products);
   const updateLocation = useLocationStore((state) => state.updateDeepLocation);
+  const updateLocationProducts = useLocationStore(
+    (state) => state.updateLocationProducts
+  );
 
   const [selectedOption, setSelectedOption] = useState<IOptionSelect | null>(
     null
@@ -51,7 +54,6 @@ export const EditLocation: FC = () => {
 
   useEffect(() => {
     if (selectedOption?.value) {
-      //   console.log("selectedOption.value: ", selectedOption.value);
       loadLocation(Number(selectedOption.value)); // Pass the id of the selected location
       loadAvailableProducts(Number(selectedOption.value));
     }
@@ -92,7 +94,6 @@ export const EditLocation: FC = () => {
   });
 
   const onSubmit = async (values: IUpdateLocation) => {
-    console.log("Selected categories:", selectedCategories);
     const fullData: IUpdateLocation = {
       ...values,
       id: currentLocation?.result.id, // Assuming `currentLocation.result` has the `id`
@@ -103,6 +104,10 @@ export const EditLocation: FC = () => {
     };
 
     await updateLocation(fullData, () => {
+      updateLocationProducts({
+        id: currentLocation?.result.id,
+        location_products_id: selectedCategories,
+      });
       loadLocations();
     });
   };
@@ -121,8 +126,7 @@ export const EditLocation: FC = () => {
   }));
 
   useEffect(() => {
-    if (currentLocation && currentLocation?.result) {
-      console.log("Loaded location:", currentLocation);
+    if (currentLocation && currentLocation?.result && availableProducts) {
       const updatedValues: ICreateLocation = {
         name: currentLocation?.result.name || "",
         address_1: currentLocation?.result.address_1 || "",
@@ -138,20 +142,17 @@ export const EditLocation: FC = () => {
         location_users_id: [],
       };
 
-      setSelectedCategories(updatedValues.location_products_id);
+      setSelectedCategories(availableProducts);
 
-      console.log("Updated form values:", updatedValues);
       formik.setValues(updatedValues);
     }
-  }, [currentLocation]);
+  }, [currentLocation, availableProducts]);
 
   const handleCategoryChange = (id: number) => {
     setSelectedCategories((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
-
-  console.log("selectedCategories: ", selectedCategories);
 
   return (
     <PageWrapper>

@@ -50,3 +50,8 @@ export interface IUpdateLocation {
   location_users_id: number[]; // Массив идентификаторов пользователей, привязанных к локации
   location_products_id: number[]; // Массив идентификаторов продуктов, привязанных к локации
 }
+
+export interface IUpdateLocationProduct {
+  id: number;
+  location_products_id: number[];
+}

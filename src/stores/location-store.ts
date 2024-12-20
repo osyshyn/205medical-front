@@ -7,6 +7,7 @@ import {
   ILocation,
   IResponseLocation,
   IUpdateLocation,
+  IUpdateLocationProduct,
 } from "src/@types/location";
 
 interface ILocationStore {
@@ -15,6 +16,9 @@ interface ILocationStore {
   updateDeepLocation: (
     updatedLocation: IUpdateLocation,
     onSuccess: VoidFunction
+  ) => void;
+  updateLocationProducts: (
+    updateLocationProducts: IUpdateLocationProduct
   ) => void;
   isLoadingUpdate: boolean;
   fetchLocation: () => void;
@@ -73,11 +77,10 @@ const useLocationStore = create(
       onSuccess?: VoidFunction
     ) => {
       const toastId = NotificationService.loading();
-      debugger;
-      console.log("Updated Location: ", updatedLocation);
+      // debugger;
       set({ isLoadingUpdate: true });
       try {
-        await instance.post<ILocation>("/location/update", {
+        await instance.post<IUpdateLocation>("/location/update", {
           id: updatedLocation.id,
           name: updatedLocation.name,
           address_1: updatedLocation.address_1,
@@ -95,6 +98,29 @@ const useLocationStore = create(
 
         NotificationService.updateToSuccess(toastId);
         onSuccess();
+      } catch (error) {
+        NotificationService.updateToError(toastId);
+      } finally {
+        set({ isLoadingUpdate: false });
+      }
+    },
+    updateLocationProducts: async (
+      updateLocationProducts: IUpdateLocationProduct
+    ) => {
+      const toastId = NotificationService.loading();
+      // debugger;
+      console.log("Updated Location: ", updateLocationProducts);
+      set({ isLoadingUpdate: true });
+      try {
+        await instance.post<IUpdateLocationProduct>(
+          "/location/addLocationProducts",
+          {
+            id: updateLocationProducts.id,
+            location_products_id: updateLocationProducts.location_products_id,
+          }
+        );
+
+        NotificationService.updateToSuccess(toastId);
       } catch (error) {
         NotificationService.updateToError(toastId);
       } finally {
@@ -150,6 +176,8 @@ const useLocationStore = create(
           "/location/createLocation",
           newLocation
         );
+
+        console.log("Data: ", data);
 
         NotificationService.success("Location created successfully.");
         set((state) => ({
