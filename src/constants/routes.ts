@@ -22,6 +22,7 @@ export const PATHNAMES = {
   LOCATION: "/location",
   LOCATION_SLUG: "/location/:slug?",
   ADD_LOCATION: "/location/add",
+  EDIT_LOCATION: "/location/edit/:slug",
 
   CHAT: "/chat",
   SETTINGS: "/settings",

@@ -2,13 +2,28 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { ICreateLocation, ILocation } from "src/@types/location";
+import {
+  ICreateLocation,
+  ILocation,
+  IResponseLocation,
+  IUpdateLocation,
+  IUpdateLocationProduct,
+} from "src/@types/location";
 
 interface ILocationStore {
   locations: ILocation[];
   updateLocation: (updatedLocation: ILocation, onSuccess: VoidFunction) => void;
+  updateDeepLocation: (
+    updatedLocation: IUpdateLocation,
+    onSuccess: VoidFunction
+  ) => void;
+  updateLocationProducts: (
+    updateLocationProducts: IUpdateLocationProduct
+  ) => void;
   isLoadingUpdate: boolean;
   fetchLocation: () => void;
+  location: IResponseLocation;
+  fetchLocationById: (id: number) => void;
   isLoadingFetch: boolean;
   getLocationAvailableProducts: (locationId?: number) => void;
   available_products: number[];
@@ -51,6 +66,61 @@ const useLocationStore = create(
 
         NotificationService.updateToSuccess(toastId);
         onSuccess();
+      } catch (error) {
+        NotificationService.updateToError(toastId);
+      } finally {
+        set({ isLoadingUpdate: false });
+      }
+    },
+    updateDeepLocation: async (
+      updatedLocation: IUpdateLocation,
+      onSuccess?: VoidFunction
+    ) => {
+      const toastId = NotificationService.loading();
+      // debugger;
+      set({ isLoadingUpdate: true });
+      try {
+        await instance.post<IUpdateLocation>("/location/update", {
+          id: updatedLocation.id,
+          name: updatedLocation.name,
+          address_1: updatedLocation.address_1,
+          address_2: updatedLocation.address_2,
+          city: updatedLocation.city,
+          state: updatedLocation.state,
+          zip_code: updatedLocation.zip_code,
+          contact_name: updatedLocation.contact_name,
+          contact_email: updatedLocation.contact_email,
+          buyer_name: updatedLocation.buyer_name,
+          buyer_email: updatedLocation.buyer_email,
+          location_products_id: updatedLocation.location_products_id,
+          location_users_id: updatedLocation.location_users_id,
+        });
+
+        NotificationService.updateToSuccess(toastId);
+        onSuccess();
+      } catch (error) {
+        NotificationService.updateToError(toastId);
+      } finally {
+        set({ isLoadingUpdate: false });
+      }
+    },
+    updateLocationProducts: async (
+      updateLocationProducts: IUpdateLocationProduct
+    ) => {
+      const toastId = NotificationService.loading();
+      // debugger;
+      console.log("Updated Location: ", updateLocationProducts);
+      set({ isLoadingUpdate: true });
+      try {
+        await instance.post<IUpdateLocationProduct>(
+          "/location/addLocationProducts",
+          {
+            id: updateLocationProducts.id,
+            location_products_id: updateLocationProducts.location_products_id,
+          }
+        );
+
+        NotificationService.updateToSuccess(toastId);
       } catch (error) {
         NotificationService.updateToError(toastId);
       } finally {
@@ -107,6 +177,8 @@ const useLocationStore = create(
           newLocation
         );
 
+        console.log("Data: ", data);
+
         NotificationService.success("Location created successfully.");
         set((state) => ({
           locations: [...state.locations, data],
@@ -115,6 +187,20 @@ const useLocationStore = create(
         NotificationService.error("Failed to create location.");
       } finally {
         set({ isLoadingUpdate: false });
+      }
+    },
+    location: {} as IResponseLocation,
+    fetchLocationById: async (id) => {
+      set({ isLoadingFetch: true });
+      try {
+        const { data } = await instance.get<IResponseLocation>(
+          `/location/getLocation/${id}`
+        );
+        set({ location: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingFetch: false });
       }
     },
   }))
