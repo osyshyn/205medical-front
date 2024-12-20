@@ -2,13 +2,19 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { ICreateLocation, ILocation } from "src/@types/location";
+import {
+  ICreateLocation,
+  ILocation,
+  IResponseLocation,
+} from "src/@types/location";
 
 interface ILocationStore {
   locations: ILocation[];
   updateLocation: (updatedLocation: ILocation, onSuccess: VoidFunction) => void;
   isLoadingUpdate: boolean;
   fetchLocation: () => void;
+  location: IResponseLocation;
+  fetchLocationById: (id: number) => void;
   isLoadingFetch: boolean;
   getLocationAvailableProducts: (locationId?: number) => void;
   available_products: number[];
@@ -115,6 +121,20 @@ const useLocationStore = create(
         NotificationService.error("Failed to create location.");
       } finally {
         set({ isLoadingUpdate: false });
+      }
+    },
+    location: {} as IResponseLocation,
+    fetchLocationById: async (id) => {
+      set({ isLoadingFetch: true });
+      try {
+        const { data } = await instance.get<IResponseLocation>(
+          `/location/getLocation/${id}`
+        );
+        set({ location: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoadingFetch: false });
       }
     },
   }))

@@ -15,6 +15,10 @@ export interface ILocation {
   updated_at: string;
 }
 
+export interface IResponseLocation {
+  result: ILocation;
+}
+
 export interface ICreateLocation {
   name: string;
   address_1: string;
