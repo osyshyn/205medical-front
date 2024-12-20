@@ -21,6 +21,7 @@ import {
 } from "src/pages";
 import { Buyers } from "src/pages/Buyers";
 import { Chat } from "src/pages/Chat";
+import { AddLocation } from "src/pages/Location/AddLocation";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
@@ -141,6 +142,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Settings} />,
         path: PATHNAMES.SETTINGS,
+      },
+      {
+        element: <PrivateRoute component={AddLocation} />,
+        path: PATHNAMES.ADD_LOCATION,
       },
     ],
   },

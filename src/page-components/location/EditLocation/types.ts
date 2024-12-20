@@ -15,3 +15,8 @@ export type INoEditFields = Omit<
   | "state"
   | "zip_code"
 >;
+
+export type IAddFormikValues = Omit<
+  ILocation,
+  "slug" | "contact_name" | "contact_email" | "buyer_name" | "buyer_email"
+>;
