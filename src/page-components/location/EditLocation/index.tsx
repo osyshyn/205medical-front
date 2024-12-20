@@ -103,16 +103,18 @@ export const EditLocation: FC = () => {
         <Form>
           {renderFormFields()}
 
-          <Button
-            className="mt-10"
-            type="submit"
-            variant={ButtonVariants.PRIMARY}
-            size={Sizes.S}
-            isDisabled={isLoading}
-            isLoading={isLoading}
-          >
-            Submit
-          </Button>
+          {isEdit && (
+            <Button
+              className="mt-10"
+              type="submit"
+              variant={ButtonVariants.PRIMARY}
+              size={Sizes.S}
+              isDisabled={isLoading}
+              isLoading={isLoading}
+            >
+              Submit
+            </Button>
+          )}
         </Form>
       </FormikProvider>
     </Window>
