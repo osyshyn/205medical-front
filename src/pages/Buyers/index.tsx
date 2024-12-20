@@ -22,8 +22,6 @@ export const Buyers: FC = () => {
 
   const users = useUserStore((state) => state.users);
 
-  console.log("users: ", users);
-
   const items = getTableItems(users) as unknown as Row[];
 
   const categories = useCategoryStore(

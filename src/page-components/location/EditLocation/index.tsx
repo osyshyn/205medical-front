@@ -103,7 +103,7 @@ export const EditLocation: FC = () => {
         <Form>
           {renderFormFields()}
 
-          {isEditable && (
+          {isEdit && (
             <Button
               className="mt-10"
               type="submit"

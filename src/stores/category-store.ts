@@ -7,6 +7,8 @@ import { ICategory } from "src/@types/categories";
 interface ICategoryStore {
   user_products_categories: ICategory[];
   fetchCategories: () => void;
+  categories: ICategory[];
+  fetchAllcategories: () => void;
   isLoading: boolean;
 }
 
@@ -22,6 +24,20 @@ const useCategoryStore = create(
         );
 
         set({ user_products_categories: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    categories: null,
+    fetchAllcategories: async () => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get<ICategory[]>(
+          "category/getCategories"
+        );
+        set({ categories: data });
       } catch (error) {
         NotificationService.error();
       } finally {

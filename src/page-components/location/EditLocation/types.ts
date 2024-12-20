@@ -1,4 +1,4 @@
-import { ILocation } from "src/@types/location";
+import { ICreateLocation, ILocation } from "src/@types/location";
 
 export type IFormikValues = Omit<
   ILocation,
@@ -14,4 +14,9 @@ export type INoEditFields = Omit<
   | "city"
   | "state"
   | "zip_code"
+>;
+
+export type IAddFormikValues = Omit<
+  ICreateLocation,
+  "slug" | "contact_name" | "contact_email" | "buyer_name" | "buyer_email"
 >;

@@ -2,7 +2,7 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { ILocation } from "src/@types/location";
+import { ICreateLocation, ILocation } from "src/@types/location";
 
 interface ILocationStore {
   locations: ILocation[];
@@ -14,6 +14,7 @@ interface ILocationStore {
   available_products: number[];
   isLoadingAvailableProducts: boolean;
   deleteLocation: (id: number) => void;
+  createLocation: (newLocation: ICreateLocation) => void;
 }
 
 const useLocationStore = create(
@@ -94,6 +95,24 @@ const useLocationStore = create(
         }));
       } catch (error) {
         NotificationService.error("Failed to delete location.");
+      } finally {
+        set({ isLoadingUpdate: false });
+      }
+    },
+    createLocation: async (newLocation) => {
+      set({ isLoadingUpdate: true });
+      try {
+        const { data } = await instance.post<ILocation>(
+          "/location/createLocation",
+          newLocation
+        );
+
+        NotificationService.success("Location created successfully.");
+        set((state) => ({
+          locations: [...state.locations, data],
+        }));
+      } catch (error) {
+        NotificationService.error("Failed to create location.");
       } finally {
         set({ isLoadingUpdate: false });
       }

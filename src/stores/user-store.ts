@@ -82,7 +82,6 @@ const useUserStore = create(
           `/user/getUserDetail?id=${id}`
         );
         set({ detailUser: data });
-        console.log("User: ", data);
       } catch {
         return [];
       }

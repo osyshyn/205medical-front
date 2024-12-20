@@ -124,6 +124,13 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     label: "Location",
     href: PATHNAMES.LOCATION,
     iconActive: LocationActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Add a new location",
+        href: PATHNAMES.ADD_LOCATION,
+      },
+    ],
   },
 ];
 
