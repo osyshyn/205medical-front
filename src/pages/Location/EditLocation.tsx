@@ -18,7 +18,11 @@ import { Window } from "src/components/Window";
 import useLocationStore from "src/stores/location-store";
 import useProductStore from "src/stores/product-store";
 import { IOptionSelect } from "src/@types/form";
-import { ICreateLocation, ILocation } from "src/@types/location";
+import {
+  ICreateLocation,
+  ILocation,
+  IUpdateLocation,
+} from "src/@types/location";
 import { Sizes } from "src/@types/sizes";
 
 export const EditLocation: FC = () => {
@@ -34,7 +38,7 @@ export const EditLocation: FC = () => {
   );
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.products);
-  const updateLocation = useLocationStore((state) => state.updateLocation);
+  const updateLocation = useLocationStore((state) => state.updateDeepLocation);
 
   const [selectedOption, setSelectedOption] = useState<IOptionSelect | null>(
     null
@@ -87,18 +91,19 @@ export const EditLocation: FC = () => {
       .required("Buyer Email is required"),
   });
 
-  const onSubmit = async (values: ICreateLocation) => {
-    const fullData: ILocation = {
+  const onSubmit = async (values: IUpdateLocation) => {
+    console.log("Selected categories:", selectedCategories);
+    const fullData: IUpdateLocation = {
       ...values,
       id: currentLocation?.result.id, // Assuming `currentLocation.result` has the `id`
       slug: currentLocation?.result.slug, // Similarly for slug
-      created_at: currentLocation?.result.created_at, // Use the current location's timestamp
-      updated_at: new Date().toISOString(), // New update timestamp
       address_2: values.address_2 || "", // Ensure `address_2` is always provided
+      location_products_id: selectedCategories,
+      location_users_id: selectedUsers,
     };
 
     await updateLocation(fullData, () => {
-      // Callback or additional success actions
+      loadLocations();
     });
   };
 
