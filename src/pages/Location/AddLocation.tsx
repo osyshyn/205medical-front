@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -13,22 +13,57 @@ import {
 } from "src/page-components/location/EditLocation/types";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
+import { Checkbox } from "src/components/CheckBox";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
+import useCategoryStore from "src/stores/category-store";
+import useLocationStore from "src/stores/location-store";
+import useProductStore from "src/stores/product-store";
+import useUserStore from "src/stores/user-store";
+import { ICreateLocation } from "src/@types/location";
 import { Sizes } from "src/@types/sizes";
 
 export const AddLocation: FC = () => {
-  const initialValues: IAddFormikValues = {
-    id: 0, // default value for id
+  const createLocation = useLocationStore((state) => state.createLocation);
+  const loadProducts = useProductStore((state) => state.fetchProducts);
+  const products = useProductStore((state) => state.products);
+  const getSubUsers = useUserStore((state) => state.getSubUsers);
+  const subUsers = useUserStore((state) => state.subUsers);
+
+  useEffect(() => {
+    loadProducts();
+    getSubUsers();
+  }, [getSubUsers, loadProducts]);
+
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+
+  const handleCategoryChange = (id: number) => {
+    setSelectedCategories((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleUserChange = (id: number) => {
+    setSelectedUsers((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const initialValues: ICreateLocation = {
     name: "",
     address_1: "",
     address_2: "",
     city: "",
     state: "",
     zip_code: "",
-    created_at: "", // default value for created_at
-    updated_at: "", // default value for updated_at
+    contact_name: "",
+    contact_email: "",
+    buyer_name: "",
+    buyer_email: "",
+    location_products_id: [],
+    location_users_id: [],
   };
 
   const validationSchema = Yup.object({
@@ -37,11 +72,28 @@ export const AddLocation: FC = () => {
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
     zip_code: Yup.string().required("Zip code is required"),
+    contact_name: Yup.string().required("Contact Name is required"),
+    contact_email: Yup.string()
+      .email("Invalid email format")
+      .required("Contact Email is required"),
+    buyer_name: Yup.string().required("Buyer Name is required"),
+    buyer_email: Yup.string()
+      .email("Invalid email format")
+      .required("Buyer Email is required"),
   });
 
-  const onSubmit = async (values: IAddFormikValues) => {
-    console.log("Form values submitted:", values);
-    // Add your form submission logic here
+  const onSubmit = async (values: ICreateLocation) => {
+    const fullData: ICreateLocation = {
+      ...values,
+      contact_name: values.contact_name || "",
+      contact_email: values.contact_email || "",
+      buyer_name: values.buyer_name || "",
+      buyer_email: values.buyer_email || "",
+      location_products_id: selectedCategories,
+      location_users_id: selectedUsers,
+    };
+
+    await createLocation(fullData);
   };
 
   const formikProps: FormikConfig<IAddFormikValues> = {
@@ -63,36 +115,54 @@ export const AddLocation: FC = () => {
             <hr className="col-span-4 my-6 border-t border-gray-300" />
             <RenderAddFormFields fields={ADD_LOCATION_FORM_FIELDS_S} />
 
-            <div className="col-span-4">
-              <Window className="flex min-h-62.5 justify-between !p-0">
-                <div className="p-7.5">
-                  <Title title="Appoved Products" subtitle="" />
-                  <ul>
-                    <li>Drug screening</li>
-                    <li>Drug screening</li>
-                    <li>Drug screening</li>
-                  </ul>
+            <div className="col-span-4 mt-5">
+              <Window className="flex max-h-62.5 justify-between !p-0">
+                <div className="w-1/2 overflow-auto p-7.5">
+                  <Title title="Approved Products" subtitle="" />
+                  <div className="mt-5 flex flex-col gap-4">
+                    {products?.map((product) => (
+                      <Checkbox
+                        key={product.id}
+                        label={product.name}
+                        checked={selectedCategories.includes(product.id)}
+                        onChange={() => handleCategoryChange(product.id)}
+                      />
+                    ))}
+                  </div>
                 </div>
 
-                <Window className="min-h-full w-1/2">
+                <Window className="min-h-full w-1/2 overflow-auto">
                   <Title title="Approved Users" subtitle="" />
-                  <ul>
-                    <li>Drug screening</li>
-                    <li>Drug screening</li>
-                    <li>Drug screening</li>
-                  </ul>
+                  <div className="flex flex-col gap-4">
+                    {subUsers?.map((user) => (
+                      <Checkbox
+                        key={user.id}
+                        label={`${user.first_name} ${user.last_name}`}
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => handleUserChange(user.id)}
+                      />
+                    ))}
+                  </div>
                 </Window>
               </Window>
             </div>
 
-            <div className="col-span-4 mt-4 flex justify-end">
+            <div className="col-span-4 mt-4 flex justify-end gap-5">
               <Button
                 className="mt-10"
                 type="submit"
                 variant={ButtonVariants.PRIMARY}
                 size={Sizes.S}
               >
-                Submit
+                Save
+              </Button>
+              <Button
+                className="mt-10"
+                type="button"
+                variant={ButtonVariants.SECONDARY}
+                size={Sizes.S}
+              >
+                Cancel
               </Button>
             </div>
           </Form>
