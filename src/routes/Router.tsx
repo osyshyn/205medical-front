@@ -98,7 +98,7 @@ const ROUTES = [
       },
       {
         element: <PrivateRoute component={Location} />,
-        path: PATHNAMES.LOCATION_SLUG,
+        path: PATHNAMES.LOCATION_ID,
       },
       {
         element: <PrivateRoute component={Chat} />,

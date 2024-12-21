@@ -4,19 +4,18 @@ import { PATHNAMES } from "src/constants/routes";
 
 export const useActiveLocation = () => {
   const locations = useLocationStore((state) => state.locations);
-  const { slug } = useParams<{ slug?: string }>();
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
 
-  const activeSlug = slug || locations[0]?.slug;
+  const activeId = id || locations[0]?.id;
 
   const activeLocation = locations.find(
-    (location) => location.slug === activeSlug
+    (location) => location.id === Number(activeId)
   );
 
-  //temp
   if (!activeLocation) {
     navigate(PATHNAMES.NOT_FOUND);
   }
 
-  return { locations, activeSlug, activeLocation };
+  return { locations, activeId, activeLocation };
 };
