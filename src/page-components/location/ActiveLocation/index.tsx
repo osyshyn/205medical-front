@@ -4,7 +4,7 @@ import { useActiveLocation } from "src/hooks/useActiveLocation";
 import { LocationButton } from "./LocationButton";
 
 export const ActiveLocation: FC = () => {
-  const { locations, activeSlug } = useActiveLocation();
+  const { locations, activeId } = useActiveLocation();
 
   return (
     <Window className="w-1/3">
@@ -12,8 +12,8 @@ export const ActiveLocation: FC = () => {
       <div className="mt-5 flex flex-col gap-3">
         {locations.map((location) => (
           <LocationButton
-            key={location.slug}
-            isActive={location.slug === activeSlug}
+            key={location.id}
+            isActive={location.id === Number(activeId)}
             location={location}
           />
         ))}
