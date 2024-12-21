@@ -124,6 +124,26 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     href: PATHNAMES.BUYERS,
     iconActive: DashboardActiveIcon,
   },
+  {
+    id: 3,
+    icon: LocationIcon,
+
+    label: "Location",
+    href: PATHNAMES.LOCATION,
+    iconActive: LocationActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Edit a location",
+        href: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        id: 2,
+        label: "Add a new location",
+        href: PATHNAMES.ADD_LOCATION,
+      },
+    ],
+  },
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [];

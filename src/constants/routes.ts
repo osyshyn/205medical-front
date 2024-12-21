@@ -20,7 +20,9 @@ export const PATHNAMES = {
   ORDER_DETAIL: "/shipments/:id",
 
   LOCATION: "/location",
-  LOCATION_SLUG: "/location/:slug?",
+  LOCATION_ID: "/location/:id?",
+  ADD_LOCATION: "/location/add",
+  EDIT_LOCATION: "/location/edit",
 
   CHAT: "/chat",
   SETTINGS: "/settings",

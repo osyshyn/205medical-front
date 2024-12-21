@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
-import useCartStore from "src/stores/cart-store";
+import useProductListStore from "src/stores/product-list-store";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 
 interface Props {
@@ -8,12 +8,12 @@ interface Props {
 }
 
 export const DeleteButton: FC<Props> = ({ id }) => {
-  const removeProductFromCart = useCartStore(
-    (state) => state.removeProductFromCart
+  const deleteProductInList = useProductListStore(
+    (state) => state.deleteProductInList
   );
 
   const removeProduct = () => {
-    removeProductFromCart(id);
+    deleteProductInList(id);
   };
 
   return (

@@ -5,8 +5,8 @@ import { ModalWindow } from "src/components/ModalWindow";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
-import useCartStore from "src/stores/cart-store";
 import useModalWindowStore from "src/stores/modal-window-store";
+import useProductListStore from "src/stores/product-list-store";
 import { Row } from "src/@types/table";
 import { AllProducts } from "./AllProducts";
 import { CART_PRODUCTS_COLUMNS, getTableItems } from "./constants";
@@ -16,15 +16,9 @@ export const CartProducts: FC = () => {
     (state) => state.isOpenProductItem
   );
 
-  const loadCartProduct = useCartStore((state) => state.fetchCartProduct);
-  const isLoading = useCartStore((state) => state.isLoadingCartProduct);
-  const cartProducts = useCartStore((state) => state.cart_products);
-
-  useEffect(() => {
-    loadCartProduct();
-  }, [loadCartProduct]);
-
-  const items = getTableItems(cartProducts) as unknown as Row[];
+  const loadList = useProductListStore((state) => state.fetchList);
+  const list = useProductListStore((state) => state.list);
+  const isLoading = useProductListStore((state) => state.isLoading);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,6 +29,13 @@ export const CartProducts: FC = () => {
   const onClose = () => {
     setIsOpen(false);
   };
+
+  const product_to_lists = list?.product_to_lists || [];
+  const items = getTableItems(product_to_lists) as unknown as Row[];
+
+  useEffect(() => {
+    loadList();
+  }, [loadList]);
 
   return (
     <Window>

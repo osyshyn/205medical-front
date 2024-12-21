@@ -14,13 +14,13 @@ interface Props {
 
 export const LocationButton: FC<Props> = ({
   isActive,
-  location: { name, slug },
+  location: { name, id },
 }) => (
   <Link
     className={cn("flex justify-between gap-5 border-b pb-3.5 pt-2.5", {
       "border-b-purple-base": isActive,
     })}
-    to={getItemPath(PATHNAMES.LOCATION_SLUG, { slug })}
+    to={getItemPath(PATHNAMES.LOCATION_ID, { id })}
   >
     <span
       className={cn("line-clamp-1 text-sm font-medium text-gray-regular", {
