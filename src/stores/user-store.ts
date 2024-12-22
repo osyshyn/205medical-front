@@ -3,8 +3,15 @@ import { instance } from "src/services/api-client";
 import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { NotificationService } from "src/helpers/notifications";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IAddUser, IDetailUser, ISubUser, IUser } from "src/@types/users";
+import {
+  IAddUser,
+  IDetailUser,
+  IEditUser,
+  ISubUser,
+  IUser,
+} from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
@@ -20,6 +27,7 @@ interface IUserStore {
   getUserDetail: (id: string) => void;
 
   createUser: (data: IAddUser) => void;
+  updateUser: (data: IEditUser) => void;
 
   isAuthorized: boolean;
   isLoading: boolean;
@@ -113,6 +121,14 @@ const useUserStore = create(
     createUser: async (data) => {
       try {
         await instance.post("/user/createUser", data);
+      } catch {
+        return [];
+      }
+    },
+    updateUser: async (data) => {
+      try {
+        await instance.post("/user/updateUser", data);
+        NotificationService.success("User updated successfully.");
       } catch {
         return [];
       }

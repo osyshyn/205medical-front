@@ -20,6 +20,7 @@ import {
   Shipments,
 } from "src/pages";
 import { Buyers } from "src/pages/Buyers";
+import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
@@ -151,6 +152,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={EditLocation} />,
         path: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={EditBuyer} />,
+        path: PATHNAMES.EDIT_BUYER,
       },
     ],
   },
