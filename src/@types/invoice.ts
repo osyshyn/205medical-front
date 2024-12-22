@@ -38,13 +38,13 @@ export const INVOICE_STATUS: Record<IStatusesInvoice, StyledValue> = {
   },
   [IStatusesInvoice.OPEN]: {
     style: {
-      color: "#FFB700",
+      color: "#DF0404",
     },
     value: "Open",
   },
   [IStatusesInvoice.NOT_ISSUED]: {
     style: {
-      color: "#DF0404",
+      color: "#FFB700",
     },
     value: "Not-Issued",
   },
