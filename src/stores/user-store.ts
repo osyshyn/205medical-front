@@ -4,7 +4,7 @@ import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IDetailUser, ISubUser, IUser } from "src/@types/users";
+import { IAddUser, IDetailUser, ISubUser, IUser } from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
@@ -18,6 +18,8 @@ interface IUserStore {
   getUser: () => void;
   getAllUsers: () => void;
   getUserDetail: (id: string) => void;
+
+  createUser: (data: IAddUser) => void;
 
   isAuthorized: boolean;
   isLoading: boolean;
@@ -106,6 +108,13 @@ const useUserStore = create(
         set({ isLoadingSubUsers: false });
       } catch {
         set({ isLoadingSubUsers: false });
+      }
+    },
+    createUser: async (data) => {
+      try {
+        await instance.post("/user/createUser", data);
+      } catch {
+        return [];
       }
     },
   }))

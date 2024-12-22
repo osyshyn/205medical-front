@@ -33,3 +33,11 @@ export enum TypesUsers {
   CLIENT_ADMIN = 2,
   MEDICAL = 3,
 }
+
+export type IAddUser = Omit<
+  IUser,
+  "id" | "created_at" | "updated_at" | "google_id" | "logo"
+> & {
+  approved_users: number[];
+  active_products: number[];
+};
