@@ -32,7 +32,7 @@ import { ONLY_FOR } from "src/components/PrivateRoute/types";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 import { OpenInvoices } from "src/components/OpenInvoices";
-import { PaidInvoices } from "src/components/PaidInvoices";
+import { PaidInvoices } from "src/components/OpenInvoices";
 
 const ROUTES = [
   {
