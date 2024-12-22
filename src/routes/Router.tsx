@@ -23,6 +23,7 @@ import { Buyers } from "src/pages/Buyers";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
+import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
@@ -151,6 +152,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={EditLocation} />,
         path: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={OrderHistoryByLocation} />,
+        path: PATHNAMES.ORDER_HISTORY_BY_LOCATION,
       },
     ],
   },

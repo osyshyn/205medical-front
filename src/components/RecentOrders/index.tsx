@@ -22,7 +22,11 @@ import { getTableItems, ORDER_COLUMNS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
-export const RecentOrders: FC = () => {
+interface RecentOrdersProps {
+  locationId?: string[];
+}
+
+export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
@@ -30,9 +34,11 @@ export const RecentOrders: FC = () => {
     useQueryParams();
 
   const year =
-    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value.toString();
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+    getCurrentYearOption().value.toString();
   const month =
-    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value.toString();
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+    getCurrentMonthOption().value.toString();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
@@ -46,7 +52,9 @@ export const RecentOrders: FC = () => {
     });
   };
 
-  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const location_ids = locationId
+    ? locationId // Используем переданный locationId
+    : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
   const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
@@ -55,7 +63,7 @@ export const RecentOrders: FC = () => {
       current_page: currentPage,
       year: year,
       month: month,
-      location_ids: getArrayFromStringParams(location_ids),
+      location_ids,
       product_ids: getArrayFromStringParams(product_ids),
     });
   }, [

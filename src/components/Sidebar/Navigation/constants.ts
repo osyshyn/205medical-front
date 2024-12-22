@@ -132,7 +132,33 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
 ];
 
-const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
+const MEDICAL_NAV_ITEMS: INavigationItem[] = [
+  {
+    id: 3,
+    icon: LocationIcon,
+
+    label: "Location",
+    href: PATHNAMES.LOCATION,
+    iconActive: LocationActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Order history by location",
+        href: PATHNAMES.ORDER_HISTORY_BY_LOCATION,
+      },
+      {
+        id: 2,
+        label: "Edit a location",
+        href: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        id: 3,
+        label: "Add a new location",
+        href: PATHNAMES.ADD_LOCATION,
+      },
+    ],
+  },
+];
 
 export const USER_NAV_ITEMS: Record<TypesUsers, INavigationItem[]> = {
   [TypesUsers.SUB_USER]: SUB_USER_NAV_ITEMS,
