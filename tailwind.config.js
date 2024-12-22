@@ -106,6 +106,9 @@ module.exports = {
         xl: "1614px",
       },
     },
+    borderWidth: {
+        '5': '5px',
+      },
   },
   plugins: [
     function ({ addUtilities }) {

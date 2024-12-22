@@ -20,6 +20,7 @@ import {
   Shipments,
 } from "src/pages";
 import { Buyers } from "src/pages/Buyers";
+import { Accounting } from "src/pages/Accounting";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
@@ -30,6 +31,8 @@ import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
+import { OpenInvoices } from "src/components/OpenInvoices";
+import { PaidInvoices } from "src/components/PaidInvoices";
 
 const ROUTES = [
   {
@@ -115,6 +118,29 @@ const ROUTES = [
           {
             element: <PrivateRoute component={BuyerDetail} />,
             path: PATHNAMES.BUYER_ITEM,
+          },
+        ],
+      },
+      {
+        element: <PrivateRoute component={Accounting} />,
+        path: PATHNAMES.ACCOUNTING,
+        children: [
+          {
+            index: true,
+            element: (
+              <React.Fragment>
+                <OpenInvoices />
+                <PaidInvoices />
+              </React.Fragment>
+            ),
+          },
+          {
+            element: <PrivateRoute component={OpenInvoices} />,
+            path: PATHNAMES.OPEN_INVOICES,
+          },
+          {
+            element: <PrivateRoute component={PaidInvoices} />,
+            path: PATHNAMES.PAID_INVOICES,
           },
         ],
       },
