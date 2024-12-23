@@ -74,31 +74,6 @@ export const EditBuyer: FC = () => {
     );
   };
 
-  const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setAvatarFile(file);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        setAvatarPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      // Загрузка файла на сервер
-      try {
-        await uploadFile("avatars", file);
-        if (response && response.fileUrl) {
-          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
-        }
-      } catch (error) {
-        NotificationService.error("Failed to upload file");
-      }
-    }
-  };
-
   const onSubmit = async (values: IEditUser) => {
     const fullData: IEditUser = {
       ...values,
@@ -178,7 +153,11 @@ export const EditBuyer: FC = () => {
     }
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone();
+  useEffect(() => {
+    console.log("response: ", response);
+  }, [response]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <ModalWindow

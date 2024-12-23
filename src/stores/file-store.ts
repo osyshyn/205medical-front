@@ -12,6 +12,7 @@ const useFileStore = create(
   devtools<IFileStore>((set) => ({
     response: null,
     uploadFile: async (category, file) => {
+      debugger;
       const formData = new FormData();
       formData.append("file", file);
       formData.append("category", category);

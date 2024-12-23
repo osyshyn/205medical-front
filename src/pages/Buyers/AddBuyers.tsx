@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { ADD_BUYERS_FORM_FIELDS } from "src/page-components/add-buyers/constant";
@@ -118,6 +119,31 @@ export const AddBuyers: FC = () => {
 
   const formik = useFormik(formikProps);
 
+  const onDrop = async (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      setAvatarFile(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Загрузка файла на сервер
+      try {
+        await uploadFile("avatars", file);
+        if (response && response.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <Window className="max-h-200 overflow-auto !border-none !p-0">
       <div className="space-y-8">
@@ -132,7 +158,13 @@ export const AddBuyers: FC = () => {
       </div>
       <div className="flex gap-15 p-4">
         <div className="w-[150px]">
-          <div className="mb-4 h-[180px] w-[180px] overflow-hidden bg-gray-200">
+          <div
+            {...getRootProps()}
+            className={`mb-4 h-[180px] w-[180px] overflow-hidden border-2 ${
+              isDragActive ? "border-blue-500" : "border-gray-300"
+            } flex items-center justify-center bg-gray-200`}
+          >
+            <input {...getInputProps()} />
             {avatarPreview ? (
               <img
                 src={avatarPreview}
@@ -140,17 +172,13 @@ export const AddBuyers: FC = () => {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-gray-500">
-                No Image
+              <div className="text-center text-gray-500">
+                {isDragActive
+                  ? "Drop the image here..."
+                  : "Drag and drop an image, or click to select one"}
               </div>
             )}
           </div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleAvatarChange}
-            className="mt-2 w-full"
-          />
         </div>
 
         <div className="flex-1">
