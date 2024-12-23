@@ -11,7 +11,11 @@ import {
 } from "../SelectDate/constants";
 import { Metric } from "./Metric";
 
-export const FinanceSummaryCard: FC = () => {
+interface FinanceSummaryCardProps {
+  shouldShowSubtitle?: boolean;
+}
+
+export const FinanceSummaryCard: FC<FinanceSummaryCardProps> = ({ shouldShowSubtitle }) => {
   const { getQueryParam } = useQueryParams();
 
   const fetchMonthlyPurchases = useMetricStore(
@@ -65,7 +69,7 @@ export const FinanceSummaryCard: FC = () => {
             title="Monthly Purchases"
             value={monthlyPurchases.total_amount}
             color="#5932EA"
-            subtitle="Monthly tear to date"
+            subtitle={shouldShowSubtitle ? "Monthly tear to date" : undefined}
           />
           <Metric
             title="Open Invoice Total"

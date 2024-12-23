@@ -8,6 +8,7 @@ module.exports = {
           base: "#FFFFFF",
           ligth: "#FAFBFF",
           lighter: "#F8F9FF",
+          lightgray: "#EEEEEE",
         },
         purple: {
           base: "#5932EA",
@@ -16,6 +17,7 @@ module.exports = {
         },
         blue: {
           base: "#4623E9",
+          softblue: "#F9FBFF"
         },
         gray: {
           base: "#1A1A1A",
@@ -105,6 +107,10 @@ module.exports = {
         gl: "1300px",
         xl: "1614px",
       },
+    },
+    borderWidth: {
+      '1': '1px',
+      '5': '5px',
     },
   },
   plugins: [
