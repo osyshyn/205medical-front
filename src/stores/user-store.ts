@@ -120,6 +120,7 @@ const useUserStore = create(
     },
     createUser: async (data) => {
       try {
+        console.log("data: ", data);
         await instance.post("/user/createUser", data);
       } catch {
         return [];

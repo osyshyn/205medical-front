@@ -10,9 +10,11 @@ import { Checkbox } from "src/components/CheckBox";
 import { ModalWindow } from "src/components/ModalWindow";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
+import useFileStore from "src/stores/file-store";
 import useLocationStore from "src/stores/location-store";
 import useProductStore from "src/stores/product-store";
 import useUserStore from "src/stores/user-store";
+import { NotificationService } from "src/helpers/notifications";
 import { ReactComponent as WhiteLogo } from "src/assets/icons/whiteLogo.svg";
 import { ILocation } from "src/@types/location";
 import { IAddUser, TypesUsers } from "src/@types/users";
@@ -24,6 +26,8 @@ export const AddBuyers: FC = () => {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const loadLocations = useLocationStore((state) => state.fetchLocation);
   const locations = useLocationStore((state) => state.locations);
+  const uploadFile = useFileStore((state) => state.uploadFile);
+  const response = useFileStore((state) => state.response);
 
   const createUser = useUserStore((state) => state.createUser);
 
@@ -56,21 +60,39 @@ export const AddBuyers: FC = () => {
     );
   };
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       setAvatarFile(file);
+
       const reader = new FileReader();
       reader.onload = () => {
         setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      // Загрузка файла на сервер
+      try {
+        await uploadFile("avatars", file);
+        if (response && response.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
     }
   };
+
+  useEffect(() => {
+    console.log("Response: ", response);
+  }, [response]);
 
   const onSubmit = async (values: IAddUser) => {
     const fullData: IAddUser = {
       ...values,
+      avatar: response,
       approved_users: selectedLocations,
       active_products: selectedProducts,
     };

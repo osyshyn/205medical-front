@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useNavigate, useParams } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,9 +11,11 @@ import { Checkbox } from "src/components/CheckBox";
 import { ModalWindow } from "src/components/ModalWindow";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
+import useFileStore from "src/stores/file-store";
 import useLocationStore from "src/stores/location-store";
 import useProductStore from "src/stores/product-store";
 import useUserStore from "src/stores/user-store";
+import { NotificationService } from "src/helpers/notifications";
 import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as WhiteLogo } from "src/assets/icons/whiteLogo.svg";
 import { IAddUser, IDetailUser, IEditUser, TypesUsers } from "src/@types/users";
@@ -30,10 +33,13 @@ export const EditBuyer: FC = () => {
   const locations = useLocationStore((state) => state.locations);
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.products);
+  const uploadFile = useFileStore((state) => state.uploadFile);
+  const response = useFileStore((state) => state.response);
 
   const updateUser = useUserStore((state) => state.updateUser);
 
   useEffect(() => {
+    console.log("Use effect");
     loadLocations();
     loadProducts();
     loadBuyerDetail(id);
@@ -68,25 +74,62 @@ export const EditBuyer: FC = () => {
     );
   };
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       setAvatarFile(file);
+
       const reader = new FileReader();
       reader.onload = () => {
         setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      // Загрузка файла на сервер
+      try {
+        await uploadFile("avatars", file);
+        if (response && response.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
     }
   };
 
   const onSubmit = async (values: IEditUser) => {
     const fullData: IEditUser = {
       ...values,
+      avatar: response,
     };
 
     await updateUser(fullData);
   };
+
+  useEffect(() => {
+    if (buyerDeatil) {
+      setSelectedLocation(buyerDeatil.locations?.map((item) => item.id) || []);
+      setSelectedProduct(buyerDeatil.products?.map((item) => item.id) || []);
+      formik.setValues({
+        id: buyerDeatil.id,
+        first_name: buyerDeatil.first_name,
+        last_name: buyerDeatil.last_name,
+        role: buyerDeatil.role,
+        phone: buyerDeatil.phone,
+        email: buyerDeatil.email,
+        purchase_limit: buyerDeatil.purchase_limit,
+        locations: buyerDeatil.locations,
+        products: buyerDeatil.products,
+        avatar: buyerDeatil.avatar,
+      });
+
+      if (buyerDeatil.avatar?.path) {
+        setAvatarPreview(buyerDeatil.avatar.path); // Set avatar preview to the existing avatar path
+      }
+    }
+  }, [buyerDeatil]);
 
   const formikProps: FormikConfig<IEditUser> = {
     initialValues: {
@@ -112,7 +155,30 @@ export const EditBuyer: FC = () => {
     navigate(PATHNAMES.BUYERS);
   };
 
-  console.log("Buyer detail: ", buyerDeatil);
+  const onDrop = async (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      setAvatarFile(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Загрузка файла на сервер
+      try {
+        await uploadFile("avatars", file);
+        if (response && response.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone();
 
   return (
     <ModalWindow
@@ -130,14 +196,20 @@ export const EditBuyer: FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-semibold text-white-base">
-                Add user
+                Edit user
               </h1>
             </div>
           </div>
         </div>
         <div className="flex gap-15 p-4">
           <div className="w-[150px]">
-            <div className="mb-4 h-[180px] w-[180px] overflow-hidden bg-gray-200">
+            <div
+              {...getRootProps()}
+              className={`mb-4 h-[180px] w-[180px] overflow-hidden border-2 ${
+                isDragActive ? "border-blue-500" : "border-gray-300"
+              } flex items-center justify-center bg-gray-200`}
+            >
+              <input {...getInputProps()} />
               {avatarPreview ? (
                 <img
                   src={avatarPreview}
@@ -145,17 +217,13 @@ export const EditBuyer: FC = () => {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-gray-500">
-                  No Image
+                <div className="text-center text-gray-500">
+                  {isDragActive
+                    ? "Drop the image here..."
+                    : "Drag and drop an image, or click to select one"}
                 </div>
               )}
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              className="mt-2 w-full"
-            />
           </div>
 
           <div className="flex-1">
