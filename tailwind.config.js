@@ -8,6 +8,7 @@ module.exports = {
           base: "#FFFFFF",
           ligth: "#FAFBFF",
           lighter: "#F8F9FF",
+          lightgray: "#EEEEEE",
         },
         purple: {
           base: "#5932EA",
@@ -16,6 +17,7 @@ module.exports = {
         },
         blue: {
           base: "#4623E9",
+          softblue: "#F9FBFF"
         },
         gray: {
           base: "#1A1A1A",
@@ -107,8 +109,9 @@ module.exports = {
       },
     },
     borderWidth: {
-        '5': '5px',
-      },
+      '1': '1px',
+      '5': '5px',
+    },
   },
   plugins: [
     function ({ addUtilities }) {
