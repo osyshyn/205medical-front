@@ -4,7 +4,7 @@ import { Window } from "src/components/Window";
 interface Props {
   color: string;
   title: string;
-  value: number;
+  value: any;
   subtitle?: string;
 }
 
@@ -17,7 +17,7 @@ export const Metric: FC<Props> = ({ color, title, value, subtitle }) => (
 
     <div className="flex flex-col">
       <span className="text-sm font-semibold text-gray-regular">{title}</span>
-      <span className="mt-2 text-32 font-semibold">{value.toFixed(2)}</span>
+      <span className="mt-2 text-32 font-semibold">${value.toFixed(2)}</span>
       {subtitle && <span className="text-sm text-gray-regular">{subtitle}</span>}
     </div>
   </Window>

@@ -57,7 +57,7 @@ export const Accounting: FC = () => {
         />
       </div>
 
-      {isRootRoute && <FinanceSummaryCard />}
+      {isRootRoute && <FinanceSummaryCard shouldShowSubtitle={false} />}
 
       <Outlet />
     </PageWrapper>
