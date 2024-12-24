@@ -101,16 +101,18 @@ export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
   },
 };
 
-export const ORDER_STATIS: Record<IStatusesInvoice, StyledValue> = {
+export const ORDER_STATUS: Record<IStatusesInvoice, StyledValue> = {
   [IStatusesInvoice.PAID]: {
     style: {
-      color: "#008767",
+      backgroundColor: "#16C09861",
+      color: "#00B087",
     },
     value: "Paid",
   },
   [IStatusesInvoice.OPEN]: {
     style: {
-      color: "#FFB700",
+      color: "#DF0404",
+      backgroundColor: "#FFC5C5",
     },
     value: "Open",
   },

@@ -1,4 +1,5 @@
-import { INVOICE_SHIPS, IOrder } from "src/@types/orders";
+import Badge from "src/components/Badge/Badge";
+import { INVOICE_SHIPS, IOrder, ORDER_STATUS } from "src/@types/orders";
 
 export const ORDER_HISTORY_COLUMNS = [
   { key: "product", label: "Product" },
@@ -25,5 +26,12 @@ export const getOpenClosedOrdersItems = (orders: IOrder[]): any[] =>
     id: order?.id,
     po_number: order?.customer_po_number || "Unknown PO Number",
     invoice_number: order?.order_number || "Unknown Invoice Number",
-    status: INVOICE_SHIPS[order?.invoice_status] || "Unknown Status",
+    status: {
+      type: "component",
+      component: Badge,
+      props: {
+        color: ORDER_STATUS[order?.invoice_status],
+      },
+    },
+    // status: INVOICE_SHIPS[order?.invoice_status] || "Unknown Status",
   }));
