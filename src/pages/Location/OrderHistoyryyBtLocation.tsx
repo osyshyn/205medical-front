@@ -1,7 +1,13 @@
 import { FC, useEffect, useState } from "react";
+import {
+  getOpenClosedOrdersItems,
+  getOrderHistoryItems,
+  OPEN_CLOSED_ORDERS_COLUMNS,
+  ORDER_HISTORY_COLUMNS,
+} from "src/page-components/location/OrderHistory/constants";
 import { Metric as FinanceMetric } from "src/components/FinanceSummaryCard/Metric";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
-import { Metrics } from "src/components/Metrics";
+import { Loader } from "src/components/Loader";
 import { Metric } from "src/components/Metrics/Metric";
 import { RecentOrders } from "src/components/RecentOrders";
 import { SelectDate } from "src/components/SelectDate";
@@ -12,14 +18,18 @@ import {
   YEARS_OPTIONS_SELECT,
 } from "src/components/SelectDate/constants";
 import { SelectDropdownList } from "src/components/SelectDropdownList";
+import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
+import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useLocationStore from "src/stores/location-store";
 import useMetricStore from "src/stores/metric-store";
 import useOrderStore from "src/stores/order-store";
+import useProductStore from "src/stores/product-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
+import { Row } from "src/@types/table";
 
 export const OrderHistoryByLocation: FC = () => {
   const loadLocations = useLocationStore((state) => state.fetchLocation);
@@ -28,29 +38,25 @@ export const OrderHistoryByLocation: FC = () => {
   const currentLocation = useLocationStore((state) => state.location);
   const loadOrdersMetrics = useMetricStore((state) => state.fetchMetricOrders);
   const ordersMetrics = useMetricStore((state) => state.metrics_orders);
-  const isLoading = useMetricStore((state) => state.isLoading);
   const approval_metric = ordersMetrics?.approval_metrics;
-
+  const loadOrders = useOrderStore((state) => state.fetchOrders);
+  const orders = useOrderStore((state) => state.orders);
+  const loadPurchasesByProductList = useProductStore(
+    (state) => state.fetchPurchasesByProductList
+  );
+  const purchasesByProductList = useProductStore(
+    (state) => state.purchasesByProductList
+  );
   const loadMonthlyPurchases = useMetricStore(
     (state) => state.fetchMonthlyPurchases
   );
   const monthlyPurchases = useMetricStore((state) => state.monthlyPurchases);
 
-  const loadProductMetric = useMetricStore(
-    (state) => state.fetchMetricProducts
-  );
-  const productMetric = useMetricStore((state) => state.metrics_products);
-
-  const loadPurchaseHistory = useMetricStore(
-    (state) => state.fetchPurchaseHistory
-  );
-  const purchaseHistory = useMetricStore((state) => state.purchase_history);
-
   const currentLocationResult = currentLocation?.result;
 
-  const options: IOptionSelect[] = locations.map((location) => ({
-    value: location.id, // Assuming 'id' is the unique identifier for each location
-    label: location.name, // Assuming 'name' is the display name for each location
+  const options = locations.map((location) => ({
+    value: location.id,
+    label: location.name,
   }));
 
   const [selectedOption, setSelectedOption] = useState<IOptionSelect | null>(
@@ -80,16 +86,15 @@ export const OrderHistoryByLocation: FC = () => {
     });
   };
 
-  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
   const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
 
   useEffect(() => {
     loadLocations();
-  }, [loadLocations, loadOrdersMetrics]);
+  }, [loadLocations]);
 
   useEffect(() => {
     loadLocation(Number(selectedOption?.value));
-  }, [selectedOption]);
+  }, [loadLocation, selectedOption]);
 
   useEffect(() => {
     loadOrdersMetrics({
@@ -104,13 +109,14 @@ export const OrderHistoryByLocation: FC = () => {
       location_ids: [currentLocationResult?.id.toString()],
       su_users_ids: getArrayFromStringParams(su_users_ids),
     });
-    loadProductMetric({
+    loadPurchasesByProductList({
       month: selectMonthOption?.value.toString(),
       year: selectYearOption?.value.toString(),
       location_ids: [currentLocationResult?.id.toString()],
-      su_users_ids: getArrayFromStringParams(su_users_ids),
     });
-    loadPurchaseHistory({
+    loadOrders({
+      current_page: 1,
+      search: "",
       month: selectMonthOption?.value.toString(),
       year: selectYearOption?.value.toString(),
       location_ids: [currentLocationResult?.id.toString()],
@@ -119,13 +125,18 @@ export const OrderHistoryByLocation: FC = () => {
   }, [
     loadOrdersMetrics,
     loadMonthlyPurchases,
-    loadProductMetric,
-    loadPurchaseHistory,
-    location_ids,
+    loadPurchasesByProductList,
+    loadOrders,
     selectMonthOption,
     selectYearOption,
     currentLocationResult,
+    su_users_ids,
   ]);
+
+  const purchaseItems = (getOrderHistoryItems(purchasesByProductList) ||
+    []) as Row[];
+  const order_closed = (getOpenClosedOrdersItems(orders?.result) ||
+    []) as Row[];
 
   return (
     <PageWrapper>
@@ -144,18 +155,53 @@ export const OrderHistoryByLocation: FC = () => {
         className="w-full"
       />
 
-      {/* <Metrics metrics={ordersMetrics} isLoading={isLoading} /> */}
-      <div className="mt-5 flex gap-6">
-        <Metric {...approval_metric} />
-        <FinanceMetric
-          title="Total orders"
-          value={monthlyPurchases.total_amount}
-          color="#5932EA"
-          subtitle="Monthly spemding"
-        />
-      </div>
+      {currentLocationResult && (
+        <>
+          <div className="mt-5 flex gap-6">
+            <Metric {...approval_metric} />
+            <FinanceMetric
+              title="Total orders"
+              value={monthlyPurchases.total_amount}
+              color="#5932EA"
+              subtitle="Monthly spemding"
+            />
+          </div>
 
-      <RecentOrders locationId={[`${currentLocationResult?.id}`]} />
+          <div className="mt-5 flex gap-6">
+            <Window className="max-h-150 w-1/2 overflow-auto">
+              <div className="flex items-center justify-between">
+                <h3>Product Purchases</h3>
+              </div>
+
+              <Table ariaLabel="Product Purchases">
+                <TableHeader columns={ORDER_HISTORY_COLUMNS} />
+                <TableBody
+                  items={purchaseItems}
+                  columns={ORDER_HISTORY_COLUMNS}
+                />
+              </Table>
+            </Window>
+            <Window className="max-h-150 w-1/2 overflow-auto">
+              <div className="flex items-center justify-between">
+                <h3>Open/Closed Orders</h3>
+              </div>
+
+              <Table ariaLabel="Product Purchases">
+                <TableHeader columns={OPEN_CLOSED_ORDERS_COLUMNS} />
+                <TableBody
+                  items={order_closed}
+                  columns={OPEN_CLOSED_ORDERS_COLUMNS}
+                />
+              </Table>
+            </Window>
+          </div>
+
+          <div className="mt-5">
+            <RecentOrders locationId={[`${currentLocationResult?.id}`]} />
+            {/* <RecentOrders /> */}
+          </div>
+        </>
+      )}
     </PageWrapper>
   );
 };

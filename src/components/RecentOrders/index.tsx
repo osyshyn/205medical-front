@@ -71,7 +71,7 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
     debouncedSearchQuery,
     month,
     year,
-    location_ids,
+    // location_ids,
     product_ids,
     loadOrders,
   ]);

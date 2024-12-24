@@ -17,7 +17,7 @@ export interface FetchOrdersParams {
 
 interface IOrderStore {
   orders: IResponseWithPagination<IOrder>;
-  fetchOrders: (params: FetchOrdersParams) => void;
+  fetchOrders: (params: FetchOrdersParams, items_per_page?: number) => void;
   isLoading: boolean;
 }
 
@@ -27,12 +27,12 @@ const useOrderStore = create(
   devtools<IOrderStore>((set) => ({
     orders: null,
     isLoading: false,
-    fetchOrders: async (params) => {
+    fetchOrders: async (params, items_per_page) => {
       set({ isLoading: true });
 
       try {
         const { data } = await instance.get<IResponseWithPagination<IOrder>>(
-          `order/getOrders?&items_per_page=${ORDERS_PER_PAGE}`,
+          `order/getOrders?&items_per_page=${items_per_page || ORDERS_PER_PAGE}`,
           { params }
         );
 
