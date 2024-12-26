@@ -154,7 +154,15 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
 ];
 
-const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
+const MEDICAL_NAV_ITEMS: INavigationItem[] = [
+  {
+    id: 10,
+    icon: SettingsIcon,
+    label: "Settings",
+    href: PATHNAMES.SETTINGS_MEDICAL,
+    iconActive: SettingsActiveIcon,
+  },
+];
 
 export const USER_NAV_ITEMS: Record<TypesUsers, INavigationItem[]> = {
   [TypesUsers.SUB_USER]: SUB_USER_NAV_ITEMS,

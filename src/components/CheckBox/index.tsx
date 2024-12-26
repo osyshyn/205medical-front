@@ -22,13 +22,13 @@ export const Checkbox: FC<CheckboxProps> = ({
         {...props}
       />
       <div
-        className={`flex h-6 w-6 items-center justify-center rounded-md border-2 border-gray-700 ${
+        className={`border-2 flex h-6 w-6 items-center justify-center rounded-md border-[#999999] ${
           checked ? "bg-white" : "bg-transparent"
         }`}
       >
         {checked && (
           <svg
-            className="h-4 w-4 text-gray-700"
+            className="h-4 w-4 text-[#999999]"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -43,7 +43,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           </svg>
         )}
       </div>
-      <span className="text-gray-700">{label}</span>
+      <span className="text-[#999999]">{label}</span>
     </label>
   );
 };

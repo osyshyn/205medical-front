@@ -95,7 +95,7 @@ export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
   },
   [IStatusesInvoice.NOT_ISSUED]: {
     style: {
-      color: "#DF0404",
+      color: "blue",
     },
     value: "Not-Issued",
   },

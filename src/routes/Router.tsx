@@ -33,6 +33,7 @@ import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 import { OpenInvoices } from "src/components/OpenInvoices";
 import { PaidInvoices } from "src/components/OpenInvoices";
+import { SettingsMedical } from "src/pages/SettingsMedical";
 
 const ROUTES = [
   {
@@ -169,6 +170,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Settings} />,
         path: PATHNAMES.SETTINGS,
+      },
+      {
+        element: <PrivateRoute component={SettingsMedical} />,
+        path: PATHNAMES.SETTINGS_MEDICAL,
       },
       {
         element: <PrivateRoute component={AddLocation} />,

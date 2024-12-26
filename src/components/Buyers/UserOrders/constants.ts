@@ -1,4 +1,4 @@
-import { IOrder } from "src/@types/orders";
+import { INVOICE_SHIPS, STATUSES_SHIPS } from "src/@types/orders";
 import { Column, Row } from "src/@types/table";
 
 export const BUYERS_ORDER_TABLE_COLUMNS: Column[] = [
@@ -19,11 +19,20 @@ export const getBuyerOrderTableItems = (orders: any[]): Row[] =>
     invoice_status: getInvoiceStatusLabel(order.invoice_status),
     date: formatDate(order.created_at),
     location: order.location || "N/A",
-    order_total: order.order_amt,
+    order_total: formatAmount(order.order_amt),
     due_date: formatDate(order.expected_delivery_date),
-    delivery_status: getDeliveryStatusLabel(order.ship_status),
-    payment_status: getPaymentStatusLabel(order.status),
+    delivery_status: STATUSES_SHIPS[order.ship_status],
+    payment_status: INVOICE_SHIPS[order.status],
   }));
+
+// export const formatDate = (date: string): string => {
+//   const [year, month, day] = date.split("T")[0].split("-");
+//   return `${month}/${day}/${year.slice(-2)}`;
+// };
+
+export const formatAmount = (amount: number): string => {
+  return `$${amount.toFixed(2)}`;
+};
 
 const formatDate = (date: string | number | undefined): string => {
   if (!date) return "Invalid date";
@@ -47,32 +56,6 @@ const getInvoiceStatusLabel = (status: number): string => {
       return "Unpaid";
     case 3:
       return "Pending";
-    default:
-      return "Unknown";
-  }
-};
-
-const getDeliveryStatusLabel = (status: number): string => {
-  switch (status) {
-    case 1:
-      return "Shipped";
-    case 2:
-      return "Not Shipped";
-    case 3:
-      return "In Progress";
-    default:
-      return "Unknown";
-  }
-};
-
-const getPaymentStatusLabel = (status: number): string => {
-  switch (status) {
-    case 1:
-      return "Completed";
-    case 2:
-      return "Pending";
-    case 3:
-      return "Failed";
     default:
       return "Unknown";
   }
