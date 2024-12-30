@@ -32,5 +32,9 @@ export const PATHNAMES = {
   BUYER_ITEM: "/buyers/:id",
   EDIT_BUYER: "/buyers/edit/:id",
 
+  ACCOUNTING: "/accounting",
+  OPEN_INVOICES: "/accounting/open-invoices",
+  PAID_INVOICES: "/accounting/paid-invoices",
+
   NOT_FOUND: "/*",
 };
