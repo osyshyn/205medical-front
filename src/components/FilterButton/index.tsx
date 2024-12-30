@@ -17,7 +17,7 @@ export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const head = (
-    <Button className="gap-2.5 px-4 py-2.5" variant={ButtonVariants.WHITE}>
+    <Button className="gap-2.5 px-4 py-2.5 border-gray-soft border-1" variant={ButtonVariants.WHITE}>
       <FilterIcon />
       <span>Filter</span>
     </Button>

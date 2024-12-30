@@ -19,12 +19,16 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { Accounting } from "src/pages/Accounting";
 import { Buyers } from "src/pages/Buyers";
+import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
 import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
+import { OpenInvoices } from "src/components/OpenInvoices";
+import { PaidInvoices } from "src/components/OpenInvoices";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
@@ -120,6 +124,29 @@ const ROUTES = [
         ],
       },
       {
+        element: <PrivateRoute component={Accounting} />,
+        path: PATHNAMES.ACCOUNTING,
+        children: [
+          {
+            index: true,
+            element: (
+              <React.Fragment>
+                <OpenInvoices />
+                <PaidInvoices />
+              </React.Fragment>
+            ),
+          },
+          {
+            element: <PrivateRoute component={OpenInvoices} />,
+            path: PATHNAMES.OPEN_INVOICES,
+          },
+          {
+            element: <PrivateRoute component={PaidInvoices} />,
+            path: PATHNAMES.PAID_INVOICES,
+          },
+        ],
+      },
+      {
         element: <PrivateRoute component={ProductsHistory} />,
         path: PATHNAMES.PRODUCT_HISTORY,
       },
@@ -156,6 +183,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={OrderHistoryByLocation} />,
         path: PATHNAMES.ORDER_HISTORY_BY_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={EditBuyer} />,
+        path: PATHNAMES.EDIT_BUYER,
       },
     ],
   },
