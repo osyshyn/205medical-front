@@ -1,4 +1,6 @@
 import { PATHNAMES } from "src/constants/routes";
+import { ReactComponent as BuyersActiveIcon } from "src/assets/icons/sidebar/navigation/buyers-active.svg";
+import { ReactComponent as BuyersIcon } from "src/assets/icons/sidebar/navigation/buyers.svg";
 import { ReactComponent as ChatActiveIcon } from "src/assets/icons/sidebar/navigation/chat-active.svg";
 import { ReactComponent as ChatIcon } from "src/assets/icons/sidebar/navigation/chat.svg";
 import { ReactComponent as CreateOrderActiveIcon } from "src/assets/icons/sidebar/navigation/create-order-active.svg";
@@ -154,7 +156,16 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
 ];
 
-const MEDICAL_NAV_ITEMS: INavigationItem[] = [];
+const MEDICAL_NAV_ITEMS: INavigationItem[] = [
+  {
+    id: 1,
+    icon: BuyersIcon,
+
+    label: "Buyers",
+    href: PATHNAMES.BUYERS,
+    iconActive: BuyersActiveIcon,
+  },
+];
 
 export const USER_NAV_ITEMS: Record<TypesUsers, INavigationItem[]> = {
   [TypesUsers.SUB_USER]: SUB_USER_NAV_ITEMS,
