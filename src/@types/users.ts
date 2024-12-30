@@ -37,8 +37,9 @@ export enum TypesUsers {
 
 export type IAddUser = Omit<
   IUser,
-  "id" | "created_at" | "updated_at" | "google_id" | "logo"
+  "id" | "created_at" | "updated_at" | "google_id" | "logo" | "avatar"
 > & {
+  avatar_id: number;
   approved_users: number[];
   active_products: number[];
 };

@@ -93,7 +93,7 @@ export const AddBuyers: FC = () => {
   const onSubmit = async (values: IAddUser) => {
     const fullData: IAddUser = {
       ...values,
-      avatar: response,
+      avatar_id: response?.id,
       approved_users: selectedLocations,
       active_products: selectedProducts,
     };
@@ -111,7 +111,7 @@ export const AddBuyers: FC = () => {
       purchase_limit: 0,
       approved_users: [],
       active_products: [],
-      avatar: null,
+      avatar_id: 0,
     },
     validationSchema,
     onSubmit: onSubmit,

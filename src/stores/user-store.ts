@@ -120,10 +120,9 @@ const useUserStore = create(
     },
     createUser: async (data) => {
       try {
-        console.log("data: ", data);
         await instance.post("/user/createUser", data);
       } catch {
-        return [];
+        NotificationService.error();
       }
     },
     updateUser: async (data) => {
@@ -131,7 +130,7 @@ const useUserStore = create(
         await instance.post("/user/updateUser", data);
         NotificationService.success("User updated successfully.");
       } catch {
-        return [];
+        NotificationService.error();
       }
     },
   }))
