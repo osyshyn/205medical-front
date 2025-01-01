@@ -7,7 +7,7 @@ import { UserDetails } from "./UserDetails";
 
 export default function UserManagement() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeUserId, setActiveUserId] = useState(null); // Зберігає ID активного користувача
+  const [activeUserId, setActiveUserId] = useState(null);
   const loadUsers = useUserStore((state) => state.getAllUsers);
   const users = useUserStore((state) => state.users);
 
@@ -45,7 +45,6 @@ export default function UserManagement() {
             />
           </div>
 
-          {/* Деталі користувача */}
           {activeUser && <UserDetails id={activeUserId} />}
         </>
       )}

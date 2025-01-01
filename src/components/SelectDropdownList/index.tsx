@@ -27,7 +27,7 @@ export const SelectDropdownList: FC<Props> = ({
   const headDropdownLabel = (
     <div
       className={cn(
-        "border border flex items-center gap-4 rounded-xl border-gray-soft bg-white-base px-3.5 py-2 text-xs",
+        "flex items-center gap-4 rounded-xl border border-gray-soft bg-white-base px-3.5 py-2 text-xs",
         headLabelclassName
       )}
     >

@@ -13,7 +13,7 @@ export interface IUser {
   purchase_limit: number;
   created_at: string;
   updated_at: string;
-  avatar: Image;
+  avatar?: Image;
   logo: Image;
 }
 

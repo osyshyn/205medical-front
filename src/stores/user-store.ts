@@ -12,12 +12,14 @@ interface IUserStore {
   users: IUser[];
   detailUser: IDetailUser;
   userNotes: any[];
-  getUserNotes: (id) => void;
+  getUserNotes: (id: string) => void;
   getSubUsers: () => void;
 
   getUser: () => void;
   getAllUsers: () => void;
   getUserDetail: (id: string) => void;
+  deleteSubUser: (id: string) => Promise<void>;
+  addUserNote: (text: string, userId: string, title?: string) => Promise<void>;
 
   isAuthorized: boolean;
   isLoading: boolean;
@@ -106,6 +108,39 @@ const useUserStore = create(
         set({ isLoadingSubUsers: false });
       } catch {
         set({ isLoadingSubUsers: false });
+      }
+    },
+    deleteSubUser: async (id) => {
+      try {
+        await instance.post(`/user/deleteUser`, {
+          data: { id },
+        });
+        set((state) => {
+          const updatedSubUsers = state.subUsers.filter(
+            (subUser) => subUser.id !== Number(id)
+          );
+          return {
+            subUsers: updatedSubUsers,
+          };
+        });
+      } catch (error) {
+        console.error("Failed to delete sub-user", error);
+      }
+    },
+    addUserNote: async (text: string, userId: string, title?: string) => {
+      try {
+        await instance.post("/user/addUserNotes", {
+          user_id: userId,
+          text,
+          ...(title && { title }),
+        });
+
+        const { data } = await instance.get<any[]>(
+          `/user/getUserNotes?user_id=${userId}`
+        );
+        set({ userNotes: data });
+      } catch (error) {
+        console.error("Failed to add user note", error);
       }
     },
   }))

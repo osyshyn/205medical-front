@@ -1,5 +1,4 @@
 import { StyledValue } from "./table";
-import { IUser } from "./users";
 
 export interface IOrder {
   id: number;
@@ -18,6 +17,10 @@ export interface IOrder {
   status: number;
   updated_at: string;
   user_id: number;
+  user: {
+    first_name: string;
+    last_name: string;
+  };
 }
 
 export enum IStatusesApproval {

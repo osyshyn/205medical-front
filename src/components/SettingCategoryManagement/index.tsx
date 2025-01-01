@@ -1,102 +1,195 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
+import { Window } from "src/components/Window";
+import useCategoryStore from "src/stores/category-store";
+import useProductStore from "src/stores/product-store";
 import { ReactComponent as ArrowBottomIcon } from "src/assets/icons/arrow-down.svg";
+import { DeleteEntity } from "../DeleteEntity";
+import { AddProduct } from "./AddProduct";
+import { CategoryHeader } from "./CategoryHeader";
+import { CategoryProducts } from "./CategoryProducts";
+import { CategorySidebar } from "./CategorySidebar";
 
-const CategoryManagement = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(1);
+const CategoryManagement: React.FC = () => {
+  const [state, setState] = useState({
+    isOpen: false,
+    isEditMode: false,
+    selectedCategory: null as number | null,
+    productToDelete: null as number | null,
+    categoryToDelete: null as number | null,
+    isDeleteProductModalOpen: false,
+    isDeleteCategoryModalOpen: false,
+    isAddProductModalOpen: false,
+    temporaryProducts: [] as any[],
+    localProducts: [] as any[],
+  });
 
-  const categories = Array.from({ length: 7 }, (_, i) => ({
-    id: i + 1,
-    name: `Category ${i + 1}`,
-  }));
+  const {
+    categories,
+    fetchAllcategories,
+    fetchCategoryDetail,
+    categorieDetail,
+    isCategoriesUpdated,
+    updateCategory,
+    deleteCategory,
+  } = useCategoryStore();
+  const { deleteProduct } = useProductStore();
 
-  const products = [
-    { id: 1, sku: "12PAN-PCP-CUP", name: "Name 1" },
-    { id: 2, sku: "12PAN-PCP-CUP", name: "Name 2" },
-    { id: 3, sku: "12PAN-PCP-CUP", name: "Name 3" },
-    { id: 4, sku: "12PAN-PCP-CUP", name: "Name 4" },
-    { id: 5, sku: "12PAN-PCP-CUP", name: "Name 5" },
-  ];
+  useEffect(() => {
+    fetchAllcategories();
+  }, [fetchAllcategories]);
+
+  useEffect(() => {
+    if (isCategoriesUpdated) fetchAllcategories();
+  }, [isCategoriesUpdated, fetchAllcategories]);
+
+  useEffect(() => {
+    if (categorieDetail?.products) {
+      setState((prev) => ({
+        ...prev,
+        localProducts: categorieDetail.products,
+      }));
+    }
+  }, [categorieDetail]);
+
+  const handleCategoryClick = async (id: number) => {
+    if (state.selectedCategory !== id) {
+      setState({
+        ...state,
+        isEditMode: false,
+        temporaryProducts: [],
+        selectedCategory: id,
+      });
+      if (id) await fetchCategoryDetail(id);
+    }
+  };
+
+  const handleDeleteEntity = (
+    id: number | null,
+    type: "product" | "category"
+  ) =>
+    setState((prev) => ({
+      ...prev,
+      [type === "product"
+        ? "isDeleteProductModalOpen"
+        : "isDeleteCategoryModalOpen"]: true,
+      [type === "product" ? "productToDelete" : "categoryToDelete"]: id,
+    }));
+
+  const handleAddProduct = (products: any[]) => {
+    setState((prev) => ({
+      ...prev,
+      temporaryProducts: [...prev.temporaryProducts, ...products],
+      localProducts: [...prev.localProducts, ...products],
+    }));
+  };
+
+  const handleSubmit = async () => {
+    const { localProducts, temporaryProducts, selectedCategory } = state;
+    if (selectedCategory && categorieDetail) {
+      await updateCategory(
+        selectedCategory,
+        categorieDetail.name,
+        [...localProducts, ...temporaryProducts].map((p) => p.id)
+      );
+      setState({ ...state, temporaryProducts: [], isEditMode: false });
+      await fetchCategoryDetail(selectedCategory);
+    }
+  };
+
+  const toggleEditMode = () =>
+    setState((prev) => ({
+      ...prev,
+      isEditMode: !prev.isEditMode,
+      localProducts: prev.isEditMode
+        ? categorieDetail?.products || []
+        : prev.localProducts,
+      temporaryProducts: [],
+    }));
 
   return (
-    <div>
+    <div className="w-full">
       <button
         className="hover:text-black flex w-full items-center gap-2 py-3 text-left text-gray-700"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setState((prev) => ({ ...prev, isOpen: !prev.isOpen }))}
       >
         <h4>Categories Management</h4>
         <ArrowBottomIcon
           className={cn("ml-2 transition-transform duration-200", {
-            "rotate-180": isOpen,
+            "rotate-180": state.isOpen,
           })}
         />
       </button>
 
-      {isOpen && (
+      {state.isOpen && (
         <div className="flex gap-6">
-          <div className="bg-white w-64 rounded-lg p-4 shadow-sm">
-            <h3 className="mb-4 font-medium">Categories</h3>
-            <div className="space-y-2">
-              {categories.map((cat) => (
-                <div
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex cursor-pointer items-center justify-between rounded p-3 hover:bg-gray-50 ${
-                    cat.id === selectedCategory
-                      ? "bg-purple-50 text-purple-600"
-                      : "text-gray-600"
-                  }`}
-                >
-                  <span>{cat.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <CategorySidebar
+            categories={categories}
+            selectedCategory={state.selectedCategory}
+            handleCategoryClick={handleCategoryClick}
+          />
 
-          <div className="bg-white flex-1 rounded-lg p-4 shadow-sm">
-            <div className="mb-6 flex items-center justify-between">
-              <h3 className="font-medium">Products</h3>
-              <button className="text-white rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-700">
-                Submit
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-4 gap-4 pb-2 text-sm text-gray-500">
-                <div></div>
-                <div>SKU</div>
-                <div>Name</div>
-                <div>Description</div>
+          <Window className="bg-white relative flex-1 rounded-3xl p-4">
+            {!state.selectedCategory ? (
+              <div className="flex h-40 items-center justify-center text-gray-500">
+                Please select a category
               </div>
-
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  className="grid grid-cols-4 items-center gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <input type="checkbox" className="h-4 w-4" />
-                    <div className="h-12 w-12 rounded bg-gray-200"></div>
-                  </div>
-                  <div>{product.sku}</div>
-                  <div>{product.name}</div>
-                  <div>-</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 flex justify-between">
-              <button className="flex items-center gap-2 text-gray-500 hover:text-gray-700">
-                Delete Product
-              </button>
-              <button className="text-purple-600 hover:text-purple-700">
-                Add Product
-              </button>
-            </div>
-          </div>
+            ) : (
+              <>
+                <CategoryHeader
+                  isEditMode={state.isEditMode}
+                  toggleEditMode={async () => {
+                    if (state.isEditMode) {
+                      await handleSubmit();
+                    } else {
+                      toggleEditMode();
+                    }
+                  }}
+                  handleDeleteEntity={handleDeleteEntity}
+                  selectedCategory={state.selectedCategory}
+                />
+                <CategoryProducts
+                  localProducts={state.localProducts}
+                  isEditMode={state.isEditMode}
+                  handleDeleteEntity={handleDeleteEntity}
+                  onOpenAddModal={() =>
+                    setState((prev) => ({
+                      ...prev,
+                      isAddProductModalOpen: true,
+                    }))
+                  }
+                />
+              </>
+            )}
+          </Window>
         </div>
       )}
+
+      <DeleteEntity
+        isOpen={state.isDeleteProductModalOpen}
+        onClose={() =>
+          setState((prev) => ({ ...prev, isDeleteProductModalOpen: false }))
+        }
+        entityId={state.productToDelete!}
+        entityName="Product"
+        deleteAction={deleteProduct}
+      />
+      <DeleteEntity
+        isOpen={state.isDeleteCategoryModalOpen}
+        onClose={() =>
+          setState((prev) => ({ ...prev, isDeleteCategoryModalOpen: false }))
+        }
+        entityId={state.categoryToDelete!}
+        entityName="Category"
+        deleteAction={deleteCategory}
+      />
+      <AddProduct
+        isOpen={state.isAddProductModalOpen}
+        onClose={() =>
+          setState((prev) => ({ ...prev, isAddProductModalOpen: false }))
+        }
+        onAddProducts={handleAddProduct}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ export interface IProduct {
   name: string;
   price: number;
   minimum_order: number;
-  categories_id: number;
+  category_id: number;
   certification: string;
   sku: string;
   description: string;

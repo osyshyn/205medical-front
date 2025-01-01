@@ -1,6 +1,9 @@
+import { IProduct } from "./products";
+
 export interface ICategory {
   id: number;
   name: string;
   created_at: string;
   updated_at: string;
+  products?: IProduct[];
 }

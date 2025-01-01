@@ -1,4 +1,5 @@
 import React from "react";
+import { ROLE_USER } from "src/components/Sidebar/AccountCard/constants";
 
 interface ContactInfoProps {
   first_name: string;
@@ -20,7 +21,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({
   const fullName = `${first_name} ${last_name}`;
 
   return (
-    <div className="flex border-b-1 pb-8">
+    <div className="border-b-1 flex pb-8">
       <div className="flex-1 flex-col gap-12">
         <div className="flex gap-2">
           <h5 className="text-[#344054A1]">Name:</h5>
@@ -28,7 +29,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({
         </div>
         <div className="mt-1.5 flex gap-2">
           <h5 className="text-[#344054A1]">Role:</h5>
-          <h5 className="text-gray-dark">{role}</h5>
+          <h5 className="text-gray-dark">{ROLE_USER[role]}</h5>
         </div>
         <div className="mt-1.5 flex gap-2">
           <h5 className="text-[#344054A1]">Purchase limit:</h5>
