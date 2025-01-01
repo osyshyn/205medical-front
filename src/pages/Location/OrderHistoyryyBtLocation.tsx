@@ -138,6 +138,9 @@ export const OrderHistoryByLocation: FC = () => {
   const order_closed = (getOpenClosedOrdersItems(orders?.result) ||
     []) as Row[];
 
+  console.log("purchaseItems", purchasesByProductList);
+  console.log("Order closed", orders);
+
   return (
     <PageWrapper>
       <SelectDate
@@ -158,13 +161,13 @@ export const OrderHistoryByLocation: FC = () => {
       {currentLocationResult && (
         <>
           <div className="mt-5 flex gap-6">
-            <Metric {...approval_metric} />
-            <FinanceMetric
+            {/* <Metric {...approval_metric} /> */}
+            {/* <FinanceMetric
               title="Total orders"
               value={monthlyPurchases.total_amount}
               color="#5932EA"
               subtitle="Monthly spemding"
-            />
+            /> */}
           </div>
 
           <div className="mt-5 flex gap-6">
@@ -198,7 +201,6 @@ export const OrderHistoryByLocation: FC = () => {
 
           <div className="mt-5">
             <RecentOrders locationId={[`${currentLocationResult?.id}`]} />
-            {/* <RecentOrders /> */}
           </div>
         </>
       )}

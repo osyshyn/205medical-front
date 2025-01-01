@@ -16,7 +16,7 @@ export const MONTH_OPTIONS_SELECT: IOptionSelect[] = [
 ];
 
 export const YEARS_OPTIONS_SELECT: IOptionSelect[] = Array.from(
-  { length: 5 },
+  { length: 6 },
   (_, index) => {
     const year = 2020 + index;
     return { label: year.toString(), value: year };
