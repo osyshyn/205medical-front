@@ -19,21 +19,22 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
-import { Buyers } from "src/pages/Buyers";
 import { Accounting } from "src/pages/Accounting";
+import { Buyers } from "src/pages/Buyers";
+import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
+import { SettingsMedical } from "src/pages/SettingsMedical";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
+import { OpenInvoices } from "src/components/OpenInvoices";
+import { PaidInvoices } from "src/components/OpenInvoices";
 import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
-import { OpenInvoices } from "src/components/OpenInvoices";
-import { PaidInvoices } from "src/components/OpenInvoices";
-import { SettingsMedical } from "src/pages/SettingsMedical";
 
 const ROUTES = [
   {
@@ -182,6 +183,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={EditLocation} />,
         path: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={EditBuyer} />,
+        path: PATHNAMES.EDIT_BUYER,
       },
     ],
   },

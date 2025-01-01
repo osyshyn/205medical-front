@@ -16,7 +16,9 @@ export const ActionsButtons: FC<Props> = ({ id }) => {
         <Button variant={ButtonVariants.PRIMARY_SQUARE}>View</Button>
       </Link>
 
-      <Button variant={ButtonVariants.SECONDARY_SQUARE}>Edit</Button>
+      <Link to={getItemPath(PATHNAMES.EDIT_BUYER, { id })}>
+        <Button variant={ButtonVariants.SECONDARY_SQUARE}>Edit</Button>
+      </Link>
     </div>
   );
 };

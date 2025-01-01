@@ -3,8 +3,15 @@ import { instance } from "src/services/api-client";
 import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { NotificationService } from "src/helpers/notifications";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IDetailUser, ISubUser, IUser } from "src/@types/users";
+import {
+  IAddUser,
+  IDetailUser,
+  IEditUser,
+  ISubUser,
+  IUser,
+} from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
@@ -20,6 +27,9 @@ interface IUserStore {
   getUserDetail: (id: string) => void;
   deleteSubUser: (id: string) => Promise<void>;
   addUserNote: (text: string, userId: string, title?: string) => Promise<void>;
+
+  createUser: (data: IAddUser) => void;
+  updateUser: (data: IEditUser) => void;
 
   isAuthorized: boolean;
   isLoading: boolean;
@@ -108,6 +118,21 @@ const useUserStore = create(
         set({ isLoadingSubUsers: false });
       } catch {
         set({ isLoadingSubUsers: false });
+      }
+    },
+    createUser: async (data) => {
+      try {
+        await instance.post("/user/createUser", data);
+      } catch {
+        NotificationService.error();
+      }
+    },
+    updateUser: async (data) => {
+      try {
+        await instance.post("/user/updateUser", data);
+        NotificationService.success("User updated successfully.");
+      } catch {
+        NotificationService.error();
       }
     },
     deleteSubUser: async (id) => {

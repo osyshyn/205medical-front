@@ -20,6 +20,7 @@ export interface IUser {
 export interface IDetailUser extends IUser {
   locations: ILocation[];
   products: IProduct[];
+  // approved_users: IUser[];
 }
 
 export interface ISubUser {
@@ -33,3 +34,22 @@ export enum TypesUsers {
   CLIENT_ADMIN = 2,
   MEDICAL = 3,
 }
+
+export type IAddUser = Omit<
+  IUser,
+  "id" | "created_at" | "updated_at" | "google_id" | "logo" | "avatar"
+> & {
+  avatar_id: number;
+  approved_users: number[];
+  active_products: number[];
+};
+
+export type IEditUser = Omit<
+  IDetailUser,
+  | "created_at"
+  | "updated_at"
+  | "google_id"
+  | "logo"
+  | "approved_users"
+  | "active_products"
+>;
