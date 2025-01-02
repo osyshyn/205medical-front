@@ -7,8 +7,10 @@ import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as WhiteLogo } from "src/assets/icons/whiteLogo.svg";
 import { Row } from "src/@types/table";
 import { ModalWindow } from "../ModalWindow";
-import { Table, TableBody, TableHeader } from "../Table";
-import { Title } from "../Title";
+import { OrderHistory } from "../OrderHistory";
+import { ContactInfo } from "../SettingUserManagement/ContactInfo";
+import { Locations } from "../SettingUserManagement/Locations";
+import { Products } from "../SettingUserManagement/Products";
 import { Window } from "../Window";
 import { UserMetric } from "./UserMetrics";
 import {
@@ -137,58 +139,25 @@ export const BuyerDetail: FC = () => {
               </div>
             </div>
             <div className="flex-1">
-              <div className="flex border-b pb-8">
-                <div className="flex-1 flex-col gap-12">
-                  <div className="flex gap-2">
-                    <p className="text-[#344054A1]">Name:</p>
-                    <p className="font-semibold">{`${first_name} ${last_name}`}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="text-[#344054A1]">Role:</p>
-                    <p className="font-semibold">{role}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="text-[#344054A1]">Purchase limit:</p>
-                    <p className="font-semibold">{purchase_limit}</p>
-                  </div>
-                </div>
-                <div className="flex-1 flex-col gap-12">
-                  <div className="flex gap-2">
-                    <p className="text-[#344054A1]">Phone:</p>
-                    <p className="font-semibold">{phone}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="text-[#344054A1]">Email:</p>
-                    <p className="font-semibold">{email}</p>
-                  </div>
-                </div>
+              <div className="border-b">
+                <ContactInfo
+                  first_name={first_name}
+                  last_name={last_name}
+                  phone={phone}
+                  email={email}
+                  role={role}
+                  purchaseLimit={purchase_limit}
+                />
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-5 border-b pb-8">
+              <div className="mt-8 grid grid-cols-2 gap-5 pb-8">
                 <div className="flex flex-col gap-4">
-                  <Window className="min-h-62.5">
-                    <Title title="Approved locations" subtitle="" />
-                    <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                      {locations?.length > 0 &&
-                        locations?.map((location) => (
-                          <li key={location.id}>{location.name}</li>
-                        ))}
-                    </dl>
-                  </Window>
+                  <Locations locations={locations} />
                 </div>
                 <div className="flex flex-col gap-4">
-                  <Window className="max-h-62.5 min-h-62.5 overflow-y-auto">
-                    <Title title="Approved products" subtitle="" />
-                    <dl className="ml-5 flex flex-col gap-4 text-[14px] font-[400]">
-                      {products?.length > 0 &&
-                        products?.map((product) => (
-                          <li key={product.id}>{product.name}</li>
-                        ))}
-                    </dl>
-                  </Window>
+                  <Products products={products} />
                 </div>
               </div>
-
               <div className="mt-5 flex w-full">
                 {userMetrics && (
                   <UserMetric
@@ -198,33 +167,16 @@ export const BuyerDetail: FC = () => {
                 )}
               </div>
 
+              {/* <Window className="mt-8"> */}
               <div className="mt-8">
-                <button
-                  onClick={toggleOrderHistory}
-                  className="flex w-full items-center justify-items-start gap-2 text-lg font-semibold"
-                >
-                  Order History
-                  <span
-                    className={`transform transition-transform ${
-                      isOrderHistoryVisible ? "rotate-180" : "rotate-0"
-                    }`}
-                  >
-                    ↓
-                  </span>
-                </button>
-
-                {isOrderHistoryVisible && (
-                  <div className="mt-4">
-                    <Table>
-                      <TableHeader columns={BUYERS_ORDER_TABLE_COLUMNS} />
-                      <TableBody
-                        items={items}
-                        columns={BUYERS_ORDER_TABLE_COLUMNS}
-                      />
-                    </Table>
-                  </div>
-                )}
+                <OrderHistory
+                  toggleOrderHistory={toggleOrderHistory}
+                  isOrderHistoryVisible={isOrderHistoryVisible}
+                  columns={BUYERS_ORDER_TABLE_COLUMNS}
+                  items={items}
+                />
               </div>
+              {/* </Window> */}
             </div>
           </div>
         </div>

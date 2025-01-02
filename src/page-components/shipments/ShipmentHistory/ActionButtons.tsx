@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const ActionsButtons: FC<Props> = ({ id }) => {
+  console.log(id);
   return (
     <div className="max-w flex justify-center gap-3">
       <Link to={getItemPath(PATHNAMES.ORDER_DETAIL, { id })}>

@@ -110,6 +110,20 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   {
     id: 2,
     icon: DashboardIcon,
+    label: "Recent Orders",
+    href: PATHNAMES.RECENT_ORDERS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "AWAITING APPROVAL",
+        href: PATHNAMES.AWAITING_APPROVAL,
+      },
+    ],
+  },
+  {
+    id: 3,
+    icon: DashboardIcon,
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: DashboardActiveIcon,
@@ -189,6 +203,13 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: BuyersActiveIcon,
+  },
+  {
+    id: 10,
+    icon: SettingsIcon,
+    label: "Settings",
+    href: PATHNAMES.SETTINGS_MEDICAL,
+    iconActive: SettingsActiveIcon,
   },
 ];
 

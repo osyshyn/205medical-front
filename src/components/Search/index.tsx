@@ -10,11 +10,11 @@ interface Props {
 }
 
 export const Search: FC<Props> = ({ className, value, onChange }) => (
-  <div className="relative bg-blue-softblue !rounded-xl">
+  <div className="relative !rounded-xl">
     <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2" />
 
     <input
-      className={cn(TEXT_INPUT_STYLE_VARIANTS.primary, className, "pl-10", "bg-blue-softblue", )}
+      className={cn(TEXT_INPUT_STYLE_VARIANTS.primary, className, "pl-10", "!bg-blue-softblue", )}
       placeholder="Search"
       value={value}
       onChange={onChange}

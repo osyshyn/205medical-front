@@ -62,10 +62,8 @@ export const ChatWindow: FC<ChatWindowProps> = ({
     };
 
     if (isToday) {
-      // Return only the time for today
       return messageDate.toLocaleTimeString([], options);
     } else {
-      // Return the date in dd.mm.yyyy format for past messages
       const day = messageDate.getDate().toString().padStart(2, "0");
       const month = (messageDate.getMonth() + 1).toString().padStart(2, "0");
       const year = messageDate.getFullYear();

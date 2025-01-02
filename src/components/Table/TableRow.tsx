@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const TableRow: FC<Props> = ({ className, rowData, columns }) => (
-  <tr className={cn("text-center", className)}>
+  <tr className={cn("text-center", className, "border-b")}>
     {columns.map((column) => (
       <TableCell key={column.key}>{getKeyValue(rowData, column.key)}</TableCell>
     ))}

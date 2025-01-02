@@ -223,8 +223,6 @@ const useMetricStore = create(
           }
         );
 
-        console.log("data: ", data.approval_metrics);
-
         const approvalMetrics = getMetrics(
           data.approval_metrics,
           userMetricCustomizations

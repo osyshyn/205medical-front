@@ -10,6 +10,7 @@ interface Props {
   columns: Column[];
   emptyLabel?: string;
   isLoading?: boolean;
+  refForInfinityScroll?: React.RefObject<HTMLDivElement>;
 }
 
 export const TableBody: FC<Props> = ({
@@ -18,6 +19,7 @@ export const TableBody: FC<Props> = ({
   columns,
   emptyLabel = "No data available",
   isLoading,
+  refForInfinityScroll,
 }) => (
   <tbody>
     {isLoading ? (
@@ -45,5 +47,10 @@ export const TableBody: FC<Props> = ({
         </td>
       </tr>
     )}
+    <tr>
+      <td colSpan={columns.length}>
+        <div ref={refForInfinityScroll} style={{ height: "1px" }} />
+      </td>
+    </tr>
   </tbody>
 );

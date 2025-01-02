@@ -1,5 +1,5 @@
+import { IProduct } from "./products";
 import { StyledValue } from "./table";
-import { IUser } from "./users";
 
 export interface IOrder {
   id: number;
@@ -18,6 +18,20 @@ export interface IOrder {
   status: number;
   updated_at: string;
   user_id: number;
+  user: {
+    first_name: string;
+    last_name: string;
+  };
+}
+
+export interface IOrderToApprove {
+  id: number;
+  buyer_name: string;
+  created_at: string;
+  expected_delivery_date: string;
+  location: string;
+  products: IProduct[];
+  rush_service: string;
 }
 
 export enum IStatusesApproval {
@@ -95,7 +109,7 @@ export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
   },
   [IStatusesInvoice.NOT_ISSUED]: {
     style: {
-      color: "#DF0404",
+      color: "blue",
     },
     value: "Not-Issued",
   },

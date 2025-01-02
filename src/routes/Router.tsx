@@ -26,13 +26,17 @@ import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
 import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
+import { RecentOrders } from "src/pages/RecentOrders";
+import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
+import { SettingsMedical } from "src/pages/SettingsMedical";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OpenInvoices } from "src/components/OpenInvoices";
 import { PaidInvoices } from "src/components/OpenInvoices";
-import { OrderDetail } from "src/components/OrderDetail";
+// import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
+import { ShipmentDetail } from "src/components/ShipmentDetail";
 import useUserStore from "src/stores/user-store";
 import { PATHNAMES } from "src/constants/routes";
 
@@ -159,7 +163,7 @@ const ROUTES = [
         path: PATHNAMES.SHIPMENTS,
         children: [
           {
-            element: <PrivateRoute component={OrderDetail} />,
+            element: <PrivateRoute component={ShipmentDetail} />,
             path: PATHNAMES.ORDER_DETAIL,
           },
         ],
@@ -171,6 +175,29 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Settings} />,
         path: PATHNAMES.SETTINGS,
+      },
+      {
+        element: <PrivateRoute component={RecentOrders} />,
+        path: PATHNAMES.RECENT_ORDERS,
+        children: [],
+      },
+      {
+        element: <PrivateRoute component={AwaitingApproval} />,
+        path: PATHNAMES.AWAITING_APPROVAL,
+        children: [
+          {
+            element: <PrivateRoute component={ShipmentDetail} />,
+            path: PATHNAMES.APPROVAL_DETAIL,
+          },
+        ],
+      },
+      {
+        element: <PrivateRoute component={ShipmentDetail} />,
+        path: PATHNAMES.APPROVAL_DETAIL,
+      },
+      {
+        element: <PrivateRoute component={SettingsMedical} />,
+        path: PATHNAMES.SETTINGS_MEDICAL,
       },
       {
         element: <PrivateRoute component={AddLocation} />,
