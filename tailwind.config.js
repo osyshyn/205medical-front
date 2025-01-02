@@ -17,13 +17,14 @@ module.exports = {
         },
         blue: {
           base: "#4623E9",
-          softblue: "#F9FBFF"
+          softblue: "#F9FBFF",
         },
         gray: {
           base: "#1A1A1A",
           ligth: "#9197B3",
           dark: "#344054",
           soft: "#F0F0F0",
+          steel: "#667085",
           medium: "#757575",
           regular: "#ACACAC",
         },
@@ -45,6 +46,9 @@ module.exports = {
         },
       },
       fontSize: {
+        12: "12px",
+        14: "14px",
+        20: "20px",
         22: "22px",
         32: "32px",
       },
@@ -110,10 +114,10 @@ module.exports = {
         xl: "1614px",
       },
     },
-    borderWidth: {
-      '1': '1px',
-      '5': '5px',
-    },
+    // borderWidth: {
+    //   1: "1px",
+    //   5: "5px",
+    // },
   },
   plugins: [
     function ({ addUtilities }) {

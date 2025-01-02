@@ -1,4 +1,5 @@
-import { IInvoice, INVOICE_STATUS, STATUSES_DELIVERY } from "src/@types/invoice";
+import { IInvoice } from "src/@types/invoice";
+import { INVOICE_SHIPS, STATUSES_SHIPS } from "src/@types/orders";
 import { Column } from "src/@types/table";
 
 export const ORDER_COLUMNS: Column[] = [
@@ -28,7 +29,7 @@ export const getTableItems = (invoice: IInvoice[]): IInvoice[] =>
     created_at: formatDate(invoice.created_at),
     due_date: formatDate(invoice.due_date),
     amount: formatAmount(invoice.amount),
-    deliveryStatus: STATUSES_DELIVERY[invoice.delivery_status],
-    paymentStatus: INVOICE_STATUS[invoice.payment_status],
-    buyers: `${invoice.buyer.first_name} ${invoice.buyer.last_name}`
+    deliveryStatus: STATUSES_SHIPS[invoice.delivery_status],
+    paymentStatus: INVOICE_SHIPS[invoice.payment_status],
+    buyers: `${invoice.buyer.first_name} ${invoice.buyer.last_name}`,
   }));

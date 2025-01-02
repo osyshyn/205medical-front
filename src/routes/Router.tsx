@@ -25,6 +25,7 @@ import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
+import { SettingsMedical } from "src/pages/SettingsMedical";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OpenInvoices } from "src/components/OpenInvoices";
 import { PaidInvoices } from "src/components/OpenInvoices";
@@ -170,6 +171,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Settings} />,
         path: PATHNAMES.SETTINGS,
+      },
+      {
+        element: <PrivateRoute component={SettingsMedical} />,
+        path: PATHNAMES.SETTINGS_MEDICAL,
       },
       {
         element: <PrivateRoute component={AddLocation} />,

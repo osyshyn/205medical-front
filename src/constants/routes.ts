@@ -36,5 +36,8 @@ export const PATHNAMES = {
   OPEN_INVOICES: "/accounting/open-invoices",
   PAID_INVOICES: "/accounting/paid-invoices",
 
+  // 205 MEDICAL ADMIN
+  SETTINGS_MEDICAL: "/settings-medical",
+
   NOT_FOUND: "/*",
 };

@@ -1,4 +1,6 @@
 import { PATHNAMES } from "src/constants/routes";
+import { ReactComponent as AccountingActiveIcon } from "src/assets/icons/sidebar/navigation/accounting-active.svg";
+import { ReactComponent as AccountingIcon } from "src/assets/icons/sidebar/navigation/accounting.svg";
 import { ReactComponent as BuyersActiveIcon } from "src/assets/icons/sidebar/navigation/buyers-active.svg";
 import { ReactComponent as BuyersIcon } from "src/assets/icons/sidebar/navigation/buyers.svg";
 import { ReactComponent as ChatActiveIcon } from "src/assets/icons/sidebar/navigation/chat-active.svg";
@@ -9,8 +11,6 @@ import { ReactComponent as DashboardActiveIcon } from "src/assets/icons/sidebar/
 import { ReactComponent as DashboardIcon } from "src/assets/icons/sidebar/navigation/dashboard.svg";
 import { ReactComponent as LocationActiveIcon } from "src/assets/icons/sidebar/navigation/location-active.svg";
 import { ReactComponent as LocationIcon } from "src/assets/icons/sidebar/navigation/location.svg";
-import { ReactComponent as AccountingIcon } from "src/assets/icons/sidebar/navigation/accounting.svg";
-import { ReactComponent as AccountingActiveIcon } from "src/assets/icons/sidebar/navigation/accounting-active.svg";
 import { ReactComponent as ProductActiveIcon } from "src/assets/icons/sidebar/navigation/product-active.svg";
 import { ReactComponent as ProductIcon } from "src/assets/icons/sidebar/navigation/product.svg";
 import { ReactComponent as SettingsActiveIcon } from "src/assets/icons/sidebar/navigation/settings-active.svg";
@@ -138,19 +138,19 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     id: 4,
     icon: AccountingIcon,
 
-    label: "Accounting", 
-    href: PATHNAMES.ACCOUNTING, 
-    iconActive: AccountingActiveIcon, 
+    label: "Accounting",
+    href: PATHNAMES.ACCOUNTING,
+    iconActive: AccountingActiveIcon,
     subNavItems: [
       {
         id: 1,
         label: "Open Invoices",
-        href: PATHNAMES.OPEN_INVOICES, 
+        href: PATHNAMES.OPEN_INVOICES,
       },
       {
         id: 2,
         label: "Paid Invoices",
-        href: PATHNAMES.PAID_INVOICES, 
+        href: PATHNAMES.PAID_INVOICES,
       },
     ],
   },
@@ -164,6 +164,13 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: BuyersActiveIcon,
+  },
+  {
+    id: 10,
+    icon: SettingsIcon,
+    label: "Settings",
+    href: PATHNAMES.SETTINGS_MEDICAL,
+    iconActive: SettingsActiveIcon,
   },
 ];
 
