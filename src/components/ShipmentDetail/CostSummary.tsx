@@ -16,7 +16,7 @@ interface CostSummaryProps {
 
 export const CostSummary: FC<CostSummaryProps> = ({ orderToProducts }) => {
   const productCost = orderToProducts.reduce((total, item) => {
-    return total + item.product.price * item.quantity;
+    return total + (item?.product?.price || 0) * item.quantity;
   }, 0);
 
   const shipping = 10;

@@ -40,4 +40,8 @@ export const PATHNAMES = {
   SETTINGS_MEDICAL: "/settings-medical",
 
   NOT_FOUND: "/*",
+
+  RECENT_ORDERS: "/recent-orders",
+  AWAITING_APPROVAL: "/recent-orders/awaiting-approval",
+  APPROVAL_DETAIL: "/recent-orders/awaiting-approval/:id",
 };
