@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
+import { Checkbox } from "src/components/CheckBox";
 import { ModalWindow } from "src/components/ModalWindow";
 import { Window } from "src/components/Window";
 import useProductStore from "src/stores/product-store";
@@ -103,11 +104,10 @@ export const AddProduct = ({
                         className="grid grid-cols-[40px_1fr_1fr_1fr_1fr] items-center gap-4"
                       >
                         <div className="flex items-center justify-center">
-                          <input
-                            type="checkbox"
+                          <Checkbox
+                            label=""
                             checked={selectedProducts.includes(product.id)}
                             onChange={() => handleCheckboxChange(product.id)}
-                            className="h-4 w-4 rounded text-purple-600 focus:ring-purple-500"
                           />
                         </div>
                         <div className="flex items-center justify-start">

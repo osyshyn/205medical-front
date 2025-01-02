@@ -19,7 +19,24 @@ export default function UserManagement() {
     setActiveUserId(userId);
   };
 
+  const handleUserUpdate = () => {
+    loadUsers(); // Refresh the users list
+  };
+
+  const handleUserDelete = () => {
+    setIsOpen(false); // Close the dropdown
+    setActiveUserId(null); // Clear active user
+    loadUsers(); // Refresh the users list
+  };
+
   const activeUser = users.find((user) => user.id === activeUserId);
+
+  // If the active user is deleted, clear the active user
+  useEffect(() => {
+    if (activeUserId && !users.find((user) => user.id === activeUserId)) {
+      setActiveUserId(null);
+    }
+  }, [users, activeUserId]);
 
   return (
     <div className="w-full">
@@ -34,7 +51,6 @@ export default function UserManagement() {
           })}
         />
       </button>
-
       {isOpen && (
         <>
           <div className="max-w-[1400px]">
@@ -44,8 +60,13 @@ export default function UserManagement() {
               onCardClick={handleCardClick}
             />
           </div>
-
-          {activeUser && <UserDetails id={activeUserId} />}
+          {activeUser && (
+            <UserDetails
+              id={activeUserId}
+              onUserUpdate={handleUserUpdate}
+              onUserDelete={handleUserDelete}
+            />
+          )}
         </>
       )}
     </div>
