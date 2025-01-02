@@ -36,7 +36,19 @@ export const ShipmentDetail: FC = () => {
     navigate(PATHNAMES.SHIPMENTS);
   };
 
-  if (!shipment && !isLoading) return null;
+  if (!shipment && !isLoading)
+    return (
+      <ModalWindow
+        className="max-h-[900px] w-2/4 overflow-y-auto"
+        onClose={onClose}
+        isOpen
+        isActivePortal
+      >
+        <Window>
+          <Title title="Order not found" subtitle="" />
+        </Window>
+      </ModalWindow>
+    );
   if (!shipment || !shipment.order) return null;
 
   const {

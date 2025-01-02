@@ -110,7 +110,7 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   {
     id: 2,
     icon: DashboardIcon,
-    label: "Dashboard",
+    label: "Recent Orders",
     href: PATHNAMES.RECENT_ORDERS,
     iconActive: DashboardActiveIcon,
     subNavItems: [

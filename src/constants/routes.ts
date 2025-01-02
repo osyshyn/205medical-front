@@ -42,5 +42,6 @@ export const PATHNAMES = {
   NOT_FOUND: "/*",
 
   RECENT_ORDERS: "/recent-orders",
-  AWAITING_APPROVAL: "/awaiting-approval",
+  AWAITING_APPROVAL: "/recent-orders/awaiting-approval",
+  APPROVAL_DETAIL: "/recent-orders/awaiting-approval/:id",
 };

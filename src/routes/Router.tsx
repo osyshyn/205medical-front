@@ -25,6 +25,7 @@ import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
+import { RecentOrders } from "src/pages/RecentOrders";
 import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
 import { SettingsMedical } from "src/pages/SettingsMedical";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
@@ -175,8 +176,23 @@ const ROUTES = [
         path: PATHNAMES.SETTINGS,
       },
       {
+        element: <PrivateRoute component={RecentOrders} />,
+        path: PATHNAMES.RECENT_ORDERS,
+        children: [],
+      },
+      {
         element: <PrivateRoute component={AwaitingApproval} />,
         path: PATHNAMES.AWAITING_APPROVAL,
+        children: [
+          {
+            element: <PrivateRoute component={ShipmentDetail} />,
+            path: PATHNAMES.APPROVAL_DETAIL,
+          },
+        ],
+      },
+      {
+        element: <PrivateRoute component={ShipmentDetail} />,
+        path: PATHNAMES.APPROVAL_DETAIL,
       },
       {
         element: <PrivateRoute component={SettingsMedical} />,

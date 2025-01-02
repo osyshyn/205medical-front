@@ -1,6 +1,6 @@
 import { IOrderToApprove } from "src/@types/orders";
 import { Column, Row } from "src/@types/table";
-import { ActionsButtons } from "../shipments/ShipmentHistory/ActionButtons";
+import { ActionsButtons } from "./action-buttons";
 import { Checkbox } from "./checkbox";
 
 export const AWAITING_APPROVALS_COLUMNS: Column[] = [
