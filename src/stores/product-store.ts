@@ -12,6 +12,7 @@ interface FetchProductPurchases {
   month: string;
   year: string;
   location_ids: string[];
+  page?: number;
 }
 
 interface IProductStore {

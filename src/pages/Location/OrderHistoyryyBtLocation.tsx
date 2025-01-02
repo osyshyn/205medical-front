@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   getOpenClosedOrdersItems,
   getOrderHistoryItems,
@@ -22,6 +22,7 @@ import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
+import useInvoiceStore from "src/stores/invoice-store";
 import useLocationStore from "src/stores/location-store";
 import useMetricStore from "src/stores/metric-store";
 import useOrderStore from "src/stores/order-store";
@@ -51,6 +52,9 @@ export const OrderHistoryByLocation: FC = () => {
     (state) => state.fetchMonthlyPurchases
   );
   const monthlyPurchases = useMetricStore((state) => state.monthlyPurchases);
+  const loadInvoices = useInvoiceStore((state) => state.fetchinvoice);
+  const invoices = useInvoiceStore((state) => state.invoice);
+  const invoiceLoading = useInvoiceStore((state) => state.isLoading);
 
   const currentLocationResult = currentLocation?.result;
 
@@ -62,6 +66,13 @@ export const OrderHistoryByLocation: FC = () => {
   const [selectedOption, setSelectedOption] = useState<IOptionSelect | null>(
     options[0]
   );
+
+  const currentPageRef = useRef(1);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const currnetPurchasesPageRef = useRef(1);
+  const purchasesSentinelRef = useRef<HTMLDivElement | null>(null);
 
   const { getQueryParam, setMultipleQueryParams } = useQueryParams();
 
@@ -122,11 +133,20 @@ export const OrderHistoryByLocation: FC = () => {
       location_ids: [currentLocationResult?.id.toString()],
       su_users_ids: getArrayFromStringParams(su_users_ids),
     });
+    loadInvoices({
+      current_page: 1,
+      search: "",
+      month: selectMonthOption?.value.toString(),
+      year: selectYearOption?.value.toString(),
+      location_ids: [currentLocationResult?.id.toString()],
+      su_users_ids: getArrayFromStringParams(su_users_ids),
+    });
   }, [
     loadOrdersMetrics,
     loadMonthlyPurchases,
     loadPurchasesByProductList,
     loadOrders,
+    loadInvoices,
     selectMonthOption,
     selectYearOption,
     currentLocationResult,
@@ -135,11 +155,80 @@ export const OrderHistoryByLocation: FC = () => {
 
   const purchaseItems = (getOrderHistoryItems(purchasesByProductList) ||
     []) as Row[];
-  const order_closed = (getOpenClosedOrdersItems(orders?.result) ||
+  const orderClosed = (getOpenClosedOrdersItems(invoices?.result) ||
     []) as Row[];
 
-  console.log("purchaseItems", purchasesByProductList);
-  console.log("Order closed", orders);
+  const loadNextPage = useCallback(() => {
+    const currentPage = currentPageRef.current + 1;
+    currentPageRef.current = currentPage;
+
+    loadInvoices({
+      month: selectMonthOption?.value.toString(),
+      year: selectYearOption?.value.toString(),
+      location_ids: [currentLocationResult?.id.toString()],
+      su_users_ids: getArrayFromStringParams(su_users_ids),
+      current_page: currentPage,
+      search: "",
+    });
+  }, [loadInvoices, currentLocationResult]);
+
+  const loadNextPurchasesPage = useCallback(() => {
+    const currentPage = currentPageRef.current + 1;
+    currentPageRef.current = currentPage;
+
+    loadPurchasesByProductList({
+      month: selectMonthOption?.value.toString(),
+      year: selectYearOption?.value.toString(),
+      location_ids: [currentLocationResult?.id.toString()],
+      page: currentPage,
+    });
+  }, [
+    loadPurchasesByProductList,
+    selectMonthOption,
+    selectYearOption,
+    currentLocationResult,
+    su_users_ids,
+  ]);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting ?? !invoiceLoading) {
+          loadNextPage();
+        }
+      },
+      { rootMargin: "200px", threshold: 0.1 }
+    );
+
+    observer.observe(sentinelRef.current);
+    observerRef.current = observer;
+
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [loadNextPage, invoiceLoading]);
+
+  useEffect(() => {
+    if (!purchasesSentinelRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          loadNextPurchasesPage();
+        }
+      },
+      { rootMargin: "200px", threshold: 0.1 }
+    );
+
+    observer.observe(purchasesSentinelRef.current);
+    observerRef.current = observer;
+
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [loadNextPurchasesPage]);
 
   return (
     <PageWrapper>
@@ -181,6 +270,7 @@ export const OrderHistoryByLocation: FC = () => {
                 <TableBody
                   items={purchaseItems}
                   columns={ORDER_HISTORY_COLUMNS}
+                  refForInfinityScroll={purchasesSentinelRef}
                 />
               </Table>
             </Window>
@@ -192,8 +282,9 @@ export const OrderHistoryByLocation: FC = () => {
               <Table ariaLabel="Product Purchases">
                 <TableHeader columns={OPEN_CLOSED_ORDERS_COLUMNS} />
                 <TableBody
-                  items={order_closed}
+                  items={orderClosed}
                   columns={OPEN_CLOSED_ORDERS_COLUMNS}
+                  refForInfinityScroll={sentinelRef}
                 />
               </Table>
             </Window>

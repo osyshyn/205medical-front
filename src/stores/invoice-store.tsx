@@ -30,6 +30,8 @@ const useInvoiceStore = create(
     fetchinvoice: async (params) => {
       set({ isLoading: true });
 
+      console.log("Params: ", params);
+
       try {
         const { data } = await instance.get<IResponseWithPagination<IInvoice>>(
           `invoice?&items_per_page=${ORDERS_PER_PAGE}/`,
