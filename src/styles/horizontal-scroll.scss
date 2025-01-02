@@ -1,0 +1,23 @@
+.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 1rem;
+  gap: 1.25rem;
+  scrollbar-width: thin; /* Для браузерів Firefox */
+  scrollbar-color: #5932ea transparent; /* Кольори для Firefox */
+  position: relative; /* Для використання псевдоелементів */
+
+  &::-webkit-scrollbar {
+    height: 8px; /* Висота скролбару */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #5932ea; /* Колір скролбару */
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent; /* Фон треку */
+  }
+}

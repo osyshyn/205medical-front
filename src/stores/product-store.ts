@@ -15,6 +15,7 @@ interface IProductStore {
   fetchProductDetails: (id: number) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
+  deleteProduct: (id: number) => Promise<void>;
 }
 
 const useProductStore = create(
@@ -22,6 +23,7 @@ const useProductStore = create(
     products: [],
     product_details: {} as IProductDetails,
     isLoadingProducts: false,
+    isLoadingProductDetail: false,
     fetchProducts: async (params) => {
       set({ isLoadingProducts: true });
 
@@ -37,7 +39,6 @@ const useProductStore = create(
         set({ isLoadingProducts: false });
       }
     },
-    isLoadingProductDetail: false,
     fetchProductDetails: async (id) => {
       set({ isLoadingProductDetail: true });
       try {
@@ -50,6 +51,25 @@ const useProductStore = create(
         NotificationService.error();
       } finally {
         set({ isLoadingProductDetail: false });
+      }
+    },
+    deleteProduct: async (id: number) => {
+      try {
+        await instance.post("product/deleteProduct", { id });
+        NotificationService.success("Product deleted successfully");
+        set((state) => ({
+          products: state.products.filter((product) => product.id !== id),
+        }));
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+    deleteCategory: async (id: number) => {
+      try {
+        await instance.post("category/deleteCategory", { id });
+        NotificationService.success("Category deleted successfully");
+      } catch (error) {
+        NotificationService.error();
       }
     },
   }))

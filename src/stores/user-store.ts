@@ -3,8 +3,15 @@ import { instance } from "src/services/api-client";
 import { isTokenExpired } from "src/services/interceptors";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { NotificationService } from "src/helpers/notifications";
 import { AUTH_REFRESH_TOKEN } from "src/constants/cookiesKeys";
-import { IDetailUser, ISubUser, IUser } from "src/@types/users";
+import {
+  IAddUser,
+  IDetailUser,
+  IEditUser,
+  ISubUser,
+  IUser,
+} from "src/@types/users";
 
 interface IUserStore {
   user: IUser;
@@ -12,12 +19,17 @@ interface IUserStore {
   users: IUser[];
   detailUser: IDetailUser;
   userNotes: any[];
-  getUserNotes: (id) => void;
+  getUserNotes: (id: string) => void;
   getSubUsers: () => void;
 
   getUser: () => void;
   getAllUsers: () => void;
   getUserDetail: (id: string) => void;
+  deleteSubUser: (id: string) => Promise<void>;
+  addUserNote: (text: string, userId: string, title?: string) => Promise<void>;
+
+  createUser: (data: IAddUser) => void;
+  updateUser: (data: IEditUser) => void;
 
   isAuthorized: boolean;
   isLoading: boolean;
@@ -106,6 +118,54 @@ const useUserStore = create(
         set({ isLoadingSubUsers: false });
       } catch {
         set({ isLoadingSubUsers: false });
+      }
+    },
+    createUser: async (data) => {
+      try {
+        await instance.post("/user/createUser", data);
+      } catch {
+        NotificationService.error();
+      }
+    },
+    updateUser: async (data) => {
+      try {
+        await instance.post("/user/updateUser", data);
+        NotificationService.success("User updated successfully.");
+      } catch {
+        NotificationService.error();
+      }
+    },
+    deleteSubUser: async (id) => {
+      try {
+        await instance.post(`/user/deleteUser`, {
+          data: { id },
+        });
+        set((state) => {
+          const updatedSubUsers = state.subUsers.filter(
+            (subUser) => subUser.id !== Number(id)
+          );
+          return {
+            subUsers: updatedSubUsers,
+          };
+        });
+      } catch (error) {
+        console.error("Failed to delete sub-user", error);
+      }
+    },
+    addUserNote: async (text: string, userId: string, title?: string) => {
+      try {
+        await instance.post("/user/addUserNotes", {
+          user_id: userId,
+          text,
+          ...(title && { title }),
+        });
+
+        const { data } = await instance.get<any[]>(
+          `/user/getUserNotes?user_id=${userId}`
+        );
+        set({ userNotes: data });
+      } catch (error) {
+        console.error("Failed to add user note", error);
       }
     },
   }))

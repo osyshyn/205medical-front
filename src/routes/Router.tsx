@@ -19,12 +19,18 @@ import {
   ShipmentAlerts,
   Shipments,
 } from "src/pages";
+import { Accounting } from "src/pages/Accounting";
 import { Buyers } from "src/pages/Buyers";
+import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
 import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
+import { SettingsMedical } from "src/pages/SettingsMedical";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
+import { OpenInvoices } from "src/components/OpenInvoices";
+import { PaidInvoices } from "src/components/OpenInvoices";
+// import { OrderDetail } from "src/components/OrderDetail";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
 import { PrivateRoute } from "src/components/PrivateRoute";
 import { ONLY_FOR } from "src/components/PrivateRoute/types";
@@ -120,6 +126,29 @@ const ROUTES = [
         ],
       },
       {
+        element: <PrivateRoute component={Accounting} />,
+        path: PATHNAMES.ACCOUNTING,
+        children: [
+          {
+            index: true,
+            element: (
+              <React.Fragment>
+                <OpenInvoices />
+                <PaidInvoices />
+              </React.Fragment>
+            ),
+          },
+          {
+            element: <PrivateRoute component={OpenInvoices} />,
+            path: PATHNAMES.OPEN_INVOICES,
+          },
+          {
+            element: <PrivateRoute component={PaidInvoices} />,
+            path: PATHNAMES.PAID_INVOICES,
+          },
+        ],
+      },
+      {
         element: <PrivateRoute component={ProductsHistory} />,
         path: PATHNAMES.PRODUCT_HISTORY,
       },
@@ -150,12 +179,20 @@ const ROUTES = [
         path: PATHNAMES.AWAITING_APPROVAL,
       },
       {
+        element: <PrivateRoute component={SettingsMedical} />,
+        path: PATHNAMES.SETTINGS_MEDICAL,
+      },
+      {
         element: <PrivateRoute component={AddLocation} />,
         path: PATHNAMES.ADD_LOCATION,
       },
       {
         element: <PrivateRoute component={EditLocation} />,
         path: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={EditBuyer} />,
+        path: PATHNAMES.EDIT_BUYER,
       },
     ],
   },

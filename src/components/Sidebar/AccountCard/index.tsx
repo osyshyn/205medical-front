@@ -20,7 +20,7 @@ export const AccountCard: FC<Props> = ({ isEmailShown }) => {
     <div className="flex flex-col">
       <Avatar
         className="overflow-hidden"
-        avatarUrl={avatar.path}
+        avatarUrl={avatar?.path || "none"}
         altText={altText}
         sizeVariant={Sizes.XS}
       />

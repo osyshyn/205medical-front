@@ -6,12 +6,12 @@ interface Props {
 }
 
 export const TableHeader: React.FC<Props> = ({ className, columns }) => (
-  <thead className={className}>
+  <thead className={`${className} border-b`}>
     <tr>
       {columns.map((column) => (
         <th
           key={column.key}
-          className="border-b pb-4 text-sm font-medium text-gray-regular"
+          className="border-b-1 border-white-lightgray pb-4 text-sm font-medium text-gray-regular"
         >
           {column.label}
         </th>
