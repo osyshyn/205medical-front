@@ -17,6 +17,7 @@ export interface FetchInvoiceParams {
 
 interface IInvoiceStore {
   invoice: IResponseWithPagination<IInvoice>;
+  invoiceToShow: IInvoice[];
   fetchinvoice: (params: FetchInvoiceParams) => void;
   isLoading: boolean;
 }
@@ -26,11 +27,10 @@ export const ORDERS_PER_PAGE = 8;
 const useInvoiceStore = create(
   devtools<IInvoiceStore>((set) => ({
     invoice: null,
+    invoiceToShow: [],
     isLoading: false,
     fetchinvoice: async (params) => {
       set({ isLoading: true });
-
-      console.log("Params: ", params);
 
       try {
         const { data } = await instance.get<IResponseWithPagination<IInvoice>>(
@@ -39,6 +39,9 @@ const useInvoiceStore = create(
         );
 
         set({ invoice: data });
+        set((state) => ({
+          invoiceToShow: [...state.invoiceToShow, ...data.result],
+        }));
       } catch (error) {
         NotificationService.error();
       } finally {

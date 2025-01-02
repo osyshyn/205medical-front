@@ -54,6 +54,7 @@ export const OrderHistoryByLocation: FC = () => {
   const monthlyPurchases = useMetricStore((state) => state.monthlyPurchases);
   const loadInvoices = useInvoiceStore((state) => state.fetchinvoice);
   const invoices = useInvoiceStore((state) => state.invoice);
+  const invoiceToShow = useInvoiceStore((state) => state.invoiceToShow);
   const invoiceLoading = useInvoiceStore((state) => state.isLoading);
 
   const currentLocationResult = currentLocation?.result;
@@ -192,6 +193,10 @@ export const OrderHistoryByLocation: FC = () => {
 
   useEffect(() => {
     if (!sentinelRef.current) return;
+    console.log("InvoicesCount: ", invoices.count);
+    console.log("InvoiceToShow: ", invoiceToShow);
+    if (invoices.count <= invoiceToShow.length) return;
+    // if (!invoices.next) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -210,25 +215,28 @@ export const OrderHistoryByLocation: FC = () => {
     };
   }, [loadNextPage, invoiceLoading]);
 
-  useEffect(() => {
-    if (!purchasesSentinelRef.current) return;
+  // useEffect(() => {
+  //   if (!purchasesSentinelRef.current) return;
+  //   if (purchasesByProductList.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          loadNextPurchasesPage();
-        }
-      },
-      { rootMargin: "200px", threshold: 0.1 }
-    );
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       if (entry.isIntersecting) {
+  //         loadNextPurchasesPage();
+  //       }
+  //     },
+  //     { rootMargin: "200px", threshold: 0.1 }
+  //   );
 
-    observer.observe(purchasesSentinelRef.current);
-    observerRef.current = observer;
+  //   observer.observe(purchasesSentinelRef.current);
+  //   observerRef.current = observer;
 
-    return () => {
-      if (observerRef.current) observerRef.current.disconnect();
-    };
-  }, [loadNextPurchasesPage]);
+  //   return () => {
+  //     if (observerRef.current) observerRef.current.disconnect();
+  //   };
+  // }, [loadNextPurchasesPage]);
+
+  console.log("INVOICES", invoices);
 
   return (
     <PageWrapper>
