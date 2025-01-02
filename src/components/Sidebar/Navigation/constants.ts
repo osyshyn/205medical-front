@@ -180,6 +180,14 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     iconActive: BuyersActiveIcon,
   },
   {
+    id: 2,
+    icon: ProductIcon,
+    label: "Products",
+
+    href: PATHNAMES.PRODUCT,
+    iconActive: ProductActiveIcon,
+  },
+  {
     id: 10,
     icon: SettingsIcon,
     label: "Settings",

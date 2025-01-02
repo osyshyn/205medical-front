@@ -25,3 +25,16 @@ export interface IProductDetails extends IProduct {
   down_load_link: string;
   category: ICategory;
 }
+
+export interface IEditProduct {
+  name: string;
+  price: number;
+  minimum_order: number;
+  category_id: number;
+  certification: string;
+  sku: string;
+  description: string;
+  how_to_use: string;
+  faq: string;
+  photos_ids: number[];
+}

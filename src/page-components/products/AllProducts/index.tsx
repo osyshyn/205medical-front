@@ -8,6 +8,7 @@ import { useQueryParams } from "src/hooks/useQueryParams";
 import useCartStore from "src/stores/cart-store";
 import useCategoryStore from "src/stores/category-store";
 import useProductStore from "src/stores/product-store";
+import useUserStore from "src/stores/user-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { Row } from "src/@types/table";
@@ -19,6 +20,8 @@ import {
 
 export const AllProducts: FC = () => {
   const loadProducts = useProductStore((state) => state.fetchProducts);
+  const role = useUserStore((state) => state.user.role);
+
   const products = useProductStore((state) => state.products);
   const isLoadingProducts = useProductStore((state) => state.isLoadingProducts);
 
@@ -45,7 +48,7 @@ export const AllProducts: FC = () => {
     loadCategories();
   }, [loadCategories]);
 
-  const items = getTableItems(products) as unknown as Row[];
+  const items = getTableItems(products, role) as unknown as Row[];
 
   return (
     <Window>
