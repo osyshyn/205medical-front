@@ -88,7 +88,6 @@ export const UserDetails = ({ id }) => {
   };
 
   const handleEditSave = (updatedUserData) => {
-    // Here you would implement the logic to save the updated user data
     console.log("Updated user data:", updatedUserData);
   };
 
