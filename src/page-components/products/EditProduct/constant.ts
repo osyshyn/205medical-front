@@ -1,4 +1,5 @@
 import { TextInput } from "src/components/FormField/TextInput";
+import { SelectField } from "src/components/SettingUserManagement/SelectField";
 import { IRenderFormField } from "src/@types/form";
 
 export const EDIT_PRODUCT_FORM_FIELDS_FIRST: IRenderFormField[] = [
@@ -23,12 +24,17 @@ export const EDIT_PRODUCT_FORM_FIELDS_FIRST: IRenderFormField[] = [
     component: TextInput,
     placeholder: "Minimum Order",
   },
+
   {
     name: "category_id",
-    type: "text",
+    type: "select",
     label: "Category",
-    component: TextInput,
+    component: SelectField,
     placeholder: "Category",
+    options: [
+      { label: "Category 1", value: 1 },
+      { label: "Category 2", value: 2 },
+    ],
   },
   {
     name: "certification",

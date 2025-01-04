@@ -6,20 +6,34 @@ import { NotificationService } from "src/helpers/notifications";
 interface IFileStore {
   uploadFile: (category: string, file: File) => Promise<void>;
   response: any;
+  uploadDocument: (category: string, file: File) => Promise<void>;
+  responseDocument: any;
 }
 
 const useFileStore = create(
   devtools<IFileStore>((set) => ({
     response: null,
     uploadFile: async (category, file) => {
-      debugger;
       const formData = new FormData();
       formData.append("file", file);
       formData.append("category", category);
       try {
         const { data } = await instance.post("upload/uploadFile", formData);
-        set({ uploadFile: data });
+        // set({ uploadFile: data });
         set({ response: data.result });
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+    responseDocument: null,
+    uploadDocument: async (category, file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("category", category);
+      try {
+        const { data } = await instance.post("upload/uploadFile", formData);
+        set({ uploadDocument: data });
+        set({ responseDocument: data.result });
       } catch (error) {
         NotificationService.error();
       }

@@ -21,6 +21,7 @@ export interface IFormField {
   labelClassName?: string;
   variant?: FormFieldVariants;
   disabled?: boolean;
+  options?: IOptionSelect[];
 }
 
 export interface IRenderFormField extends IFormField {

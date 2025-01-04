@@ -9,9 +9,9 @@ export const SelectField = ({ label, name, value, onChange, options }) => (
       onChange={onChange}
       className="w-full rounded-md border border-gray-300 p-2.5 text-gray-700"
     >
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
+      {options?.map((option) => (
+        <option key={option?.value} value={option?.value}>
+          {option?.label}
         </option>
       ))}
     </select>
