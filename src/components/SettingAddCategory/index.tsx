@@ -69,8 +69,8 @@ export default function AddCategory() {
                 your category
               </p>
             </div>
-            <div className="min-w-[700px] pl-7 pr-7">
-              <div className="bg-white sticky top-0 grid grid-cols-4 gap-12 border-b border-t pb-4 pt-4 text-sm text-gray-500">
+            <div className="flex min-w-[700px] flex-col pl-7 pr-7">
+              <div className="bg-white top-0 grid flex-shrink-0 grid-cols-4 gap-12 border-b border-t pb-4 pt-4 text-sm text-gray-500">
                 <div></div>
                 <div className="text-14 font-medium">SKU</div>
                 <div className="text-14 font-medium">Name</div>
