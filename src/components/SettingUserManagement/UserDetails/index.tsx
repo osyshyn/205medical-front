@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { UserMetric } from "src/components/Buyers/UserMetrics";
@@ -8,23 +8,35 @@ import {
 } from "src/components/Buyers/UserOrders/constants";
 import { DeleteEntity } from "src/components/DeleteEntity";
 import { OrderHistory } from "src/components/OrderHistory";
-// import { Window } from "src/components/Window";
+import { SelectDate } from "src/components/SelectDate";
+import {
+  getCurrentMonthOption,
+  getCurrentYearOption,
+  MONTH_OPTIONS_SELECT,
+  YEARS_OPTIONS_SELECT,
+} from "src/components/SelectDate/constants";
+import { useQueryParams } from "src/hooks/useQueryParams";
 import useMetricStore from "src/stores/metric-store";
 import useOrderStore, { FetchOrdersParams } from "src/stores/order-store";
 import useUserStore from "src/stores/user-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
+import { IOptionSelect } from "src/@types/form";
 import { Row } from "src/@types/table";
 import { AddNotes } from "../AddNotes";
 import { Avatar } from "../Avatar";
 import { ContactInfo } from "../ContactInfo";
-import EditUserModal from "../EditUserModal";
+import { EditMedicalSettings } from "../EditUserModal";
 import { Locations } from "../Locations";
 import { Products } from "../Products";
 
-export const UserDetails = ({ id }) => {
+export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
   const [isOrderHistoryVisible, setIsOrderHistoryVisible] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false);
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
+
+  const { getQueryParam, setMultipleQueryParams } = useQueryParams();
   const userOrder = useOrderStore((state) => state.orders);
   const loadUserDetail = useUserStore((state) => state.getUserDetail);
   const loadUserNotes = useUserStore((state) => state.getUserNotes);
@@ -36,39 +48,79 @@ export const UserDetails = ({ id }) => {
   const userMetrics = useMetricStore((state) => state.user_metric);
   const loadUserMetrics = useMetricStore((state) => state.fetchUserMetric);
 
-  useEffect(() => {
+  const selectMonthOption =
+    MONTH_OPTIONS_SELECT.find(
+      ({ value }) => value === +getQueryParam(QUERY_PARAM_KEYS.MONTH)
+    ) || getCurrentMonthOption();
+
+  const selectYearOption =
+    YEARS_OPTIONS_SELECT.find(
+      ({ value }) => value === +getQueryParam(QUERY_PARAM_KEYS.YEAR)
+    ) || getCurrentYearOption();
+
+  const refreshUserData = useCallback(() => {
     const params: FetchOrdersParams = {
-      month: "12",
-      year: "2024",
+      month: selectMonthOption.value.toString(),
+      year: selectYearOption.value.toString(),
       su_users_ids: [Number(id)],
       search: "",
       current_page: 1,
     };
 
-    const currentDate = new Date();
-
     loadUserDetail(id);
     loadUserNotes(id);
     loadUserOrders(params);
     loadUserMetrics({
-      month: String(currentDate.getMonth() + 1),
-      year: String(currentDate.getFullYear()),
+      month: selectMonthOption.value.toString(),
+      year: selectYearOption.value.toString(),
       su_users_ids: [id],
     });
-  }, [loadUserDetail, loadUserNotes, loadUserMetrics, loadUserOrders, id]);
-  const {
-    first_name,
-    last_name,
-    email,
-    phone,
-    role,
-    purchase_limit,
-    locations,
-    products,
-  } = userDetail;
+  }, [
+    id,
+    loadUserDetail,
+    loadUserNotes,
+    loadUserOrders,
+    loadUserMetrics,
+    selectMonthOption.value,
+    selectYearOption.value,
+  ]);
+
+  useEffect(() => {
+    refreshUserData();
+  }, [refreshUserData]);
+
+  const handleEditModalClose = async () => {
+    setIsEditModalOpen(false);
+    await Promise.all([refreshUserData(), onUserUpdate?.()]);
+  };
+
+  const handleDeleteSuccess = async () => {
+    try {
+      await deleteUser(id);
+      setIsDeleteUserOpen(false);
+      onUserDelete?.();
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
+
+  const setSelectMonthOption = ({ value }: IOptionSelect) => {
+    setMultipleQueryParams({
+      [QUERY_PARAM_KEYS.MONTH]: value,
+      [QUERY_PARAM_KEYS.PAGE]: "1",
+    });
+    refreshUserData();
+  };
+
+  const setSelectYearOption = ({ value }: IOptionSelect) => {
+    setMultipleQueryParams({
+      [QUERY_PARAM_KEYS.YEAR]: value,
+      [QUERY_PARAM_KEYS.PAGE]: "1",
+    });
+    refreshUserData();
+  };
 
   const userOrdersResults = userOrder?.result || [];
-
   const items = getBuyerOrderTableItems(userOrdersResults) as unknown as Row[];
 
   const toggleOrderHistory = () => {
@@ -94,12 +146,12 @@ export const UserDetails = ({ id }) => {
   return (
     <div className="flex flex-wrap gap-15 p-10">
       <div className="min-h-[800px] w-[180px]">
-        <Avatar avatarPath={userDetail.avatar?.path} />
+        <Avatar avatarPath={userDetail?.avatar?.path} />
         <div className="w-full text-left">
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-semibold">Notes</h3>
             <button
-              onClick={handleAddNote}
+              onClick={() => setIsAddNoteOpen(true)}
               className="text-14 text-gray-500 underline decoration-solid hover:text-gray-700 hover:underline"
             >
               Add
@@ -127,18 +179,18 @@ export const UserDetails = ({ id }) => {
           <Button
             className="h-10 w-36 rounded-20 border"
             variant={ButtonVariants.SECONDARY_SQUARE}
-            onClick={handleEditClick}
+            onClick={() => setIsEditModalOpen(true)}
           >
             Edit
           </Button>
-          <EditUserModal
-            user={userDetail}
+          <EditMedicalSettings
+            key={`edit-modal-${id}-${isEditModalOpen}`}
+            settingsId={id}
             isOpen={isEditModalOpen}
-            onClose={() => setIsEditModalOpen(false)}
-            onSave={handleEditSave}
+            onClose={handleEditModalClose}
           />
           <button
-            onClick={handleDeleteClick}
+            onClick={() => setIsDeleteUserOpen(true)}
             className="mt-1 text-gray-500 underline decoration-solid hover:text-gray-700 hover:underline"
           >
             Delete User
@@ -148,7 +200,7 @@ export const UserDetails = ({ id }) => {
             onClose={() => setIsDeleteUserOpen(false)}
             entityId={id}
             entityName="User"
-            deleteAction={deleteUser}
+            deleteAction={handleDeleteSuccess}
           />
         </div>
       </div>
@@ -156,21 +208,22 @@ export const UserDetails = ({ id }) => {
       <div className="flex-1">
         <div className="border-b">
           <ContactInfo
-            first_name={first_name}
-            last_name={last_name}
-            phone={phone}
-            email={email}
-            role={role}
-            purchaseLimit={purchase_limit}
+            key={`contact-info-${JSON.stringify(userDetail)}`}
+            first_name={userDetail?.first_name}
+            last_name={userDetail?.last_name}
+            phone={userDetail?.phone}
+            email={userDetail?.email}
+            role={userDetail?.role}
+            purchaseLimit={userDetail?.purchase_limit}
           />
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-5 pb-8">
           <div className="flex flex-col gap-4">
-            <Locations locations={locations} />
+            <Locations locations={userDetail?.locations} />
           </div>
           <div className="flex flex-col gap-4">
-            <Products products={products} />
+            <Products products={userDetail?.products} />
           </div>
         </div>
         <div className="mt-5 flex w-full">
@@ -182,16 +235,26 @@ export const UserDetails = ({ id }) => {
           )}
         </div>
 
-        {/* <Window className="mt-8"> */}
         <div className="mt-8">
+          <div className="flex justify-end">
+            <SelectDate
+              selectMonth={selectMonthOption}
+              setSelectMonth={setSelectMonthOption}
+              selectYear={selectYearOption}
+              setSelectYear={setSelectYearOption}
+              isTitleHidden
+            />
+          </div>
+
           <OrderHistory
-            toggleOrderHistory={toggleOrderHistory}
+            toggleOrderHistory={() =>
+              setIsOrderHistoryVisible(!isOrderHistoryVisible)
+            }
             isOrderHistoryVisible={isOrderHistoryVisible}
             columns={BUYERS_ORDER_TABLE_COLUMNS}
             items={items}
           />
         </div>
-        {/* </Window> */}
       </div>
     </div>
   );
