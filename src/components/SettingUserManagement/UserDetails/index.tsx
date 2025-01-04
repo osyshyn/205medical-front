@@ -123,6 +123,26 @@ export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
   const userOrdersResults = userOrder?.result || [];
   const items = getBuyerOrderTableItems(userOrdersResults) as unknown as Row[];
 
+  const toggleOrderHistory = () => {
+    setIsOrderHistoryVisible((prev) => !prev);
+  };
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteUserOpen(true);
+  };
+
+  const handleAddNote = () => {
+    setIsAddNoteOpen(true);
+  };
+
+  const handleEditSave = (updatedUserData) => {
+    console.log("Updated user data:", updatedUserData);
+  };
+
   return (
     <div className="flex flex-wrap gap-15 p-10">
       <div className="min-h-[800px] w-[180px]">

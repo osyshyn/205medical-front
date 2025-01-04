@@ -180,6 +180,26 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     iconActive: BuyersActiveIcon,
   },
   {
+    id: 5,
+    icon: AccountingIcon,
+
+    label: "Accounting",
+    href: PATHNAMES.ACCOUNTING,
+    iconActive: AccountingActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Open Invoices",
+        href: PATHNAMES.OPEN_INVOICES,
+      },
+      {
+        id: 2,
+        label: "Paid Invoices",
+        href: PATHNAMES.PAID_INVOICES,
+      },
+    ],
+  },
+  {
     id: 10,
     icon: SettingsIcon,
     label: "Settings",
