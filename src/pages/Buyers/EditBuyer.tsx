@@ -37,6 +37,7 @@ export const EditBuyer: FC = () => {
   const response = useFileStore((state) => state.response);
 
   const updateUser = useUserStore((state) => state.updateUser);
+  const currentUserRole = useUserStore((state) => state.user.role);
 
   useEffect(() => {
     console.log("Use effect");
@@ -213,7 +214,20 @@ export const EditBuyer: FC = () => {
                 onSubmit={formik.handleSubmit}
                 className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5"
               >
-                <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} />
+                <RenderAddFormFields
+                  fields={ADD_BUYERS_FORM_FIELDS.map((field) => ({
+                    ...field,
+                    ...(field.name === "role" &&
+                    currentUserRole === TypesUsers.CLIENT_ADMIN
+                      ? {
+                          disabled: true,
+                          options: [
+                            { label: "Sub User", value: TypesUsers.SUB_USER },
+                          ],
+                        }
+                      : {}),
+                  }))}
+                />
 
                 <Window className="h-[250px] overflow-auto !p-0">
                   <div className="p-4">
