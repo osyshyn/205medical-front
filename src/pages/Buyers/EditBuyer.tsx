@@ -168,7 +168,7 @@ export const EditBuyer: FC = () => {
       isActivePortal
       closeButtonClassName="!bg-white-base rounded-full shadow-md"
     >
-      <Window className="max-h-200 relative overflow-auto !border-none !p-0">
+      <Window className="relative max-h-200 overflow-auto !border-none !p-0">
         <div className="space-y-8">
           <div className="text-white flex flex-col gap-10 rounded-t-30 bg-[#3D3935] px-7.5 py-4">
             <div>
@@ -231,21 +231,25 @@ export const EditBuyer: FC = () => {
                   </div>
                 </Window>
 
-                <Window className="h-[250px] overflow-auto !p-0">
-                  <div className="p-4">
-                    <Title title="Active products" subtitle="" />
-                  </div>
-                  <div className="mt-5 flex flex-col gap-4">
-                    {products.map((product) => (
-                      <Checkbox
-                        key={product.id}
-                        label={product.name}
-                        checked={selectedProduct.includes(product.id)}
-                        onChange={() => handleProductsChange(product.id)}
-                      />
-                    ))}
-                  </div>
-                </Window>
+                {formik.values.role == TypesUsers.CLIENT_ADMIN ? (
+                  <Window className="h-[250px] overflow-auto !p-0">
+                    <div className="p-4">
+                      <Title title="Active products" subtitle="" />
+                    </div>
+                    <div className="mt-5 flex flex-col gap-4">
+                      {products.map((product) => (
+                        <Checkbox
+                          key={product.id}
+                          label={product.name}
+                          checked={selectedProduct.includes(product.id)}
+                          onChange={() => handleProductsChange(product.id)}
+                        />
+                      ))}
+                    </div>
+                  </Window>
+                ) : (
+                  <></>
+                )}
               </Form>
             </FormikProvider>
           </div>
