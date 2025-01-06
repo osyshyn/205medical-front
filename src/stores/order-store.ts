@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
 import { IResponseWithPagination } from "src/@types/api";
+import { IOptionSelect } from "src/@types/form";
 import { IOrder, IOrderToApprove, IStatusesApproval } from "src/@types/orders";
 
 export interface FetchOrdersParams {
@@ -22,15 +23,28 @@ interface FetchOrdersToApproveParams {
   month: string;
 }
 
+export interface CreateOrderParams {
+  order_number: string;
+  customer_po_number: string;
+  expected_delivery_date: string;
+  rush_service: string;
+  location_id: IOptionSelect;
+  type: number;
+  order_producrs: { id: string; quantity: string }[];
+}
+
 interface IOrderStore {
-  orders: IResponseWithPagination<IOrder>;
+  orders: IResponseWithPagination<any>;
   fetchOrders: (params: FetchOrdersParams) => void;
+  lastOrderId: number;
+  fetchLastOrderId: () => void;
   approvesOrders: any;
   fetchApprovesOrder: (params: FetchOrdersToApproveParams) => void;
   selectedApprovedOrders: any[];
   setSelectedApprovedOrders: (orders: any) => void;
   rejectOrApproveOrder: (id: number[], status: IStatusesApproval) => void;
   selectAllApprovedOrders: (orders: any) => void;
+  createOrder: (values: CreateOrderParams) => void;
 
   isLoading: boolean;
 }
@@ -55,6 +69,25 @@ const useOrderStore = create(
         NotificationService.error();
       } finally {
         set({ isLoading: false });
+      }
+    },
+    createOrder: async (values) => {
+      try {
+        console.log("Values: ", values);
+        await instance.post("order/create", values);
+        NotificationService.success();
+      } catch ({ response }) {
+        const errorText = response?.data?.error;
+        NotificationService.error(errorText);
+      }
+    },
+    lastOrderId: 0,
+    fetchLastOrderId: async () => {
+      try {
+        const { data } = await instance.get<number>("order/getLastOrderId");
+        set({ lastOrderId: data });
+      } catch (error) {
+        NotificationService.error();
       }
     },
 

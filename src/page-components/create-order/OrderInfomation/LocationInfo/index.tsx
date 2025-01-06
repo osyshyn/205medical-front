@@ -40,7 +40,7 @@ export const LocationInfo: FC = () => {
             headLabel="Select location"
             headLabelclassName="w-full justify-between !text-base"
             options={locationOptionList}
-            formFieldProps={{ name: "orderLocation" }}
+            formFieldProps={{ name: "location_id" }}
             onChange={onChangeLocationSelect}
           />
         </div>

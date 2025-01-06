@@ -18,6 +18,20 @@ export const ORDER_COLUMNS: Column[] = [
   { key: "invoiceStatus", label: "Invoice Stat." },
 ];
 
+export const INVOICE_COLUMN: Column[] = [
+  {
+    key: "invoice",
+    label: "Invoice Number",
+  },
+];
+
+export const DUE_DATE_COLUMN: Column[] = [
+  {
+    key: "expected_delivery_date",
+    label: "Due Date",
+  },
+];
+
 export const getTableItems = (orders: IOrder[]): IOrder[] =>
   orders.map((order) => ({
     approvalStatus: STATUSES_APPROVAL[order.approval_status],
