@@ -34,7 +34,8 @@ export const SelectDropdownListField: FC<Props> = ({
   const isShownError = Boolean((touched || value) && error);
 
   const setOption: SetOptionSelect = (newOption) => {
-    setValue(newOption);
+    const id = newOption.value;
+    setValue(id);
     onChange(newOption);
   };
 

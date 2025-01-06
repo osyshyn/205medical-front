@@ -28,9 +28,9 @@ export interface CreateOrderParams {
   customer_po_number: string;
   expected_delivery_date: string;
   rush_service: string;
-  location_id: IOptionSelect;
+  location_id: string | number;
   type: number;
-  order_producrs: { id: string; quantity: string }[];
+  order_products: { id: string; quantity: string }[];
 }
 
 interface IOrderStore {

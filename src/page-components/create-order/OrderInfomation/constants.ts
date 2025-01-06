@@ -9,14 +9,14 @@ import { ILocation } from "src/@types/location";
 import { IRUSH_SERVICE } from "src/@types/orders";
 import { IFormikValues } from "./types";
 
-export const CREATE_ORDER_INITIAL_VALUES: CreateOrderParams = {
+export const CREATE_ORDER_INITIAL_VALUES: IFormikValues = {
   order_number: "",
   customer_po_number: "",
   expected_delivery_date: "",
-  rush_service: "",
-  location_id: { label: "", value: "" },
+  rush_service: IRUSH_SERVICE.STANDARD.toString(),
+  location_id: "",
   type: null,
-  order_producrs: [
+  order_products: [
     {
       id: "",
       quantity: "",

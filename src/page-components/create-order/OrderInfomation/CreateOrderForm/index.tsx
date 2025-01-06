@@ -23,7 +23,6 @@ export const CreateOrderForm: FC<Props> = ({ children }) => {
 
   const list = useProductListStore((state) => state.list);
 
-  // переделать на ENUM
   const getServiceType = (shipMethod: number): number => {
     const rushMethods = [IRUSH_SERVICE.DAY_2, IRUSH_SERVICE.PRIORITY_OVERNIGHT];
     if (shipMethod === IRUSH_SERVICE.STANDARD)
@@ -32,15 +31,15 @@ export const CreateOrderForm: FC<Props> = ({ children }) => {
     return ISERVICE_TYPE.REGULAR_ORDER;
   };
 
-  const onSubmit = async (values: CreateOrderParams) => {
+  const onSubmit = async (values: IFormikValues) => {
     const po_number = orderNumber + 1;
     const formattedValues = {
       ...values,
       order_number: po_number.toString(),
-      location_id: values.location_id as IOptionSelect,
+      location_id: values.location_id,
 
       type: getServiceType(Number(values.rush_service)),
-      order_producrs: list?.product_to_lists.map((product) => ({
+      order_products: list?.product_to_lists.map((product) => ({
         id: product.id.toString(),
         quantity: product.quantity.toString(),
       })),
@@ -49,7 +48,7 @@ export const CreateOrderForm: FC<Props> = ({ children }) => {
     await createOrder(formattedValues);
   };
 
-  const formikProps: FormikConfig<CreateOrderParams> = {
+  const formikProps: FormikConfig<IFormikValues> = {
     initialValues: CREATE_ORDER_INITIAL_VALUES,
     validationSchema: CREATE_ORDER_FORM_VALIDATION_SCHEMA,
     onSubmit: onSubmit,

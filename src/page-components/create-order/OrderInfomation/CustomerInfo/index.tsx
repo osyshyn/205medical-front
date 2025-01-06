@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useFormikContext } from "formik";
 import { RenderFormFields } from "src/components/RenderFormFields";
+import { IRUSH_SERVICE } from "src/@types/orders";
 import { CREATE_ORDER_FORM_FIELDS } from "../constants";
 
 export const CustomerInfo: FC = () => {
@@ -19,10 +20,10 @@ export const CustomerInfo: FC = () => {
 
     // Визначення кількості днів залежно від rush_service
     switch (Number(values.rush_service)) {
-      case 2: // 2 Day
+      case IRUSH_SERVICE.DAY_2: // 2 Day
         daysToAdd = 2;
         break;
-      case 3: // Priority Overnight
+      case IRUSH_SERVICE.PRIORITY_OVERNIGHT: // Priority Overnight
         daysToAdd = 1;
         break;
       default: // None
