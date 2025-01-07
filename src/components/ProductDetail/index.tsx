@@ -5,7 +5,9 @@ import { ModalWindow } from "src/components/ModalWindow";
 import useModalWindowStore from "src/stores/modal-window-store";
 import useProductStore from "src/stores/product-store";
 import { Sizes } from "src/@types/sizes";
+import { TypesUsers } from "src/@types/users";
 import { Loader } from "../Loader";
+import { Show } from "../PrivateRoute/Show";
 import { Window } from "../Window";
 import { PropertiesCard } from "./PropertiesCard";
 import { Tabs } from "./Tabs";
@@ -25,9 +27,20 @@ export const ProductDetail: FC = () => {
     }
   }, [id, loadProduct]);
 
-  const { photos, name, description, price } = product;
+  const { photos, name, description, price, down_load_link } = product;
 
   if (!product && !isLoading) return null;
+
+  console.log("Product: ", product);
+
+  const handleDownload = () => {
+    if (down_load_link?.path) {
+      const link = document.createElement("a");
+      link.href = down_load_link.path.replace("public\\", "/");
+      link.download = "instruction.pdf"; // или используйте имя файла из path
+      link.click();
+    }
+  };
 
   return (
     <ModalWindow
@@ -61,14 +74,26 @@ export const ProductDetail: FC = () => {
                 &#36;{price}
               </span>
 
-              <Button variant={ButtonVariants.PRIMARY} size={Sizes.S}>
-                Add to Purchase Order
-              </Button>
+              <Show onlyFor={TypesUsers.SUB_USER}>
+                <Button variant={ButtonVariants.PRIMARY} size={Sizes.S}>
+                  Add to Purchase Order
+                </Button>
+              </Show>
 
               <PropertiesCard {...product} />
             </div>
 
             <Tabs {...product} />
+
+            <div className="w-1/2">
+              <Button
+                className="p-2"
+                variant={ButtonVariants.SECONDARY}
+                onClick={handleDownload}
+              >
+                Download Safety Data Sheet
+              </Button>
+            </div>
           </div>
         </Window>
       )}

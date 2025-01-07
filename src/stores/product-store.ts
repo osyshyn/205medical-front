@@ -2,7 +2,7 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { IProduct, IProductDetails } from "src/@types/products";
+import { IEditProduct, IProduct, IProductDetails } from "src/@types/products";
 
 interface FetchOrdersParams {
   category_ids: string[];
@@ -25,6 +25,7 @@ interface IProductStore {
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
   deleteProduct: (id: number) => Promise<void>;
+  updateProduct: (params?: IEditProduct) => Promise<void>;
 }
 
 const useProductStore = create(
@@ -54,7 +55,6 @@ const useProductStore = create(
         const { data } = await instance.get<IProductDetails>(
           `product/getProduct/${id}`
         );
-
         set({ product_details: data });
       } catch (error) {
         NotificationService.error();
@@ -84,6 +84,23 @@ const useProductStore = create(
         set((state) => ({
           products: state.products.filter((product) => product.id !== id),
         }));
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+    deleteCategory: async (id: number) => {
+      try {
+        await instance.post("category/deleteCategory", { id });
+        NotificationService.success("Category deleted successfully");
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+    updateProduct: async (params) => {
+      console.log("params: ", params);
+      try {
+        await instance.post("product/editProduct", params);
+        NotificationService.success("Product updated successfully");
       } catch (error) {
         NotificationService.error();
       }
