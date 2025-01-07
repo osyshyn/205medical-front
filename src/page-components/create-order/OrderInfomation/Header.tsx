@@ -1,19 +1,29 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
+import useOrderStore from "src/stores/order-store";
 
-export const Header: FC = () => (
-  <div className="flex">
-    <h3 className="flex-1">Order Information</h3>
+export const Header: FC = () => {
+  const loadLastOrderId = useOrderStore((state) => state.fetchLastOrderId);
+  const lastOrderId = useOrderStore((state) => state.lastOrderId);
 
-    <div className="flex flex-1 flex-col justify-between font-medium">
-      <div className="flex justify-between">
-        <p>Today Date</p>
-        <p>08/13/24</p>
-      </div>
+  useEffect(() => {
+    loadLastOrderId();
+  }, [loadLastOrderId]);
 
-      <div className="flex justify-between">
-        <p>Sales Order</p>
-        <p>1234567890</p>
+  return (
+    <div className="flex">
+      <h3 className="flex-1">Order Information</h3>
+
+      <div className="flex flex-1 flex-col justify-between font-medium">
+        <div className="flex justify-between">
+          <p>Today Date</p>
+          <p>08/13/24</p>
+        </div>
+
+        <div className="flex justify-between">
+          <p>Sales Order</p>
+          <p>{lastOrderId}</p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

@@ -116,6 +116,11 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     subNavItems: [
       {
         id: 1,
+        label: "Create order",
+        href: PATHNAMES.CREATE_ORDER,
+      },
+      {
+        id: 2,
         label: "AWAITING APPROVAL",
         href: PATHNAMES.AWAITING_APPROVAL,
       },
