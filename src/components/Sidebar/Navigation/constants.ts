@@ -116,6 +116,11 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     subNavItems: [
       {
         id: 1,
+        label: "Create order",
+        href: PATHNAMES.CREATE_ORDER,
+      },
+      {
+        id: 2,
         label: "AWAITING APPROVAL",
         href: PATHNAMES.AWAITING_APPROVAL,
       },
@@ -172,12 +177,45 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
   {
+    id: 3,
+    icon: LocationIcon,
+
+    label: "Location",
+    href: PATHNAMES.LOCATION,
+    iconActive: LocationActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Order history by location",
+        href: PATHNAMES.ORDER_HISTORY_BY_LOCATION,
+      },
+      {
+        id: 2,
+        label: "Edit a location",
+        href: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        id: 3,
+        label: "Add a new location",
+        href: PATHNAMES.ADD_LOCATION,
+      },
+    ],
+  },
+  {
     id: 1,
     icon: BuyersIcon,
 
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: BuyersActiveIcon,
+  },
+  {
+    id: 2,
+    icon: ProductIcon,
+    label: "Products",
+
+    href: PATHNAMES.PRODUCT,
+    iconActive: ProductActiveIcon,
   },
   {
     id: 5,

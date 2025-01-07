@@ -14,12 +14,14 @@ export const PATHNAMES = {
   PRODUCT: "/products",
   PRODUCT_HISTORY: "/products/history",
   PRODUCT_PURCHASES: "/products/purchases",
+  EDIT_PRODUCT: "/products/edit/:id",
 
   SHIPMENTS: "/shipments",
   SHIPMENT_ALERTS: "/shipments/alerts",
   ORDER_DETAIL: "/shipments/:id",
 
   LOCATION: "/location",
+  ORDER_HISTORY_BY_LOCATION: "/location/order-history",
   LOCATION_ID: "/location/:id?",
   ADD_LOCATION: "/location/add",
   EDIT_LOCATION: "/location/edit",

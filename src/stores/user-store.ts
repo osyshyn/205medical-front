@@ -19,8 +19,10 @@ interface IUserStore {
   users: IUser[];
   detailUser: IDetailUser;
   userNotes: any[];
+
+  getSubUsers: (id?: number) => void;
+
   getUserNotes: (id: string) => void;
-  getSubUsers: () => void;
 
   getUser: () => void;
   getAllUsers: () => void;
@@ -109,7 +111,7 @@ const useUserStore = create(
       }
     },
     isLoadingSubUsers: true,
-    getSubUsers: async () => {
+    getSubUsers: async (id: number) => {
       set({ isLoadingSubUsers: true });
       try {
         const { data } = await instance.get<ISubUser[]>("/user/subUsers");

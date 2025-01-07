@@ -23,6 +23,7 @@ interface IInvoiceStore {
   invoice: IResponseWithPagination<IInvoice> | null;
   invoiceOpen: IResponseWithPagination<IInvoice> | null;
   invoicePaid: IResponseWithPagination<IInvoice> | null;
+  invoiceToShow: IInvoice[];
   fetchinvoice: (params: FetchInvoiceParams) => void;
   isLoadingOpen: boolean;
   isLoadingPaid: boolean;
@@ -40,6 +41,7 @@ const useInvoiceStore = create(
     invoiceOpen: null,
     invoicePaid: null,
     isLoading: false,
+    invoiceToShow: [],
     isLoadingOpen: false,
     isLoadingPaid: false,
     fetchinvoice: async (params) => {
@@ -47,11 +49,14 @@ const useInvoiceStore = create(
 
       try {
         const { data } = await instance.get<IResponseWithPagination<IInvoice>>(
-          `invoice?&items_per_page=${ORDERS_PER_PAGE}`,
+          `invoice?&items_per_page=${ORDERS_PER_PAGE}/`,
           { params }
         );
 
         set({ invoice: data });
+        set((state) => ({
+          invoiceToShow: [...state.invoiceToShow, ...data.result],
+        }));
       } catch (error) {
         NotificationService.error();
       } finally {

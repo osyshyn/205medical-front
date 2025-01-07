@@ -8,6 +8,7 @@ export interface Column {
 export interface StyledValue {
   style: {
     color: string;
+    backgroundColor?: string;
   };
   value: string;
 }

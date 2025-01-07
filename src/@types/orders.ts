@@ -52,6 +52,20 @@ export enum IStatusesInvoice {
   NOT_ISSUED = 3,
 }
 
+//уточнить
+export enum IRUSH_SERVICE {
+  STANDARD = 1,
+  DAY_2 = 2,
+  PRIORITY_OVERNIGHT = 3,
+  STANDARD_OVERNIGHT = 4,
+  SAT_DELIVERY = 5,
+}
+
+export enum ISERVICE_TYPE {
+  REGULAR_ORDER = 1,
+  RUSH_ORDER = 2,
+}
+
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {
     style: {
@@ -110,6 +124,29 @@ export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
   [IStatusesInvoice.NOT_ISSUED]: {
     style: {
       color: "blue",
+    },
+    value: "Not-Issued",
+  },
+};
+
+export const ORDER_STATUS: Record<IStatusesInvoice, StyledValue> = {
+  [IStatusesInvoice.PAID]: {
+    style: {
+      backgroundColor: "#16C09861",
+      color: "#00B087",
+    },
+    value: "Paid",
+  },
+  [IStatusesInvoice.OPEN]: {
+    style: {
+      color: "#DF0404",
+      backgroundColor: "#FFC5C5",
+    },
+    value: "Open",
+  },
+  [IStatusesInvoice.NOT_ISSUED]: {
+    style: {
+      color: "#DF0404",
     },
     value: "Not-Issued",
   },

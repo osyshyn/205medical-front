@@ -11,18 +11,29 @@ import {
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
+import useUserStore from "src/stores/user-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
-import { Row } from "src/@types/table";
+import { Column, Row } from "src/@types/table";
+import { TypesUsers } from "src/@types/users";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
 } from "../SelectDate/constants";
-import { getTableItems, ORDER_COLUMNS } from "./constants";
+import {
+  DUE_DATE_COLUMN,
+  getTableItems,
+  INVOICE_COLUMN,
+  ORDER_COLUMNS,
+} from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
-export const RecentOrders: FC = () => {
+interface RecentOrdersProps {
+  locationId?: string[];
+}
+
+export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
@@ -30,9 +41,11 @@ export const RecentOrders: FC = () => {
     useQueryParams();
 
   const year =
-    getQueryParam(QUERY_PARAM_KEYS.YEAR) || getCurrentYearOption().value.toString();
+    getQueryParam(QUERY_PARAM_KEYS.YEAR) ||
+    getCurrentYearOption().value.toString();
   const month =
-    getQueryParam(QUERY_PARAM_KEYS.MONTH) || getCurrentMonthOption().value.toString();
+    getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
+    getCurrentMonthOption().value.toString();
 
   const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
   const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
@@ -46,7 +59,9 @@ export const RecentOrders: FC = () => {
     });
   };
 
-  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const location_ids = locationId
+    ? locationId // Используем переданный locationId
+    : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
   const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
@@ -55,7 +70,7 @@ export const RecentOrders: FC = () => {
       current_page: currentPage,
       year: year,
       month: month,
-      location_ids: getArrayFromStringParams(location_ids),
+      location_ids,
       product_ids: getArrayFromStringParams(product_ids),
     });
   }, [
@@ -63,7 +78,7 @@ export const RecentOrders: FC = () => {
     debouncedSearchQuery,
     month,
     year,
-    location_ids,
+    // location_ids,
     product_ids,
     loadOrders,
   ]);
@@ -75,13 +90,23 @@ export const RecentOrders: FC = () => {
   const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
+  const role = useUserStore((state) => state.user.role);
+
+  const columns =
+    role === TypesUsers.CLIENT_ADMIN
+      ? [...INVOICE_COLUMN, ...ORDER_COLUMNS, ...DUE_DATE_COLUMN]
+      : ORDER_COLUMNS;
+
   const setPage = (page: number) => {
     if (page !== currentPage) {
       setQueryParam(QUERY_PARAM_KEYS.PAGE, page.toString());
     }
   };
 
+  console.log("Orders", ordersResults);
   const items = getTableItems(ordersResults) as unknown as Row[];
+
+  console.log("Orders: ", ordersResults);
 
   return (
     <Window>
@@ -96,12 +121,8 @@ export const RecentOrders: FC = () => {
       </div>
 
       <Table ariaLabel="Recent orders table">
-        <TableHeader columns={ORDER_COLUMNS} />
-        <TableBody
-          items={items}
-          columns={ORDER_COLUMNS}
-          isLoading={isLoading}
-        />
+        <TableHeader columns={columns} />
+        <TableBody items={items} columns={columns} isLoading={isLoading} />
       </Table>
 
       <div className="mt-8 flex items-center justify-between">
