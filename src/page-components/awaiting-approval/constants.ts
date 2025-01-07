@@ -28,6 +28,14 @@ const getServiceType = (shipMethod: string): string => {
   return "Unknown";
 };
 
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Месяцы начинаются с 0
+  const year = String(date.getFullYear()).slice(-2); // Берем последние 2 цифры года
+  return `${day}/${month}/${year}`;
+};
+
 const getExpectedDate = (shipMethod: string, poDate: string): string => {
   const date = new Date(poDate);
   switch (shipMethod) {
@@ -38,11 +46,10 @@ const getExpectedDate = (shipMethod: string, poDate: string): string => {
       date.setDate(date.getDate() + 1);
       break;
     default:
-      return poDate;
+      return formatDate(poDate); // Используем форматированную дату
   }
-  return date.toISOString().split("T")[0];
+  return formatDate(date.toISOString());
 };
-
 export const AWAITING_PER_PAGE = 10;
 
 export const getTableItems = (orders: IOrderToApprove[]): IOrderToApprove[] =>
@@ -58,7 +65,7 @@ export const getTableItems = (orders: IOrderToApprove[]): IOrderToApprove[] =>
     buyer_name: order.buyer_name,
     po_number: order.id,
     location_name: order.location,
-    po_date: order.created_at,
+    po_date: formatDate(order.created_at), // Применяем форматирование
     expected_date: getExpectedDate(order.rush_service, order.created_at),
     service_type: getServiceType(order.rush_service),
     ship_method: order.rush_service,
