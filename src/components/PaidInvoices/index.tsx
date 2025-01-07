@@ -10,33 +10,25 @@ import {
 } from "src/components/Table";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
-import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
-import useUserStore from "src/stores/user-store";
+import useInvoiceStore from "src/stores/invoice-store";
+import { ORDERS_PER_PAGE } from "src/stores/order-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
-import { Column, Row } from "src/@types/table";
-import { TypesUsers } from "src/@types/users";
+import { Row } from "src/@types/table";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
 } from "../SelectDate/constants";
-import {
-  DUE_DATE_COLUMN,
-  getTableItems,
-  INVOICE_COLUMN,
-  ORDER_COLUMNS,
-} from "./constants";
+import { getTableItems, ORDER_COLUMNS } from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
-interface RecentOrdersProps {
-  locationId?: string[];
-}
+const PAGE_PAID = "PAGE_PAID";
+const SEARCH_PAID = "SEARCH_PAID";
 
-export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
-  const loadOrders = useOrderStore((state) => state.fetchOrders);
-  const isLoading = useOrderStore((state) => state.isLoading);
-
+export const PaidInvoices: FC = () => {
+  const loadPaidInvoices = useInvoiceStore((state) => state.fetchPaidInvoices);
+  const isLoading = useInvoiceStore((state) => state.isLoadingPaid);
   const { getQueryParam, setQueryParam, setMultipleQueryParams } =
     useQueryParams();
 
@@ -47,30 +39,28 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
     getQueryParam(QUERY_PARAM_KEYS.MONTH) ||
     getCurrentMonthOption().value.toString();
 
-  const searchQuery = getQueryParam(QUERY_PARAM_KEYS.SEARCH) || "";
-  const currentPage = Number(getQueryParam(QUERY_PARAM_KEYS.PAGE)) || 1;
+  const searchQuery = getQueryParam(SEARCH_PAID) || "";
+  const currentPage = Number(getQueryParam(PAGE_PAID)) || 1;
 
   const [debouncedSearchQuery] = useDebounce(searchQuery, DEBOUNCE_DELAY);
 
   const onChangeSearch = (value: React.ChangeEvent<HTMLInputElement>) => {
     setMultipleQueryParams({
-      [QUERY_PARAM_KEYS.SEARCH]: value.target.value,
-      [QUERY_PARAM_KEYS.PAGE]: "1",
+      [SEARCH_PAID]: value.target.value,
+      [PAGE_PAID]: "1",
     });
   };
 
-  const location_ids = locationId
-    ? locationId // Используем переданный locationId
-    : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
   const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
-    loadOrders({
+    loadPaidInvoices({
       search: debouncedSearchQuery,
       current_page: currentPage,
       year: year,
       month: month,
-      location_ids,
+      location_ids: getArrayFromStringParams(location_ids),
       product_ids: getArrayFromStringParams(product_ids),
     });
   }, [
@@ -78,40 +68,31 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
     debouncedSearchQuery,
     month,
     year,
-    // location_ids,
+    location_ids,
     product_ids,
-    loadOrders,
+    loadPaidInvoices,
   ]);
 
-  const ordersResponse = useOrderStore((state) => state.orders);
-  const ordersResults = ordersResponse?.result || [];
-  const ordersLength = ordersResponse?.count || 0;
+  const invoiceResponse = useInvoiceStore((state) => state.invoicePaid);
+  const invoiceResults = invoiceResponse?.result || [];
+  const filteredInvoices = invoiceResults || [];
+  const invoiceLength = filteredInvoices.length;
 
-  const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
+  const pageCount = Math.ceil(invoiceLength / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
-
-  const role = useUserStore((state) => state.user.role);
-
-  const columns =
-    role === TypesUsers.CLIENT_ADMIN
-      ? [...INVOICE_COLUMN, ...ORDER_COLUMNS, ...DUE_DATE_COLUMN]
-      : ORDER_COLUMNS;
 
   const setPage = (page: number) => {
     if (page !== currentPage) {
-      setQueryParam(QUERY_PARAM_KEYS.PAGE, page.toString());
+      setQueryParam(PAGE_PAID, page.toString());
     }
   };
 
-  console.log("Orders", ordersResults);
-  const items = getTableItems(ordersResults) as unknown as Row[];
-
-  console.log("Orders: ", ordersResults);
+  const items = getTableItems(filteredInvoices) as unknown as Row[];
 
   return (
     <Window>
       <div className="flex items-center justify-between">
-        <h3>Recent Orders</h3>
+        <h3>Paid Invoices</h3>
 
         <Search
           className="text-xs"
@@ -120,16 +101,20 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
         />
       </div>
 
-      <Table ariaLabel="Recent orders table">
-        <TableHeader columns={columns} />
-        <TableBody items={items} columns={columns} isLoading={isLoading} />
+      <Table ariaLabel="Paid Invoices table">
+        <TableHeader columns={ORDER_COLUMNS} />
+        <TableBody
+          items={items}
+          columns={ORDER_COLUMNS}
+          isLoading={isLoading}
+        />
       </Table>
 
       <div className="mt-8 flex items-center justify-between">
         <DataRangeIndicator
           startEntry={(currentPage - 1) * ORDERS_PER_PAGE + 1}
-          endEntry={Math.min(currentPage * ORDERS_PER_PAGE, ordersLength)}
-          totalEntries={ordersLength}
+          endEntry={Math.min(currentPage * ORDERS_PER_PAGE, invoiceLength)}
+          totalEntries={invoiceLength}
         />
 
         {isPaginated && (

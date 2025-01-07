@@ -25,6 +25,7 @@ import { ICreateLocation } from "src/@types/location";
 import { Sizes } from "src/@types/sizes";
 
 export const AddLocation: FC = () => {
+  const userId = useUserStore((state) => state.user.id);
   const createLocation = useLocationStore((state) => state.createLocation);
   const loadProducts = useProductStore((state) => state.fetchProducts);
   const products = useProductStore((state) => state.products);
@@ -33,7 +34,7 @@ export const AddLocation: FC = () => {
 
   useEffect(() => {
     loadProducts();
-    getSubUsers();
+    getSubUsers(userId);
   }, [getSubUsers, loadProducts]);
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);

@@ -86,6 +86,7 @@ interface IMetricStore {
 
   purchase_history: IMetricRecharts;
   fetchPurchaseHistory: (params: FetchMetricsParams) => void;
+
   isLoadingPurchaseHistory: boolean;
 }
 

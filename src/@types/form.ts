@@ -21,7 +21,13 @@ export interface IFormField {
   labelClassName?: string;
   variant?: FormFieldVariants;
   disabled?: boolean;
+
   options?: IOptionSelect[];
+
+  // options?: {
+  //   label: string;
+  //   value: number | string;
+  // }[];
 }
 
 export interface IRenderFormField extends IFormField {

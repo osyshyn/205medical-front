@@ -133,19 +133,16 @@ export const EditBuyer: FC = () => {
   const onDrop = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
-      setAvatarFile(file);
-
       const reader = new FileReader();
       reader.onload = () => {
         setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
 
-      // Загрузка файла на сервер
       try {
         await uploadFile("avatars", file);
-        if (response && response.fileUrl) {
-          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        if (response?.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl);
         }
       } catch (error) {
         NotificationService.error("Failed to upload file");
@@ -159,15 +156,19 @@ export const EditBuyer: FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  useEffect(() => {
+    console.log("Current role value:", formik.values.role);
+  }, [formik.values.role]);
+
   return (
     <ModalWindow
       className="max-h-[800px] w-3/5 overflow-y-auto"
       onClose={onClose}
       isOpen={true}
       isActivePortal
-      closeButtonClassName="!bg-white-base rounded-full  shadow-md"
+      closeButtonClassName="!bg-white-base rounded-full shadow-md"
     >
-      <Window className="max-h-200 overflow-auto !border-none !p-0">
+      <Window className="relative max-h-200 overflow-auto !border-none !p-0">
         <div className="space-y-8">
           <div className="text-white flex flex-col gap-10 rounded-t-30 bg-[#3D3935] px-7.5 py-4">
             <div>
@@ -207,40 +208,14 @@ export const EditBuyer: FC = () => {
 
           <div className="flex-1">
             <FormikProvider value={formik}>
-              <Form className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5">
+              <Form
+                id="edit-user-form"
+                onSubmit={formik.handleSubmit}
+                className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5"
+              >
                 <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} />
 
-                <Window className="max-h-62.5 overflow-auto !p-0">
-                  <div className="p-4">
-                    <Title title="Approved Locations" subtitle="" />
-                  </div>
-                  <div className="mt-5 flex flex-col gap-4">
-                    {locations.map((location) => (
-                      <Checkbox
-                        key={location.id}
-                        label={location.name}
-                        checked={selectedLocation.includes(location.id)}
-                        onChange={() => handleLocationsChange(location.id)}
-                      />
-                    ))}
-                  </div>
-                  <div className="sticky bottom-0 mt-5 flex w-full justify-start gap-5 bg-[#FFFFFF] p-4">
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.PRIMARY}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.SECONDARY}
-                    >
-                      Save
-                    </Button>
-                  </div>
-                </Window>
-
-                <Window className="max-h-62.5 overflow-auto !p-0">
+                <Window className="h-[250px] overflow-auto !p-0">
                   <div className="p-4">
                     <Title title="Active products" subtitle="" />
                   </div>
@@ -254,41 +229,48 @@ export const EditBuyer: FC = () => {
                       />
                     ))}
                   </div>
-                  <div className="sticky bottom-0 mt-5 flex w-full justify-start gap-5 bg-[#FFFFFF] p-4">
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.PRIMARY}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.SECONDARY}
-                    >
-                      Save
-                    </Button>
-                  </div>
                 </Window>
-                <div className="col-span-2 mt-10">
-                  <div className="flex w-full justify-end gap-5">
-                    <Button
-                      type="submit"
-                      variant={ButtonVariants.PRIMARY}
-                      className="px-10 py-3"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant={ButtonVariants.SECONDARY}
-                      className="px-10 py-3"
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                </div>
+
+                {formik.values.role == TypesUsers.CLIENT_ADMIN ? (
+                  <Window className="h-[250px] overflow-auto !p-0">
+                    <div className="p-4">
+                      <Title title="Approved Locations" subtitle="" />
+                    </div>
+                    <div className="mt-5 flex flex-col gap-4">
+                      {locations.map((location) => (
+                        <Checkbox
+                          key={location.id}
+                          label={location.name}
+                          checked={selectedLocation.includes(location.id)}
+                          onChange={() => handleLocationsChange(location.id)}
+                        />
+                      ))}
+                    </div>
+                  </Window>
+                ) : (
+                  <></>
+                )}
               </Form>
             </FormikProvider>
           </div>
+        </div>
+
+        <div className="bg-white sticky bottom-0 flex w-full justify-end gap-4 pb-10 pr-15">
+          <Button
+            form="edit-user-form"
+            type="submit"
+            variant={ButtonVariants.PRIMARY}
+            className="h-10 w-44 rounded-20 px-10 py-3"
+          >
+            Save
+          </Button>
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            className="h-10 w-36 rounded-20 px-10 py-3"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
         </div>
       </Window>
     </ModalWindow>

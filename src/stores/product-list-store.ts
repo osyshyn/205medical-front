@@ -9,12 +9,13 @@ interface IListStore {
   fetchList: () => void;
   addProductToList: (productId: number) => void;
   deleteProductInList: (productId: number) => void;
+  updateQuantity: (listId: number, productId: number, quantity: number) => void;
   isLoading: boolean;
 }
 
 const useProductListStore = create(
   devtools<IListStore>((set) => ({
-    list: null,
+    list: { id: 0, name: "", product_to_lists: [] },
     isLoading: false,
     fetchList: async () => {
       set({ isLoading: true });
@@ -53,6 +54,27 @@ const useProductListStore = create(
             ),
           },
         }));
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+      }
+    },
+    updateQuantity: async (listId, productId, quantity) => {
+      try {
+        console.log(
+          "listId",
+          listId,
+          "productId",
+          productId,
+          "quantity",
+          quantity
+        );
+        const { data } = await instance.post("list/updateProductInList", {
+          listId: listId,
+          id: productId,
+          quantity,
+        });
+        set({ list: data });
       } catch (error) {
         NotificationService.error();
       } finally {

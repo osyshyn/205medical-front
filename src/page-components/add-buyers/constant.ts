@@ -1,4 +1,5 @@
 import { TextInput } from "src/components/FormField/TextInput";
+import { SelectField } from "src/components/SettingUserManagement/SelectField";
 import { IRenderFormField } from "src/@types/form";
 
 export const ADD_BUYERS_FORM_FIELDS: IRenderFormField[] = [
@@ -18,10 +19,14 @@ export const ADD_BUYERS_FORM_FIELDS: IRenderFormField[] = [
   },
   {
     name: "role",
-    type: "text",
+    type: "select",
     label: "Role",
-    component: TextInput,
-    placeholder: "Role",
+    component: SelectField,
+    placeholder: "Select a role",
+    options: [
+      { label: "Client Admin", value: 2 },
+      { label: "Sub User", value: 1 },
+    ],
   },
   {
     name: "phone",

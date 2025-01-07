@@ -14,6 +14,8 @@ export const Show: FC<Props> = ({ children, onlyFor }) => {
   const isAuthorized = useUserStore((state) => state.isAuthorized);
   const userType = useUserStore((state) => state.user.role);
 
+  console.log("User type", userType);
+
   const isUserClient = isAuthorized && userType === ONLY_FOR.SUB_USER;
   const isUserAdmin = isAuthorized && userType === ONLY_FOR.CLIENT_ADMIN;
   const isUserMedical = isAuthorized && userType === ONLY_FOR.MEDICAL;

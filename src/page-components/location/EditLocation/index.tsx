@@ -77,7 +77,7 @@ export const EditLocation: FC = () => {
         <h3>Ship To</h3>
 
         <div className="flex gap-5">
-          <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+          <Show onlyFor={TypesUsers.CLIENT_ADMIN && TypesUsers.MEDICAL}>
             <Button
               variant={
                 isEdit ? ButtonVariants.SECONDARY : ButtonVariants.PRIMARY

@@ -21,6 +21,7 @@ export const PATHNAMES = {
   ORDER_DETAIL: "/shipments/:id",
 
   LOCATION: "/location",
+  ORDER_HISTORY_BY_LOCATION: "/location/order-history",
   LOCATION_ID: "/location/:id?",
   ADD_LOCATION: "/location/add",
   EDIT_LOCATION: "/location/edit",
