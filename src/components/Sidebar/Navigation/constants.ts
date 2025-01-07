@@ -139,6 +139,20 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     iconActive: DashboardActiveIcon,
   },
   {
+    id: 4,
+    icon: ShipmentsIcon,
+    label: "Shipments",
+    href: PATHNAMES.SHIPMENTS,
+    iconActive: ShipmentsActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Shipment alerts",
+        href: PATHNAMES.SHIPMENT_ALERTS,
+      },
+    ],
+  },
+  {
     id: 3,
     icon: LocationIcon,
 
