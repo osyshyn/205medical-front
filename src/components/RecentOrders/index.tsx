@@ -29,7 +29,11 @@ import {
 
 const DEBOUNCE_DELAY = 1000;
 
-export const RecentOrders: FC = () => {
+interface RecentOrdersProps {
+  locationId?: string[];
+}
+
+export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
@@ -55,7 +59,9 @@ export const RecentOrders: FC = () => {
     });
   };
 
-  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+  const location_ids = locationId
+    ? locationId // Используем переданный locationId
+    : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
   const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
@@ -64,7 +70,7 @@ export const RecentOrders: FC = () => {
       current_page: currentPage,
       year: year,
       month: month,
-      location_ids: getArrayFromStringParams(location_ids),
+      location_ids,
       product_ids: getArrayFromStringParams(product_ids),
     });
   }, [
@@ -72,7 +78,7 @@ export const RecentOrders: FC = () => {
     debouncedSearchQuery,
     month,
     year,
-    location_ids,
+    // location_ids,
     product_ids,
     loadOrders,
   ]);
@@ -99,6 +105,8 @@ export const RecentOrders: FC = () => {
 
   console.log("Orders", ordersResults);
   const items = getTableItems(ordersResults) as unknown as Row[];
+
+  console.log("Orders: ", ordersResults);
 
   return (
     <Window>

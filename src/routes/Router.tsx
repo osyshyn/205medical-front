@@ -25,6 +25,7 @@ import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
+import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
 import { RecentOrders } from "src/pages/RecentOrders";
 import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
 import { SettingsMedical } from "src/pages/SettingsMedical";
@@ -204,6 +205,10 @@ const ROUTES = [
       {
         element: <PrivateRoute component={EditLocation} />,
         path: PATHNAMES.EDIT_LOCATION,
+      },
+      {
+        element: <PrivateRoute component={OrderHistoryByLocation} />,
+        path: PATHNAMES.ORDER_HISTORY_BY_LOCATION,
       },
       {
         element: <PrivateRoute component={EditBuyer} />,

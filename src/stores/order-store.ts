@@ -34,10 +34,14 @@ export interface CreateOrderParams {
 }
 
 interface IOrderStore {
-  orders: IResponseWithPagination<any>;
+  orders: IResponseWithPagination<IOrder>;
+
+  fetchOrders: (params: FetchOrdersParams, items_per_page?: number) => void;
+
   fetchOrders: (params: FetchOrdersParams) => void;
   lastOrderId: number;
   fetchLastOrderId: () => void;
+
   approvesOrders: any;
   fetchApprovesOrder: (params: FetchOrdersToApproveParams) => void;
   selectedApprovedOrders: any[];
@@ -55,12 +59,12 @@ const useOrderStore = create(
   devtools<IOrderStore>((set) => ({
     orders: null,
     isLoading: false,
-    fetchOrders: async (params) => {
+    fetchOrders: async (params, items_per_page) => {
       set({ isLoading: true });
 
       try {
         const { data } = await instance.get<IResponseWithPagination<IOrder>>(
-          `order/getOrders?&items_per_page=${ORDERS_PER_PAGE}`,
+          `order/getOrders?&items_per_page=${items_per_page || ORDERS_PER_PAGE}`,
           { params }
         );
 

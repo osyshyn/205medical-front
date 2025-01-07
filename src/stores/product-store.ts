@@ -8,11 +8,20 @@ interface FetchOrdersParams {
   category_ids: string[];
 }
 
+interface FetchProductPurchases {
+  month: string;
+  year: string;
+  location_ids: string[];
+  page?: number;
+}
+
 interface IProductStore {
   products: IProduct[];
   product_details: IProductDetails;
   fetchProducts: (params?: FetchOrdersParams) => void;
   fetchProductDetails: (id: number) => void;
+  purchasesByProductList: IProductDetails[];
+  fetchPurchasesByProductList: (params: FetchProductPurchases) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
   deleteProduct: (id: number) => Promise<void>;
@@ -53,6 +62,21 @@ const useProductStore = create(
         set({ isLoadingProductDetail: false });
       }
     },
+
+    purchasesByProductList: [],
+    fetchPurchasesByProductList: async (params) => {
+      try {
+        const { data } = await instance.get<IProductDetails[]>(
+          `product/purchasesByProductsList`,
+          { params }
+        );
+
+        set({ purchasesByProductList: data });
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+
     deleteProduct: async (id: number) => {
       try {
         await instance.post("product/deleteProduct", { id });

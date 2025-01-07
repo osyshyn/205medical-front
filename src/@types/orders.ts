@@ -128,3 +128,26 @@ export const INVOICE_SHIPS: Record<IStatusesInvoice, StyledValue> = {
     value: "Not-Issued",
   },
 };
+
+export const ORDER_STATUS: Record<IStatusesInvoice, StyledValue> = {
+  [IStatusesInvoice.PAID]: {
+    style: {
+      backgroundColor: "#16C09861",
+      color: "#00B087",
+    },
+    value: "Paid",
+  },
+  [IStatusesInvoice.OPEN]: {
+    style: {
+      color: "#DF0404",
+      backgroundColor: "#FFC5C5",
+    },
+    value: "Open",
+  },
+  [IStatusesInvoice.NOT_ISSUED]: {
+    style: {
+      color: "#DF0404",
+    },
+    value: "Not-Issued",
+  },
+};
