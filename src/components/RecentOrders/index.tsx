@@ -11,14 +11,21 @@ import {
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useOrderStore, { ORDERS_PER_PAGE } from "src/stores/order-store";
+import useUserStore from "src/stores/user-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
-import { Row } from "src/@types/table";
+import { Column, Row } from "src/@types/table";
+import { TypesUsers } from "src/@types/users";
 import {
   getCurrentMonthOption,
   getCurrentYearOption,
 } from "../SelectDate/constants";
-import { getTableItems, ORDER_COLUMNS } from "./constants";
+import {
+  DUE_DATE_COLUMN,
+  getTableItems,
+  INVOICE_COLUMN,
+  ORDER_COLUMNS,
+} from "./constants";
 
 const DEBOUNCE_DELAY = 1000;
 
@@ -83,12 +90,20 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
   const pageCount = Math.ceil(ordersResponse?.count / ORDERS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
+  const role = useUserStore((state) => state.user.role);
+
+  const columns =
+    role === TypesUsers.CLIENT_ADMIN
+      ? [...INVOICE_COLUMN, ...ORDER_COLUMNS, ...DUE_DATE_COLUMN]
+      : ORDER_COLUMNS;
+
   const setPage = (page: number) => {
     if (page !== currentPage) {
       setQueryParam(QUERY_PARAM_KEYS.PAGE, page.toString());
     }
   };
 
+  console.log("Orders", ordersResults);
   const items = getTableItems(ordersResults) as unknown as Row[];
 
   console.log("Orders: ", ordersResults);
@@ -106,12 +121,8 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
       </div>
 
       <Table ariaLabel="Recent orders table">
-        <TableHeader columns={ORDER_COLUMNS} />
-        <TableBody
-          items={items}
-          columns={ORDER_COLUMNS}
-          isLoading={isLoading}
-        />
+        <TableHeader columns={columns} />
+        <TableBody items={items} columns={columns} isLoading={isLoading} />
       </Table>
 
       <div className="mt-8 flex items-center justify-between">

@@ -30,12 +30,14 @@ export const CartProducts: FC = () => {
     setIsOpen(false);
   };
 
-  const product_to_lists = list?.product_to_lists || [];
-  const items = getTableItems(product_to_lists) as unknown as Row[];
-
   useEffect(() => {
     loadList();
   }, [loadList]);
+
+  const product_to_lists = list?.product_to_lists || [];
+  const listId = list.id;
+
+  const items = getTableItems(product_to_lists, listId) as unknown as Row[];
 
   return (
     <Window>

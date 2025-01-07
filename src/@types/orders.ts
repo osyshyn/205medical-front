@@ -52,6 +52,20 @@ export enum IStatusesInvoice {
   NOT_ISSUED = 3,
 }
 
+//уточнить
+export enum IRUSH_SERVICE {
+  STANDARD = 1,
+  DAY_2 = 2,
+  PRIORITY_OVERNIGHT = 3,
+  STANDARD_OVERNIGHT = 4,
+  SAT_DELIVERY = 5,
+}
+
+export enum ISERVICE_TYPE {
+  REGULAR_ORDER = 1,
+  RUSH_ORDER = 2,
+}
+
 export const STATUSES_APPROVAL: Record<IStatusesApproval, StyledValue> = {
   [IStatusesApproval.APPROVED]: {
     style: {
