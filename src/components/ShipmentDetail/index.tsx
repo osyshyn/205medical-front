@@ -11,10 +11,7 @@ import { Table, TableBody, TableHeader } from "../Table";
 import { Title } from "../Title";
 import { Window } from "../Window";
 import { BuyerInformation } from "./BuyerInformation";
-import {
-  ALL_ORDERS_DETAIL_COLUMNS,
-  transformOrderToProducts,
-} from "./constants";
+import { ALL_ORDERS_DETAIL_COLUMNS, getTableItems } from "./constants";
 import { CostSummary } from "./CostSummary";
 import { OrderInfo } from "./OrderInfo";
 import { OrderStatusInfo } from "./OrderStatusInformation";
@@ -65,7 +62,9 @@ export const ShipmentDetail: FC = () => {
     po_number,
   } = shipment ?? {};
 
-  const tableData = transformOrderToProducts(order_to_products);
+  console.log("Order to products: ", order_to_products);
+
+  const tableData = getTableItems(order_to_products);
 
   return (
     <ModalWindow
