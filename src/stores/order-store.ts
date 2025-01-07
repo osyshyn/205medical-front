@@ -38,7 +38,6 @@ interface IOrderStore {
 
   fetchOrders: (params: FetchOrdersParams, items_per_page?: number) => void;
 
-  fetchOrders: (params: FetchOrdersParams) => void;
   lastOrderId: number;
   fetchLastOrderId: () => void;
 
