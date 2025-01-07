@@ -18,12 +18,12 @@ export const CategorySidebar: React.FC<CategorySidebarProps> = ({
   handleCategoryClick,
 }) => {
   return (
-    <Window className="bg-white w-64 rounded-3xl p-4">
+    <Window className="bg-white max-h-[520px] w-[312px] rounded-3xl p-4">
       <h3 className="mb-4 font-medium">Categories</h3>
       <div
         className="space-y-2 overflow-y-auto"
         style={{
-          maxHeight: "427px", // максимальна висота
+          maxHeight: "420px",
           paddingRight: "20px", // відступ справа для зсуву скролу
         }}
       >

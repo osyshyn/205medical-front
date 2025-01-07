@@ -88,14 +88,6 @@ const useProductStore = create(
         NotificationService.error();
       }
     },
-    deleteCategory: async (id: number) => {
-      try {
-        await instance.post("category/deleteCategory", { id });
-        NotificationService.success("Category deleted successfully");
-      } catch (error) {
-        NotificationService.error();
-      }
-    },
   }))
 );
 

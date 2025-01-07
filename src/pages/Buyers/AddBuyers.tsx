@@ -122,19 +122,16 @@ export const AddBuyers: FC = () => {
   const onDrop = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
-      setAvatarFile(file);
-
       const reader = new FileReader();
       reader.onload = () => {
         setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
 
-      // Загрузка файла на сервер
       try {
         await uploadFile("avatars", file);
-        if (response && response.fileUrl) {
-          formik.setFieldValue("avatar", response.fileUrl); // Сохраняем URL изображения в данные формы
+        if (response?.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl);
         }
       } catch (error) {
         NotificationService.error("Failed to upload file");
@@ -143,17 +140,6 @@ export const AddBuyers: FC = () => {
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  const roles = [
-    {
-      id: 1,
-      name: "Sub User",
-    },
-    {
-      id: 2,
-      name: "Client Admin",
-    },
-  ];
 
   return (
     <Window className="max-h-200 overflow-auto !border-none !p-0">
@@ -197,29 +183,6 @@ export const AddBuyers: FC = () => {
             <Form className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5">
               <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} />
 
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium">
-                  Role
-                </label>
-                <select
-                  value={formik.values.role} // Bind the select value to Formik state
-                  onChange={(e) => formik.setFieldValue("role", e.target.value)} // Update Formik state when value changes
-                >
-                  {roles.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {" "}
-                      {/* Ensure the option value corresponds to role.id */}
-                      {role.name}
-                    </option>
-                  ))}
-                </select>
-                {formik.touched.role && formik.errors.role && (
-                  <div className="text-sm text-red-500">
-                    {formik.errors.role}
-                  </div>
-                )}
-              </div>
-
               <Window className="max-h-62.5 overflow-auto !p-0">
                 <div className="p-4">
                   <Title title="Approved Locations" subtitle="" />
@@ -233,20 +196,6 @@ export const AddBuyers: FC = () => {
                       onChange={() => handleLocationsChange(location.id)}
                     />
                   ))}
-                </div>
-                <div className="sticky bottom-0 mt-5 flex w-full justify-start gap-5 bg-[#FFFFFF] p-4">
-                  <Button
-                    className="px-10 py-3"
-                    variant={ButtonVariants.PRIMARY}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    className="px-10 py-3"
-                    variant={ButtonVariants.SECONDARY}
-                  >
-                    Save
-                  </Button>
                 </div>
               </Window>
 
@@ -264,20 +213,6 @@ export const AddBuyers: FC = () => {
                         onChange={() => handleProductsChange(product.id)}
                       />
                     ))}
-                  </div>
-                  <div className="sticky bottom-0 mt-5 flex w-full justify-start gap-5 bg-[#FFFFFF] p-4">
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.PRIMARY}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      className="px-10 py-3"
-                      variant={ButtonVariants.SECONDARY}
-                    >
-                      Save
-                    </Button>
                   </div>
                 </Window>
               ) : (

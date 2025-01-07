@@ -129,7 +129,7 @@ const CategoryManagement: React.FC = () => {
             handleCategoryClick={handleCategoryClick}
           />
 
-          <Window className="bg-white relative flex-1 rounded-3xl p-4">
+          <Window className="bg-white relative max-h-[520px] flex-1 rounded-3xl p-4">
             {!state.selectedCategory ? (
               <div className="flex h-40 items-center justify-center text-gray-500">
                 Please select a category
