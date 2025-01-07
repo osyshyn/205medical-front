@@ -110,6 +110,27 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   {
     id: 2,
     icon: DashboardIcon,
+
+    label: "Reporting and analytics",
+    href: PATHNAMES.REPORTING_ANALYTICS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Purchase history by product",
+
+        href: PATHNAMES.PURCHASE_PRODUCTS,
+      },
+      {
+        id: 2,
+        label: "Purchase analytics",
+        href: PATHNAMES.PURCHASE_ANALYTICS,
+      },
+    ],
+  },
+  {
+    id: 2,
+    icon: DashboardIcon,
     label: "Recent Orders",
     href: PATHNAMES.RECENT_ORDERS,
     iconActive: DashboardActiveIcon,

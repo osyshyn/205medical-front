@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useRef } from "react";
+import { Outlet } from "react-router";
 import {
   AWAITING_APPROVALS_COLUMNS,
   AWAITING_PER_PAGE,
@@ -103,6 +104,8 @@ export const AwaitingApproval: FC = () => {
     su_users_ids,
     location_ids,
   ]);
+
+  console.log("ordersToApproves: ", ordersToApproves);
 
   const ordersToApprovesResult = ordersToApproves?.result;
   const ordersLength = ordersToApproves?.total || 0;
@@ -210,6 +213,7 @@ export const AwaitingApproval: FC = () => {
           </div>
         </div>
       </Window>
+      <Outlet />
     </PageWrapper>
   );
 };
