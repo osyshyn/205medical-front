@@ -1,9 +1,11 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { stat } from "fs";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import useCartStore from "src/stores/cart-store";
 import useModalWindowStore from "src/stores/modal-window-store";
+import useProductStore from "src/stores/product-store";
 import { getItemPath } from "src/utils/getItemPath";
 import { PATHNAMES } from "src/constants/routes";
 import { ReactComponent as TrashIcon } from "src/assets/icons/trash.svg";
@@ -20,6 +22,8 @@ export const ActionsButtons: FC<Props> = ({ id, role }) => {
   const openCard = useCartStore((state) => state.openCart);
   const addProductToCart = useCartStore((state) => state.addProductToCart);
 
+  const deleteProduct = useProductStore((state) => state.deleteProduct);
+
   const onView = () => {
     openProduct(id);
   };
@@ -27,6 +31,10 @@ export const ActionsButtons: FC<Props> = ({ id, role }) => {
   const onClickAdd = () => {
     addProductToCart(id);
     openCard();
+  };
+
+  const onClickDelete = () => {
+    deleteProduct(id);
   };
 
   return (
@@ -52,7 +60,10 @@ export const ActionsButtons: FC<Props> = ({ id, role }) => {
               <Button variant={ButtonVariants.PRIMARY_SQUARE}>Edit</Button>
             </Link>
 
-            <Button variant={ButtonVariants.PRIMARY_SQUARE}>
+            <Button
+              variant={ButtonVariants.PRIMARY_SQUARE}
+              onClick={onClickDelete}
+            >
               <TrashIcon />
             </Button>
           </div>
