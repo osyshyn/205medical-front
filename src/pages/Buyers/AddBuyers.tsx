@@ -30,6 +30,8 @@ export const AddBuyers: FC = () => {
   const uploadFile = useFileStore((state) => state.uploadFile);
   const response = useFileStore((state) => state.response);
 
+  const currentUserRole = useUserStore((state) => state.user.role);
+
   const createUser = useUserStore((state) => state.createUser);
 
   const loadProducts = useProductStore((state) => state.fetchProducts);
@@ -105,7 +107,7 @@ export const AddBuyers: FC = () => {
     initialValues: {
       first_name: "",
       last_name: "",
-      role: TypesUsers.CLIENT_ADMIN,
+      role: TypesUsers.SUB_USER,
       phone: "",
       email: "",
       purchase_limit: 0,
@@ -181,7 +183,21 @@ export const AddBuyers: FC = () => {
         <div className="flex-1">
           <FormikProvider value={formik}>
             <Form className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5">
-              <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} />
+              {/* <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} /> */}
+              <RenderAddFormFields
+                fields={ADD_BUYERS_FORM_FIELDS.map((field) => ({
+                  ...field,
+                  ...(field.name === "role" &&
+                  currentUserRole === TypesUsers.CLIENT_ADMIN
+                    ? {
+                        disabled: true,
+                        options: [
+                          { label: "Sub User", value: TypesUsers.SUB_USER },
+                        ],
+                      }
+                    : {}),
+                }))}
+              />
 
               <Window className="max-h-62.5 overflow-auto !p-0">
                 <div className="p-4">

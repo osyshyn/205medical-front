@@ -46,7 +46,7 @@ export const Buyers: FC = () => {
 
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
-      <Show onlyFor={TypesUsers.MEDICAL}>
+      <Show onlyFor={TypesUsers.MEDICAL && TypesUsers.CLIENT_ADMIN}>
         <div className="flex w-full justify-end">
           <Button
             className="px-5 py-2"
