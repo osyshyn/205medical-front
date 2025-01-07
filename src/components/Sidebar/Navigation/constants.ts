@@ -121,8 +121,13 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
       },
       {
         id: 2,
-        label: "AWAITING APPROVAL",
+        label: "Awaiting approval",
         href: PATHNAMES.AWAITING_APPROVAL,
+      },
+      {
+        id: 3,
+        label: "Order alerts",
+        href: PATHNAMES.ORDER_ALERTS,
       },
     ],
   },
