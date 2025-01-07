@@ -1,22 +1,31 @@
 import React, { FC } from "react";
 import { Button } from "src/components/Button";
 import useCartStore from "src/stores/cart-store";
+import useProductListStore from "src/stores/product-list-store";
 
 interface Props {
+  list_id: number;
   id: number;
   quantity: number;
   minimum_order: number;
 }
 
-export const QuantityToggle: FC<Props> = ({ id, quantity, minimum_order }) => {
-  const updataQuantity = useCartStore((state) => state.updataQuantity);
+export const QuantityToggle: FC<Props> = ({
+  list_id,
+  id,
+  quantity,
+  minimum_order,
+}) => {
+  console.log("ListId: ", list_id, "Id: ", id, "Quantity: ", quantity);
+  const updateQuantity = useProductListStore((state) => state.updateQuantity);
 
   const incrementQuantity = () => {
-    updataQuantity(id, quantity + 1);
+    console.log("TEST: ", list_id, id, quantity);
+    updateQuantity(list_id, id, quantity + 1);
   };
 
   const decrementQuantity = () => {
-    updataQuantity(id, quantity - 1);
+    updateQuantity(list_id, id, quantity - 1);
   };
 
   const isDecrementBtnDisabled = quantity === minimum_order;

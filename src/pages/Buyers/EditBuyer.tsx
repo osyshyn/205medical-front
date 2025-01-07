@@ -217,15 +217,15 @@ export const EditBuyer: FC = () => {
 
                 <Window className="h-[250px] overflow-auto !p-0">
                   <div className="p-4">
-                    <Title title="Approved Locations" subtitle="" />
+                    <Title title="Active products" subtitle="" />
                   </div>
                   <div className="mt-5 flex flex-col gap-4">
-                    {locations.map((location) => (
+                    {products.map((product) => (
                       <Checkbox
-                        key={location.id}
-                        label={location.name}
-                        checked={selectedLocation.includes(location.id)}
-                        onChange={() => handleLocationsChange(location.id)}
+                        key={product.id}
+                        label={product.name}
+                        checked={selectedProduct.includes(product.id)}
+                        onChange={() => handleProductsChange(product.id)}
                       />
                     ))}
                   </div>
@@ -234,15 +234,15 @@ export const EditBuyer: FC = () => {
                 {formik.values.role == TypesUsers.CLIENT_ADMIN ? (
                   <Window className="h-[250px] overflow-auto !p-0">
                     <div className="p-4">
-                      <Title title="Active products" subtitle="" />
+                      <Title title="Approved Locations" subtitle="" />
                     </div>
                     <div className="mt-5 flex flex-col gap-4">
-                      {products.map((product) => (
+                      {locations.map((location) => (
                         <Checkbox
-                          key={product.id}
-                          label={product.name}
-                          checked={selectedProduct.includes(product.id)}
-                          onChange={() => handleProductsChange(product.id)}
+                          key={location.id}
+                          label={location.name}
+                          checked={selectedLocation.includes(location.id)}
+                          onChange={() => handleLocationsChange(location.id)}
                         />
                       ))}
                     </div>

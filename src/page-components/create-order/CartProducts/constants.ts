@@ -16,7 +16,8 @@ export const CART_PRODUCTS_COLUMNS: Column[] = [
 ];
 
 export const getTableItems = (
-  productToLists: ProductToLists[]
+  productToLists: ProductToLists[],
+  listId: any
 ): ProductToLists[] =>
   productToLists.map((product) => ({
     ...product,
@@ -27,6 +28,7 @@ export const getTableItems = (
         id: product.id,
         quantity: product.quantity,
         minimum_order: product.minimum_order,
+        list_id: listId,
       },
     },
     deleteButton: {
