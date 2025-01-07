@@ -109,6 +109,13 @@ export const OrderHistoryByLocation: FC = () => {
   }, [loadLocation, selectedOption]);
 
   useEffect(() => {
+    console.log(
+      "TEST:",
+      "month: ",
+      selectMonthOption?.value,
+      "year: ",
+      selectYearOption?.value
+    );
     loadOrdersMetrics({
       month: selectMonthOption?.value.toString(),
       year: selectYearOption?.value.toString(),
@@ -156,8 +163,7 @@ export const OrderHistoryByLocation: FC = () => {
 
   const purchaseItems = (getOrderHistoryItems(purchasesByProductList) ||
     []) as Row[];
-  const orderClosed = (getOpenClosedOrdersItems(invoices?.result) ||
-    []) as Row[];
+  const orderClosed = (getOpenClosedOrdersItems(invoiceToShow) || []) as Row[];
 
   const loadNextPage = useCallback(() => {
     const currentPage = currentPageRef.current + 1;
@@ -193,9 +199,7 @@ export const OrderHistoryByLocation: FC = () => {
 
   useEffect(() => {
     if (!sentinelRef.current) return;
-    console.log("InvoicesCount: ", invoices.count);
-    console.log("InvoiceToShow: ", invoiceToShow);
-    if (invoices.count <= invoiceToShow.length) return;
+    if (invoices?.count <= invoiceToShow.length) return;
     // if (!invoices.next) return;
 
     const observer = new IntersectionObserver(
@@ -236,7 +240,7 @@ export const OrderHistoryByLocation: FC = () => {
   //   };
   // }, [loadNextPurchasesPage]);
 
-  console.log("INVOICES", invoices);
+  console.log("Monthly Purchases: ", monthlyPurchases);
 
   return (
     <PageWrapper>
@@ -258,13 +262,13 @@ export const OrderHistoryByLocation: FC = () => {
       {currentLocationResult && (
         <>
           <div className="mt-5 flex gap-6">
-            {/* <Metric {...approval_metric} /> */}
-            {/* <FinanceMetric
+            <Metric {...approval_metric} />
+            <FinanceMetric
               title="Total orders"
               value={monthlyPurchases.total_amount}
               color="#5932EA"
               subtitle="Monthly spemding"
-            /> */}
+            />
           </div>
 
           <div className="mt-5 flex gap-6">

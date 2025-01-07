@@ -14,7 +14,6 @@ interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ color, children }) => {
-  console.log("color", color);
   return (
     <span
       className={`inline-flex items-center rounded-xl px-3 py-1 text-sm font-medium`}

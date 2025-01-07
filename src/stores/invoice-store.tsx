@@ -22,7 +22,7 @@ interface IInvoiceStore {
   isLoading: boolean;
 }
 
-export const ORDERS_PER_PAGE = 8;
+export const ORDERS_PER_PAGE = 10;
 
 const useInvoiceStore = create(
   devtools<IInvoiceStore>((set) => ({

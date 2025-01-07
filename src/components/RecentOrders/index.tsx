@@ -91,6 +91,8 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
 
   const items = getTableItems(ordersResults) as unknown as Row[];
 
+  console.log("Orders: ", ordersResults);
+
   return (
     <Window>
       <div className="flex items-center justify-between">
