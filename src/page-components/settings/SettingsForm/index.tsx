@@ -38,10 +38,12 @@ export const SettingsForm: FC = () => {
 
   const isGoogleAccountConnect = Boolean(user.google_id);
 
+  console.log("Initial user data:", user);
+
   return (
     <Window className="flex-1">
       <FormikProvider value={formik}>
-        <Form className="flex flex-col gap-10">
+        <Form className="flex flex-col gap-10" autoComplete="off">
           <div>
             <h3>Buyer Information</h3>
 

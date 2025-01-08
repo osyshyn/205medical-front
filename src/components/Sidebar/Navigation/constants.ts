@@ -192,6 +192,13 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
       },
     ],
   },
+  {
+    id: 7,
+    icon: SettingsIcon,
+    label: "Settings",
+    href: PATHNAMES.SETTINGS,
+    iconActive: SettingsActiveIcon,
+  },
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
