@@ -6,6 +6,7 @@ import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import {
   getTableItems,
   ORDER_TABLE_COLUMNS,
+  SHIPMENT_TABLE_COLUMNS,
 } from "src/components/OrderAlerts/constants";
 import { Pagination } from "src/components/Pagination";
 import { Search } from "src/components/Search";
@@ -59,6 +60,8 @@ const ShipmentAlerts: FC = () => {
 
   const items = getTableItems(alertsResult) as unknown as Row[];
 
+  console.log("ALERTS: ", alerts);
+
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <div>
@@ -76,11 +79,14 @@ const ShipmentAlerts: FC = () => {
             />
           </div>
           <Table ariaLabel="All shipments table">
-            <TableHeader className="text-left" columns={ORDER_TABLE_COLUMNS} />
+            <TableHeader
+              className="text-left"
+              columns={SHIPMENT_TABLE_COLUMNS}
+            />
             <TableBody
               rowClassname="!text-left"
               items={items}
-              columns={ORDER_TABLE_COLUMNS}
+              columns={SHIPMENT_TABLE_COLUMNS}
             />
           </Table>
           <div className="mt-8 flex items-center justify-between">

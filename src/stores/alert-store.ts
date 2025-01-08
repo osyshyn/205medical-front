@@ -2,7 +2,7 @@ import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { NotificationService } from "src/helpers/notifications";
-import { IAlert } from "src/@types/alert";
+import { IAlert, IAlertType } from "src/@types/alert";
 import { IResponseWithPagination } from "src/@types/api";
 
 interface FetchAlertsParams {
@@ -19,8 +19,14 @@ interface UpdateAlertParams {
   invoice_paid: boolean;
 }
 
+interface RepALerts {
+  orders: IResponseWithPagination<IAlert>;
+  shipments: IResponseWithPagination<IAlert>;
+}
+
 interface IAlertsStore {
   alerts: IResponseWithPagination<IAlert>;
+  reportingAlerts: RepALerts;
   fetchAlerts: (params: FetchAlertsParams) => void;
   isLoading: boolean;
   deleteAlert: (id: number) => void;
@@ -33,6 +39,7 @@ const useAlertsStore = create(
   devtools<IAlertsStore>((set) => ({
     alerts: null,
     isLoading: false,
+    reportingAlerts: { orders: null, shipments: null },
     fetchAlerts: async (params) => {
       set({ isLoading: true });
       try {
@@ -41,6 +48,12 @@ const useAlertsStore = create(
           { params }
         );
         set({ alerts: data });
+        set((state) => ({
+          reportingAlerts: {
+            ...state.reportingAlerts, // Сохраняем текущие данные для orders и shipments
+            [params.type === IAlertType.ORDER ? "orders" : "shipments"]: data,
+          },
+        }));
       } catch (error) {
         NotificationService.error();
       } finally {
