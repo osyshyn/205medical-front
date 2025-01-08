@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import { ChatData } from "src/pages/Chat";
 import { Avatar } from "src/components/Avatar";
@@ -32,8 +32,16 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   userRole,
 }) => {
   const [newMessage, setNewMessage] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const isCompanyChannel = activeChat?.name === "Company Name";
+
+  useEffect(() => {
+    // Прокрутка вниз при изменении сообщений
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const sendMessage = () => {
     if (socket && chatId && newMessage.trim() !== "") {
@@ -108,6 +116,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
             )}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       {!isCompanyChannel && (
