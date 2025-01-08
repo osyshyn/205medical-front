@@ -5,6 +5,7 @@ import { Avatar } from "src/components/Avatar";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { ReactComponent as BellIcon } from "src/assets/icons/bell.svg";
+import { TypesUsers } from "src/@types/users";
 
 interface Message {
   id: number;
@@ -109,7 +110,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
         ))}
       </div>
 
-      {!isCompanyChannel && userRole === 1 && (
+      {!isCompanyChannel && (
         <div className="flex items-center border-t border-gray-200 p-4">
           <input
             type="text"
