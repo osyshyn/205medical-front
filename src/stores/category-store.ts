@@ -11,6 +11,13 @@ interface FetchProductPurchases {
   page?: number;
 }
 
+export interface PurchaseByCategories {
+  category_id: string;
+  category_name: string;
+  total_price_per_month: number;
+  total_price_per_year: number;
+}
+
 interface ICategoryStore {
   user_products_categories: ICategory[] | null;
   fetchCategories: () => Promise<void>;

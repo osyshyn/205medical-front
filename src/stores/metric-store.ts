@@ -69,6 +69,9 @@ interface IMetricStore {
   metrics_shipments: IMetricsData;
   fetchMetricShipments: (params: FetchMetricsParams) => void;
 
+  order_adging: any;
+  fetchOrderAdging: (filter: string) => void;
+
   user_metric: IMetrics;
   fetchUserMetric: (params: FetchMetricsParams) => void;
 
@@ -151,6 +154,20 @@ const useMetricStore = create(
         NotificationService.error();
       } finally {
         set({ isLoading: false });
+      }
+    },
+
+    order_adging: null,
+    fetchOrderAdging: async (filter) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get<any>(
+          `order/orderAging?filter=${filter}`
+        );
+
+        set({ order_adging: data });
+      } catch (error) {
+        NotificationService.error();
       }
     },
 
