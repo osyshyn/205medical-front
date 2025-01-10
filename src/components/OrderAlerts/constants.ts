@@ -56,6 +56,26 @@ export const getTableItems = (alerts: IAlert[]): Row[] =>
     },
   }));
 
+export const getShipmentItems = (alerts: IAlert[]): Row[] =>
+  alerts.map((alert) => ({
+    id: alert.id,
+    shipmentId: `Shipment #${alert.id} (${getShipmentStatusLabel(alert.status)})`,
+    created_at: new Date().toLocaleString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }),
+    deleteButton: {
+      type: "component",
+      component: DeleteButton,
+      props: {
+        alertId: alert.id,
+      },
+    },
+  }));
+
 export const getShipmentStatusLabel = (status: number): string => {
   switch (status) {
     case 1:

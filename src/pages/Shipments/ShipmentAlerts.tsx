@@ -4,6 +4,8 @@ import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import {
+  getShipmentItems,
+  getShipmentTableItems,
   getTableItems,
   ORDER_TABLE_COLUMNS,
   SHIPMENT_TABLE_COLUMNS,
@@ -58,7 +60,7 @@ const ShipmentAlerts: FC = () => {
   const pageCount = Math.ceil(alertsCount / ALERTS_PER_PAGE);
   const isPaginated = pageCount > 1;
 
-  const items = getTableItems(alertsResult) as unknown as Row[];
+  const items = getShipmentTableItems(alertsResult) as unknown as Row[];
 
   console.log("ALERTS: ", alerts);
 
