@@ -1,0 +1,99 @@
+@charset "UTF-8";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins/Poppins-SemiBold.ttf");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins/Poppins-Medium.ttf");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins/Poppins-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+}
+pre {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+h2 {
+  @apply text-32 font-semibold;
+}
+
+h3 {
+  @apply text-22 font-semibold;
+}
+
+h4 {
+  @apply text-20 font-semibold;
+}
+
+h5 {
+  @apply text-14 font-medium;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar::-webkit-scrollbar-track-piece {
+  background: #f0f0f0;
+  border-radius: 12px;
+  margin-block: 15px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #e0dede;
+  border-radius: 12px;
+}
+
+.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 1rem;
+  gap: 1.25rem;
+  scrollbar-width: thin; /* Для браузерів Firefox */
+  scrollbar-color: #5932ea transparent; /* Кольори для Firefox */
+  position: relative; /* Для використання псевдоелементів */
+}
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px; /* Висота скролбару */
+}
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background-color: #5932ea; /* Колір скролбару */
+  border-radius: 10px;
+}
+.horizontal-scroll::-webkit-scrollbar-track {
+  background-color: transparent; /* Фон треку */
+}
+
+* {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: lining-nums proportional-nums;
+}
+
+body {
+  @apply bg-white-lighter;
+  margin: 0;
+}
+
+input {
+  outline: none;
+}
+
+hr {
+  @apply border-gray-soft;
+}/*# sourceMappingURL=index.css.map */
