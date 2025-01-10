@@ -11,6 +11,11 @@ interface FetchProductPurchases {
   page?: number;
 }
 
+interface FetchOrdersByCategory {
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface PurchaseByCategories {
   category_id: string;
   category_name: string;
@@ -38,6 +43,8 @@ interface ICategoryStore {
   fetchPurchasesByCategoryList: (
     params: FetchProductPurchases
   ) => Promise<void>;
+  purchasesByCategory: any;
+  fetchPurchasesByCategory: (params: FetchOrdersByCategory) => Promise<void>;
   purchasesByOrder: any;
   fetchPurchasesByOrderList: (params: FetchProductPurchases) => Promise<void>;
 }
@@ -150,6 +157,20 @@ const useCategoryStore = create(
           { params }
         );
         set({ purchasesByCategoryList: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    purchasesByCategory: null,
+    fetchPurchasesByCategory: async (params) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get(`category/purchasesByCategory`, {
+          params,
+        });
+        set({ purchasesByCategory: data });
       } catch (error) {
         NotificationService.error();
       } finally {

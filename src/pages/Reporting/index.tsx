@@ -16,7 +16,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { DateRangePicker } from "rsuite";
 import { useDebounce } from "use-debounce";
+import { Switch } from "src/page-components/dashboard/PurchaseHistory/Switch";
 import { BarChartOptions } from "src/page-components/dashboard/PurchaseHistory/types";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { ORDER_COLUMNS } from "src/components/OpenInvoices/constants";
@@ -38,6 +40,7 @@ import useOrderStore from "src/stores/order-store";
 import useProductStore from "src/stores/product-store";
 import { PATHNAMES } from "src/constants/routes";
 import { IAlertType } from "src/@types/alert";
+import DatePickerWindow from "./DatePicker";
 
 export const Reporting: FC = () => {
   const loadOrderAlerts = useAlertsStore((state) => state.fetchAlerts);
@@ -47,6 +50,23 @@ export const Reporting: FC = () => {
 
   const loadAdgingMetrics = useMetricStore((state) => state.fetchOrderAdging);
   const adgingMetrics = useMetricStore((state) => state.order_adging);
+
+  const startDateAdging = new Date(adgingMetrics?.startDate);
+  const formattedStartDateAdging = startDateAdging?.toLocaleDateString(
+    "ru-RU",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    }
+  );
+
+  const endDateAdging = new Date(adgingMetrics?.endDate);
+  const formattedEndDateAdging = endDateAdging?.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  });
 
   const formattedAdgingMetrics = adgingMetrics?.metrics
     ? [
@@ -60,17 +80,46 @@ export const Reporting: FC = () => {
   );
   const purchaseHistory = useOrderStore((state) => state.purchaseHistory);
 
-  const loadPurchaseByCategoryList = useCategoryStore(
-    (state) => state.fetchPurchasesByCategoryList
+  const loadPurchaseByCategory = useCategoryStore(
+    (state) => state.fetchPurchasesByCategory
   );
-  const purchasesByCategoryList = useCategoryStore(
-    (state) => state.purchasesByCategoryList
+  const purchasesByCategory = useCategoryStore(
+    (state) => state.purchasesByCategory
   );
+
+  const [purchasesByCategoryListOption, setPurchasesByCategoryListOption] =
+    useState<BarChartOptions>(BarChartOptions.QUANTITY);
+
+  const [selectedDateRange, setSelectedDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+
+  const handleDateRangeChange = (range: { startDate: Date; endDate: Date }) => {
+    setSelectedDateRange(range);
+    console.log("Selected Date Range:", range);
+  };
+
+  const onClickSwitch = () => {
+    setPurchasesByCategoryListOption(
+      purchasesByCategoryListOption === BarChartOptions.QUANTITY
+        ? BarChartOptions.AMOUNT
+        : BarChartOptions.QUANTITY
+    );
+  };
+
+  const formatYAxis = (value) => {
+    if (purchasesByCategoryListOption === BarChartOptions.AMOUNT) {
+      return `$${value.toFixed(2)}`; // Adds a dollar sign and formats the amount
+    }
+    return value; // Returns the value without modification for quantity
+  };
 
   const currentPage = 1;
   const [debouncedSearchQuery] = useDebounce("", 1000);
 
   const [purchaseHistoryFilter, setPurchaseHistoryFilter] = useState("Yearly");
+  const [orderAggingFilter, setOrderAggingFilter] = useState("Yearly");
 
   const loadPurchasesByProductList = useProductStore(
     (state) => state.fetchPurchasesByProductList
@@ -99,8 +148,11 @@ export const Reporting: FC = () => {
       type: IAlertType.SHIPMENT,
     });
     loadPurchaseHistory(purchaseHistoryFilter);
-    loadAdgingMetrics("Yearly");
-    loadPurchaseByCategoryList({ month: 12, year: 2024 });
+    loadAdgingMetrics(orderAggingFilter);
+    loadPurchaseByCategory({
+      startDate: selectedDateRange.startDate.toString(),
+      endDate: selectedDateRange.endDate.toString(),
+    });
     loadPurchasesByProductList({ month: 12, year: 2024 });
     loadInvoices({
       current_page: 1,
@@ -114,10 +166,12 @@ export const Reporting: FC = () => {
     loadShipmentAlerts,
     loadAdgingMetrics,
     loadPurchaseHistory,
-    loadPurchaseByCategoryList,
+    loadPurchaseByCategory,
     loadPurchasesByProductList,
     loadInvoices,
     purchaseHistoryFilter,
+    orderAggingFilter,
+    selectedDateRange,
   ]);
 
   const { orders, shipments } = alerts;
@@ -131,6 +185,8 @@ export const Reporting: FC = () => {
     { name: "Outstanding", value: 38, percentage: "97.44%" },
     { name: "Overdue", value: 1, percentage: "2.56%" },
   ];
+
+  console.log("DATA TEST: ", adgingMetrics);
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -174,40 +230,8 @@ export const Reporting: FC = () => {
   });
 
   // DELETEME: Для тестирования
-  const purchaseData: PurchaseByCategories[] = [
-    {
-      category_id: "1",
-      category_name: "Electronics",
-      total_price_per_month: 150,
-      total_price_per_year: 1800,
-    },
-    {
-      category_id: "2",
-      category_name: "Groceries",
-      total_price_per_month: 120,
-      total_price_per_year: 1440,
-    },
-    {
-      category_id: "3",
-      category_name: "Clothing",
-      total_price_per_month: 80,
-      total_price_per_year: 960,
-    },
-    {
-      category_id: "4",
-      category_name: "Entertainment",
-      total_price_per_month: 50,
-      total_price_per_year: 600,
-    },
-    {
-      category_id: "5",
-      category_name: "Health & Fitness",
-      total_price_per_month: 200,
-      total_price_per_year: 2400,
-    },
-  ];
 
-  console.log("PP", purchasesByProductList);
+  console.log("Adging metrics: ", adgingMetrics);
 
   return (
     <PageWrapper className="max-w-[85%]">
@@ -269,9 +293,9 @@ export const Reporting: FC = () => {
           </div>
           <div className="mt-5 overflow-auto">
             <ResponsiveContainer width={1000} height={300}>
-              <LineChart data={normalizedMetrics}>
-                <CartesianGrid stroke="#F1F1F1" strokeWidth="1" />
-
+              <LineChart width={1500} data={normalizedMetrics}>
+                <CartesianGrid stroke="#D3D3D3" strokeWidth="1" />{" "}
+                {/* Изменено на серый */}
                 <XAxis
                   dataKey="order_date"
                   label={{
@@ -279,14 +303,18 @@ export const Reporting: FC = () => {
                     position: "insideBottom",
                     offset: -5,
                   }}
+                  stroke="#D3D3D3"
                   width={100}
+                  color="#5932EA"
+                  tickSize={10}
+                  interval={1}
                 />
-
                 <YAxis
                   label={{
                     angle: -90,
                     position: "outsideLeft",
                   }}
+                  stroke="#D3D3D3"
                   height={100}
                 />
                 <Tooltip formatter={(value) => `${value} orders`} />
@@ -301,10 +329,30 @@ export const Reporting: FC = () => {
           </div>
         </Window>
         <Window className="max-h-[600px] w-1/2">
-          <Title title="Order Aging" subtitle="" />
+          <div className="flex w-full justify-between">
+            <Title title="Order Aging" subtitle="" />
+            <select
+              value={orderAggingFilter}
+              onChange={(e) => setOrderAggingFilter(e.target.value)}
+              className="rounded border px-2 py-1"
+            >
+              <option value="Daily">Daily</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Yearly">Yearly</option>
+            </select>
+          </div>
+
           <div className="mt-5 flex w-full justify-between">
             <div className="flex flex-col justify-between">
-              <p className="text-[34px] text-[#5932EA]">01.01.2023</p>
+              <div>
+                <p className="text-[34px] text-[#5932EA]">
+                  {formattedStartDateAdging}
+                </p>
+                <p className="text-[34px] text-[#5932EA]">
+                  {formattedEndDateAdging}
+                </p>
+              </div>
+
               <div className="flex w-full justify-start">
                 <div className="mr-4 flex items-center">
                   <span className="mr-1 block h-2 w-2 rounded-full bg-pink-400"></span>
@@ -319,7 +367,7 @@ export const Reporting: FC = () => {
 
             <PieChart width={300} height={300}>
               <Pie
-                data={data}
+                data={formattedAdgingMetrics}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -346,16 +394,25 @@ export const Reporting: FC = () => {
       </div>
       <div className="mt-20 flex gap-5">
         <Window className="w-1/2">
-          <Title title="Purchases By Categories" subtitle="" />
-          <p className="text-4xl font-bold text-[#5932EA]">
-            {totalOrderCount} Orders
-          </p>
+          <div className="flex justify-between">
+            <Title title="Purchases By Categories" subtitle="" />
+            <DatePickerWindow onDateRangeChange={handleDateRangeChange} />
+          </div>
+
+          <div className="flex justify-between">
+            <p className="text-4xl font-bold text-[#5932EA]">
+              {purchasesByCategory?.totalOrdersCount} Orders
+            </p>
+
+            <Switch onClick={onClickSwitch} />
+          </div>
+
           <div className="mt-5 overflow-auto">
             <ResponsiveContainer width={"100%"} height={200}>
               <BarChart
                 width={500}
                 height={400}
-                data={purchaseData}
+                data={purchasesByCategory?.metrics}
                 margin={{
                   top: 5,
                   right: 30,
@@ -365,9 +422,13 @@ export const Reporting: FC = () => {
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="category_name" width={100} />
-                <YAxis />
+                <YAxis tickFormatter={formatYAxis} />
                 <Bar
-                  dataKey="total_price_per_month"
+                  dataKey={
+                    purchasesByCategoryListOption === BarChartOptions.QUANTITY
+                      ? "total_quantity"
+                      : "total_price"
+                  }
                   fill="#9197B3"
                   width={20}
                   barSize={20}
