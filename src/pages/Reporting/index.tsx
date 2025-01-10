@@ -20,8 +20,13 @@ import { DateRangePicker } from "rsuite";
 import { useDebounce } from "use-debounce";
 import { Switch } from "src/page-components/dashboard/PurchaseHistory/Switch";
 import { BarChartOptions } from "src/page-components/dashboard/PurchaseHistory/types";
+import { SHIPMENT_HISTORY_COLUMNS } from "src/page-components/shipments/ShipmentHistory/constants";
+import { getTableItems as getShipmentTableItems } from "src/page-components/shipments/ShipmentHistory/constants";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
-import { ORDER_COLUMNS } from "src/components/OpenInvoices/constants";
+import {
+  getTableItems,
+  ORDER_COLUMNS,
+} from "src/components/OpenInvoices/constants";
 import {
   getShipmentStatusLabel,
   getStatusLabel,
@@ -30,6 +35,7 @@ import { RecentOrders } from "src/components/RecentOrders";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
+import { useQueryParams } from "src/hooks/useQueryParams";
 import useAlertsStore, { ALERTS_PER_PAGE } from "src/stores/alert-store";
 import useCategoryStore, {
   PurchaseByCategories,
@@ -38,8 +44,12 @@ import useInvoiceStore from "src/stores/invoice-store";
 import useMetricStore from "src/stores/metric-store";
 import useOrderStore from "src/stores/order-store";
 import useProductStore from "src/stores/product-store";
+import useShipmentStore from "src/stores/shipment-store";
+import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
+import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { PATHNAMES } from "src/constants/routes";
 import { IAlertType } from "src/@types/alert";
+import { Row } from "src/@types/table";
 import DatePickerWindow from "./DatePicker";
 
 export const Reporting: FC = () => {
@@ -87,9 +97,6 @@ export const Reporting: FC = () => {
     (state) => state.purchasesByCategory
   );
 
-  const [purchasesByCategoryListOption, setPurchasesByCategoryListOption] =
-    useState<BarChartOptions>(BarChartOptions.QUANTITY);
-
   const [selectedDateRange, setSelectedDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -99,6 +106,9 @@ export const Reporting: FC = () => {
     setSelectedDateRange(range);
     console.log("Selected Date Range:", range);
   };
+
+  const [purchasesByCategoryListOption, setPurchasesByCategoryListOption] =
+    useState<BarChartOptions>(BarChartOptions.QUANTITY);
 
   const onClickSwitch = () => {
     setPurchasesByCategoryListOption(
@@ -121,17 +131,56 @@ export const Reporting: FC = () => {
   const [purchaseHistoryFilter, setPurchaseHistoryFilter] = useState("Yearly");
   const [orderAggingFilter, setOrderAggingFilter] = useState("Yearly");
 
-  const loadPurchasesByProductList = useProductStore(
-    (state) => state.fetchPurchasesByProductList
+  const loadPurchasesByProduct = useProductStore(
+    (state) => state.fetchPurchaseByProduct
   );
-  const purchasesByProductList = useProductStore(
-    (state) => state.purchasesByProductList
+  const purchasesByProduct = useProductStore(
+    (state) => state.purchaseByProduct
   );
+
+  const [purchasesByProductOption, setPurchasesByProductOption] =
+    useState<BarChartOptions>(BarChartOptions.QUANTITY);
+
+  const onClickSwitchPurchasesOption = () => {
+    setPurchasesByProductOption(
+      purchasesByProductOption === BarChartOptions.QUANTITY
+        ? BarChartOptions.AMOUNT
+        : BarChartOptions.QUANTITY
+    );
+  };
+
+  const [
+    selectedDateRangePurchaseByProduct,
+    setSelectedDateRangePurchaseByProduct,
+  ] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+
+  const handleDateRangeChangePurchaseByProduct = (range: {
+    startDate: Date;
+    endDate: Date;
+  }) => {
+    setSelectedDateRangePurchaseByProduct(range);
+    console.log("Selected Date Range:", range);
+  };
+
   const loadInvoices = useInvoiceStore((state) => state.fetchinvoice);
   const invoices = useInvoiceStore((state) => state.invoice);
 
   const currentYear = new Date().getFullYear(); // Получаем текущий год
   const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, "0"); // Получаем текущий месяц (с 0 по 11) и добавляем ведущий 0
+
+  const loadShipments = useShipmentStore((state) => state.fetcShipment);
+  const shipmentsList = useShipmentStore((state) => state.shipment);
+
+  const loadOrders = useOrderStore((state) => state.fetchOrders);
+  const ordersList = useOrderStore((state) => state.orders);
+
+  const { getQueryParam, setQueryParam, setMultipleQueryParams } =
+    useQueryParams();
+
+  const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
     loadOrderAlerts({
@@ -153,7 +202,10 @@ export const Reporting: FC = () => {
       startDate: selectedDateRange.startDate.toString(),
       endDate: selectedDateRange.endDate.toString(),
     });
-    loadPurchasesByProductList({ month: 12, year: 2024 });
+    loadPurchasesByProduct({
+      startDate: selectedDateRangePurchaseByProduct.startDate.toString(),
+      endDate: selectedDateRangePurchaseByProduct.endDate.toString(),
+    });
     loadInvoices({
       current_page: 1,
       search: "",
@@ -161,16 +213,30 @@ export const Reporting: FC = () => {
       year: currentYear.toString(),
       location_ids: [],
     });
+    loadShipments({
+      current_page: 1,
+      month: currentMonth,
+      year: currentYear.toString(),
+    });
+    loadOrders({
+      search: debouncedSearchQuery,
+      current_page: currentPage,
+      year: currentYear.toString(),
+      month: currentMonth.toString(),
+      product_ids: getArrayFromStringParams(product_ids),
+    });
   }, [
     loadOrderAlerts,
     loadShipmentAlerts,
     loadAdgingMetrics,
     loadPurchaseHistory,
     loadPurchaseByCategory,
-    loadPurchasesByProductList,
+    loadPurchasesByProduct,
     loadInvoices,
+    loadShipments,
     purchaseHistoryFilter,
     orderAggingFilter,
+    selectedDateRangePurchaseByProduct,
     selectedDateRange,
   ]);
 
@@ -229,9 +295,15 @@ export const Reporting: FC = () => {
     return item;
   });
 
-  // DELETEME: Для тестирования
+  console.log("Shipments: ", shipmentsList);
+  const shipmentsListResult = shipmentsList?.result || [];
+  const shipmentsItems = getShipmentTableItems(
+    shipmentsListResult
+  ) as unknown as Row[];
 
-  console.log("Adging metrics: ", adgingMetrics);
+  const invoicesResult = invoices?.result || [];
+  console.log("Invoices: ", invoices);
+  const invoicesItems = getTableItems(invoicesResult) as unknown as Row[];
 
   return (
     <PageWrapper className="max-w-[85%]">
@@ -439,13 +511,26 @@ export const Reporting: FC = () => {
         </Window>
 
         <Window className="w-1/2">
-          <Title title="Purchases By Products" subtitle="" />
+          <div className="flex justify-between">
+            <Title title="Purchases By Products" subtitle="" />
+            <DatePickerWindow
+              onDateRangeChange={handleDateRangeChangePurchaseByProduct}
+              customStyle={{ right: "0", left: "auto" }}
+            />
+          </div>
+          <div className="flex justify-between">
+            <p className="text-4xl font-bold text-[#5932EA]">
+              {purchasesByProduct?.totalOrdersCount} Orders
+            </p>
+
+            <Switch onClick={onClickSwitchPurchasesOption} />
+          </div>
           <div className="mt-5 overflow-auto">
             <ResponsiveContainer width={"100%"} height={200}>
               <BarChart
                 width={500}
                 height={400}
-                data={purchasesByProductList}
+                data={purchasesByProduct.metrics}
                 margin={{
                   top: 5,
                   right: 30,
@@ -454,10 +539,15 @@ export const Reporting: FC = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" width={100} />
-                <YAxis />
+                <XAxis dataKey="product_name" width={100} />
+                <YAxis tickFormatter={formatYAxis} />
+
                 <Bar
-                  dataKey="per_monthly"
+                  dataKey={
+                    purchasesByProductOption === BarChartOptions.QUANTITY
+                      ? "total_quantity"
+                      : "total_price"
+                  }
                   fill="#9197B3"
                   width={20}
                   barSize={20}
@@ -475,11 +565,18 @@ export const Reporting: FC = () => {
           <Title title="Invoices" subtitle="" />
           <Table>
             <TableHeader columns={ORDER_COLUMNS} />
-            <TableBody items={[]} columns={ORDER_COLUMNS} />
+            <TableBody items={invoicesItems} columns={ORDER_COLUMNS} />
           </Table>
         </Window>
         <Window className="w-1/2">
           <Title title="Shipment map history" subtitle="" />
+          <Table>
+            <TableHeader columns={SHIPMENT_HISTORY_COLUMNS} />
+            <TableBody
+              items={shipmentsItems}
+              columns={SHIPMENT_HISTORY_COLUMNS}
+            />
+          </Table>
         </Window>
       </div>
     </PageWrapper>

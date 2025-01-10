@@ -5,10 +5,12 @@ import "react-date-range/dist/theme/default.css";
 
 interface DatePickerWindowProps {
   onDateRangeChange: (range: { startDate: Date; endDate: Date }) => void;
+  customStyle?: React.CSSProperties;
 }
 
 const DatePickerWindow: React.FC<DatePickerWindowProps> = ({
   onDateRangeChange,
+  customStyle,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dateRange, setDateRange] = useState([
@@ -39,7 +41,10 @@ const DatePickerWindow: React.FC<DatePickerWindowProps> = ({
       </p>
 
       {isOpen && (
-        <div className="bg-white absolute left-[-120%] top-12 z-10 rounded-lg border shadow-lg">
+        <div
+          className="bg-white absolute left-[-150%] top-12 z-10 rounded-lg border shadow-lg"
+          style={{ ...customStyle }}
+        >
           <DateRangePicker
             onChange={handleSelect}
             showSelectionPreview={true}

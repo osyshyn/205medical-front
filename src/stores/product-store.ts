@@ -8,6 +8,11 @@ interface FetchOrdersParams {
   category_ids: string[];
 }
 
+interface FetchPurchaseByProduct {
+  startDate?: string;
+  endDate?: string;
+}
+
 interface FetchProductPurchases {
   month: number | string;
   year: number | string;
@@ -25,6 +30,8 @@ interface IProductStore {
   product_details: IProductDetails;
   fetchProducts: (params?: FetchOrdersParams) => void;
   fetchProductDetails: (id: number) => void;
+  purchaseByProduct: any;
+  fetchPurchaseByProduct: (params: FetchPurchaseByProduct) => void;
   purchasesByProductList: IProductPurchases[];
   fetchPurchasesByProductList: (params: FetchProductPurchases) => void;
   isLoadingProducts: boolean;
@@ -65,6 +72,21 @@ const useProductStore = create(
         NotificationService.error();
       } finally {
         set({ isLoadingProductDetail: false });
+      }
+    },
+
+    purchaseByProduct: [],
+
+    fetchPurchaseByProduct: async (params) => {
+      try {
+        const { data } = await instance.get<IProductPurchases[]>(
+          `product/purchasesByProducts`,
+          { params }
+        );
+
+        set({ purchaseByProduct: data });
+      } catch (error) {
+        NotificationService.error();
       }
     },
 
