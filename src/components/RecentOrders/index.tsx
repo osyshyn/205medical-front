@@ -33,7 +33,7 @@ interface RecentOrdersProps {
   locationId?: string[];
 }
 
-export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
+export const RecentOrders: FC<RecentOrdersProps> = ({}) => {
   const loadOrders = useOrderStore((state) => state.fetchOrders);
   const isLoading = useOrderStore((state) => state.isLoading);
 
@@ -59,9 +59,14 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
     });
   };
 
-  const location_ids = locationId
-    ? locationId // Используем переданный locationId
-    : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
+  // const location_ids = locationId
+  //   ? locationId // Используем переданный locationId
+  //   : getArrayFromStringParams(getQueryParam(QUERY_PARAM_KEYS.LOCATIONS));
+  // const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
+  const location_ids = getQueryParam(QUERY_PARAM_KEYS.LOCATIONS) || "";
+
+  const su_users_ids = getQueryParam(QUERY_PARAM_KEYS.SUB_USERS) || "";
+
   const product_ids = getQueryParam(QUERY_PARAM_KEYS.PRODUCTS) || "";
 
   useEffect(() => {
@@ -70,16 +75,18 @@ export const RecentOrders: FC<RecentOrdersProps> = ({ locationId }) => {
       current_page: currentPage,
       year: year,
       month: month,
-      location_ids,
+      location_ids: getArrayFromStringParams(location_ids),
       product_ids: getArrayFromStringParams(product_ids),
+      su_users_ids: getArrayFromStringParams(su_users_ids),
     });
   }, [
     currentPage,
     debouncedSearchQuery,
     month,
     year,
-    // location_ids,
+    location_ids,
     product_ids,
+    su_users_ids,
     loadOrders,
   ]);
 

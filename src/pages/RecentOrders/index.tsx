@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import { FilterByLocationByUser } from "src/page-components/dashboard/FilterByLocationByUser";
 import { RECENT_ORDERS_COLUMNS } from "src/page-components/orders/recent-orders/constant";
 import { PageWrapper } from "src/components/Layouts/PageWrapper";
 import { RecentOrders as RecentOrdersTable } from "src/components/RecentOrders";
@@ -10,13 +11,13 @@ import useOrderStore from "src/stores/order-store";
 import { Row } from "src/@types/table";
 
 export const RecentOrders: FC = () => {
-  // const items = getTableItems(orders) as unknown as Row[];
-
-  // console.log("Orders", orders);
-
   return (
     <PageWrapper>
-      <RecentOrdersTable />
+      <FilterByLocationByUser includeProductFilters={true} />
+
+      <div className="mt-10">
+        <RecentOrdersTable />
+      </div>
     </PageWrapper>
   );
 };
