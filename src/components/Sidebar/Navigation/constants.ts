@@ -110,6 +110,27 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   {
     id: 2,
     icon: DashboardIcon,
+
+    label: "Reporting and analytics",
+    href: PATHNAMES.REPORTING_ANALYTICS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Purchase history by product",
+
+        href: PATHNAMES.PURCHASE_PRODUCTS,
+      },
+      {
+        id: 2,
+        label: "Purchase analytics",
+        href: PATHNAMES.PURCHASE_ANALYTICS,
+      },
+    ],
+  },
+  {
+    id: 2,
+    icon: DashboardIcon,
     label: "Recent Orders",
     href: PATHNAMES.RECENT_ORDERS,
     iconActive: DashboardActiveIcon,
@@ -196,7 +217,47 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
   {
+    id: 2,
+    icon: DashboardIcon,
+
+    label: "Reporting and analytics",
+    href: PATHNAMES.REPORTING_ANALYTICS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Purchase history by product",
+
+        href: PATHNAMES.PURCHASE_PRODUCTS,
+      },
+      {
+        id: 2,
+        label: "Purchase analytics",
+        href: PATHNAMES.PURCHASE_ANALYTICS,
+      },
+    ],
+  },
+  {
     id: 3,
+    icon: DashboardIcon,
+    label: "Recent Orders",
+    href: PATHNAMES.RECENT_ORDERS,
+    iconActive: DashboardActiveIcon,
+    subNavItems: [
+      {
+        id: 2,
+        label: "Awaiting approval",
+        href: PATHNAMES.AWAITING_APPROVAL,
+      },
+      {
+        id: 3,
+        label: "Order alerts",
+        href: PATHNAMES.ORDER_ALERTS,
+      },
+    ],
+  },
+  {
+    id: 4,
     icon: LocationIcon,
 
     label: "Location",
@@ -221,7 +282,21 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     ],
   },
   {
-    id: 1,
+    id: 4,
+    icon: ShipmentsIcon,
+    label: "Shipments",
+    href: PATHNAMES.SHIPMENTS,
+    iconActive: ShipmentsActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Shipment alerts",
+        href: PATHNAMES.SHIPMENT_ALERTS,
+      },
+    ],
+  },
+  {
+    id: 5,
     icon: BuyersIcon,
 
     label: "Buyers",
@@ -229,7 +304,7 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     iconActive: BuyersActiveIcon,
   },
   {
-    id: 2,
+    id: 6,
     icon: ProductIcon,
     label: "Products",
 
@@ -237,7 +312,7 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     iconActive: ProductActiveIcon,
   },
   {
-    id: 5,
+    id: 7,
     icon: AccountingIcon,
 
     label: "Accounting",

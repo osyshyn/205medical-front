@@ -184,8 +184,8 @@ export const OrderHistoryByLocation: FC = () => {
     currentPageRef.current = currentPage;
 
     loadPurchasesByProductList({
-      month: selectMonthOption?.value.toString(),
-      year: selectYearOption?.value.toString(),
+      month: selectMonthOption?.value,
+      year: selectYearOption?.value,
       location_ids: [currentLocationResult?.id.toString()],
       page: currentPage,
     });

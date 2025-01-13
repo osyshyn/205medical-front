@@ -8,6 +8,10 @@ export const PATHNAMES = {
 
   DASHBOARD: "/dashboard",
 
+  REPORTING_ANALYTICS: "/analytics",
+  PURCHASE_PRODUCTS: "/analytics/purchase-products",
+  PURCHASE_ANALYTICS: "/analytics/purchase-analytics",
+
   CREATE_ORDER: "/create-order",
   ORDER_ALERTS: "/create-order/order-alerts",
 
