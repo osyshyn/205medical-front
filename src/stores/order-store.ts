@@ -41,6 +41,9 @@ interface IOrderStore {
   lastOrderId: number;
   fetchLastOrderId: () => void;
 
+  fetchPurchaseHistory: (filter: string) => void;
+  purchaseHistory: any;
+
   approvesOrders: any;
   fetchApprovesOrder: (params: FetchOrdersToApproveParams) => void;
   selectedApprovedOrders: any[];
@@ -58,6 +61,21 @@ const useOrderStore = create(
   devtools<IOrderStore>((set) => ({
     orders: null,
     isLoading: false,
+    purchaseHistory: null,
+    fetchPurchaseHistory: async (filter) => {
+      set({ isLoading: true });
+
+      try {
+        const { data } = await instance.get(`order/purchaseHistory`, {
+          params: { filter },
+        });
+        set({ purchaseHistory: data });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
     fetchOrders: async (params, items_per_page) => {
       set({ isLoading: true });
 

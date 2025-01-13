@@ -28,7 +28,7 @@ export const TableBody: FC<Props> = ({
           <Loader className="pt-8" size={Sizes.XXL} />
         </td>
       </tr>
-    ) : items.length > 0 ? (
+    ) : items?.length > 0 ? (
       items.map((item) => (
         <TableRow
           className={rowClassname}

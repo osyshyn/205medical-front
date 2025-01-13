@@ -8,7 +8,33 @@ export const ORDER_TABLE_COLUMNS: Column[] = [
   { key: "deleteButton", label: "" },
 ];
 
+export const SHIPMENT_TABLE_COLUMNS: Column[] = [
+  { key: "shipmentId", label: "Order Number" },
+  { key: "shipmentDate", label: "Date" },
+  { key: "deleteButton", label: "" },
+];
+
 export const ALERTS_PER_PAGE = 8;
+
+export const getShipmentTableItems = (alerts: IAlert[]): Row[] =>
+  alerts.map((alert) => ({
+    id: alert.id,
+    shipmentId: `Shipment #${alert.id} (${getStatusLabel(alert.status)})`,
+    shipmentDate: new Date().toLocaleString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }),
+    deleteButton: {
+      type: "component",
+      component: DeleteButton,
+      props: {
+        alertId: alert.id,
+      },
+    },
+  }));
 
 export const getTableItems = (alerts: IAlert[]): Row[] =>
   alerts.map((alert) => ({
@@ -30,7 +56,36 @@ export const getTableItems = (alerts: IAlert[]): Row[] =>
     },
   }));
 
-const getStatusLabel = (status: number): string => {
+export const getShipmentItems = (alerts: IAlert[]): Row[] =>
+  alerts.map((alert) => ({
+    id: alert.id,
+    shipmentId: `Shipment #${alert.id} (${getShipmentStatusLabel(alert.status)})`,
+    created_at: new Date().toLocaleString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }),
+    deleteButton: {
+      type: "component",
+      component: DeleteButton,
+      props: {
+        alertId: alert.id,
+      },
+    },
+  }));
+
+export const getShipmentStatusLabel = (status: number): string => {
+  switch (status) {
+    case 1:
+      return "Shipped";
+    case 2:
+      return "Delivered";
+  }
+};
+
+export const getStatusLabel = (status: number): string => {
   switch (status) {
     case 1:
       return "Pending";

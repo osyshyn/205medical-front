@@ -28,8 +28,12 @@ import { EditLocation } from "src/pages/Location/EditLocation";
 import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
 import { RecentOrders } from "src/pages/RecentOrders";
 import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
+import { Reporting } from "src/pages/Reporting";
+import { PurchaseAnalytics } from "src/pages/Reporting/PurchaseAnalytics";
 import { SettingsMedical } from "src/pages/SettingsMedical";
+import { PurchaseHistory } from "src/page-components/dashboard/PurchaseHistory";
 import { EditProduct } from "src/page-components/products/EditProduct";
+import { PurchasesByProduct } from "src/page-components/products/products-purchases/PurchasesByProduct";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
 import { OpenInvoices } from "src/components/OpenInvoices";
 import { PaidInvoices } from "src/components/PaidInvoices";
@@ -96,6 +100,18 @@ const ROUTES = [
       {
         element: <PrivateRoute component={Dashboard} />,
         path: PATHNAMES.DASHBOARD,
+      },
+      {
+        element: <PrivateRoute component={Reporting} />,
+        path: PATHNAMES.REPORTING_ANALYTICS,
+      },
+      {
+        element: <PrivateRoute component={ProductsPurchases} />,
+        path: PATHNAMES.PURCHASE_PRODUCTS,
+      },
+      {
+        element: <PrivateRoute component={PurchaseAnalytics} />,
+        path: PATHNAMES.PURCHASE_ANALYTICS,
       },
       {
         element: <PrivateRoute component={CreateOrder} />,
@@ -198,10 +214,10 @@ const ROUTES = [
           },
         ],
       },
-      {
-        element: <PrivateRoute component={ShipmentDetail} />,
-        path: PATHNAMES.APPROVAL_DETAIL,
-      },
+      // {
+      //   element: <PrivateRoute component={ShipmentDetail} />,
+      //   path: PATHNAMES.APPROVAL_DETAIL,
+      // },
       {
         element: <PrivateRoute component={SettingsMedical} />,
         path: PATHNAMES.SETTINGS_MEDICAL,

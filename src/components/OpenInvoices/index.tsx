@@ -128,7 +128,7 @@ export const OpenInvoices: FC = () => {
   return (
     <Window>
       <div className="flex items-center justify-between">
-        <h3>Open Invoices</h3>
+        <h3>voices</h3>
         <Search
           className="text-xs"
           value={searchQuery}
