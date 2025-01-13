@@ -12,9 +12,9 @@ export const SubNavigationItem: FC<ISubNavigationItemProps> = ({
   const isActive = pathname === href;
 
   return (
-    <li className="flex justify-end">
+    <li className="flex justify-start pl-10">
       <Link
-        className={cn("w-36 font-medium text-black-ligth", {
+        className={cn("w-50 font-medium text-black-ligth", {
           "text-purple-base": isActive,
         })}
         to={href}
