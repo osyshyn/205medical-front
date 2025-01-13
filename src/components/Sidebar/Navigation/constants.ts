@@ -213,6 +213,13 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
       },
     ],
   },
+  {
+    id: 6,
+    icon: ChatIcon,
+    label: "Chat",
+    href: PATHNAMES.CHAT,
+    iconActive: ChatActiveIcon,
+  },
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
