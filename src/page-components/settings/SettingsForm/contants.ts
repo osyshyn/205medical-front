@@ -53,7 +53,7 @@ export const SETTINGS_CHANGE_PASSWORD_FORM_FIELDS: IRenderFormField[] = [
 ];
 
 export const SETTINGS_VALIDATION_SCHEMA = Yup.object().shape({
-  phone: PHONE_VALIDATION_SCHEMA,
+  // phone: PHONE_VALIDATION_SCHEMA,
   email: EMAIL_VALIDATION_SCHEMA,
   //temp add validation
 });
