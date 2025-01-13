@@ -8,11 +8,21 @@ interface FetchOrdersParams {
   category_ids: string[];
 }
 
+interface FetchPurchaseByProduct {
+  startDate?: string;
+  endDate?: string;
+}
+
 interface FetchProductPurchases {
-  month: string;
-  year: string;
-  location_ids: string[];
+  month: number | string;
+  year: number | string;
+  location_ids?: string[];
   page?: number;
+}
+
+export interface IProductPurchases extends IProductDetails {
+  per_monthly: number;
+  per_year: number;
 }
 
 interface IProductStore {
@@ -20,7 +30,9 @@ interface IProductStore {
   product_details: IProductDetails;
   fetchProducts: (params?: FetchOrdersParams) => void;
   fetchProductDetails: (id: number) => void;
-  purchasesByProductList: IProductDetails[];
+  purchaseByProduct: any;
+  fetchPurchaseByProduct: (params: FetchPurchaseByProduct) => void;
+  purchasesByProductList: IProductPurchases[];
   fetchPurchasesByProductList: (params: FetchProductPurchases) => void;
   isLoadingProducts: boolean;
   isLoadingProductDetail: boolean;
@@ -63,10 +75,25 @@ const useProductStore = create(
       }
     },
 
+    purchaseByProduct: [],
+
+    fetchPurchaseByProduct: async (params) => {
+      try {
+        const { data } = await instance.get<IProductPurchases[]>(
+          `product/purchasesByProducts`,
+          { params }
+        );
+
+        set({ purchaseByProduct: data });
+      } catch (error) {
+        NotificationService.error();
+      }
+    },
+
     purchasesByProductList: [],
     fetchPurchasesByProductList: async (params) => {
       try {
-        const { data } = await instance.get<IProductDetails[]>(
+        const { data } = await instance.get<IProductPurchases[]>(
           `product/purchasesByProductsList`,
           { params }
         );

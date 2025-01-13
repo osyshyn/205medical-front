@@ -21,6 +21,8 @@ export const ShipmentDetail: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  console.log("Shipment detail: ", id);
+
   const shipment = useShipmentStore((state) => state.detailShipment);
   const loadShipment = useShipmentStore((state) => state.fetchShipmentDetails);
   const isLoading = useShipmentStore((state) => state.isLoading);
@@ -30,7 +32,7 @@ export const ShipmentDetail: FC = () => {
   }, [id, loadShipment]);
 
   const onClose = () => {
-    navigate(PATHNAMES.SHIPMENTS);
+    navigate(-1);
   };
 
   if (!shipment && !isLoading)

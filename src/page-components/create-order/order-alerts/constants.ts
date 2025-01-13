@@ -6,13 +6,14 @@ export const SORT_LIST_ORDER_ALERTS: IFilterList[] = [
     title: "",
     items: [
       {
-        label: "Order Approval",
-        value: "order_approval",
-      },
-      {
         label: "Order Pending",
         value: "order_pending",
       },
+      {
+        label: "Order Approval",
+        value: "order_approval",
+      },
+
       {
         label: "Order Rejected",
         value: "order_rejected",
