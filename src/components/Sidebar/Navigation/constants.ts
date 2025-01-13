@@ -220,6 +220,13 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     href: PATHNAMES.SETTINGS,
     iconActive: SettingsActiveIcon,
   },
+  {
+    id: 6,
+    icon: ChatIcon,
+    label: "Chat",
+    href: PATHNAMES.CHAT,
+    iconActive: ChatActiveIcon,
+  },
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { ChatHistory } from "src/page-components/chat/ChatHistory/chat-history";
 import { ChatWindow } from "src/page-components/chat/ChatWindow";
@@ -42,6 +42,13 @@ export const Chat: FC = () => {
   const [activeChat, setActiveChat] = useState<ChatData | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
 
+  const activeChatIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    // Keep ref in sync with state
+    activeChatIdRef.current = activeChatId;
+  }, [activeChatId]);
+
   useEffect(() => {
     const socket = io("http://localhost:3100");
     setSocket(socket);
@@ -59,7 +66,10 @@ export const Chat: FC = () => {
     });
 
     socket.on("new_message", (message) => {
-      if (activeChatId === message.chat_id) {
+      console.log("Active chat id (ref): ", activeChatIdRef.current);
+      console.log("Message chat id: ", message.chat_id);
+
+      if (activeChatIdRef.current === message.chat_id) {
         setMessages((prevMessages) => [...prevMessages, message]);
       } else {
         setChats((prevChats) => {
@@ -86,6 +96,7 @@ export const Chat: FC = () => {
   }, [user.id]);
 
   const handleChatSelect = (chatId: number) => {
+    console.log("Chat selected:", chatId);
     setActiveChatId(chatId);
     setActiveChat(chats.find((c) => c.id === chatId) || null);
     if (socket) {
