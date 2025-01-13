@@ -12,8 +12,8 @@ export const PATHNAMES = {
   PURCHASE_PRODUCTS: "/analytics/purchase-products",
   PURCHASE_ANALYTICS: "/analytics/purchase-analytics",
 
-  CREATE_ORDER: "/create-order",
-  ORDER_ALERTS: "/create-order/order-alerts",
+  CREATE_ORDER: "recent-orders/create-order",
+  ORDER_ALERTS: "recent-orders/create-order/order-alerts",
 
   PRODUCT: "/products",
   PRODUCT_HISTORY: "/products/history",

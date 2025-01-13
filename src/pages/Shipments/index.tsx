@@ -63,9 +63,6 @@ const Shipments: FC = () => {
         setSelectYear={setSelectYearOption}
       />
       <Metrics metrics={metrics} isLoading={isLoading} />
-      <Link to={getItemPath(PATHNAMES.ORDER_DETAIL, { id: 1 })}>
-        <Button variant={ButtonVariants.SECONDARY_SQUARE}>View</Button>
-      </Link>
       <ShipmentHistory />
       <Outlet />
     </PageWrapper>
