@@ -35,7 +35,7 @@ export const CartProducts: FC = () => {
   }, [loadList]);
 
   const product_to_lists = list?.product_to_lists || [];
-  const listId = list.id;
+  const listId = list?.id;
 
   const items = getTableItems(product_to_lists, listId) as unknown as Row[];
 

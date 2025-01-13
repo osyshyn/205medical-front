@@ -19,6 +19,11 @@ interface UpdateAlertParams {
   invoice_paid: boolean;
 }
 
+interface UpdateShipmentAlertParams {
+  order_shipment: boolean;
+  order_delivered: boolean;
+}
+
 interface RepALerts {
   orders: IResponseWithPagination<IAlert>;
   shipments: IResponseWithPagination<IAlert>;
@@ -31,6 +36,7 @@ interface IAlertsStore {
   isLoading: boolean;
   deleteAlert: (id: number) => void;
   updateOrderAlertSetting: (params: UpdateAlertParams) => void;
+  updateShipmentAlertSetting: (params: UpdateShipmentAlertParams) => void;
 }
 
 export const ALERTS_PER_PAGE = 5;
@@ -91,6 +97,19 @@ const useAlertsStore = create(
       set({ isLoading: true });
       try {
         await instance.post(`alert/updateOrderAlertSetting`, {
+          params,
+        });
+      } catch (error) {
+        NotificationService.error();
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updateShipmentAlertSetting: async (params) => {
+      set({ isLoading: true });
+      console.log("Params: ", params);
+      try {
+        await instance.post(`alert/updateShipmentAlertSetting`, {
           params,
         });
       } catch (error) {
