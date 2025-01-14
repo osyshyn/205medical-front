@@ -316,6 +316,13 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: BuyersActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "Companies m",
+        href: PATHNAMES.COMPANIES,
+      },
+    ],
   },
   {
     id: 6,
