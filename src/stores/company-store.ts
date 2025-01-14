@@ -52,6 +52,8 @@ export interface IAddCompanyFormFields {
 }
 
 interface ICompanyStore {
+  companies: any;
+  fetchCompanies: () => void;
   createCompany: (params: IAddCompanyFormFields) => void;
   isLoading: boolean;
 }
@@ -59,6 +61,17 @@ interface ICompanyStore {
 const useCompanyStore = create(
   devtools<ICompanyStore>((set) => ({
     isLoading: false,
+    companies: null,
+    fetchCompanies: async () => {
+      set({ isLoading: true });
+
+      try {
+        const { data } = await instance.get("company/getCompany");
+        set({ companies: data });
+      } catch (error) {
+        NotificationService.error(error);
+      }
+    },
     createCompany: async (params: IAddCompanyFormFields) => {
       set({ isLoading: true });
       try {
