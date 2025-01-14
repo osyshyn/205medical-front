@@ -9,6 +9,7 @@ import {
   IAddUser,
   IDetailUser,
   IEditUser,
+  INewUser,
   ISubUser,
   IUser,
 } from "src/@types/users";
@@ -30,7 +31,7 @@ interface IUserStore {
   deleteSubUser: (id: string) => Promise<void>;
   addUserNote: (text: string, userId: string, title?: string) => Promise<void>;
 
-  createUser: (data: IAddUser) => void;
+  createUser: (data: INewUser) => void;
   updateUser: (data: IEditUser) => void;
 
   isAuthorized: boolean;

@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { Checkbox } from "src/components/CheckBox";
 
 interface ProductItemProps {
@@ -11,17 +12,22 @@ interface ProductItemProps {
   };
   isSelected: boolean;
   onToggle: (id: number) => void;
+  className?: string;
 }
 
 export const ProductItem: React.FC<ProductItemProps> = ({
   product,
   isSelected,
   onToggle,
+  className,
 }) => {
   return (
     <div
       key={product.id}
-      className="grid grid-cols-4 items-center gap-4 border-b pb-5 last:border-b-0"
+      className={cn(
+        "grid grid-cols-4 items-center gap-4 border-b pb-5 last:border-b-0",
+        className
+      )}
     >
       <div className="flex items-center gap-4">
         <Checkbox
