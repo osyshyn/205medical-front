@@ -25,6 +25,7 @@ import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
 import { Companies } from "src/pages/Companies";
 import { CompanyOnBoarding } from "src/pages/Companies/CompanyOnBoarding";
+import { EditCompany } from "src/pages/Companies/EditCompany";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
 import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
@@ -249,9 +250,13 @@ const ROUTES = [
         element: <PrivateRoute component={Companies} />,
         path: PATHNAMES.COMPANIES,
         children: [
+          // {
+          //   element: <PrivateRoute component={CompanyOnBoarding} />,
+          //   path: PATHNAMES.COMPANY_ONBOARDING,
+          // },
           {
-            element: <PrivateRoute component={CompanyOnBoarding} />,
-            path: PATHNAMES.COMPANY_ONBOARDING,
+            element: <PrivateRoute component={EditCompany} />,
+            path: PATHNAMES.EDIT_COMPANY,
           },
         ],
       },

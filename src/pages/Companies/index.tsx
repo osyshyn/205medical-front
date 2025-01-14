@@ -28,14 +28,16 @@ export const Companies: FC = () => {
 
   return (
     <PageWrapper>
-      <Title title="Companies" subtitle="" />
-      <Link to={PATHNAMES.COMPANY_ONBOARDING}>
-        <Button variant={ButtonVariants.PRIMARY}>
-          <span>Add Company</span>
-        </Button>
-      </Link>
+      <div className="flex w-full justify-between">
+        <Title title="Companies" subtitle="" />
+        <Link to={PATHNAMES.COMPANY_ONBOARDING}>
+          <Button variant={ButtonVariants.PRIMARY} className="px-2 py-4">
+            <span>Add Company</span>
+          </Button>
+        </Link>
+      </div>
 
-      <Window>
+      <Window className="mt-5">
         <Table>
           <TableHeader columns={COMPANY_TABLE_COLUMNS} />
           <TableBody columns={COMPANY_TABLE_COLUMNS} items={items} />

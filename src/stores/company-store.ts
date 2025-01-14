@@ -11,7 +11,7 @@ export interface IAddCompanyFormFields {
   contact: string;
   phone: string;
   business_type: string;
-  date_of_incorporation: string; // Или Date, если предполагается работа с объектами Date
+  date_of_incorporation: string;
   state_of_incorporation: string;
   federal_tax_id: string;
   duns_no: string;
@@ -52,14 +52,22 @@ export interface IAddCompanyFormFields {
   logo: string;
 }
 
+export interface IEditCompanyFormFields extends IAddCompanyFormFields {
+  id: number | string;
+}
+
 interface ICompanyStore {
   companies: any;
   fetchCompanies: () => void;
   createCompany: (params: IAddCompanyFormFields) => void;
   company: ICompany | null;
+  companyById: IEditCompanyFormFields;
   isLoading: boolean;
   error: string | null;
   fetchCompany: () => Promise<void>;
+  deleteCompany: (id: number) => void;
+  fetchCompanyById: (id: string) => void;
+  updateCompany: (data: IEditCompanyFormFields) => void;
 }
 
 const useCompanyStore = create(
@@ -103,6 +111,42 @@ const useCompanyStore = create(
             : "Failed to fetch company data";
         set({ error: errorMessage });
         NotificationService.error(errorMessage);
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    deleteCompany: async (id) => {
+      set({ isLoading: true, error: null });
+      try {
+        const { data } = await instance.delete("company/deleteCompany", {
+          data: { id }, // Передаем тело запроса
+        });
+        NotificationService.success(data);
+      } catch (error) {
+        NotificationService.error(error.message);
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    companyById: null,
+    fetchCompanyById: async (id) => {
+      set({ isLoading: true });
+      try {
+        const { data } = await instance.get(`company/${id}`);
+        set({ companyById: data });
+      } catch (error) {
+        NotificationService.error(error);
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    updateCompany: async (params) => {
+      set({ isLoading: true });
+      try {
+        await instance.post(`company/updateCompany`, params);
+        NotificationService.success();
+      } catch (error) {
+        NotificationService.error(error);
       } finally {
         set({ isLoading: false });
       }
