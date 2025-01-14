@@ -322,6 +322,11 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
         label: "Companies m",
         href: PATHNAMES.COMPANIES,
       },
+      {
+        id: 2,
+        label: "New Client Onboarding",
+        href: PATHNAMES.BUYER_NEW_CLIENT,
+      },
     ],
   },
   {

@@ -37,6 +37,7 @@ import { PurchaseHistory } from "src/page-components/dashboard/PurchaseHistory";
 import { EditProduct } from "src/page-components/products/EditProduct";
 import { PurchasesByProduct } from "src/page-components/products/products-purchases/PurchasesByProduct";
 import { BuyerDetail } from "src/components/Buyers/BuyerDetail";
+import { NewClient } from "src/components/Buyers/NewClient";
 import { OpenInvoices } from "src/components/OpenInvoices";
 import { PaidInvoices } from "src/components/PaidInvoices";
 import { PasswordRecoveryProgress } from "src/components/PasswordRecoveryProgress";
@@ -151,6 +152,10 @@ const ROUTES = [
             path: PATHNAMES.BUYER_ITEM,
           },
         ],
+      },
+      {
+        element: <PrivateRoute component={NewClient} />,
+        path: PATHNAMES.BUYER_NEW_CLIENT,
       },
       {
         element: <PrivateRoute component={Accounting} />,
