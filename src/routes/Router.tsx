@@ -23,6 +23,8 @@ import { Accounting } from "src/pages/Accounting";
 import { Buyers } from "src/pages/Buyers";
 import { EditBuyer } from "src/pages/Buyers/EditBuyer";
 import { Chat } from "src/pages/Chat";
+import { Companies } from "src/pages/Companies";
+import { CompanyOnBoarding } from "src/pages/Companies/CompanyOnBoarding";
 import { AddLocation } from "src/pages/Location/AddLocation";
 import { EditLocation } from "src/pages/Location/EditLocation";
 import { OrderHistoryByLocation } from "src/pages/Location/OrderHistoyryyBtLocation";
@@ -242,6 +244,16 @@ const ROUTES = [
       {
         element: <PrivateRoute component={EditBuyer} />,
         path: PATHNAMES.EDIT_BUYER,
+      },
+      {
+        element: <PrivateRoute component={Companies} />,
+        path: PATHNAMES.COMPANIES,
+        children: [
+          {
+            element: <PrivateRoute component={CompanyOnBoarding} />,
+            path: PATHNAMES.COMPANY_ONBOARDING,
+          },
+        ],
       },
     ],
   },
