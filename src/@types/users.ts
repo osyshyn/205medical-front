@@ -37,7 +37,7 @@ export enum TypesUsers {
 
 export type IAddUser = Omit<
   IUser,
-  "id" | "created_at" | "updated_at" | "google_id" | "logo" | "avatar"
+  "id" | "created_at" | "updated_at" | "google_id" | "logo"
 > & {
   avatar_id: number;
   approved_users: number[];
@@ -53,3 +53,11 @@ export type IEditUser = Omit<
   | "approved_users"
   | "active_products"
 >;
+
+export type INewUser = Omit<
+  IUser,
+  "id" | "created_at" | "updated_at" | "google_id" | "logo"
+> & {
+  company_id: number;
+  active_products: number[];
+};

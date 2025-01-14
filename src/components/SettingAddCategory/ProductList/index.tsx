@@ -12,6 +12,7 @@ interface ProductListProps {
   selectedProducts: number[];
   onToggle: (id: number) => void;
   isLoading: boolean;
+  className?: string;
 }
 
 export const ProductList: React.FC<ProductListProps> = ({
@@ -19,6 +20,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   selectedProducts,
   onToggle,
   isLoading,
+  className,
 }) => {
   if (isLoading) {
     return <div>Loading products...</div>;
@@ -32,6 +34,7 @@ export const ProductList: React.FC<ProductListProps> = ({
           product={product}
           isSelected={selectedProducts.includes(product.id)}
           onToggle={onToggle}
+          className={className}
         />
       ))}
     </div>

@@ -302,6 +302,13 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     label: "Buyers",
     href: PATHNAMES.BUYERS,
     iconActive: BuyersActiveIcon,
+    subNavItems: [
+      {
+        id: 1,
+        label: "New Client Onboarding",
+        href: PATHNAMES.BUYER_NEW_CLIENT,
+      },
+    ],
   },
   {
     id: 6,

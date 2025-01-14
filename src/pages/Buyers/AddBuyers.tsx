@@ -100,7 +100,7 @@ export const AddBuyers: FC = () => {
       active_products: selectedProducts,
     };
 
-    await createUser(fullData);
+    // await createUser(fullData);
   };
 
   const formikProps: FormikConfig<IAddUser> = {

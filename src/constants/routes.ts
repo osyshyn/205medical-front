@@ -37,6 +37,7 @@ export const PATHNAMES = {
   BUYERS: "/buyers",
   BUYER_ITEM: "/buyers/:id",
   EDIT_BUYER: "/buyers/edit/:id",
+  BUYER_NEW_CLIENT: "/buyers/new-client-onboarding",
 
   ACCOUNTING: "/accounting",
   OPEN_INVOICES: "/accounting/open-invoices",
