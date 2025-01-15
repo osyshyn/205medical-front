@@ -60,6 +60,8 @@ export const Buyers: FC = () => {
     setIsOpen(false);
   };
 
+  console.log("Users: ", users);
+
   return (
     <PageWrapper mainClassName="flex flex-col gap-10">
       <Show onlyFor={TypesUsers.MEDICAL && TypesUsers.CLIENT_ADMIN}>

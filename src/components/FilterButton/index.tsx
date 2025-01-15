@@ -30,7 +30,8 @@ export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
     <div className={className}>
       <Dropdown
         head={head}
-        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
+        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max 
+         max-h-64 overflow-y-auto" // Ограничение высоты и скролл
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       >

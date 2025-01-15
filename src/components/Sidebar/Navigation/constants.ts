@@ -13,6 +13,8 @@ import { ReactComponent as LocationActiveIcon } from "src/assets/icons/sidebar/n
 import { ReactComponent as LocationIcon } from "src/assets/icons/sidebar/navigation/location.svg";
 import { ReactComponent as ProductActiveIcon } from "src/assets/icons/sidebar/navigation/product-active.svg";
 import { ReactComponent as ProductIcon } from "src/assets/icons/sidebar/navigation/product.svg";
+import { ReactComponent as ReportingActive } from "src/assets/icons/sidebar/navigation/reporting-active.svg";
+import { ReactComponent as Reporting } from "src/assets/icons/sidebar/navigation/reporting.svg";
 import { ReactComponent as SettingsActiveIcon } from "src/assets/icons/sidebar/navigation/settings-active.svg";
 import { ReactComponent as SettingsIcon } from "src/assets/icons/sidebar/navigation/settings.svg";
 import { ReactComponent as ShipmentsActiveIcon } from "src/assets/icons/sidebar/navigation/shipments-active.svg";
@@ -109,11 +111,11 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
   {
     id: 2,
-    icon: DashboardIcon,
+    icon: Reporting,
 
     label: "Reporting and analytics",
     href: PATHNAMES.REPORTING_ANALYTICS,
-    iconActive: DashboardActiveIcon,
+    iconActive: ReportingActive,
     subNavItems: [
       {
         id: 1,
@@ -130,10 +132,10 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
   {
     id: 2,
-    icon: DashboardIcon,
+    icon: CreateOrderIcon,
     label: "Recent Orders",
     href: PATHNAMES.RECENT_ORDERS,
-    iconActive: DashboardActiveIcon,
+    iconActive: CreateOrderActiveIcon,
     subNavItems: [
       {
         id: 1,
@@ -154,10 +156,10 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
   },
   {
     id: 3,
-    icon: DashboardIcon,
+    icon: BuyersIcon,
     label: "Buyers",
     href: PATHNAMES.BUYERS,
-    iconActive: DashboardActiveIcon,
+    iconActive: BuyersActiveIcon,
   },
   {
     id: 4,
@@ -232,11 +234,11 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
   {
     id: 2,
-    icon: DashboardIcon,
+    icon: Reporting,
 
     label: "Reporting and analytics",
     href: PATHNAMES.REPORTING_ANALYTICS,
-    iconActive: DashboardActiveIcon,
+    iconActive: ReportingActive,
     subNavItems: [
       {
         id: 1,
@@ -253,10 +255,10 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
   },
   {
     id: 3,
-    icon: DashboardIcon,
+    icon: CreateOrderIcon,
     label: "Recent Orders",
     href: PATHNAMES.RECENT_ORDERS,
-    iconActive: DashboardActiveIcon,
+    iconActive: CreateOrderActiveIcon,
     subNavItems: [
       {
         id: 2,
@@ -356,6 +358,13 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
         href: PATHNAMES.PAID_INVOICES,
       },
     ],
+  },
+  {
+    id: 6,
+    icon: ChatIcon,
+    label: "Chat",
+    href: PATHNAMES.CHAT,
+    iconActive: ChatActiveIcon,
   },
   {
     id: 10,
