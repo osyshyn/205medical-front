@@ -8,10 +8,12 @@ import { getFilterList } from "./constants";
 
 interface FilterByLocationByUserProps {
   includeProductFilters?: boolean;
+  includeUserFilters?: boolean;
 }
 
 export const FilterByLocationByUser: FC<FilterByLocationByUserProps> = ({
   includeProductFilters = false,
+  includeUserFilters = true,
 }) => {
   const loadLocation = useLocationStore((state) => state.fetchLocation);
   const locations = useLocationStore((state) => state.locations);
@@ -27,7 +29,10 @@ export const FilterByLocationByUser: FC<FilterByLocationByUserProps> = ({
 
   useEffect(() => {
     loadLocation();
-    getSubUsers();
+    if (includeUserFilters) {
+      getSubUsers();
+    }
+
     if (includeProductFilters) {
       getProducts();
     }
@@ -35,13 +40,14 @@ export const FilterByLocationByUser: FC<FilterByLocationByUserProps> = ({
 
   const isLoading =
     isLoadingLocation ||
-    isLoadingSubUsers ||
+    (includeUserFilters && isLoadingSubUsers) ||
     (includeProductFilters && isLoadingProducts);
   const filterList = getFilterList(
     locations,
-    subUsers,
+    includeUserFilters ? subUsers : [],
     includeProductFilters ? products : [],
-    includeProductFilters
+    includeProductFilters,
+    includeUserFilters
   );
 
   return (

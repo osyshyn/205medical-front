@@ -6,6 +6,7 @@ import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import { useQueryParams } from "src/hooks/useQueryParams";
 import useCategoryStore from "src/stores/category-store";
+import useLocationStore from "src/stores/location-store";
 import useProductStore from "src/stores/product-store";
 import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";

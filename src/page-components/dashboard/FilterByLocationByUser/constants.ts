@@ -8,7 +8,8 @@ export const getFilterList = (
   locations: ILocation[],
   subUsers: ISubUser[],
   Products: IProduct[],
-  isProducts?: boolean
+  isProducts?: boolean,
+  isUsers?: boolean
 ): IFilterList[] => [
   {
     title: "Locations",
@@ -18,7 +19,7 @@ export const getFilterList = (
     })),
     queryKey: QUERY_PARAM_KEYS.LOCATIONS,
   },
-  {
+  isUsers && {
     title: "Sub Users",
     items: subUsers?.map((subUser) => ({
       value: subUser.id,

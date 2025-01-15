@@ -26,7 +26,7 @@ interface IUserStore {
   getUserNotes: (id: string) => void;
 
   getUser: () => void;
-  getAllUsers: () => void;
+  getAllUsers: (locationIds?: string[]) => void;
   getUserDetail: (id: string) => void;
   deleteSubUser: (id: string) => Promise<void>;
   addUserNote: (text: string, userId: string, title?: string) => Promise<void>;
@@ -83,9 +83,13 @@ const useUserStore = create(
         set({ isAuthorized: false, isLoading: false });
       }
     },
-    getAllUsers: async () => {
+    getAllUsers: async (locationIds) => {
       try {
-        const { data } = await instance.get<IUser[]>("/user/getAllUsers");
+        const { data } = await instance.get<IUser[]>("/user/getAllUsers", {
+          params: {
+            location_ids: locationIds,
+          },
+        });
         set({ users: data });
       } catch {
         return [];
