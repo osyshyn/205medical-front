@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
@@ -21,11 +22,19 @@ import { Window } from "src/components/Window";
 import useCompanyStore, {
   IAddCompanyFormFields,
 } from "src/stores/company-store";
+import useFileStore from "src/stores/file-store";
+import { NotificationService } from "src/helpers/notifications";
 import { PATHNAMES } from "src/constants/routes";
 import { Sizes } from "src/@types/sizes";
 
 export const CompanyOnBoarding: FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+  const uploadFile = useFileStore((state) => state.uploadFile);
+  const response = useFileStore((state) => state.response);
+
   const createCompany = useCompanyStore((state) => state.createCompany);
 
   const nextStep = () => {
@@ -61,9 +70,8 @@ export const CompanyOnBoarding: FC = () => {
     state_of_incorporation: Yup.string().required(
       "State of incorporation is required"
     ),
-    federal_tax_id: Yup.string()
-      .required("Federal Tax ID is required")
-      .matches(/^\d{3}-\d{2}-\d{4}$/, "Federal Tax ID is not valid"),
+    federal_tax_id: Yup.string().required("Federal Tax ID is required"),
+    // .matches(/^\d{3}-\d{2}-\d{4}$/, "Federal Tax ID is not valid"),
     duns_no: Yup.string()
       .required("DUNs number is required")
       .matches(/^\d{9}$/, "DUNs number is not valid"),
@@ -185,7 +193,7 @@ export const CompanyOnBoarding: FC = () => {
       credit_fax: "",
       credit_email: "",
       credit_address: "",
-      logo: "TEST",
+      logo: null,
     },
     validationSchema,
 
@@ -193,7 +201,8 @@ export const CompanyOnBoarding: FC = () => {
       console.log("Form values:", values);
       const fullData = {
         ...values,
-        logo: "test",
+        logo: response,
+        logo_id: response?.id,
       };
       createCompany(fullData);
     },
@@ -201,8 +210,27 @@ export const CompanyOnBoarding: FC = () => {
 
   const formik = useFormik(formikProps);
 
-  const title =
-    currentStep === 1 ? "Company Information" : "Invoice Information";
+  const onDrop = async (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      try {
+        await uploadFile("avatars", file);
+        if (response?.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl);
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <ModalWindow
@@ -220,9 +248,29 @@ export const CompanyOnBoarding: FC = () => {
                 {currentStep === 1 && (
                   <>
                     <Title title="Company Information" subtitle="" />
-                    <div className="flex">
+                    <div className="flex gap-5">
                       <div className="min-w-[150px]">
-                        <Avatar sizeVariant={Sizes.S} />
+                        <div
+                          {...getRootProps()}
+                          className={`mb-4 h-[180px] w-[180px] overflow-hidden border-2 ${
+                            isDragActive ? "border-blue-500" : "border-gray-300"
+                          } flex items-center justify-center bg-gray-200`}
+                        >
+                          <input {...getInputProps()} />
+                          {avatarPreview ? (
+                            <img
+                              src={avatarPreview}
+                              alt="User Avatar"
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="text-center text-gray-500">
+                              {isDragActive
+                                ? "Drop the image here..."
+                                : "Drag and drop an image, or click to select one"}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="flex-1">
                         <div className="my-5 grid grid-cols-3 gap-x-6 gap-y-3.5">

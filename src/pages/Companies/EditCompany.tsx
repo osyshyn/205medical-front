@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useNavigate, useParams } from "react-router";
 import { Form, FormikConfig, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
@@ -22,10 +23,17 @@ import useCompanyStore, {
   IAddCompanyFormFields,
   IEditCompanyFormFields,
 } from "src/stores/company-store";
+import useFileStore from "src/stores/file-store";
+import { NotificationService } from "src/helpers/notifications";
 import { Sizes } from "src/@types/sizes";
 
 export const EditCompany: FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+  const uploadFile = useFileStore((state) => state.uploadFile);
+  const response = useFileStore((state) => state.response);
 
   const { companyById, fetchCompanyById, updateCompany } = useCompanyStore();
 
@@ -37,96 +45,95 @@ export const EditCompany: FC = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    // company_name: Yup.string().required("Company name is required"),
-    // trade_name: Yup.string().required("Trade name is required"),
-    // address: Yup.string().required("Address is required"),
-    // contact: Yup.string().required("Contact is required"),
-    // phone: Yup.string()
-    //   .required("Phone is required")
-    //   .matches(/^\+?[0-9]{7,15}$/, "Phone number is not valid"),
-    // business_type: Yup.string().required("Business type is required"),
-    // date_of_incorporation: Yup.date().required(
-    //   "Date of incorporation is required"
-    // ),
-    // state_of_incorporation: Yup.string().required(
-    //   "State of incorporation is required"
-    // ),
-    // federal_tax_id: Yup.string()
-    //   .required("Federal Tax ID is required")
-    //   .matches(/^\d{3}-\d{2}-\d{4}$/, "Federal Tax ID is not valid"),
-    // duns_no: Yup.string()
-    //   .required("DUNs number is required")
-    //   .matches(/^\d{9}$/, "DUNs number is not valid"),
-    // sic_code: Yup.string().required("NAICS/SIC Code is required"),
-    // years_in_business: Yup.number()
-    //   .required("Years in business is required")
-    //   .positive("Years in business must be a positive number")
-    //   .integer("Years in business must be an integer")
-    //   .min(1, "Years in business must be at least 1"),
-    // website: Yup.string().url("Invalid website format"),
-    // primary_contact: Yup.string().required("Primary contact is required"),
-    // email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Email is required"),
-    // invoicing_address: Yup.string().required("Billing address is required"),
-    // invoicing_contact: Yup.string().required("Primary AP Account is required"),
-    // invoicing_email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Invoicing email is required"),
-    // invoicing_city: Yup.string().required("City is required"),
-    // invoicing_state: Yup.string().required("State is required"),
-    // invoicing_zip: Yup.string()
-    //   .required("Zip code is required")
-    //   .matches(/^\d{5}$/, "Zip code is not valid"),
-    // invoicing_fax: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Fax number is not valid"
-    // ),
-    // payment_method: Yup.string().required("Payment method is required"),
-    // purchasing_contact: Yup.string().required("Primary contact is required"),
-    // purchasing_phone: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Phone number is not valid"
-    // ),
-    // purchasing_email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Purchasing email is required"),
-    // owner_name: Yup.string().required("Owner name is required"),
-    // owner_position: Yup.string().required("Owner position is required"),
-    // owner_ownership: Yup.string().required("Ownership is required"),
-    // owner_address: Yup.string().required("Home address is required"),
-    // owner_phone: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Phone number is not valid"
-    // ),
-    // owner_email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Owner email is required"),
-    // bank_name: Yup.string().required("Bank name is required"),
-    // bank_number: Yup.string().required("Account number is required"),
-    // bank_contact: Yup.string().required("Bank contact is required"),
-    // bank_phone: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Phone number is not valid"
-    // ),
-    // bank_email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Bank email is required"),
-    // bank_address: Yup.string().required("Bank address is required"),
-    // credit_first_name: Yup.string().required("Firm name is required"),
-    // credit_contact: Yup.string().required("Credit contact is required"),
-    // credit_phone: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Phone number is not valid"
-    // ),
-    // credit_fax: Yup.string().matches(
-    //   /^\+?[0-9]{7,15}$/,
-    //   "Fax number is not valid"
-    // ),
-    // credit_email: Yup.string()
-    //   .email("Invalid email format")
-    //   .required("Credit email is required"),
-    // credit_address: Yup.string().required("Credit address is required"),
+    company_name: Yup.string().required("Company name is required"),
+    trade_name: Yup.string().required("Trade name is required"),
+    address: Yup.string().required("Address is required"),
+    contact: Yup.string().required("Contact is required"),
+    phone: Yup.string()
+      .required("Phone is required")
+      .matches(/^\+?[0-9]{7,15}$/, "Phone number is not valid"),
+    business_type: Yup.string().required("Business type is required"),
+    date_of_incorporation: Yup.date().required(
+      "Date of incorporation is required"
+    ),
+    state_of_incorporation: Yup.string().required(
+      "State of incorporation is required"
+    ),
+    federal_tax_id: Yup.string().required("Federal Tax ID is required"),
+    // .matches(/^\d{3}-\d{2}-\d{4}$/, "Federal Tax ID is not valid"),
+    duns_no: Yup.string()
+      .required("DUNs number is required")
+      .matches(/^\d{9}$/, "DUNs number is not valid"),
+    sic_code: Yup.string().required("NAICS/SIC Code is required"),
+    years_in_business: Yup.number()
+      .required("Years in business is required")
+      .positive("Years in business must be a positive number")
+      .integer("Years in business must be an integer")
+      .min(1, "Years in business must be at least 1"),
+    website: Yup.string().url("Invalid website format"),
+    primary_contact: Yup.string().required("Primary contact is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    invoicing_address: Yup.string().required("Billing address is required"),
+    invoicing_contact: Yup.string().required("Primary AP Account is required"),
+    invoicing_email: Yup.string()
+      .email("Invalid email format")
+      .required("Invoicing email is required"),
+    invoicing_city: Yup.string().required("City is required"),
+    invoicing_state: Yup.string().required("State is required"),
+    invoicing_zip: Yup.string()
+      .required("Zip code is required")
+      .matches(/^\d{5}$/, "Zip code is not valid"),
+    invoicing_fax: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Fax number is not valid"
+    ),
+    payment_method: Yup.string().required("Payment method is required"),
+    purchasing_contact: Yup.string().required("Primary contact is required"),
+    purchasing_phone: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Phone number is not valid"
+    ),
+    purchasing_email: Yup.string()
+      .email("Invalid email format")
+      .required("Purchasing email is required"),
+    owner_name: Yup.string().required("Owner name is required"),
+    owner_position: Yup.string().required("Owner position is required"),
+    owner_ownership: Yup.string().required("Ownership is required"),
+    owner_address: Yup.string().required("Home address is required"),
+    owner_phone: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Phone number is not valid"
+    ),
+    owner_email: Yup.string()
+      .email("Invalid email format")
+      .required("Owner email is required"),
+    bank_name: Yup.string().required("Bank name is required"),
+    bank_number: Yup.string().required("Account number is required"),
+    bank_contact: Yup.string().required("Bank contact is required"),
+    bank_phone: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Phone number is not valid"
+    ),
+    bank_email: Yup.string()
+      .email("Invalid email format")
+      .required("Bank email is required"),
+    bank_address: Yup.string().required("Bank address is required"),
+    credit_first_name: Yup.string().required("Firm name is required"),
+    credit_contact: Yup.string().required("Credit contact is required"),
+    credit_phone: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Phone number is not valid"
+    ),
+    credit_fax: Yup.string().matches(
+      /^\+?[0-9]{7,15}$/,
+      "Fax number is not valid"
+    ),
+    credit_email: Yup.string()
+      .email("Invalid email format")
+      .required("Credit email is required"),
+    credit_address: Yup.string().required("Credit address is required"),
   });
 
   const formikProps: FormikConfig<IEditCompanyFormFields> = {
@@ -176,7 +183,7 @@ export const EditCompany: FC = () => {
       credit_fax: "",
       credit_email: "",
       credit_address: "",
-      logo: "TEST",
+      logo: companyById?.logo,
     },
     validationSchema,
 
@@ -185,7 +192,7 @@ export const EditCompany: FC = () => {
       const fullData = {
         ...values,
         id: companyById.id,
-        logo: "test",
+        logo: response,
       };
       updateCompany(fullData);
     },
@@ -258,10 +265,34 @@ export const EditCompany: FC = () => {
         credit_fax: companyById.credit_fax || "",
         credit_email: companyById.credit_email || "",
         credit_address: companyById.credit_address || "",
-        logo: companyById.logo || "TEST",
+        logo: companyById.logo,
       });
+
+      setAvatarPreview(companyById.logo?.path);
     }
   }, [companyById]);
+
+  const onDrop = async (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      try {
+        await uploadFile("avatars", file);
+        if (response?.fileUrl) {
+          formik.setFieldValue("avatar", response.fileUrl);
+        }
+      } catch (error) {
+        NotificationService.error("Failed to upload file");
+      }
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <ModalWindow
@@ -278,9 +309,29 @@ export const EditCompany: FC = () => {
                 {currentStep === 1 && (
                   <>
                     <Title title="Company Information" subtitle="" />
-                    <div className="flex">
+                    <div className="flex gap-5">
                       <div className="min-w-[150px]">
-                        <Avatar sizeVariant={Sizes.S} />
+                        <div
+                          {...getRootProps()}
+                          className={`mb-4 h-[180px] w-[180px] overflow-hidden border-2 ${
+                            isDragActive ? "border-blue-500" : "border-gray-300"
+                          } flex items-center justify-center bg-gray-200`}
+                        >
+                          <input {...getInputProps()} />
+                          {avatarPreview ? (
+                            <img
+                              src={avatarPreview}
+                              alt="User Avatar"
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="text-center text-gray-500">
+                              {isDragActive
+                                ? "Drop the image here..."
+                                : "Drag and drop an image, or click to select one"}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="flex-1">
                         <div className="my-5 grid grid-cols-3 gap-x-6 gap-y-3.5">
