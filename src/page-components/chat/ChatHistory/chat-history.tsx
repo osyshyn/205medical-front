@@ -4,7 +4,13 @@ import { Window } from "src/components/Window";
 import { ChatHistoryItem } from "./chat-history-item";
 
 interface ChatHistoryProps {
-  chats: Array<{ id: number; name: string; last_message: any; type: number }>;
+  chats: Array<{
+    id: number;
+    avatar: { path: string };
+    name: string;
+    last_message: any;
+    type: number;
+  }>;
   onChatSelect: (chatId: number) => void;
 }
 
@@ -16,8 +22,10 @@ export const ChatHistory: FC<ChatHistoryProps> = ({ chats, onChatSelect }) => {
     onChatSelect(chatId);
   };
 
+  console.log("chats: ", chats);
+
   return (
-    <Window className="min-w-127.5 bg-white max-h-162.5 max-w-127.5 rounded-xl shadow-lg">
+    <Window className="bg-white max-h-162.5 min-w-127.5 max-w-127.5 overflow-auto rounded-xl shadow-lg">
       <Title title="Chat" subtitle="" />
       <div className="mt-2">
         {chats.map((chat) => (

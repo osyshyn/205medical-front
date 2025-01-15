@@ -35,7 +35,6 @@ export const NewClient = () => {
 
   useEffect(() => {
     if (company) {
-      console.log(company);
       const companyOptions = Object.values(company).map((c) => ({
         label: c.company_name,
         value: c.id,
@@ -144,7 +143,7 @@ export const NewClient = () => {
       active_products: active_products,
       avatar: response,
     };
-    console.log("Form values with selected products:", formDataWithProducts);
+
     await createUser(formDataWithProducts);
     handleFormReset();
   };
@@ -156,7 +155,7 @@ export const NewClient = () => {
       avatar: response,
       active_products: active_products,
     };
-    console.log("Final submission data:", formattedValues);
+
     handleFormReset();
   };
 

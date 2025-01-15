@@ -21,6 +21,7 @@ export const PATHNAMES = {
   EDIT_PRODUCT: "/products/edit/:id",
 
   SHIPMENTS: "/shipments",
+  SHIPMENTS_HISTORY: "/shipments/history",
   SHIPMENT_ALERTS: "/shipments/alerts",
   ORDER_DETAIL: "/shipments/:id",
 

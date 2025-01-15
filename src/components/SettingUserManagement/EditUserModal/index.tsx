@@ -128,7 +128,6 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
   }, [settingsId, isOpen, getUserDetail]);
 
   useEffect(() => {
-    console.log("Use effect");
     loadLocations();
     loadProducts();
     getSubUsers(settingsId);
