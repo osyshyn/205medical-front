@@ -106,9 +106,10 @@ export const EditBuyer: FC = () => {
   };
 
   useEffect(() => {
-    if (buyerDeatil) {
+    if (buyerDeatil && subUsers) {
       setSelectedLocation(buyerDeatil.locations?.map((item) => item.id) || []);
       setSelectedProduct(buyerDeatil.products?.map((item) => item.id) || []);
+      setSelectedUsers(subUsers.map((item) => item.id) || []);
       formik.setValues({
         id: buyerDeatil.id,
         first_name: buyerDeatil.first_name,
@@ -252,121 +253,134 @@ export const EditBuyer: FC = () => {
                 />
 
                 <div className="col-span-2">
-                  {formik.values.role === TypesUsers.CLIENT_ADMIN ? (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <Window className="h-[250px] overflow-auto !p-0">
-                          <div className="p-4">
-                            <Title title="Approved Locations" subtitle="" />
-                          </div>
-                          <div className="mt-5 flex flex-col gap-4">
-                            {locations.map((location) => (
-                              <Checkbox
-                                key={location.id}
-                                label={location.name}
-                                checked={selectedLocation.includes(location.id)}
-                                onChange={() => {
-                                  setSelectedLocation((prev) => {
-                                    const updated = prev.includes(location.id)
-                                      ? prev.filter(
-                                          (loc) => loc !== location.id
+                  {formik.values.role !== TypesUsers.MEDICAL && (
+                    <>
+                      {formik.values.role === TypesUsers.CLIENT_ADMIN ? (
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <Window className="h-[250px] overflow-auto !p-0">
+                              <div className="p-4">
+                                <Title title="Approved Locations" subtitle="" />
+                              </div>
+                              <div className="mt-5 flex flex-col gap-4">
+                                {locations.map((location) => (
+                                  <Checkbox
+                                    key={location.id}
+                                    label={location.name}
+                                    checked={selectedLocation.includes(
+                                      location.id
+                                    )}
+                                    onChange={() => {
+                                      setSelectedLocation((prev) => {
+                                        const updated = prev.includes(
+                                          location.id
                                         )
-                                      : [...prev, location.id];
-                                    formik.setFieldValue(
-                                      "approval_locations",
-                                      updated
-                                    );
-                                    return updated;
-                                  });
-                                }}
-                              />
-                            ))}
-                          </div>
-                        </Window>
+                                          ? prev.filter(
+                                              (loc) => loc !== location.id
+                                            )
+                                          : [...prev, location.id];
+                                        formik.setFieldValue(
+                                          "approval_locations",
+                                          updated
+                                        );
+                                        return updated;
+                                      });
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </Window>
 
+                            <Window className="h-[250px] overflow-auto !p-0">
+                              <div className="p-4">
+                                <Title title="Approved Users" subtitle="" />
+                              </div>
+                              <div className="mt-5 flex flex-col gap-4">
+                                {users.map((user) => (
+                                  <Checkbox
+                                    key={user.id}
+                                    label={`${user.first_name} ${user.last_name}`}
+                                    checked={selectedUsers.includes(user.id)}
+                                    onChange={() => {
+                                      setSelectedUsers((prev) => {
+                                        const updated = prev.includes(user.id)
+                                          ? prev.filter(
+                                              (prod) => prod !== user.id
+                                            )
+                                          : [...prev, user.id];
+                                        formik.setFieldValue(
+                                          "approved_users",
+                                          updated
+                                        );
+                                        return updated;
+                                      });
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </Window>
+                          </div>
+
+                          <Window className="h-[250px] w-full overflow-auto !p-0">
+                            <div className="p-4">
+                              <Title title="Active products" subtitle="" />
+                            </div>
+                            <div className="mt-5 flex flex-col gap-4">
+                              {products.map((product) => (
+                                <Checkbox
+                                  key={product.id}
+                                  label={product.name}
+                                  checked={selectedProduct.includes(product.id)}
+                                  onChange={() => {
+                                    setSelectedProduct((prev) => {
+                                      const updated = prev.includes(product.id)
+                                        ? prev.filter(
+                                            (prod) => prod !== product.id
+                                          )
+                                        : [...prev, product.id];
+                                      formik.setFieldValue(
+                                        "active_products",
+                                        updated
+                                      );
+                                      return updated;
+                                    });
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </Window>
+                        </div>
+                      ) : (
                         <Window className="h-[250px] overflow-auto !p-0">
                           <div className="p-4">
-                            <Title title="Approved Users" subtitle="" />
+                            <Title title="Active products" subtitle="" />
                           </div>
                           <div className="mt-5 flex flex-col gap-4">
-                            {users.map((user) => (
+                            {products.map((product) => (
                               <Checkbox
-                                key={user.id}
-                                label={`${user.first_name} ${user.last_name}`}
-                                checked={selectedUsers.includes(user.id)}
+                                key={product.id}
+                                label={product.name}
+                                checked={selectedProduct.includes(product.id)}
                                 onChange={() => {
-                                  setSelectedUsers((prev) => {
-                                    const updated = prev.includes(user.id)
-                                      ? prev.filter((prod) => prod !== user.id)
-                                      : [...prev, user.id];
+                                  setSelectedProduct((prev) => {
+                                    const updated = prev.includes(product.id)
+                                      ? prev.filter(
+                                          (prod) => prod !== product.id
+                                        )
+                                      : [...prev, product.id];
                                     formik.setFieldValue(
-                                      "approved_users",
+                                      "active_products",
                                       updated
                                     );
                                     return updated;
                                   });
                                 }}
-                                // onChange={() => handleUserSelection(user.id)}
                               />
                             ))}
                           </div>
                         </Window>
-                      </div>
-
-                      <Window className="h-[250px] w-full overflow-auto !p-0">
-                        <div className="p-4">
-                          <Title title="Active products" subtitle="" />
-                        </div>
-                        <div className="mt-5 flex flex-col gap-4">
-                          {products.map((product) => (
-                            <Checkbox
-                              key={product.id}
-                              label={product.name}
-                              checked={selectedProduct.includes(product.id)}
-                              onChange={() => {
-                                setSelectedProduct((prev) => {
-                                  const updated = prev.includes(product.id)
-                                    ? prev.filter((prod) => prod !== product.id)
-                                    : [...prev, product.id];
-                                  formik.setFieldValue(
-                                    "active_products",
-                                    updated
-                                  );
-                                  return updated;
-                                });
-                              }}
-                            />
-                          ))}
-                        </div>
-                      </Window>
-                    </div>
-                  ) : (
-                    <Window className="h-[250px] overflow-auto !p-0">
-                      <div className="p-4">
-                        <Title title="Active products" subtitle="" />
-                      </div>
-                      <div className="mt-5 flex flex-col gap-4">
-                        {products.map((product) => (
-                          <Checkbox
-                            key={product.id}
-                            label={product.name}
-                            checked={selectedProduct.includes(product.id)}
-                            onChange={() => {
-                              setSelectedProduct((prev) => {
-                                const updated = prev.includes(product.id)
-                                  ? prev.filter((prod) => prod !== product.id)
-                                  : [...prev, product.id];
-                                formik.setFieldValue(
-                                  "active_products",
-                                  updated
-                                );
-                                return updated;
-                              });
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </Window>
+                      )}
+                    </>
                   )}
                 </div>
               </Form>
@@ -374,7 +388,7 @@ export const EditBuyer: FC = () => {
           </div>
         </div>
 
-        <div className="bg-white sticky bottom-0 flex w-full justify-end gap-4 pb-10 pr-15">
+        <div className="sticky bottom-0 flex w-full justify-end gap-4 bg-white-base pb-10 pr-15">
           <Button
             form="edit-user-form"
             type="submit"
