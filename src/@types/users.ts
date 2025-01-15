@@ -51,8 +51,13 @@ export type IEditUser = Omit<
   | "google_id"
   | "logo"
   | "approved_users"
-  | "active_products"
->;
+  | "locations"
+  | "products"
+> & {
+  approval_locations: number[];
+  active_products: number[];
+  approved_users?: number[];
+};
 
 export type INewUser = Omit<
   IUser,

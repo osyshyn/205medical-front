@@ -150,19 +150,14 @@ export const NewClient = () => {
   };
 
   const onSubmit = async (values: INewUser) => {
-    try {
-      const formattedValues = {
-        ...values,
-        role: Number(values.role),
-        avatar: response,
-        active_products: active_products,
-      };
-      console.log("Final submission data:", formattedValues);
-      NotificationService.success("Settings updated successfully");
-      handleFormReset();
-    } catch (error) {
-      NotificationService.error("Failed to update settings");
-    }
+    const formattedValues = {
+      ...values,
+      role: Number(values.role),
+      avatar: response,
+      active_products: active_products,
+    };
+    console.log("Final submission data:", formattedValues);
+    handleFormReset();
   };
 
   const formikProps: FormikConfig<INewUser> = {
