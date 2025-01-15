@@ -11,10 +11,12 @@ import { ModalWindow } from "src/components/ModalWindow";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
 import useFileStore from "src/stores/file-store";
+import useLocationStore from "src/stores/location-store";
+import useProductStore from "src/stores/product-store";
 import useUserStore from "src/stores/user-store";
 import { NotificationService } from "src/helpers/notifications";
 import { ReactComponent as WhiteLogo } from "src/assets/icons/whiteLogo.svg";
-import { IEditUser } from "src/@types/users";
+import { IEditUser, TypesUsers } from "src/@types/users";
 
 interface EditMedicalSettingsProps {
   isOpen: boolean;
@@ -31,13 +33,28 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
   const uploadFile = useFileStore((state) => state.uploadFile);
   const response = useFileStore((state) => state.response);
 
+  const loadProducts = useProductStore((state) => state.fetchProducts);
+  const products = useProductStore((state) => state.products);
+  const loadLocations = useLocationStore((state) => state.fetchLocation);
+  const locations = useLocationStore((state) => state.locations);
+  const getSubUsers = useUserStore((state) => state.getSubUsers);
+  const subUsers = useUserStore((state) => state.subUsers);
+  const loadUsers = useUserStore((state) => state.getAllUsers);
+  const users = useUserStore((state) => state.users);
+
   const { updateUser, getUserDetail, detailUser } = useUserStore();
 
-  const [locations, setLocations] = useState<any[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<number[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<number[]>(
+    detailUser?.locations?.map((item) => item.id) || []
+  );
 
-  const [products, setProducts] = useState<any[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<number[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<number[]>(
+    detailUser?.products?.map((item) => item.id) || []
+  );
+
+  const [selectedUsers, setSelectedUsers] = useState<number[]>(
+    subUsers.map((item) => item.id) || []
+  );
 
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().required("This field is required."),
@@ -74,8 +91,9 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
       phone: detailUser?.phone || "",
       role: detailUser?.role || 1,
       purchase_limit: detailUser?.purchase_limit || 0,
-      locations: detailUser?.locations || [],
-      products: detailUser?.products || [],
+      approval_locations: detailUser?.locations?.map((item) => item.id) || [],
+      active_products: detailUser?.products?.map((item) => item.id) || [],
+      approved_users: subUsers.map((item) => item.id) || [],
       avatar: detailUser?.avatar,
     },
     validationSchema,
@@ -114,13 +132,12 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
   }, [settingsId, isOpen, getUserDetail]);
 
   useEffect(() => {
-    if (detailUser?.locations) {
-      setLocations(detailUser.locations);
-    }
-    if (detailUser?.products) {
-      setProducts(detailUser.products);
-    }
-  }, [detailUser]);
+    console.log("Use effect");
+    loadLocations();
+    loadProducts();
+    getSubUsers(settingsId);
+    loadUsers();
+  }, [loadLocations, loadProducts, getSubUsers, loadUsers, settingsId]);
 
   useEffect(() => {
     if (detailUser?.avatar?.path) {
@@ -128,17 +145,23 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
     }
   }, [detailUser]);
 
-  const handleLocationsChange = (id: number) => {
-    setSelectedLocation((prev) =>
-      prev.includes(id) ? prev.filter((loc) => loc !== id) : [...prev, id]
-    );
-  };
+  // const handleUserSelection = (id: number) => {
+  //   setSelectedUsers((prev) =>
+  //     prev.includes(id) ? prev.filter((userId) => userId !== id) : [...prev, id]
+  //   );
+  // };
 
-  const handleProductsChange = (id: number) => {
-    setSelectedProduct((prev) =>
-      prev.includes(id) ? prev.filter((prod) => prod !== id) : [...prev, id]
-    );
-  };
+  // const handleLocationsChange = (id: number) => {
+  //   setSelectedLocation((prev) =>
+  //     prev.includes(id) ? prev.filter((loc) => loc !== id) : [...prev, id]
+  //   );
+  // };
+
+  // const handleProductsChange = (id: number) => {
+  //   setSelectedProduct((prev) =>
+  //     prev.includes(id) ? prev.filter((prod) => prod !== id) : [...prev, id]
+  //   );
+  // };
 
   useEffect(() => {
     console.log("Current role value:", formik.values.role);
@@ -152,7 +175,7 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
       isActivePortal
       closeButtonClassName="!bg-white-base rounded-full shadow-md"
     >
-      <Window className="max-h-200 relative overflow-auto !border-none !p-0">
+      <Window className="relative max-h-200 overflow-auto !border-none !p-0">
         <div className="space-y-8">
           <div className="text-white flex flex-col gap-10 rounded-t-30 bg-[#3D3935] px-7.5 py-4">
             <div>
@@ -198,54 +221,124 @@ export const EditMedicalSettings: FC<EditMedicalSettingsProps> = ({
                 className="my-5 grid grid-cols-2 gap-x-6 gap-y-3.5"
               >
                 <RenderAddFormFields fields={ADD_BUYERS_FORM_FIELDS} />
+                <div className="col-span-2">
+                  {formik.values.role === TypesUsers.CLIENT_ADMIN ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <Window className="h-[250px] overflow-auto !p-0">
+                          <div className="p-4">
+                            <Title title="Approved Locations" subtitle="" />
+                          </div>
+                          <div className="mt-5 flex flex-col gap-4">
+                            {locations.map((location) => (
+                              <Checkbox
+                                key={location.id}
+                                label={location.name}
+                                checked={selectedLocation.includes(location.id)}
+                                onChange={() => {
+                                  setSelectedLocation((prev) => {
+                                    const updated = prev.includes(location.id)
+                                      ? prev.filter(
+                                          (loc) => loc !== location.id
+                                        )
+                                      : [...prev, location.id];
+                                    formik.setFieldValue(
+                                      "approval_locations",
+                                      updated
+                                    );
+                                    return updated;
+                                  });
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </Window>
 
-                <Window className="h-[250px] overflow-auto !p-0">
-                  <div className="p-4">
-                    <Title title="Approved Locations" subtitle="" />
-                  </div>
-                  <div className="mt-5 flex flex-col gap-4">
-                    {locations.map((location) => (
-                      <Checkbox
-                        key={location.id}
-                        label={location.name}
-                        checked={selectedLocation.includes(location.id)}
-                        onChange={() => {
-                          setSelectedLocation((prev) => {
-                            const updated = prev.includes(location.id)
-                              ? prev.filter((loc) => loc !== location.id)
-                              : [...prev, location.id];
-                            formik.setFieldValue("locations", updated);
-                            return updated;
-                          });
-                        }}
-                      />
-                    ))}
-                  </div>
-                </Window>
+                        <Window className="h-[250px] overflow-auto !p-0">
+                          <div className="p-4">
+                            <Title title="Approved Users" subtitle="" />
+                          </div>
+                          <div className="mt-5 flex flex-col gap-4">
+                            {users.map((user) => (
+                              <Checkbox
+                                key={user.id}
+                                label={`${user.first_name} ${user.last_name}`}
+                                checked={selectedUsers.includes(user.id)}
+                                onChange={() => {
+                                  setSelectedUsers((prev) => {
+                                    const updated = prev.includes(user.id)
+                                      ? prev.filter((prod) => prod !== user.id)
+                                      : [...prev, user.id];
+                                    formik.setFieldValue(
+                                      "approved_users",
+                                      updated
+                                    );
+                                    return updated;
+                                  });
+                                }}
+                                // onChange={() => handleUserSelection(user.id)}
+                              />
+                            ))}
+                          </div>
+                        </Window>
+                      </div>
 
-                <Window className="h-[250px] overflow-auto !p-0">
-                  <div className="p-4">
-                    <Title title="Active products" subtitle="" />
-                  </div>
-                  <div className="mt-5 flex flex-col gap-4">
-                    {products.map((product) => (
-                      <Checkbox
-                        key={product.id}
-                        label={product.name}
-                        checked={selectedProduct.includes(product.id)}
-                        onChange={() => {
-                          setSelectedProduct((prev) => {
-                            const updated = prev.includes(product.id)
-                              ? prev.filter((prod) => prod !== product.id)
-                              : [...prev, product.id];
-                            formik.setFieldValue("products", updated);
-                            return updated;
-                          });
-                        }}
-                      />
-                    ))}
-                  </div>
-                </Window>
+                      <Window className="h-[250px] w-full overflow-auto !p-0">
+                        <div className="p-4">
+                          <Title title="Active products" subtitle="" />
+                        </div>
+                        <div className="mt-5 flex flex-col gap-4">
+                          {products.map((product) => (
+                            <Checkbox
+                              key={product.id}
+                              label={product.name}
+                              checked={selectedProduct.includes(product.id)}
+                              onChange={() => {
+                                setSelectedProduct((prev) => {
+                                  const updated = prev.includes(product.id)
+                                    ? prev.filter((prod) => prod !== product.id)
+                                    : [...prev, product.id];
+                                  formik.setFieldValue(
+                                    "active_products",
+                                    updated
+                                  );
+                                  return updated;
+                                });
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </Window>
+                    </div>
+                  ) : (
+                    <Window className="h-[250px] overflow-auto !p-0">
+                      <div className="p-4">
+                        <Title title="Active products" subtitle="" />
+                      </div>
+                      <div className="mt-5 flex flex-col gap-4">
+                        {products.map((product) => (
+                          <Checkbox
+                            key={product.id}
+                            label={product.name}
+                            checked={selectedProduct.includes(product.id)}
+                            onChange={() => {
+                              setSelectedProduct((prev) => {
+                                const updated = prev.includes(product.id)
+                                  ? prev.filter((prod) => prod !== product.id)
+                                  : [...prev, product.id];
+                                formik.setFieldValue(
+                                  "active_products",
+                                  updated
+                                );
+                                return updated;
+                              });
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </Window>
+                  )}
+                </div>
               </Form>
             </FormikProvider>
           </div>

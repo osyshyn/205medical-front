@@ -23,12 +23,14 @@ import { getArrayFromStringParams } from "src/utils/getArrayFromStringParams";
 import { QUERY_PARAM_KEYS } from "src/constants/queryParams";
 import { IOptionSelect } from "src/@types/form";
 import { Row } from "src/@types/table";
+import { TypesUsers } from "src/@types/users";
 import { AddNotes } from "../AddNotes";
 import { Avatar } from "../Avatar";
 import { ContactInfo } from "../ContactInfo";
 import { EditMedicalSettings } from "../EditUserModal";
 import { Locations } from "../Locations";
 import { Products } from "../Products";
+import { Users } from "../Users";
 
 export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
   const [isOrderHistoryVisible, setIsOrderHistoryVisible] = useState(true);
@@ -44,6 +46,8 @@ export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
   const userDetail = useUserStore((state) => state.detailUser);
   const userNotes = useUserStore((state) => state.userNotes);
   const deleteUser = useUserStore((state) => state.deleteSubUser);
+  const subUsers = useUserStore((state) => state.subUsers);
+  const getSubUsers = useUserStore((state) => state.getSubUsers);
 
   const userMetrics = useMetricStore((state) => state.user_metric);
   const loadUserMetrics = useMetricStore((state) => state.fetchUserMetric);
@@ -68,6 +72,7 @@ export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
     };
 
     loadUserDetail(id);
+    getSubUsers(id);
     loadUserNotes(id);
     loadUserOrders(params);
     loadUserMetrics({
@@ -78,6 +83,7 @@ export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
   }, [
     id,
     loadUserDetail,
+    getSubUsers,
     loadUserNotes,
     loadUserOrders,
     loadUserMetrics,
@@ -217,15 +223,28 @@ export const UserDetails = ({ id, onUserUpdate, onUserDelete }) => {
             purchaseLimit={userDetail?.purchase_limit}
           />
         </div>
+        {userDetail?.role !== TypesUsers.MEDICAL && (
+          <div
+            className={`mt-8 grid ${
+              userDetail?.role === TypesUsers.CLIENT_ADMIN
+                ? "grid-cols-3"
+                : "grid-cols-2"
+            } gap-5 pb-8`}
+          >
+            <div className="flex flex-col gap-4">
+              <Locations locations={userDetail?.locations} />
+            </div>
+            <div className="flex flex-col gap-4">
+              <Products products={userDetail?.products} />
+            </div>
+            {userDetail?.role === TypesUsers.CLIENT_ADMIN && (
+              <div className="flex flex-col gap-4">
+                <Users users={subUsers} />
+              </div>
+            )}
+          </div>
+        )}
 
-        <div className="mt-8 grid grid-cols-2 gap-5 pb-8">
-          <div className="flex flex-col gap-4">
-            <Locations locations={userDetail?.locations} />
-          </div>
-          <div className="flex flex-col gap-4">
-            <Products products={userDetail?.products} />
-          </div>
-        </div>
         <div className="mt-5 flex w-full">
           {userMetrics && (
             <UserMetric

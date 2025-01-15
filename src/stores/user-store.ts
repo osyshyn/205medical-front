@@ -115,11 +115,16 @@ const useUserStore = create(
     getSubUsers: async (id: number) => {
       set({ isLoadingSubUsers: true });
       try {
-        const { data } = await instance.get<ISubUser[]>("/user/subUsers");
+        const { data } = await instance.get<ISubUser[]>("/user/subUsers", {
+          params: {
+            user_id: id,
+          },
+        });
 
         set({ subUsers: data });
-        set({ isLoadingSubUsers: false });
-      } catch {
+      } catch (error) {
+        console.error("Failed to fetch sub-users:", error);
+      } finally {
         set({ isLoadingSubUsers: false });
       }
     },

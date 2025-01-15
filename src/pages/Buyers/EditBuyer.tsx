@@ -36,15 +36,30 @@ export const EditBuyer: FC = () => {
   const uploadFile = useFileStore((state) => state.uploadFile);
   const response = useFileStore((state) => state.response);
 
+  const loadUsers = useUserStore((state) => state.getAllUsers);
+  const users = useUserStore((state) => state.users);
+
   const updateUser = useUserStore((state) => state.updateUser);
   const currentUserRole = useUserStore((state) => state.user.role);
 
+  const getSubUsers = useUserStore((state) => state.getSubUsers);
+  const subUsers = useUserStore((state) => state.subUsers);
+
   useEffect(() => {
     console.log("Use effect");
+    getSubUsers(Number(id));
+    loadUsers();
     loadLocations();
     loadProducts();
     loadBuyerDetail(id);
-  }, [loadLocations, loadProducts, loadBuyerDetail, id]);
+  }, [
+    loadLocations,
+    loadProducts,
+    loadBuyerDetail,
+    getSubUsers,
+    loadUsers,
+    id,
+  ]);
 
   const [selectedLocation, setSelectedLocation] = useState<number[]>(
     buyerDeatil?.locations?.map((item) => item.id) || []
@@ -52,6 +67,10 @@ export const EditBuyer: FC = () => {
 
   const [selectedProduct, setSelectedProduct] = useState<number[]>(
     buyerDeatil?.products?.map((item) => item.id) || []
+  );
+
+  const [selectedUsers, setSelectedUsers] = useState<number[]>(
+    subUsers.map((item) => item.id) || []
   );
 
   const validationSchema = Yup.object().shape({
@@ -63,22 +82,24 @@ export const EditBuyer: FC = () => {
     purchase_limit: Yup.number().required("This field is required."),
   });
 
-  const handleLocationsChange = (id: number) => {
-    setSelectedLocation((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+  // const handleLocationsChange = (id: number) => {
+  //   setSelectedLocation((prev) =>
+  //     prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+  //   );
+  // };
 
-  const handleProductsChange = (id: number) => {
-    setSelectedProduct((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+  // const handleProductsChange = (id: number) => {
+  //   setSelectedProduct((prev) =>
+  //     prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+  //   );
+  // };
 
   const onSubmit = async (values: IEditUser) => {
     const fullData: IEditUser = {
       ...values,
       avatar: response,
+      active_products: selectedProduct,
+      approval_locations: selectedLocation,
     };
 
     await updateUser(fullData);
@@ -96,8 +117,8 @@ export const EditBuyer: FC = () => {
         phone: buyerDeatil.phone,
         email: buyerDeatil.email,
         purchase_limit: buyerDeatil.purchase_limit,
-        locations: buyerDeatil.locations,
-        products: buyerDeatil.products,
+        approval_locations: buyerDeatil.locations?.map((item) => item.id),
+        active_products: buyerDeatil.products?.map((item) => item.id),
         avatar: buyerDeatil.avatar,
       });
 
@@ -105,6 +126,7 @@ export const EditBuyer: FC = () => {
         setAvatarPreview(buyerDeatil.avatar.path); // Set avatar preview to the existing avatar path
       }
     }
+    console.log("Buyer detail: ", buyerDeatil);
   }, [buyerDeatil]);
 
   const formikProps: FormikConfig<IEditUser> = {
@@ -115,10 +137,10 @@ export const EditBuyer: FC = () => {
       role: buyerDeatil.role,
       phone: buyerDeatil.phone,
       email: buyerDeatil.email,
-      purchase_limit: buyerDeatil.purchase_limit,
-      //   approved_users: buyerDeatil.approved_users,
-      locations: buyerDeatil?.locations,
-      products: buyerDeatil?.products,
+      purchase_limit: buyerDeatil.purchase_limit || 0,
+      approved_users: subUsers.map((item) => item.id) || [],
+      approval_locations: buyerDeatil?.locations?.map((item) => item.id) || [],
+      active_products: buyerDeatil?.products?.map((item) => item.id) || [],
       avatar: buyerDeatil?.avatar,
     },
     validationSchema,
@@ -229,41 +251,124 @@ export const EditBuyer: FC = () => {
                   }))}
                 />
 
-                <Window className="h-[250px] overflow-auto !p-0">
-                  <div className="p-4">
-                    <Title title="Active products" subtitle="" />
-                  </div>
-                  <div className="mt-5 flex flex-col gap-4">
-                    {products.map((product) => (
-                      <Checkbox
-                        key={product.id}
-                        label={product.name}
-                        checked={selectedProduct.includes(product.id)}
-                        onChange={() => handleProductsChange(product.id)}
-                      />
-                    ))}
-                  </div>
-                </Window>
+                <div className="col-span-2">
+                  {formik.values.role === TypesUsers.CLIENT_ADMIN ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <Window className="h-[250px] overflow-auto !p-0">
+                          <div className="p-4">
+                            <Title title="Approved Locations" subtitle="" />
+                          </div>
+                          <div className="mt-5 flex flex-col gap-4">
+                            {locations.map((location) => (
+                              <Checkbox
+                                key={location.id}
+                                label={location.name}
+                                checked={selectedLocation.includes(location.id)}
+                                onChange={() => {
+                                  setSelectedLocation((prev) => {
+                                    const updated = prev.includes(location.id)
+                                      ? prev.filter(
+                                          (loc) => loc !== location.id
+                                        )
+                                      : [...prev, location.id];
+                                    formik.setFieldValue(
+                                      "approval_locations",
+                                      updated
+                                    );
+                                    return updated;
+                                  });
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </Window>
 
-                {formik.values.role == TypesUsers.CLIENT_ADMIN ? (
-                  <Window className="h-[250px] overflow-auto !p-0">
-                    <div className="p-4">
-                      <Title title="Approved Locations" subtitle="" />
+                        <Window className="h-[250px] overflow-auto !p-0">
+                          <div className="p-4">
+                            <Title title="Approved Users" subtitle="" />
+                          </div>
+                          <div className="mt-5 flex flex-col gap-4">
+                            {users.map((user) => (
+                              <Checkbox
+                                key={user.id}
+                                label={`${user.first_name} ${user.last_name}`}
+                                checked={selectedUsers.includes(user.id)}
+                                onChange={() => {
+                                  setSelectedUsers((prev) => {
+                                    const updated = prev.includes(user.id)
+                                      ? prev.filter((prod) => prod !== user.id)
+                                      : [...prev, user.id];
+                                    formik.setFieldValue(
+                                      "approved_users",
+                                      updated
+                                    );
+                                    return updated;
+                                  });
+                                }}
+                                // onChange={() => handleUserSelection(user.id)}
+                              />
+                            ))}
+                          </div>
+                        </Window>
+                      </div>
+
+                      <Window className="h-[250px] w-full overflow-auto !p-0">
+                        <div className="p-4">
+                          <Title title="Active products" subtitle="" />
+                        </div>
+                        <div className="mt-5 flex flex-col gap-4">
+                          {products.map((product) => (
+                            <Checkbox
+                              key={product.id}
+                              label={product.name}
+                              checked={selectedProduct.includes(product.id)}
+                              onChange={() => {
+                                setSelectedProduct((prev) => {
+                                  const updated = prev.includes(product.id)
+                                    ? prev.filter((prod) => prod !== product.id)
+                                    : [...prev, product.id];
+                                  formik.setFieldValue(
+                                    "active_products",
+                                    updated
+                                  );
+                                  return updated;
+                                });
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </Window>
                     </div>
-                    <div className="mt-5 flex flex-col gap-4">
-                      {locations.map((location) => (
-                        <Checkbox
-                          key={location.id}
-                          label={location.name}
-                          checked={selectedLocation.includes(location.id)}
-                          onChange={() => handleLocationsChange(location.id)}
-                        />
-                      ))}
-                    </div>
-                  </Window>
-                ) : (
-                  <></>
-                )}
+                  ) : (
+                    <Window className="h-[250px] overflow-auto !p-0">
+                      <div className="p-4">
+                        <Title title="Active products" subtitle="" />
+                      </div>
+                      <div className="mt-5 flex flex-col gap-4">
+                        {products.map((product) => (
+                          <Checkbox
+                            key={product.id}
+                            label={product.name}
+                            checked={selectedProduct.includes(product.id)}
+                            onChange={() => {
+                              setSelectedProduct((prev) => {
+                                const updated = prev.includes(product.id)
+                                  ? prev.filter((prod) => prod !== product.id)
+                                  : [...prev, product.id];
+                                formik.setFieldValue(
+                                  "active_products",
+                                  updated
+                                );
+                                return updated;
+                              });
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </Window>
+                  )}
+                </div>
               </Form>
             </FormikProvider>
           </div>
