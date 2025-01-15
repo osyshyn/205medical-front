@@ -18,7 +18,7 @@ export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
 
   const head = (
     <Button
-      className="border gap-2.5 border-gray-soft px-4 py-2.5"
+      className="gap-2.5 border border-gray-soft px-4 py-2.5"
       variant={ButtonVariants.WHITE}
     >
       <FilterIcon />
@@ -30,7 +30,8 @@ export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
     <div className={className}>
       <Dropdown
         head={head}
-        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max"
+        bodyClassName="bg-white-base top-15 z-10 rounded-10 p-8 border w-max 
+         max-h-64 overflow-y-auto" // Ограничение высоты и скролл
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       >
@@ -39,7 +40,7 @@ export const FilterButton: FC<Props> = ({ className, list, isLoading }) => {
         ) : (
           <div className="flex flex-col gap-3">
             {list.map((item) => (
-              <FilterList key={item.queryKey} {...item} />
+              <FilterList key={item?.queryKey} {...item} />
             ))}
           </div>
         )}

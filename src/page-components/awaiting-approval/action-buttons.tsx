@@ -14,7 +14,7 @@ export const ActionsButtons: FC<Props> = ({ id }) => {
   return (
     <div className="max-w flex justify-center gap-3">
       <Link to={getItemPath(PATHNAMES.APPROVAL_DETAIL, { id })}>
-        <Button variant={ButtonVariants.SECONDARY_SQUARE}>View</Button>
+        <Button variant={ButtonVariants.PRIMARY_SQUARE}>View PO</Button>
       </Link>
     </div>
   );

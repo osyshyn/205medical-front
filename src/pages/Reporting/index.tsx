@@ -306,7 +306,7 @@ export const Reporting: FC = () => {
   const invoicesItems = getTableItems(invoicesResult) as unknown as Row[];
 
   return (
-    <PageWrapper className="max-w-[85%]">
+    <PageWrapper className="">
       <div className="flex gap-5">
         <Window className="w-1/2 overflow-auto">
           <Title title="Order alerts" subtitle="" />
@@ -346,8 +346,8 @@ export const Reporting: FC = () => {
           </Link>
         </Window>
       </div>
-      <div className="mt-20 flex gap-5">
-        <Window className="max-h-[600px] w-1/2">
+      <div className="mt-20 flex max-w-[1200px] gap-5">
+        <Window className="w-1/2">
           <Title title="Purchase history" subtitle="" />
           <div className="mt-2 flex items-center justify-between">
             <p className="text-4xl font-bold text-[#5932EA]">
@@ -367,7 +367,6 @@ export const Reporting: FC = () => {
             <ResponsiveContainer width={1000} height={300}>
               <LineChart width={1500} data={normalizedMetrics}>
                 <CartesianGrid stroke="#D3D3D3" strokeWidth="1" />{" "}
-                {/* Изменено на серый */}
                 <XAxis
                   dataKey="order_date"
                   label={{
@@ -400,7 +399,7 @@ export const Reporting: FC = () => {
             </ResponsiveContainer>
           </div>
         </Window>
-        <Window className="max-h-[600px] w-1/2">
+        <Window className="w-1/2">
           <div className="flex w-full justify-between">
             <Title title="Order Aging" subtitle="" />
             <select
