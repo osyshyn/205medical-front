@@ -250,10 +250,10 @@ const ROUTES = [
         element: <PrivateRoute component={Companies} />,
         path: PATHNAMES.COMPANIES,
         children: [
-          // {
-          //   element: <PrivateRoute component={CompanyOnBoarding} />,
-          //   path: PATHNAMES.COMPANY_ONBOARDING,
-          // },
+          {
+            element: <PrivateRoute component={CompanyOnBoarding} />,
+            path: PATHNAMES.COMPANY_ONBOARDING,
+          },
           {
             element: <PrivateRoute component={EditCompany} />,
             path: PATHNAMES.EDIT_COMPANY,
