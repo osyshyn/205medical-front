@@ -118,6 +118,8 @@ export const Chat: FC = () => {
     return bDate.getTime() - aDate.getTime();
   });
 
+  console.log("Chats: ", chats);
+
   return (
     <PageWrapper mainClassName="flex gap-10">
       <ChatHistory chats={sortedChats} onChatSelect={handleChatSelect} />

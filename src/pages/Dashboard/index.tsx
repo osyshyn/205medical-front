@@ -75,17 +75,17 @@ const Dashboard: FC = () => {
         setSelectYear={setSelectYearOption}
       />
 
-      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN || TypesUsers.MEDICAL}>
         <FilterByLocationByUser />
       </Show>
 
       <Metrics metrics={metrics} isLoading={isLoading} />
 
-      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN || TypesUsers.MEDICAL}>
         <PurchaseHistory />
       </Show>
 
-      <Show onlyFor={TypesUsers.CLIENT_ADMIN}>
+      <Show onlyFor={TypesUsers.CLIENT_ADMIN || TypesUsers.MEDICAL}>
         <FinanceSummaryCard />
       </Show>
 

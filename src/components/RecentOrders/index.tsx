@@ -112,10 +112,7 @@ export const RecentOrders: FC<RecentOrdersProps> = ({}) => {
     }
   };
 
-  console.log("Orders", ordersResults);
   const items = getTableItems(ordersResults) as unknown as Row[];
-
-  console.log("Orders: ", ordersResults);
 
   return (
     <Window>

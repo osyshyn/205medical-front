@@ -31,8 +31,6 @@ export const ProductDetail: FC = () => {
 
   if (!product && !isLoading) return null;
 
-  console.log("Product: ", product);
-
   const handleDownload = () => {
     if (down_load_link?.path) {
       const link = document.createElement("a");

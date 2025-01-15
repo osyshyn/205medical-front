@@ -17,7 +17,6 @@ import {
   ProductsPurchases,
   Settings,
   ShipmentAlerts,
-  Shipments,
 } from "src/pages";
 import { Accounting } from "src/pages/Accounting";
 import { Buyers } from "src/pages/Buyers";
@@ -34,6 +33,8 @@ import { AwaitingApproval } from "src/pages/RecentOrders/AwaitingApproval";
 import { Reporting } from "src/pages/Reporting";
 import { PurchaseAnalytics } from "src/pages/Reporting/PurchaseAnalytics";
 import { SettingsMedical } from "src/pages/SettingsMedical";
+import Shipment from "src/pages/Shipments";
+import ShipmentsHistory from "src/pages/Shipments/ShipmentHistory";
 import { PurchaseHistory } from "src/page-components/dashboard/PurchaseHistory";
 import { EditProduct } from "src/page-components/products/EditProduct";
 import { PurchasesByProduct } from "src/page-components/products/products-purchases/PurchasesByProduct";
@@ -190,7 +191,7 @@ const ROUTES = [
         path: PATHNAMES.PRODUCT_PURCHASES,
       },
       {
-        element: <PrivateRoute component={Shipments} />,
+        element: <PrivateRoute component={Shipment} />,
         path: PATHNAMES.SHIPMENTS,
         children: [
           {
@@ -198,6 +199,10 @@ const ROUTES = [
             path: PATHNAMES.ORDER_DETAIL,
           },
         ],
+      },
+      {
+        element: <PrivateRoute component={ShipmentsHistory} />,
+        path: PATHNAMES.SHIPMENTS_HISTORY,
       },
       {
         element: <PrivateRoute component={ShipmentAlerts} />,
