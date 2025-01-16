@@ -50,7 +50,7 @@ export const Chat: FC = () => {
   }, [activeChatId]);
 
   useEffect(() => {
-    const socket = io("http://localhost:3100");
+    const socket = io("https://app-api.205medical.com");
     setSocket(socket);
 
     socket.on("connect", () => {
@@ -117,8 +117,6 @@ export const Chat: FC = () => {
     const bDate = new Date(b.last_message?.created_at || 0);
     return bDate.getTime() - aDate.getTime();
   });
-
-  console.log("Chats: ", chats);
 
   return (
     <PageWrapper mainClassName="flex gap-10">

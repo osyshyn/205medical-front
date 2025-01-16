@@ -62,12 +62,12 @@ export const CreateOrderForm: FC<Props> = ({ children }) => {
         {children}
 
         <Button
-          className="mt-6 w-max self-end rounded-30 text-lg"
+          className="mt-5 h-10 w-64 self-end rounded-20"
           size={Sizes.S}
-          variant={ButtonVariants.SECONDARY_SQUARE}
+          variant={ButtonVariants.PRIMARY}
           type="submit"
         >
-          Submit
+          Submit Purchase Order
         </Button>
       </Form>
     </FormikProvider>
