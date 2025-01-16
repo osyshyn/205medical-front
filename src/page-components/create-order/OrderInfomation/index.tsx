@@ -9,9 +9,9 @@ export const OrderInfomation: FC = () => (
   <Window className="flex flex-col gap-10">
     <Header />
 
-    <CreateOrderForm>
-      <CustomerInfo />
-      <LocationInfo />
-    </CreateOrderForm>
+    {/* <CreateOrderForm> */}
+    <CustomerInfo />
+    <LocationInfo />
+    {/* </CreateOrderForm> */}
   </Window>
 );

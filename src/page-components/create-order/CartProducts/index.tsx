@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { Button } from "src/components/Button";
 import { ButtonVariants } from "src/components/Button/types";
 import { ModalWindow } from "src/components/ModalWindow";
+import { SelectDropdownList } from "src/components/SelectDropdownList";
 import { Table, TableBody, TableHeader } from "src/components/Table";
 import { Title } from "src/components/Title";
 import { Window } from "src/components/Window";
@@ -20,31 +21,61 @@ export const CartProducts: FC = () => {
   const list = useProductListStore((state) => state.list);
   const isLoading = useProductListStore((state) => state.isLoading);
 
+  const loadAllList = useProductListStore((state) => state.fetchAllList);
+  const allList = useProductListStore((state) => state.allListId);
+
+  const saveList = useProductListStore((state) => state.saveList);
+  const activateList = useProductListStore((state) => state.activateList);
+
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedListId, setSelectedListId] = useState<number | null>(null);
 
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  const onOpen = () => setIsOpen(true);
+  const onClose = () => setIsOpen(false);
 
   useEffect(() => {
+    activateList(selectedListId);
+    loadAllList();
     loadList();
-  }, [loadList]);
+  }, [loadList, loadAllList, selectedListId]);
 
   const product_to_lists = list?.product_to_lists || [];
   const listId = list?.id;
-
   const items = getTableItems(product_to_lists, listId) as unknown as Row[];
+
+  const handleSaveList = () => saveList(list?.id);
+
+  const options = allList.map((listItem: { id: number; name: string }) => ({
+    value: listItem.id,
+    label: listItem.name || `List ${listItem.id}`,
+  }));
+
+  const [activeOption, setActiveOption] = useState(
+    options.find((opt) => opt.value === selectedListId) || null
+  );
+
+  const handleOptionChange = (option: { value: number; label: string }) => {
+    setSelectedListId(option.value);
+    setActiveOption(option);
+    console.log("Selected List ID:", option.value);
+  };
 
   return (
     <Window>
-      <Title
-        title="Products"
-        subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
-      />
+      <div className="mb-5 flex w-full items-center justify-between">
+        <Title
+          title="Products"
+          subtitle="Lorem ipsum dolor sit amet consectetur. Magna aliquet nam vestibulum"
+        />
+
+        <SelectDropdownList
+          className="w-full"
+          options={options}
+          activeOption={activeOption}
+          setOption={handleOptionChange}
+          headLabel="Saved purchase list"
+        />
+      </div>
 
       <div className="scrollbar max-h-162.5 overflow-y-scroll">
         <Table ariaLabel="Products">
@@ -56,13 +87,23 @@ export const CartProducts: FC = () => {
           />
         </Table>
 
-        <Button
-          className="mt-10"
-          variant={ButtonVariants.SECONDARY_SQUARE}
-          onClick={onOpen}
-        >
-          Add product
-        </Button>
+        <div className="mb-1 mt-10 flex gap-7">
+          <Button
+            className="h-7 w-40 rounded-20"
+            variant={ButtonVariants.SECONDARY_SQUARE}
+            onClick={onOpen}
+          >
+            Add New Item
+          </Button>
+
+          <Button
+            className="h-7 w-48 rounded-20"
+            variant={ButtonVariants.SECONDARY_SQUARE}
+            onClick={handleSaveList}
+          >
+            Save Purchase List
+          </Button>
+        </div>
 
         <ModalWindow
           className="w-3/4"
