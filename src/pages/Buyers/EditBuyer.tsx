@@ -46,7 +46,6 @@ export const EditBuyer: FC = () => {
   const subUsers = useUserStore((state) => state.subUsers);
 
   useEffect(() => {
-    console.log("Use effect");
     getSubUsers(Number(id));
     loadUsers();
     loadLocations();
@@ -127,8 +126,7 @@ export const EditBuyer: FC = () => {
         setAvatarPreview(buyerDeatil.avatar.path); // Set avatar preview to the existing avatar path
       }
     }
-    console.log("Buyer detail: ", buyerDeatil);
-  }, [buyerDeatil]);
+  }, [buyerDeatil, subUsers]);
 
   const formikProps: FormikConfig<IEditUser> = {
     initialValues: {
@@ -174,15 +172,7 @@ export const EditBuyer: FC = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("response: ", response);
-  }, [response]);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  useEffect(() => {
-    console.log("Current role value:", formik.values.role);
-  }, [formik.values.role]);
 
   return (
     <ModalWindow

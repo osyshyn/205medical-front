@@ -7,6 +7,7 @@ import { Metric } from "./Metric";
 interface Props {
   metrics: IMetricsData;
   isLoading: boolean;
+  isShowSecond?: boolean;
 }
 
 export const Metrics: FC<Props> = ({ metrics, isLoading }) => (

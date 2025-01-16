@@ -1,3 +1,4 @@
+import { da } from "date-fns/locale";
 import { instance } from "src/services/api-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -6,7 +7,12 @@ import { List } from "src/@types/product-list";
 
 interface IListStore {
   list: List;
+  allListId: List[];
+  activeList: List[];
+  fetchAllList: () => void;
+  saveList: (list_id: number) => void;
   fetchList: () => void;
+  activateList: (list_id: number) => void;
   addProductToList: (productId: number) => void;
   deleteProductInList: (productId: number) => void;
   updateQuantity: (listId: number, productId: number, quantity: number) => void;
@@ -16,7 +22,27 @@ interface IListStore {
 const useProductListStore = create(
   devtools<IListStore>((set) => ({
     list: { id: 0, name: "", product_to_lists: [] },
+    allListId: [],
+    activeList: [],
     isLoading: false,
+    fetchAllList: async () => {
+      try {
+        const { data } = await instance.get("list");
+        set({ allListId: data });
+      } catch (error) {
+        NotificationService.error("Failed to fetch all lists.");
+      }
+    },
+
+    saveList: async (list_id: number) => {
+      try {
+        await instance.post("list/saveList", { list_id });
+        NotificationService.success("List saved successfully.");
+      } catch (error) {
+        NotificationService.error("Failed to save list.");
+      }
+    },
+
     fetchList: async () => {
       set({ isLoading: true });
 
@@ -37,7 +63,15 @@ const useProductListStore = create(
         set({ list: data });
       } catch (error) {
         NotificationService.error();
-      } finally {
+        throw error;
+      }
+    },
+    activateList: async (list_id: number) => {
+      try {
+        const { data } = await instance.post("list/activateList", { list_id });
+        set({ activeList: data });
+      } catch (error) {
+        NotificationService.error();
       }
     },
     deleteProductInList: async (productId) => {

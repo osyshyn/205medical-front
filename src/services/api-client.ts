@@ -3,8 +3,8 @@ import axios from "axios";
 import { addAccessToken, updateAccessToken } from "./interceptors";
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_API_URL,
-  baseURL: "https://app-api.205medical.com/",
+  baseURL: process.env.REACT_APP_API_URL,
+  // baseURL: "https://app-api.205medical.com/",
 });
 
 // const RETRY_COUNT = 3;

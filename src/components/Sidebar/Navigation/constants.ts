@@ -67,11 +67,11 @@ const SUB_USER_NAV_ITEMS: INavigationItem[] = [
     id: 4,
     icon: ShipmentsIcon,
     label: "Shipments",
-    href: PATHNAMES.SHIPMENTS,
+    href: PATHNAMES.SHIPMENTS_HISTORY,
     iconActive: ShipmentsActiveIcon,
     subNavItems: [
       {
-        id: 1,
+        id: 2,
         label: "Shipment alerts",
         href: PATHNAMES.SHIPMENT_ALERTS,
       },
@@ -170,6 +170,11 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
     subNavItems: [
       {
         id: 1,
+        label: "Shipment history",
+        href: PATHNAMES.SHIPMENTS_HISTORY,
+      },
+      {
+        id: 2,
         label: "Shipment alerts",
         href: PATHNAMES.SHIPMENT_ALERTS,
       },
@@ -232,6 +237,14 @@ const CLIENT_ADMIN_NAV_ITEMS: INavigationItem[] = [
 ];
 
 const MEDICAL_NAV_ITEMS: INavigationItem[] = [
+  {
+    id: 1,
+    icon: DashboardIcon,
+
+    label: "Dashboard",
+    href: PATHNAMES.DASHBOARD,
+    iconActive: DashboardActiveIcon,
+  },
   {
     id: 2,
     icon: Reporting,
@@ -306,6 +319,11 @@ const MEDICAL_NAV_ITEMS: INavigationItem[] = [
     subNavItems: [
       {
         id: 1,
+        label: "Shipment alerts",
+        href: PATHNAMES.SHIPMENTS_HISTORY,
+      },
+      {
+        id: 2,
         label: "Shipment alerts",
         href: PATHNAMES.SHIPMENT_ALERTS,
       },

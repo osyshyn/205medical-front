@@ -1,22 +1,4 @@
-// export const SelectField = ({ label, name, value, onChange, options }) => (
-//   <div>
-//     <label className="mb-1 block text-sm font-medium text-gray-dark">
-//       {label}
-//     </label>
-//     <select
-//       name={name}
-//       value={value}
-//       onChange={onChange}
-//       className="w-full rounded-md border border-gray-300 p-2.5 text-gray-700"
-//     >
-//       {options?.map((option) => (
-//         <option key={option?.value} value={option?.value}>
-//           {option?.label}
-//         </option>
-//       ))}
-//     </select>
-//   </div>
-// );
+import React, { useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import { useFormikContext } from "formik";
 
@@ -42,9 +24,44 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   placeholder,
 }) => {
   const { setFieldValue, values } = useFormikContext<any>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(
+    values[name]
+      ? options.find((option) => option.value === values[name])?.label
+      : null
+  );
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleSelect = (value: number, label: string) => {
+    setFieldValue(name, value);
+    setSelectedLabel(label);
+    setIsOpen(false);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex flex-col", className)} ref={dropdownRef}>
       <label
         className={cn(
           "mb-1 block text-sm font-medium text-gray-dark",
@@ -53,29 +70,32 @@ export const SelectField: React.FC<SelectFieldProps> = ({
       >
         {label}
       </label>
-      <select
-        name={name}
-        value={values[name] || ""}
-        onChange={(e) => {
-          setFieldValue(name, Number(e.target.value));
-        }}
-        disabled={disabled}
-        className={cn(
-          "w-full rounded-md border border-gray-300 p-2.5 text-gray-700",
-          fieldClassName
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(
+            "bg-white w-full rounded-md border border-gray-300 p-2.5 text-left text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200",
+            fieldClassName,
+            { "cursor-not-allowed opacity-50": disabled }
+          )}
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+        >
+          {selectedLabel || placeholder || "Select an option"}
+        </button>
+        {isOpen && (
+          <ul className="bg-white absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-300 shadow-lg">
+            {options.map((option) => (
+              <li
+                key={option.value}
+                className="cursor-pointer bg-white-base px-4 py-2 hover:bg-blue-100"
+                onClick={() => handleSelect(option.value, option.label)}
+              >
+                {option.label}
+              </li>
+            ))}
+          </ul>
         )}
-      >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      </div>
     </div>
   );
 };
