@@ -69,7 +69,6 @@ export const CartProducts: FC = () => {
         />
 
         <SelectDropdownList
-          className="w-full"
           options={options}
           activeOption={activeOption}
           setOption={handleOptionChange}
