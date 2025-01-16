@@ -1,9 +1,15 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Avatar } from "src/components/Avatar";
 import { AVATAR_SIZE_VARIANTS } from "src/components/Avatar/constants";
 
 interface ChatHistoryItemProps {
-  chat: { id: number; name: string; last_message: any; type: number };
+  chat: {
+    id: number;
+    avatar: { path: string };
+    name: string;
+    last_message: any;
+    type: number;
+  };
   isSelected: boolean;
 }
 
@@ -11,6 +17,7 @@ export const ChatHistoryItem: FC<ChatHistoryItemProps> = ({
   chat,
   isSelected,
 }) => {
+  const [avatar, setAvatar] = useState<string | null>(null);
   const formatCreatedAt = (createdAt: string) => {
     const messageDate = new Date(createdAt);
     const today = new Date();
@@ -29,6 +36,12 @@ export const ChatHistoryItem: FC<ChatHistoryItemProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (chat.avatar) {
+      setAvatar(chat.avatar.path);
+    }
+  }, [chat]);
+
   return (
     <div
       className={`flex cursor-pointer items-center overflow-hidden rounded-lg p-4 ${
@@ -36,7 +49,8 @@ export const ChatHistoryItem: FC<ChatHistoryItemProps> = ({
       }`}
       style={{ height: "80px" }}
     >
-      <Avatar />
+      {/* <Avatar /> */}
+      {avatar ? <img src={avatar} alt="avatar" /> : <Avatar />}
       <div className="flex-1 overflow-hidden">
         <div className="text-black text-lg font-semibold">{chat.name}</div>
         <div
