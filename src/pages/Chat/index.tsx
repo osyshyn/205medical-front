@@ -50,7 +50,7 @@ export const Chat: FC = () => {
   }, [activeChatId]);
 
   useEffect(() => {
-    const socket = io("http://localhost:3100");
+    const socket = io("https://app-api.205medical.com");
     setSocket(socket);
 
     socket.on("connect", () => {
